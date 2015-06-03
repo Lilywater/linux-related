@@ -1,0 +1,5 @@
+cea {
+         sctpPrimitive {
+             associationId 1,
+         },
+     } 

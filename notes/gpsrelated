@@ -1,0 +1,62 @@
+gps related
+
+gps related http://club.bydauto.com.cn/read-htm-tid-220600.html
+wince 模拟器实现gps导航
+http://www.rayfile.com/zh-cn/files/63160fc2-f773-11de-995e-0014221b798a/37fba054/http://www.sosaw.com/archiver/forum43/thread-146606-1.html
+
+
+http://www.hiapk.com/bbs/thread-29284-1-1.html
+以前用ppc的时候一直使用 ozi ，方便的很，可以根据目的地定制自己的地图。换了magic后一直在寻找android下的ozi......
+终于找到了oruxmaps,推荐给大家
+http://oruxmaps.x10hosting.com/index_en.htmlhttp://www.sosaw.com/archiver/forum43/thread-171055-1.htmlhttp://www.boboking.com/!bbs/viewthread.php?tid=6915&extra=page%3D2http://www.boboking.com/!bbs/viewthread.php?tid=932
+BOBOKing.GPS有没有WINCE 5.0一体机能收星定位的版本?
+俺试了BOBOKing.GPS_V5.0.4.0.rar BOBOKing.GPS_V5.0.3.0.rar 都不行
+端口设置正确,点星图没有反应,V5.0.4.0点GPS菜单提示什么
+“无法找到PInvoke DLL"gpsapi.dll"”，
+
+
+我的ozi体验
+http://www.foooooot.com/club/12/topic/873/
+ce版ozi注册方法
+http://www.cyberfans.cn/thread-57193-1-1.html
+成都ozi地图
+http://u.115.com/file/t4915a61fhttp://bbs.pdafans.com/viewthread.php?tid=293352&extra=&page=1http://www.rayfile.com/zh-cn/files/7b50bebd-207a-11de-ad63-0019d11a795f/cbf6a9dd/
+
+
+
+ozi official website
+http://www.oziexplorer3.com/
+
+
+给新手－－Oziexplorer PC版 中文乱码修正引挚
+
+http://www.sosaw.com/forum43/thread-187723-1-1.html?extParms=ThreadCatalogID%3d34%26page%3d2
+
+
+
+OZI CE 2.34a注册码:
+用户名:0000-1111-2222
+注册码:$FDA244A9
+
+http://mobilecomputing.ctocio.com.cn/tips/271/6350771.shtml2011-03-02T15:04:17.9992410+08:002011-03-02T15:04:17.9992410+08:002011-02-10T14:05:42.5295070+08:001025450
+
+http://www.foooooot.com/club/4/topic/740/
+国电子地图2006破解版
+http://www.sosaw.com/forum43/thread-210833-1-1.html?extParms=ThreadCatalogID%3d39%26page%3d1
+
+
+http://www.foooooot.com/club/4/topic/740/
+ javascript:void(prompt('',gApplication.getMap().getCenter())); 这
+一个有趣的问题： 
+在谷歌地图 http://maps.google.com/ 的搜索框内输入 36.066861,103.766667 
+或： 36°4' 0.70", +103°46' 0.00" 
+
+对于18级的地图，共有 2
+单击“搜索地图”，可以定位到该地点。在比列50米（100英尺）时，通过查看源文件，可知该地点的图片文件是： 
+http://khm1.google.cn/kh/v=38 hl=zh-CN&x=206632& y=102880&z=18&s= 
+可用图片下载软件下载该图片。 
+上面图片网址意义： 
+ &x= 的后面是图片的经度编号，即：206632 
+ & y= 的后面是图片的纬度编号，即：102880 
+ &z= 图片级别，即：18 级 
+

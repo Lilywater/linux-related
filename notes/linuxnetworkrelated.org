@@ -1,0 +1,1994 @@
+macs projects  -*- mode: org; -*-
+
+linux network related
+
+* network settings in the host
+** 一 网口设置
+
+Configure Static IP Address on Linux VM in VMware Player
+By Steve Jin | Published: March 12, 2013
+
+If you run VMware Player, you would have 3 networking options for virtual machines running there: Bridged, NAT, Host-Only. In the latest 5.0.1, I also found a new one: LAN Segment. This blog has a nice explanation on these three settings if you want to get more details.
+
+In most of cases, I use NAT for networking because the virtual machine can have Internet access which allows me to install additional software as needed. By default, VMware Player uses DHCP to dynamically assign IP address while using NAT. So you cannot guarantee to get same IP address after each rebooting.
+
+You can set static IP address for a VM running on VMware Player with a little trick. On a Debian Linux machine like Ubuntu, you can edit a configuration file:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+
+	
+
+$ sudo vim /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5)
+# The loopback network interface
+auto lo
+iface lo inet loopback
+# The primary network interface
+auto eth0
+iface eth0 inet static
+  address 192.168.47.200
+  netmask 255.255.255.0
+  broadcast 192.168.47.255
+  gateway 192.168.47.2
+dns-nameservers 192.168.47.2
+
+After saving the file, you would like to restart the network so that the change take effect:
+
+1
+
+	
+
+$ sudo service networking restart
+
+In my case, the VMnet8 which is the network adapter for the NAT network has an IP address of 192.168.47.1. When I first modified the interfaces file, I used it as the gateway IP address and failed to ping outside the network.
+
+To figure it out why, I reversed back to the DHCP configuration (change the ifacce line to “iface eth0 dhcp” and delete the lines afterwards). In the DHCP mode, typing command “route –n” will show working gateway IP address: 192.168.47.2.
+
+By default, the gateway IP is configured to use X.X.X.2. This can be changed with Virtual Network Editor which is not included in VMware Player. I will show you how to hack it in next post.
+
+Update: for Fodera Linux like RedHat, CentOS, you can configure static IPs as follows:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+	
+
+## define eth0 interface
+# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+ 
+DEVICE=eth0
+NM_CONTROLLED=no
+ONBOOT=yes
+HWADDR=00:50:56:37:F1:04
+TYPE=Ethernet
+BOOTPROTO=static
+IPADDR=192.168.1.8
+NETMASK=255.255.255.0
+ 
+## set Default Gateway
+# vi /etc/sysconfig/network
+ 
+NETWORKING=yes
+HOSTNAME=web.example.com
+GATEWAY=192.168.1.1
+ 
+# Restart Network Interface
+# service network restart
+# chkconfig network on
+# service NetworkManager stop
+# chkconfig NetworkManager off
+ 
+## Configure DNS Server
+#
+# vi /etc/resolv.conf
+nameserver 192.168.1.1
+nameserver 8.8.8.8    # Google's DNS server
+
+If you run into issue with cloned virtual machine changes eth0 to eth1, you can
+
+1
+2
+
+	
+
+# rm -f /etc/udev/rules.d/70-persistent-net.rules
+# reboot
+
+Update: for SUSE Linux which is used by vCenter virtual appliance, the static IP address can be changed as follows:
+
+	
+
+vCSA:~ # vim /etc/sysconfig/network/ifcfg-eth0
+DEVICE=eth0
+BOOTPROTO='static'
+STARTMODE='auto'
+TYPE=Ethernet
+USERCONTROL='no'
+IPADDR='192.168.1.8'
+NETMASK='255.255.255.0'
+BROADCAST='192.168.0.255'
+*** 1. 在interfaces文件中设置网口
+
+$ sudo vi /etc/network/interfaces
+
+在eth0的相关配置下加入gateway 192.168.1.1,如：
+--------------------------------------------------------
+auto eth0
+iface eth0 inet statictotal 712
+address 192.168.1.123
+netmask 255.255.255.0
+gateway 192.168.1.1
+----------------------------------------------------------------------------------
+并用下面的行来替换有关eth0的行：
+# The primary network interface - use DHCP to find our address
+auto eth0
+iface eth0 inet dhcp
+----------------------------------------------------------------------
+设定第二个IP地址(虚拟IP地址)
+编辑文件/etc/network/interfaces：
+sudo vi /etc/network/interfaces
+在该文件中添加如下的行：
+auto eth0:1
+iface eth0:1 inet static
+address x.x.x.x
+netmask x.x.x.x
+network x.x.x.x
+broadcast x.x.x.x
+gateway x.x.x.x
+根据你的情况填上所有诸如address,netmask,network,broadcast和gateways等信息：
+
+*** 2. 命令行设置网络接口
+
+sudo dhclient eth0   //得到动态的ip地址
+//静态ip地址配置
+sudo ifconfig eth0 192.168.2.1 netmask 255.255.255.0
+suod route add default gw 192.168.2.254  //set defalt gateway
+/etc/resolve.conf    // add nameserver DNS address
+
+*** 3启动项 <link:url>/etc/init.d/networking</link:url>
+重启 sudo /etc/init.d/networking restart
+
+** 二 主机名设置
+
+hostname 修改显示目前机器名 
+文件 /etc/hostname
+/etc/hosts
+
+** 三 samba服务器设置
+++++++++++++++++++++++++++++++++
+samba服务器的设置smbfs，smbclient，smbd
+rpm -qa|grep samba
+[liguo@walnut notes]$ rpm -qa |grep sam
+system-config-samba-1.2.21-1
+samba-common-3.0.10-1.4E.6
+samba-client-3.0.10-1.4E.6
+samba-3.0.10-1.4E.6
+
+
+<link:url>/etc/samba/smb.conf</link:url>:
+   workgroup = WORKGROUP
+    hosts allow = 10.
+< [meegofile]
+<       path = <link:url>/home/liguo/meego</link:url>
+<       available = yes
+<       browsealbe = yes
+<       public = yes
+<       writable = no
+共享的文件夹要可读可执行。
+
+如果需要可写，那么文件夹应该对应有所有用户的写权限
+chmod 777 folder
+[sharefolder]
+path = /home/zxx/folder
+readonly = no
+writable = yes
+
+最简单配置，如果要复杂配置，比如要输入用户名和密码的可以如下配置
+
+[sharefolder]
+path = /home/zxx/folder
+readonly = no
+valid users = username
+
+先增加用户
+useradd username
+passwd username
+smbpasswd -a username
+这时需要登录username才能访问
+
+找到  security = share   将它改成  security = user 
+似乎可以省略
+service smb start
+
+
+# This will prevent nmbd to search for NetBIOS names through DNS.
+#   dns proxy = no
+   dns proxy = 10.9.41.10     #this will ensure access computer via hostname
+   hosts allow = 10.
++++++++++++++++++++++++++++++++++++++
+
+** 四 网络代理
+gnome-network-properties
+出现代理设置的图形界面，
+功能强大，可以配置手动，自动的所有代理
+
+zxx@gll-bac:~$ gnome-network-properties --help
+check_do_system_wide
+  system wide HTTP: http://10.9.41.17:8080/
+  system wide HTTPS: https://10.9.41.17:8080/
+  system wide FTP: ftp://10.9.41.17:8080/
+  user HTTP: http://10.9.41.17:8080/
+  user FTP: ftp://10.9.41.17:8080/
+  user HTTPS: https://10.9.41.17:8080/
+设置如下文件：
+cat /etc/environment
+zxx@gll-bac:~$ cat /etc/environment 
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+http_proxy="http://10.9.41.17:8080/"
+ftp_proxy="ftp://10.9.41.17:8080/"
+https_proxy="https://10.9.41.17:8080/"
+
+如果手动配置代理：
+全局代理
+/etc/profile.d/proxy.sh
+export http_proxy="http://10.9.41.17:8080/"
+在.bashrc中设置有时也不好使。
+
+重新启动网络
+/etc/init.d/networking restart
+
+
+sshd: no route to the host,
+but you can ping it , mostly it's about iptables, turn down the firewall
+service iptables stop
+sshd_config to configure
+
+* route table  configuration
+** route table
+generally, if you using dpcp to get the ip address, you don't have to configure the route table manaually.
+if you set ip address staticlly , you can configure the route tabel
+using route command
+route add/del -net/-host <destination> netmask <> gw <> dev eth0
+default gateway
+route del default gw <> dev eth0
+route add default gw <> dev eth0
+
+or you can add them to the files /etc/sysconfig/network-script/route-eth0
+the format is as below:
+==========================================
+ADDRESS0=0.0.0.0
+NETMASK0=0.0.0.0
+GATEWAY0=10.121.122.129
+ADDRESS1=169.254.0.0
+NETMASK1=255.255.0.0
+GATEWAY1=0.0.0.0
+ADDRESS2=10.121.122.128
+NETMASK2=255.255.255.192
+GATEWAY2=0.0.0.0
+=============================================
+or as follow (another format)
+default 192.168.0.1 dev eth0
+10.10.10.0/24 via 192.168.0.1 dev eth0
+172.16.1.0/24 via 192.168.0.1 dev eth0
+=============================================
+
+** commands for route 
+*** linux command
+traceroute ip/hostname
+you can get the whole route 
+
+ping -R ip
+it will print the route as well when ping
+
+route -n 
+print the ip table
+
+*** windows command
+route print
+tracert host/ip
+
+* monitor and send the packets 
+** netstat
+netstat -A inet -p -a
+-A inet:means only print tcp/udp/raw protocol
+-p: means print the pid
+-a: means include listen state(all lisneting and non-listening sockets)
+-i: display a table of all network interfaces
+-r: route table printed
+-n: numeric, show port and ip in numeric
+
+tcp        0      0 *:microsoft-ds              *:*                         LISTEN      4416/smbd
+tcp        0      0 10.121.122.178:ssh          10.121.122.44:2412          ESTABLISHED 7311/1
+tcp        0      0 10.121.122.178:microsoft-ds 10.121.122.44:1286          ESTABLISHED 7271/smbd
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1184 ESTABLISHED 5288/Xvnc
+
+** lsof 
+lsof: will list all open files opend by active process(tty, block file, socket file......)
+-i will list only the internet files opend
+lsof -iTCP:65419
+lsof -iTCP:65419
+lsof -iTCP
+Xvnc       5288    lili    5u  IPv4   8216       TCP *:5801 (LISTEN)
+Xvnc       5288    lili   21u  IPv4 172528       TCP 10.121.122.178:5901->ww2002778.ap.tieto.com:1184 (ESTABLISHED)
+smbd       7271    root   23u  IPv4 172556       TCP 10.121.122.178:microsoft-ds->10.121.122.44:1286 (ESTABLISHED)
+sshd       7311    root    3r  IPv4 173006       TCP 10.121.122.178:ssh->10.121.122.44:2412 (ESTABLISHED)
+
+** iptables
+/etc/init.d/iptables status
+when some network problem, check if the firewall block the packet
+=============
+iptables --flush  //flush iptable, it will be empty 
+iptables --list   //list ip table
+
+
+Block Incoming Request From IP 1.2.3.4
+
+The following command will drop any packet coming from the IP address 1.2.3.4:
+/sbin/iptables -I INPUT -s 1.2.3.4 -j DROP
+//this is the same meaning that for two endpoints
+/sbin/iptables -I OUTPUT -d 1.2.3.4 -j DROP
+/sbin/iptables -I INPUT -d 1.2.3.4 -j DROP //this will drop packet which destination is 1.2.3.4
+So if you want to simulate a route to 1.2.3.4 is broken, you need the above two commands.
+ 
+
+/sbin/iptables -I INPUT -s {IP-HERE} -j DROP
+You can also specify an interface such as eth1 via which a packet was received:
+
+ 
+/sbin/iptables -I INPUT -i {INTERFACE-NAME-HERE} -s {IP-HERE} -j DROP
+/sbin/iptables -I INPUT -i eth1 -s 1.2.3.4 -j DROP
+ 
+Please note that when the "!" argument is used before the interface name, the sense is inverted:
+
+ 
+/sbin/iptables -I INPUT ! -i {INTERFACE-NAME-HERE} -s {IP-HERE} -j DROP
+/sbin/iptables -I INPUT ! -i eth1 -s 1.2.3.4 -j DROP
+ 
+If the interface name ends in a "+", then any interface which begins with this name will match. If this option is omitted, any interface name will match:
+
+ 
+/sbin/iptables -I INPUT  -i {INTERFACE-NAME-HERE}+ -s {IP-HERE} -j DROP
+/sbin/iptables -I INPUT  -i br+ -s 1.2.3.4 -j DROP
+ 
+You can replace -I INPUT (insert) with -A INPUT (append) rule as follows:
+
+ 
+/sbin/iptables -A INPUT  -s 1.2.3.4 -j DROP
+/sbin/iptables -i eth1 -A INPUT  -s 1.2.3.4 -j DROP
+ 
+How Do I Block Subnet (xx.yy.zz.ww/ss)?
+
+Use the following syntax to block 10.0.0.0/8 on eth1 public interface:
+# /sbin/iptables -i eth1 -A INPUT -s 10.0.0.0/8 -j DROP
+
+How Do I Block and Log Dropped IP Address Information?
+
+You can turn on kernel logging of matching packets with LOG target as follows:
+# /sbin/iptables -i eth1 -A INPUT -s 10.0.0.0/8 -j LOG --log-prefix "IP DROP SPOOF A:"
+
+The next rule will actually drop the ip / subnet:
+# /sbin/iptables -i eth1 -A INPUT -s 10.0.0.0/8 -j DROP
+
+How Do I View Blocked IP Address?
+
+Simply use the following command:
+# /sbin/iptables -L -v
+
+OR
+# /sbin/iptables -L INPUT -v
+
+OR
+# /sbin/iptables -L INPUT -v -n
+
+Sample outputs:
+
+Chain INPUT (policy ACCEPT 3107K packets, 1847M bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 DROP       all  --  br+    any     1.2.3.4              anywhere
+    0     0 DROP       all  --  !eth1  any     1.2.3.4              anywhere
+    0     0 DROP       all  --  !eth1  any     1.2.3.4              anywhere       
+How Do I Search For Blocked IP Address?
+
+Use the grep command as follows:
+# /sbin/iptables -L INPUT -v -n | grep 1.2.3.4
+
+How Do I Delete Blocked IP Address?
+
+First, you need to display blocked IP address along with line number and other information, enter:
+# iptables -L INPUT -n --line-numbers
+# iptables -L INPUT -n --line-numbers | grep 1.2.3.4
+
+Sample outputs:
+
+num   pkts bytes target     prot opt in     out     source               destination
+1        0     0 DROP       0    --  *      *       116.199.128.1        0.0.0.0/0
+2        0     0 DROP       0    --  *      *       116.199.128.10       0.0.0.0/0
+3        0     0 DROP       0    --  *      *       123.199.2.255        0.0.0.0/0
+To delete line number 3 (123.199.2.255), enter:
+# iptables -D INPUT 3
+
+Verify the same, enter:
+# iptables -L INPUT -v -n
+
+You can also use the following syntax:
+# iptables -D INPUT -s 1.2.3.4 -j DROP
+
+How Do I Save Blocked IP Address?
+
+If you are using Redhat / RHEL / CentOS / Fedora Linux, type the following command:
+# iptables -D INPUT -s 1.2.3.4 -j DROP
+##########################
+#////// command to save iptables ///////#
+##########################
+# /sbin/service iptables save
+# less /etc/sysconfig/iptables
+# grep '1.2.3.4' /etc/sysconfig/iptables
+
+For all other Linux distributions use the iptables-save command to dump the contents of an IP Table to a file:
+# iptables-save > /root/myfirewall.conf
+
+Please not that you need to run the 'iptables-save' or 'service iptables save' as soon as you add or delete the ip address.
+
+A Note About Restoring Firewall
+To restore your firewall use the iptables-restore command to restore IP Tables from a file called /root/myfirewall.conf, enter:
+# iptables-restore < /root/myfirewall.conf
+
+How Do I Block Large Number Of IP Address or Subnets?
+
+You need to write a shell script as follows:
+
+#!/bin/bash
+_input="/root/blocked.ip.db"
+IPT=/sbin/iptables
+$IPT -N droplist
+egrep -v "^#|^$" x | while IFS= read -r ip
+do
+	$IPT -A droplist -i eth1 -s $ip -j LOG --log-prefix "IP BlockList "
+	$IPT -A droplist -i eth1 -s $ip -j DROP
+done < "$_input"
+# Drop it
+$IPT -I INPUT -j droplist
+$IPT -I OUTPUT -j droplist
+$IPT -I FORWARD -j droplist
+See also: iptables: Read a List of IP Address From File And Block
+
+Block Outgoing Request From LAN IP 192.168.1.200?
+
+Use the following syntax:
+# /sbin/iptables -A OUTPUT -s 192.168.1.200 -j DROP
+# /sbin/service iptables save
+
+You can also use FORWARD default chainswhen packets send through another interface. Usually FORWARD used when you setup Linux as a router:
+# /sbin/iptables -A FORWARD -s 192.168.1.200 -j DROP
+# /sbin/service iptables save
+
+
+=================
+
+ iptables -t filter -A INPUT -p tcp -i eth0 -m tcp --dport 65419 -j DROP
+ --source-port [!] port[:port]
+              Source port or port range specification. This can either be a service name or a port number.
+              An  inclusive range can also be specified, using the format port:port.  If the first port is
+              omitted, "0" is assumed; if the last is omitted, "65535" is assumed.   If  the  second  port
+              greater  then  the  first  they will be swapped.  The flag --sport is a convenient alias for
+              this option.
+
+       --destination-port [!] port[:port]
+              Destination port or port range specification.  The flag --dport is a  convenient  alias  for
+              this option.
+##this iptables command will close the socket partially, it will interrupt the connection,
+but in lsof and netstat, there'll be still the info of it, 
+--------
+iptables -t filter -A INPUT -p tcp -h
+Commands:
+Either long or short options are allowed.
+  --append  -A chain            Append to chain
+  --delete  -D chain            Delete matching rule from chain
+  --delete  -D chain rulenum
+                                Delete rule rulenum (1 = first) from chain
+  --insert  -I chain [rulenum]
+                                Insert in chain as rulenum (default 1=first)
+  --replace -R chain rulenum
+                                Replace rule rulenum (1 = first) in chain
+  --list    -L [chain]          List the rules in a chain or all chains
+  --flush   -F [chain]          Delete all rules in  chain or all chains
+  --zero    -Z [chain]          Zero counters in chain or all chains
+  --new     -N chain            Create a new user-defined chain
+  --delete-chain
+            -X [chain]          Delete a user-defined chain
+  --policy  -P chain target
+                                Change policy on chain to target
+  --rename-chain
+            -E old-chain new-chain
+                                Change chain name, (moving any references)
+Options:
+  --proto       -p [!] proto    protocol: by number or name, eg. `tcp'
+  --source      -s [!] address[/mask]
+                                source specification
+  --destination -d [!] address[/mask]
+                                destination specification
+  --in-interface -i [!] input name[+]
+                                network interface name ([+] for wildcard)
+  --jump        -j target
+                                target for rule (may load target extension)
+  --match       -m match
+                                extended match (may load extension)
+  --numeric     -n              numeric output of addresses and ports
+  --out-interface -o [!] output name[+]
+                                network interface name ([+] for wildcard)
+  --table       -t table        table to manipulate (default: `filter')
+  --verbose     -v              verbose mode
+  --line-numbers                print line numbers when listing
+  --exact       -x              expand numbers (display exact values)
+[!] --fragment  -f              match second or further fragments only
+  --modprobe=<command>          try to insert modules using this command
+  --set-counters PKTS BYTES     set the counter during insert/append
+[!] --version   -V              print package version.
+
+TCP v1.2.11 options:
+ --tcp-flags [!] mask comp      match when TCP flags & mask == comp
+                                (Flags: SYN ACK FIN RST URG PSH ALL NONE)
+[!] --syn                       match when only SYN flag set
+                                (equivalent to --tcp-flags SYN,RST,ACK SYN)
+ --source-port [!] port[:port]
+ --sport ...
+                                match source port(s)
+ --destination-port [!] port[:port]
+ --dport ...
+                                match destination port(s)
+ --tcp-option [!] number       match if TCP option set
+
+------
+iptables will block some request from the client, and the client will prompt
+"No route to host", this is not true, we can use tcpdump to get all the packets in both side,
+and we can get a icmp from server to client say: host 10.121.122.79 unreachable - admin prohibited
+That's because in server side: 
+iptables --list
+REJECT     all  --  anywhere             anywhere            reject-with icmp-host-prohibited
+So we need to do other investigate when in the same host, server is ready, but other host not.
+that's not the server service configuration issue.
+That's a firewall issue
+
+-----------
+*How to kill a tcp connection
+netstat -pa|grep 60401
+----------
+tcp 0 0  10.121.122.152:60401      *:*                    LISTEN        25282/MMETesterFlex
+tcp 0 0  10.121.122.152:43569      10.121.122.152:60401   ESTABLISHED   25296/sctp
+tcp 0 0  10.121.122.152:60401      10.121.122.152:43569   ESTABLISHED   25282/MMETesterFlex
+----------------
+kill -9 25282
+
+all man pages in linux could be searched in this website
+------------------------
+http://www.die.net/
+-----------------------
+---------
+stack sctp
+man sctp 
+linux support sctp also
+could get more info about sctp
+-------------------
+core dump
+man core
+The default action of certain signals is to cause a process to terminate and produce a core dump file, a disk file containing an image of the process's memory at the time of termination
+The signals which will cause a coredump is
+ First the signals described in the original POSIX.1-1990 standard.
+
+       Signal     Value     Action   Comment
+       ----------------------------------------------------------------------
+       SIGHUP        1       Term    Hangup detected on controlling terminal
+                                     or death of controlling process
+       SIGINT        2       Term    Interrupt from keyboard
+       SIGQUIT       3       Core    Quit from keyboard
+       SIGILL        4       Core    Illegal Instruction
+       SIGABRT       6       Core    Abort signal from abort(3)
+       SIGFPE        8       Core    Floating point exception
+       SIGKILL       9       Term    Kill signal
+       SIGSEGV      11       Core    Invalid memory reference
+       SIGPIPE      13       Term    Broken pipe: write to pipe with no
+                                     readers
+       SIGALRM      14       Term    Timer signal from alarm(2)
+       SIGTERM      15       Term    Termination signal
+       SIGUSR1   30,10,16    Term    User-defined signal 1
+       SIGUSR2   31,12,17    Term    User-defined signal 2
+       SIGCHLD   20,17,18    Ign     Child stopped or terminated
+       SIGCONT   19,18,25    Cont    Continue if stopped
+       SIGSTOP   17,19,23    Stop    Stop process
+       SIGTSTP   18,20,24    Stop    Stop typed at tty
+       SIGTTIN   21,21,26    Stop    tty input for background process
+       SIGTTOU   22,22,27    Stop    tty output for background process
+
+       The signals SIGKILL and SIGSTOP cannot be caught, blocked, or ignored.
+---------------------------------
+Signal Dispositions
+
+       Each signal has a current disposition, which determines how the process
+       behaves when it is delivered the signal.
+
+       The entries in the "Action" column of the tables below specify the default
+       disposition for each signal, as follows:
+
+       Term   Default action is to terminate the process.
+
+       Ign    Default action is to ignore the signal.
+
+       Core   Default action is to terminate the process and dump core (see core(5)).
+
+       Stop   Default action is to stop the process.
+
+       Cont   Default action is to continue the process if it is currently stopped.
+** dsniff
+dsniff is a series of tools
+*** install in redhat linux
+wget http://rpmfind.net/linux/dag/redhat/el4/en/i386/dag/RPMS/dsniff-2.4-0.1.b1.el4.rf.i386.rpm
+rpm -ivh *.rpm
+rpm -ql dsniff
+
+/usr/sbin/tcpkill
+....
+/usr/sbin/arpspoof
+/usr/sbin/dnsspoof
+/usr/sbin/dsniff
+/usr/sbin/filesnarf
+/usr/sbin/macof
+/usr/sbin/mailsnarf
+/usr/sbin/msgsnarf
+/usr/sbin/sshmitm
+/usr/sbin/sshow
+/usr/sbin/tcpkill
+/usr/sbin/tcpnice
+/usr/sbin/urlsnarf
+/usr/sbin/webmitm
+/usr/sbin/webspy
+==============================================
+*** how to sneak data flow to host C, comunication between A and B
+1.let host C forward ip packets 
+echo "1"  > /proc/sys/net/ipv4/ip_forward
+
+
+2. arp poison/arp cheating
+So apparently the dsniff need a backdoor within a subnet, meaning that with the same gateway,
+otherwise arp package can't make through two different gateways.
+arpspoof -t <ipwhoisdsto> <ipofis-at>
+arpspoof -t 10.121.122.12 10.121.122.1
+0:c:...f6  ...:f9 : arp reply 10.121.122.1 is at 0:c:...f6
+0:c:...f6  ...:f9 : arp reply 10.121.122.1 is at 0:c:...f6
+0:c:...f6  ...:f9 : arp reply 10.121.122.1 is at 0:c:...f6
+0:c:...f6  ...:f9 : arp reply 10.121.122.1 is at 0:c:...f6
+......
+
+f6 is mac of this host, and f9 is the mac of -t <ipwhoisdstto>
+A                  C                  B
+10.121.122.12      10.121.122.122     internet addr
+output from A->B to C
+the packet will go through gateway 10.121.122.1
+So let A assume 10.121.122.1's mac is C's mac
+in c host#### arpsoof -t 10.121.122.12 10.121.122.1
+So every packet from A->B will go to C, and host C will forward this packet to gateway 10.121.122.1
+
+why is this working, cause arp reply will update the arp cache in the dstmac(12) host.
+So when it send some packet, it will search the cache to retrive the arp entry
+[root@122 test]# arp -n
+Address                  HWtype  HWaddress           Flags Mask            Iface
+10.121.122.1          ether   0:c:...:f6   C                     eth0
+here 122 is cheated, it assume 10.121.122.1's mac is f6 which is actaully 122's mac.
+So arp cache is the point. If no arp cache, it won't make.
+If everytime 12 send a packet will broadcast the arp request who is ip tell...
+then real host 10.121.122.1 will reply to it, 
+Even C host want to cheat it, there would be conflict.
+In order to refresh the arp cache, it will continuous send the cheating arp reply message 
+arp -d ipaddress ## will delete the entry in the arp cache
+
+input from B->A to C
+in c host######arppoof -t 10.121.122.1 10.121.122.12
+let gateway assume the C's mac is ip addr 10.121.122.12
+So every packet from B->A will go to c from gateway, and host C will foward this packet to 12
+ 
+3, dsniff -i eth0
+will print out the username and password which pass through it......
+it support telnet and ftp, but ssh, it can't print out that
+
+In a word, how to implement that, the C host is forwarding binary direction traffic, and arp cheating
+is the trick, arp cache is the leak to be make use of.
+So C host must be in the same gateway with the host A has been hacked.
+=======================
+http://codeidol.com/security/anti-hacker-tool-kit/Sniffers/DSNIFF/
+----------
+*** Arpspoof
+
+We've talked about how network switches make sniffing more difficult because the switch is smart; it knows the Ethernet MAC address of every machine on every port, so only the destination machine receives the packet. However, sniffing on switched networks is still possible by forging ARP replies for the destination host. Arpspoof allows us to do that.
+
+You'll recall that ARP is the protocol used to map an IP address to Ethernet MAC addresses. Because ARP requests are broadcast to the entire network (as in, "Hey everyone, which of your Ethernet cards has an IP address of 192.168.1.100?"), they will always go out to everyone. The host running arpspoof can tell the issuer of the ARP request that it has the IP address in question, even if it doesn't. You can fool the ARP request host and the switch into sending the packet to you instead of the intended recipient. You can then make a copy of the packet and use a packet forwarder to send the packet on to its intended destination like a relay.
+
+The command-line usage of arpspoof is arpspoof host_to_snarf_packets _from. You can specify which network interface to use with the -i option, and you can specify particular hosts you want to lie to by using the -t option. By default, arpspoof forges the MAC address of host_to_snarf_packets_from to all hosts on the LAN. The most popular host on a LAN to ARP spoof is the default router. Because all LAN traffic will pass through the router to get to other networks, ARP spoofing the router lets you sniff everything outbound on the LAN! Just don't forget to set up IP forwarding so that the router still gets the packet; otherwise, your entire LAN loses its Internet connection! In the following example, we're enabling IP forwarding on our Linux box (this has to be compiled into the kernel first) and trying to ARP poison 192.168.1.245 into thinking that we (192.168.1.100) are the default gateway (192.168.1.1).
+
+# cat /proc/sys/net/ipv4/ip_forward
+0
+# echo 1 > /proc/sys/net/ipv4/ip_forward
+# arpspoof -t 192.168.1.245 192.168.1.1 &
+# arpspoof -t 192.168.1.1 192.168.1.245
+The first command checks to make sure the Linux kernel was compiled with IP forwarding. If this file does not exist, you'll have to rebuild your kernel with IP forwarding. The second command enables the IP forwarding. The third command says that we should tell 192.168.1.245 that we're 192.168.1.1 so that he'll send all of his Internet-bound traffic through us. The fourth command says that we should tell the gateway that we're him! If we don't do this, we'll be able to snoop only on the outgoing traffic—not the incoming traffic.
+
+*** Dnsspoof
+
+This tool works similarly to arpspoof. It lets you forge DNS responses for a DNS server on the local network. Because DNS runs on User Datagram Protocol (UDP), a connectionless protocol, a DNS client will send out a query and expect a response. The dnsspoof tool will simply forge a response (telling the client that the hostname resolves to its IP) and attempt to get it there before the real response from the intended DNS server arrives. Dnsspoof can forge responses for all DNS queries it receives, or you can create a file in hosts(5) format (called spoofhosts, for example) that resolves only specific names to your local IP address and then run dnsspoof with the -f spoofhosts option to have it lie about only these specific IP-host mappings. An example spoofhosts file is shown next (192.168.1.100 is the address of the machine running dnsspoof):
+
+192.168.1.100     mail*
+192.168.1.100     www*
+This file tells dnsspoof to forge DNS responses only for hostnames beginning with mail or www instead of forging responses to every DNS query it intercepts.
+
+Other than the same -i option that arpspoof takes to specify a network interface, the only argument dnsspoof takes is a tcpdump packet-filter expression for sniffing. It will use that expression to find any DNS traffic so that it can forge responses to any incoming queries on the LAN that it can see. If you first use arpspoof to spoof the MAC address of the intended DNS server, you can ensure that dnsspoof will always receive the DNS queries for the LAN and will always be able to respond with spoofed hostname/IP mappings. In the next example, 192.168.1.5 is the DNS server and 192.168.1.245 is once again our victim.
+
+# echo 1 > /proc/sys/net/ipv4/ip_forward
+# arpspoof -t 192.168.1.245 192.168.1.5 &
+# arpspoof -t 192.168.1.5 192.168.1.245 &
+# dnsspoof -f spoofhosts host 192.168.1.245 and udp port 53
+The first few commands set up the same bidirectional ARP spoofing that we used in the previous section. It allows us to fool 192.168.1.245 into thinking that we're the DNS server. The final command listens for DNS traffic involving 192.168.1.245, and any queries for hosts beginning with www or mail will be answered with an IP address of 192.168.1.100. Other DNS queries should be ignored and passed through to the real DNS server. So if 192.168.1.245 points his web browser at http://www.yahoo.com, he'll actually be talking to the web server running on our machine, 192.168.1.100. Notice that we've been careful to specify the host 192.168.1.245 in our dnsspoof command. If we leave this out, dnsspoof will attempt to forge a DNS response to every DNS request it snoops, which is not what we want in this case.
+
+Arpspoof and dnsspoof allow you to masquerade as different machines on a network. The benefits are obvious for malicious hackers, but can these two tools be used for good? Of course! In addition to network and firewall testing, system administrators could use the masquerading techniques to create a type of honeypot for potential "insider" hackers. You could set up arpspoof and dnsspoof so that a visit to a popular hacking and vulnerability web site actually went to a bogus site under your control. The bogus site looks much like the real site, except the bogus site tells the tale of a simple exploit for a critical system you're running. Of course, this tale is completely fabricated and won't harm your system at all, but you can sit back and see whether anyone tries this bogus exploit against you. If someone does, you've found yourself a troublemaker.
+
+*** Dsniff
+
+The dsniff tool is an advanced password sniffer that recognizes several different protocols, including TELNET, FTP, SMTP, Post Office Protocol (POP), Internet Message Access Protocol (IMAP), HTTP, CVS, Citrix, Server Message Block (SMB), Oracle, and many others. Whereas other sniffers such as Ethereal will give you tons of additional information about the connection and the individual packets, you use dsniff if all you want are usernames and passwords.
+
+Command-line Flags The following table shows the command-line flag options and explanations.
+
+Option
+
+Explanation
+
+-c
+
+Turns on half-duplex TCP stream assembly to allow correct sniffing operation when using arpspoof
+
+-d
+
+Starts debugging mode
+
+-f <file>
+
+Loads triggers (i.e., types of services to password sniff for) from a file with an /etc/services format
+
+-i <if>
+
+Uses a specific network interface
+
+-m
+
+Uses the dsniff.magic file to attempt to determine a protocol automatically using characteristics defined in the magic file
+
+-n
+
+Performs no host lookups
+
+-r <file>
+
+Reads sniffed data from a previously saved session (see -w)
+
+-s <len>
+
+Snarfs at most first <len> bytes of the packet, which is useful if the username and password information come after the default 1024-byte limit
+
+-t <trigger>
+
+Loads a comma-delimited set of triggers using the format port/proto=service; for example, dsniff –t 23/tcp=telnet, 21/tcp=ftp,110/tcp=pop3 will perform password sniffing for telnet, FTP, and SMTP sessions
+
+-w <file>
+
+Writes sniffed data to a file in Berkeley DB format for later analysis (using dsniff -r)
+
+Usage and Output The only other argument that dsniff can use is a tcpdump packet-filter expression so that you can specify what kind of traffic you want to sniff for passwords.
+
+Let's run dsniff to see whether our friend bob logs into something:
+
+[root@originix sbin]# dsniff -t 21/tcp=ftp,23/tcp=telnet -n
+Kernel filter, protocol ALL, raw packet socket
+dsniff: listening on eth0 []
+-----------------
+03/23/02 09:40:50 tcp 192.168.1.101.3482 - 192.168.1.100.21 (ftp)
+USER bob
+PASS bob123
+
+
+-----------------
+03/23/02 09:41:52 tcp 192.168.1.101.3483 - 192.168.1.100.23 (telnet)
+root
+guessme
+jdoe
+password
+ls
+There's bob. He FTP'ed in and we grabbed his password. But what about the telnet session below it? Dsniff appears to have captured an attempted root login via telnet. The login seems to have been unsuccessful, because it appears the user then tried logging in as jdoe with the password password and got into the system. Dsniff then recorded the ls command being executed. Now, most systems don't allow root access via telnet even if the correct password is provided. The password guessme could very well be the root password. And because we now know jdoe's password, we can get on the system and give it a try.
+
+Had jdoe attempted an su to root later in the connection, dsniff would have caught that, too. That's why dsniff captures subsequent commands as well as login information from the telnet session. You'll notice that dsniff waits until a connection terminates before it outputs its information. This is in case it detects any other useful username/password information somewhere other than in the initial login.
+
+Filesnarf
+
+Tcpdump can be used to sniff NFS traffic. The filesnarf tool can actually take the sniffed file and reassemble it on your system. Anytime someone moves a file via NFS over the network, you can grab a copy of it, even if the NFS export isn't available to you.
+
+Again, you can use the –i option to specify the network interface. On the command line, you can also specify a tcpdump packet-filter expression to use for sniffing NFS traffic and the file pattern to match (only snarf *.conf files or snarf files called passwd). If you want to snarf all files except certain files (say, you want to snarf everything except MP3 files), you can invert the file pattern matching with –v like so:
+
+# filesnarf -v '*.mp3'
+And if you wanted to snarf only non-MP3 files from 192.168.1.245, you would use this:
+
+# filesnarf -v '*.mp3' host 192.168.1.245
+Macof
+
+The macof tool will flood the local network with random, conjured MAC addresses in the hopes of causing a switch to fail and start acting like a hub, allowing dsniff to have more success in a switched network environment. You can run macof by itself to generate random TCP/IP traffic with the random MAC addresses, or you can specify the type of traffic using command-line flags. You can control the network interface used (-i), the source and destination IP address (-s and -d), the source and destination port (-x and -y), a single target hardware address (-e), and the number of made-up packets to send (-n).
+
+Mailsnarf
+
+As filesnarf does for NFS, mailsnarf reassembles sniffed e-mail messages from SMTP and POP protocols. It saves the messages in standard mbox format so that you can browse them as you would any Unix mailbox using mutt, pine, or whatever Unix mail application you choose. The options are exactly the same as filesnarf, except instead of specifying file pattern matching, you specify regular expressions to be matched in the header or body of the message.
+
+Msgsnarf
+
+Like the other snarf programs, msgsnarf does the same thing for popular chat programs such as AOL Instant Messenger, Internet Relay Chat (IRC), ICQ, and MSN and Yahoo!'s messenger utilities. In this case, you can specify a regular expression pattern to search for in the messages (such as saving only messages that contain the word password in them). Here we've intercepted a message from cauliflowericious to broccoliastic.
+
+# msgsnarf "password"
+msgsnarf: listening on ep0
+Aug 18 16:07:11 AIM cauliflowericious > broccoliastic: <FONT COLOR=\"#000000\">
+Yeah, just log in to http://www.my
+server.com/myprivatefiles/. My password is
+iLuvVeggies. You can use them for as long as you want. </FONT>"
+Sshmitm
+
+Sshmitm is one of the nastier tools that comes with dsniff. Assuming you're running dnsspoof to forge the hostnames of a real machine, sshmitm (which stands for "SSH Monkey in the Middle") can sniff the SSH traffic redirected to your machine. It supports only SSH version 1 (a good reason to upgrade to version 2).
+
+How is this done? The dnsspoof tool lets us intercept an SSH connection to another machine. All we have to do is start sshmitm on port 22 (we can change the port sshmitm uses with the -p option) and set it up to relay the SSH connection to the true host. If we're running dnsspoof to tell people that we're host foohost when actually 192.168.1.245 is foohost, when somehost does an SSH to foohost, it looks up foohost first and finds it at our forged IP address. So if we run the command sshmitm –p 22 192.168.1.245 22, we can intercept the SSH connection from somehost before passing it on to foohost. What does this buy us? When SSH negotiates the keys to use for encrypting the data, sshmitm can intercept the key from somehost and replace it with a key that we know about. This will allow us to decrypt all information in the hijacked connection.
+
+*** Tcpkill
+
+This tool attempts to kill a TCP connection in progress by spoofing a reset (RST) packet and injecting it into the legitimate connection. As with many of the other tools, the -i option will choose your interface and a tcpdump packet-filter expression can be used to select the type of connections you want to kill. An additional option, -num, where num is any number from 1 through 9, tells tcpkill how hard it needs to try to kill the connection. Faster connections may be more difficult to inject packets in than slower connections. The default "kill" level is –3.
+
+*** Tcpnice
+
+So maybe you don't want to kill a connection completely. Tcpnice will let you just slow it down a bit. You use the same options used in tcpkill, except instead of trying to inject RST packets with a varying level of severity, you use the -n increment option to specify how much you want to slow down the connection. An increment of 1 is the default speed and an increment of 20 is the slowest speed. The tool performs this slowdown by adjusting the amount of data that hosts say they can handle.
+
+Part of the TCP header is the window size, which allows a host to advertise the maximum amount of data it can handle. The tcpnice tool sniffs the traffic matching your tcpdump packet-filter expression and alters the value of the window size advertisement to be smaller than it really is. You use the -n flag to adjust how much smaller the window is made. This will tell the host on the other end of the conversation that it needs to stop sending so much data so quickly, and the connection will slow down. To add fuel to the fire, you can use the –I option to forge ICMP source quench replies to make the host on the other end think that it's flooding the host with more data than it can handle. This can cause the connection to slow down even more.
+
+*** Urlsnarf
+
+Urlsnarf works just like all the other snarf programs in this tool kit, except it works on web URLs. It stores any URLs it sniffs from HTTP traffic into a logfile that can be analyzed later. It's a quick and easy way to see what the people on your local network are looking at when they surf the Web.
+
+*** Webmitm
+
+This tool does for HTTPS (SSL-enabled web traffic) what sshmitm does for SSH. It requires the use of dnsspoof and operates in the same manner, interjecting a fake SSL certificate (that will allow the "monkey in the middle") to decrypt all data that we pass back and forth. The one drawback here is that the user might be notified by the web browser that the certificate for a particular site has changed. Many users will ignore this message, however, and continue with the session.
+
+*** Webspy
+
+This final tool in the dsniff package is a bit frivolous. By specifying an IP address of a host on your LAN, webspy will sniff for web traffic originating from that host. Whenever that host surfs to a particular URL, webspy will load the same URL on your Netscape browser. All you need to do is have your Netscape web browser running before starting webspy. See exactly what your friend down the hall is surfing. Talk about an invasion of privacy!
+-------------
+
+** tcpkill (close a tcp connection from third part)
+kill tcp connection using some port.
+mechanism is to send RST to peer to close the connection, the RST's ack number
+shoud be greater than the last Push sequence number, it will caputre the message flow in this tcp connection,
+and get the PUSH sequence number and send peer the RST with ack number greater than this sequence number 
+
+it's no use to use tcpkill to kill a connection in the close_wait or time_wait state 
+*** tcpkill usage
+1. tcpkill -9 port ftp &>/dev/null
+     2. tcpkill -9 host 192.168.10.30 &>/dev/null
+     3. tcpkill -9 port 53 and port 8000 &>/dev/null
+     4. tcpkill -9 net 192.168.10 &>/dev/null
+     5. tcpkill -9 net 192.168.10 and port 22 &>/dev/null
+
+结果： 
+1. Kill connections attempting to access port 21 (ftp)
+     2. Kill connections matching the IP '192.168.10.30'
+     3. Kill connections attempting to access port 53 and 8000
+     4. Kill connections 192.168.10.* (192.168.10.0/24)
+     5. Kill connections 192.168.10.* accessing port 22
+ 
+TCPKill主要用来连续的保持客户端连接的削剪。使用后通过简单的杀掉’tcpkill’进程，将允许连接重新可用。如果不是这样，接着远程客户端将不能连接。
+
+
+tcpkill -9 port ftp &>/dev/null
+tcpkill -9 host 192.168.10.30 &>/dev/null
+tcpkill -9 port 53 and port 8000 &>/dev/null
+tcpkill -9 net 192.168.10 &>/dev/null
+tcpkill -9 net 192.168.10 and port 22 &>/dev/null
+
+[]#tcpkill -9 port 22
+-------------------------
+tcpkill: listening on eth0 [port 22]
+10.121.122.117:4042 > 10.121.122.152:22: R 522535482:522535482(0) win 0
+10.121.122.117:4042 > 10.121.122.152:22: R 522599965:522599965(0) win 0
+10.121.122.117:4042 > 10.121.122.152:22: R 522728931:522728931(0) win 0
+10.121.122.117:4042 > 10.121.122.152:22: R 522922380:522922380(0) win 0
+----------------------------------
+
+
+==========================================
+
+
+
+** tcpdump usage
+tcpdump -i [interface]  
+filter host <host>      |port <port>     |  net <net>  [mask <netmask>]
+       dst host <host>  |dst port <port> |  dst net <net> 
+        src host <host> |src port <port> |  src net <net>
+....
+tcpdump host sun and \(hot or ace \)
+#traffic between sun and hot or ace
+tcpdump ip hist ace and not hellios
+#print ip packets between ace and any host execpt helios
+
+# To print IP packets longer than 576 bytes sent through gateway snup:
+ tcpdump gateway snup and ip[2:2] > 576
+#ip[2:2] means ip the second bytes of the ip header, and get 2 bytes from that position
+#  To  print  IP  broadcast  or  multicast  packets that were not sent via ethernet  broadcast or multicast:
+              tcpdump ether[0] & 1 = 0 and ip[16] >= 224
+all ethernet dst address is in the first 6 bytes of ether, and the frist byte of it is 0 mean not braodcast or multicast
+1 mean broadcast or multicast 
+***  packet in lo or eth0
+Generally, packets in lo an eth0 has nothing to do with the ipaddrs of the packets ip header.
+If you send a packet to a destination which run in the same host, so the packet will be 
+in the lo, if not, it will be in eth0.
+[liguo@walnut gdb_doc2]$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:40:CC:9C
+          inet addr:10.121.122.152  Bcast:10.121.122.127  Mask:255.255.255.128
+eth0:1    Link encap:Ethernet  HWaddr 00:0C:29:40:CC:9C
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+--------
+if ip packets, num1 and num2 will be captured in the same interface lo 
+1. 13:39:46.158286 IP 127.0.0.1.37726 > 127.0.0.1.9877: 
+2. 13:40:42.157614 IP 10.121.122.152.9877 > 10.121.122.152.44129: P 1:3(2) ack 3 win 512 <nop,nop,timestamp 819728104 819728103>
+   
+
+** sendip //it can send ippacket -d append the hexstring after ip package
+*** get the sctp support sendip
+http://snad.ncsl.nist.gov/ipv6/sendip.html
+wget http://snad.ncsl.nist.gov/ipv6/sendip/sendip-2.5-mec-2a2.tar.gz
+
+
+sudo sendip -v -d 0xdf1971be000000006877e9260100002458b5e16d001000000004000427db9e48000c00060005000080000004c0000004    -p ipv4  -iv 4 -ih 5 -il 128 -ip 132  -is 10.121.122.61 -id 10.121.122.61 -p sctp  10.121.122.61
+sendip -p 
+for help
+
+/usr/local/bin/sendip -v   -p ipv4  -iv 4 -ih 5 -il 128 -ip 132  -is 10.121.122.61 -id 10.121.122.152 -p sctp -ss 3868 -sd 2001 -sT 0 -sF 3 -sW -sY 0  10.121.122.152 -sD 0x01000048000001180000000093bf660c000000290000010c4000000c000007d100000108400000114853532e7474636e330000000000012840000014746573742e6e736e2e636f6d
+//this is a sctp package containing data which is diameter -ss(source port)  or ds() 3868 is the port of diam.
+//-sT 0 means sctp chunk type is data
+^DATA chunk
+ ^ chunk type:DATA(0)
+ ^ chunk flags: 0x03
+   chunk length: 
+   TSN:                        |
+   Stream Identifier:          | 
+   Stream sequence number      |
+                             -sW means these three fileds added
+   Palyload protocol identifier: 0  -sY 0
+^Diameter Protocol
+   Version: 0x01 
+   Length: 72
+.... is -sD 0x.....
+
+
+/usr/local/bin/sendip -v   -p ipv4  -iv 4 -ih 5 -il 128   -is 10.121.122.61 -id 10.121.122.117   10.121.122.117 -d 0x00000049400009000200040200000c000d0001000004400800828948000000e000080001100009000101000a0001000014000100000500014000074009a082894853020000f100000016400116
+
+
+sendip can forge a source ip adrr, but no dst ip adr.
+
+* OSI network model
+==========================================
+DATA PACKET
+
+            -------------------------|application layer, telent, ftp,s1ap, sgsap
+            |DATA                    |
+       ------------------------------|transport layer, TCP/UDP/SCTP..
+       |Port|                        |
+    ---------------------------------|network layer,  IP protocol
+    |IP|                             |
+-------------------------------------|data link layer, Enthernet/Wifi
+|MAC|                                |
+-------------------------------------|paysical layer
+
+
+in a programming view:  using raw socket to implement the transport layer protocol
+
+                      MAC                  ++++MAC Address
+      --------- ----------------- 
+    |    |       |               |
+    |    |       |               |
+  ARP   RARP      
+                 IP         ++++IP Address  
+      -----------------------
+     |        |        |       |{raw ip socket opened in a trasport layer which designate the protocl id}
+     |        |        |       |
+    icmp     tcp       udp    sctp             ++++protocol field in IP header
+          --------           -------- 
+          |     |            |    |
+          |     |            |    |
+        telent  ftp         s1ap  sgsap      +++++port number in tcp/udp/sctp packet
+
+with raw socket programming, all ip packet whic header's protocle id is the same will be diliver 
+to the same tcp transport, for example, all sctp packet will be delivered to the sctp layer 
+of s1ap and sgsap, but s1ap only process the port number is the same with itself.
+So you can do some tricky thing in sctp layer to get other application's packet.
+
+Here, the port of tcp and udp is independent, so the same number for tcp and udp is OK.
+------------------------------------
+hubber, switch, router  difference
+-----------------------------------
+hubber worked in Ethernet layer, broadcasting all the packets in the Ethernet
+
+(Bridge)switch worked in Ethernet layer, has a switch chip, which will trasmit the according MAC address
+to the corosponding port.So every endpoint will have a true ip adress to outside network 
+it will get the port(pysical) and MAC mapping, so it can trasmit it to the right endpoint.
+
+
+(NAT[network address transport])router worked in network layer, it has the function of switch and NAT, it has only one IP address
+for the outside network, and endpoint has private ip address, they shared the same IP address 
+it wil using arp protocol the get the mapping of IP and MAC, so it can find the endpoint according to 
+the Mac adress, and add a ip header which is private address for that endpoint
+ 
+
+So how you can get all the  ethernet(MAC) packages in the ehternet network?
+Using a hubber, other device(swich and router) won't broadcast the private packet to all endpoints.
+
+or 
+One way to achieve what you want is to use an arp poisoning tool, such as Ettercap. You should be able to Wireshark/tcpdump the information you require.
+
+The problem you have is that an Ethernet switch is designed so that it learns the MAC addresses on each port and uses this to "route" Ethernet frames to the correct port based on their MAC address. This is to reduce collisions associated with Ethernet hubs (something you rarely see these days). Therefore, you will only see Ethernet frames destined to or originating from your NIC including broadcast Ethernet frames, such as ARP, but not foreign traffic. This is a good thing :)
+
+Most managed switches (not a dumb desktop one) allow you to designate a port mirror so that all Ethernet frames are replicated on a specific port where you can attach a machine in promiscuous mode and capture "foreign" Ethernet frames using tcpdump/Wireshark.
+
+This still won't let them be captured by Wireshark/tcpdump, however. So you need a way to act as an Ethernet bridge between the interesting hosts and their gateway but without being physically in the path. Enter Ettercap which is an arp poisoning tool. It tricks your interested hosts (and the switch) that your machine MAC address now owns the IP of the old IP gateway by sending out a "gratuitous arp". The interesting machines will unwittingly send all gateway/default route destined traffic to your machine. Your machine will now forward packets through its IP stack as if it was the gateway.
+
+Where this won't work is when "port security" has been enabled on the switch, a not uncommon practice. This is to stop arp poisoning by blocking gratuitous arps where an IP is moving from one Ethernet port to another.
+
+* About TCP /IP protocol
+TCP is a stream socket, so it will setup the connection and close the connection
+ there are two dirction communication between two peers, so each one has 
+a sequence number to identify the stream in this direction, and seq number is based on the ack number contianed in last ack message it received from peer, and ack is the data received from the message
+which seqnum+n  (n is data received)
+seq(n) = ack(n-1);
+ack(n) = seq(n-1) + n(data bytes received);
+n-1 means the last message received from peer in n number.
+
+For example, from syn, the seqC=0, seqS=0 is an initail number.
+the number 2 ack=seq(1) +1=1;
+And seq(3)=ack(2) =1;  ack(3)= seq(2) +1=1 ; 
+    seq(4)=ack(2) =1;  ack(4)=seq(2)+1 =1;     //send 3 bytes data
+    seq(5)=ack(4) =1;  ack(5)=seq(4)+3 =4;
+    seq(6)=ack(4) =1;  ack(6)=seq(4)+3 =4;  //send 6 byetes data
+    seq(7)=ack(6) =4;  ack(7)=seq(6)+5 =6;
+recevied from the peer.
+
+ ** connection setup  ###three hands handsshake
+
+Client      SYN: seq=0                                    Server
+        1 --------------------------->
+       
+            SYN,ACK, seq=0,ack=1
+        2 <--------------------------
+
+               ACK, seq=1,ack=1
+        3  --------------------------->
+
+After this procedure, the connection established.
+
+          PSH,ACK, seq=1,ack=1,(3bytes data)
+        4  --------------------------->        
+
+
+            ACK, seq=1,ack =4
+        5  <--------------------------
+
+             PSH, seq=1,ack=4, (6bytes,data)
+        6  <--------------------------
+
+            ACK, seq=4, ack=4
+        7  ------------------------------>
+
+......
+ESTABLISHED     FIN, seq=2651,ack=4630            
+               ------------------------------>
+                                                  ESTABLISHED
+FIN_WAIT_1                 ACK                    
+               <-----------------------------
+                                                   CLOSE_WAIT
+FIN_WAIT_2                  FIN                    
+               <-----------------------------    
+                                                   LAST_ACK
+TIME_WAIT                 ACK
+   |            ------------------------------>      
+   |                                                 CLOSED  
+   |wait for double maximum segment life(MSL)
+  \|/
+  CLOSED
+
+ 1. FIN message is triggered by the function called close() the socket.
+it means no more data will be transmitted in this endpoint, but it can receive data from the peer.
+
+2. the data in buffer in tcp stack will be send  when function close called, and then will send a
+FIN message
+
+3. why TIME_WAIT?
+(1) It wil make sure the ACK it sent is delivered to peer or it can be re trasmission
+(2) To provide a "buffering period" between the end this cnnection and any subsequent onews.
+
+So if the server end the connection actively, then it will get into TIME_WAIT status, but the prog
+has exit.
+the next time, the same prog start, bind operation will fail because this port is not vacant. 
+
+The solution is to set the socket option SO_REUSEADDR.
+
+SO_KEEPALIVE
+
+9877 is the server endpoint
+------------------
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State
+tcp        1      0 walnut.ap.tieto.com:32775   walnut.ap.tieto.com:9877    CLOSE_WAIT
+tcp        0      0 walnut.ap.tieto.com:9877    walnut.ap.tieto.com:32775   FIN_WAIT2
+--------------------
+if server send FIN firstly then exit.  
+
+------------------------
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State
+tcp        0      0 walnut.ap.tieto.com:32774   walnut.ap.tieto.com:9877    TIME_WAIT
+---------------------
+if client send FIN firstly and exit, client will be in TIME_WAIT, and the server will be closed immediately.
+
+How to close a tcp connection between two endpoints from the thrid party?
+you can use sendip to send a tcp packet(Reset, FIN) to one of the endpoint, 
+But the sequence number is very important.
+The sequence number must be equal to or large than the correct one, or it will drop that packet by
+tcp stacks.
+The ip and host info can be attained in netstat, but seq number is unknow, you could give a very largeone relatively in fact.
+More precisely, you can capture the packet, for aa->bb, 
+then get the ack number as your seq number, bb->aa Reset, 
+send to peer, thus, one of the direction communication will be closed, 
+you should close the other direction also using the similar Reset tcp packet.
+sudo sendip  -p ipv4 -iv 4 -ih 5 -il 128 -ip 6 -is 10.121.122.100 -id 10.121.122.99  -p tcp -td 9877 -ts 2321 -tw 0  -tfr 1 -tfs 0 10.121.122.99
+this will send reset message to them.
+But in a true env, the packets is on going too fast, you need the prg finish it automatically
+lili@localhost tt]$ sudo tcpkill  -i eth0 port 9877
+Password:
+tcpkill: listening on eth0 [port 9877]
+1  10.121.122.79:32804 > 10.121.122.152:9877: R 4049300547:4049300547(0) win 0
+2  10.121.122.79:32804 > 10.121.122.152:9877: R 4049302007:4049302007(0) win 0
+3  10.121.122.79:32804 > 10.121.122.152:9877: R 4049304927:4049304927(0) win 0
+4  10.121.122.152:9877 > 10.121.122.79:32804: R 1111921665:1111921665(0) win 0
+5  10.121.122.152:9877 > 10.121.122.79:32804: R 1111921756:1111921756(0) win 0
+6  10.121.122.152:9877 > 10.121.122.79:32804: R 1111921938:1111921938(0) win 0
+^C
+------------------------------------------
+this will send 9877>32804 with seqnumber=ack number of packet 1.
+then 32804->9877 with seqnumber= ack number of packet 4.
+others seq number = acknumber +i *win > acknumber
+In fact, in a static env, one reset packet for each direction is enough.
+But in a dynamical env, it is best to send more packets to compete the other packets after this packet.
+
+** MTU(Maximum transmit unit)
+this is in data link limitation, ip packet need to be fragmentation< MTU
+[liguo@walnut gdb-7.5.1]$ netstat -i
+Kernel Interface table
+Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+eth0       1500   0    80705      0      0      0    11290      0      0      0 BMRU
+eth0:1     1500   0      - no statistics available -                            BMRU
+lo        16436   0     3328      0      0      0     3328      0      0      0 LRU
+--------------------------
+this command will display the MTU of eacg interface
+
+** get the route from the icmp packet. 
+[liguo@walnut tcpcliserv]$ ping -R 10.121.122.152
+oING 10.121.122.152 (10.121.122.152) 56(124) bytes of data.
+64 bytes from 10.121.122.152: icmp_seq=0 ttl=63 time=4.50 ms
+RR:     10.121.122.79
+        10.121.122.129
+        10.121.122.152
+        10.121.122.152
+        10.121.122.1
+        10.121.122.79
+
+64 bytes from 10.121.122.152: icmp_seq=1 ttl=63 time=2.53 ms    (same route)
+64 bytes from 10.121.122.152: icmp_seq=2 ttl=63 time=1.54 ms    (same route)
+64 bytes from 10.121.122.152: icmp_seq=3 ttl=63 time=1.75 ms    (same route)
+
+** Ip address(five classes)
+          |---7 bits--|-----------------24 bits ------------------
+A class |0|network num|host number                                |
+
+            |-------14 bits-------|--------------16 bits----------
+B class |1|0|network num           |host number                   |
+
+              |--------21bits---------------------|----8 bits-----|
+C class |1|1|0|network                         num|host number    |
+
+                |-----------------------------24bits--------------|
+D class |1|1|1|0|multicast group number                           |
+
+                  |--- 27 bits------------------------------------|
+E class |1|1|1|1|0|         reserved                              |
+
+So the multicast packets ip addr is 1110(0...0)[24] ----   1110(1..1)[24]    
+224.0.0.0----239.1.1.1
+
+So if the ip addr's first byte is bigger than 224, it means it's a multicast, because E class ip addr is
+for reserving.
+
+ip[16] >= 224 means  the 16th byte of the ip packet, it is the first byte of the destination ip addr  
+tcpdump -i eth0 "ip[16] >=224" it wil get all the multciast packets
+
+For data link layer, the first byte of the dst mac adress should be 0x01
+ether[0] & 1 = 1 means this is a multicast
+
+There's a special multicast addr, all hosts group
+224.0.0.1, it contains all the hosts and routers in a pysical network.
+netstat
+[liguo@walnut ~]$ sudo netstat -ng
+Password:
+IPv6/IPv4 Group Memberships
+Interface       RefCnt Group
+--------------- ------ ---------------------
+lo              1      224.0.0.1
+eth0            1      224.0.0.1
+lo              1      ff02::1
+eth0            1      ff02::1:ff40:cc9c
+eth0            1      ff02::1
+--------------
+this host in in the all hosts group.
+
+broadcast
+
+* ssh using as a tunnel and reverse tunnel
+ -R [bind_address:]port:host:hostport
+             Specifies that the given port on the remote (server) host is to be forwarded to
+             the given host and port on the local side.  This works by allocating a socket to
+             listen to port on the remote side, and whenever a connection is made to this port,
+             the connection is forwarded over the secure channel, and a connection is made to
+             host port hostport from the local machine.
+
+             Port forwardings can also be specified in the configuration file.  Privileged
+             ports can be forwarded only when logging in as root on the remote machine.  IPv6
+             addresses can be specified by enclosing the address in square braces.
+
+             By default, the listening socket on the server will be bound to the loopback
+             interface only.  This may be overridden by specifying a bind_address.  An empty
+             bind_address, or the address ‘*’, indicates that the remote socket should listen
+             on all interfaces.  Specifying a remote bind_address will only succeed if the
+             server's GatewayPorts option is enabled (see sshd_config(5)).
+1. use case
+client(for ssh)                                        | server
+=======================================================|=======================
+  nc -l 3333                                           | 
+ 0 0.0.0.0:3333  0.0.0.0:*      LISTEN                 |  
+ ssh -R 23333:127.0.0.1:3333  srvusrn@serverhost       |
+                                 client:tempport   ######### serverhost:sshport(22) ESTABLISHED
+                                      |                | 127.0.0.1:23333  0.0.0.0:* LISTEN     /|\
+                                      |                |  0::1:23333      :::*      LISTEN      |
+                                     \|/               |nc 127.0.0.1 23333                      | 
+                 127.0.0.1:3333---127.0.0.1:5166 ESTB  | 127.0.0.1:5233-----127.0.0.1:23333 ESTAB
+=================================================================================
+
+2. another usecase:
+client no public ip addr,office                         | server,home,public ipaddr
+========================================================|============================
+sshd start   0.0.0.0:22   0.0.0.0:*  LISTEN             |
+ssh -NR 2222:127.0.0.1:22 pi@171.216.163.218            |
+                                client:tempport    ###########        171.216.163.218:22  EST---- /|\
+                                    \|/                 |  ssh officeuser@127.0.0.1 -p 2222        |
+                 127.0.0.1:22---127.0.0.1:5166 ESTB     | 127.0.0.1:5233-----127.0.0.1:22222 ESTAB-|
+                                                        | access office from home
+===================================================================================================
+
+3. wired usecase:
+client(for ssh) 10.121.122.140                         | server 10.121.122.99
+=======================================================|=======================
+                                                       |  nc -l 3333 
+                                                       | 0.0.0.0:3333  0.0.0.0:*      LISTEN               
+ssh -R 23333:10.121.122.99:3333  svrusr@10.121.122.99  |
+                                 client:tempport   ######### serverhost:sshport(22) ESTABLISHED
+                                      |                | 127.0.0.1:23333  0.0.0.0:* LISTEN     /|\
+                                     \|/               |  0::1:23333      :::*      LISTEN      |
+                                  client:temport2 #########  serverport:3333  ESTAB             |
+                                                       |nc 127.0.0.1 23333                      | 
+                                                       | 127.0.0.1:5233-----127.0.0.1:23333 ESTAB
+=================================================================================
+in this case, the deligated port and actual port are in the same host, but it routed around the client host
+
+
+
+nc: an advanced command 
+1. scan the port
+while nc -zv 127.0.0.1 2222; do sleep 20;done
+scan port means, send tcp SYN to port, if the connection could be estatblished, nc will shutdown it,
+then it means the port is open, if receive RST, means the port is inactive.
+
+nc will scan the port but not send data, the will make the ssh connection make alive
+
+2. netcat in Server-Client Architecture to send message
+nc -lp port
+this will create a tcp server to listen on port
+nc host port
+this will create a tcp connection,and the listen will stop.
+sending message/files
+Hi, server
+
+3.transfer files
+$cat testfile
+hello test
+nc -l 2389 >test
+cat testfile | nc 127.0.0.1 2389
+cat test
+hello test
+------------------------------
+or vice versa
+cat testfile |nc -l 3333
+nc host 3333 > tests
+
+4. transfer massive file
+# nc -l -p 1234 | dd of=/dev/sda
+server1上执行传输，即可完成从server1克隆sda硬盘到server2的任务：
+
+# dd if=/dev/sda | nc 192.168.228.222 1234
+
+Summary:
+(1) nc is a cool tool for getting data as a server
+for example, if you want to get the content sent from some network protocol, you could use like:
+if want to get what exactly sent to a peer for a http request
+http_proxy=127.0.0.1:8080 curl - I tweakers.net
+nc -lp 8080 on the same host
+----------------------------------
+HEAD HTTP://tweakers.net HTTP/1.1
+User-Agent:curl/7.26.0
+Host: tweakers.net
+---------------------------------
+this trick could be done to fake a server with the same server port number
+
+(2) transfering data in two different file system using network
+if video6 and mplayer are on the same host:
+cat /dev/video6 | mplyaer -vo x11 
+if not:
+cat /dev/video6 |nc -lp 7777 
+another term:
+nc ipadr 7777|mplayer -vo x11 ...
+
+
+(3) nc could get bi-direction comunication data also like this
+mkfifo fifo
+server: nc -l -p 8080 <fifo | nc tweaker.net 80 >fifo
+Any data come to port 8080 will be transfered to tweaker.net:80 and anydata from tweaker.net:80 will be
+saved to fifo and it will come to client from fifo of nc -l -p
+
+client http_proxy=127.0.0.1:8080 curl - I tweakers.net
+
+                           
+client  curl               server nc -lp 8080       nc tweaker.net 80         httpserv tweaker.net:80
+            tcp data Req                 pipe |                    tcp data Req
+        --------------------->        ---------->              ---------------->
+                tcp data Resp         pipe fifo                tcp data Resp
+            <----------               <---------       fifo  <----------------           
+
+** a simple tcp-proxy shell would be
+shell:
+#!/bin/sh -e
+
+if [ $# != 3 ]
+then
+    echo "usage: $0 <src-port> <dst-host> <dst-port>"
+    exit 0
+fi
+
+TMP=`mktemp -d`
+BACK=$TMP/pipe.back
+SENT=$TMP/pipe.sent
+RCVD=$TMP/pipe.rcvd
+trap 'rm -rf "$TMP"' EXIT
+mkfifo -m 0600 "$BACK" "$SENT" "$RCVD"
+sed 's/^/ => /' <"$SENT" &
+sed 's/^/<=  /' <"$RCVD" &
+nc -l -p "$1" <"$BACK" | tee "$SENT" | nc "$2" "$3" | tee "$RCVD" >"$BACK"
+
+
+If the script is saved as "tcp-proxy.sh" it can be executed like this:
+./tcp-proxy.sh 8080 tweakers.net 80
+
+Repeating the earlier HTTP request causes the script to print out the request and response data with lines prefixed according to the direction of network traffic:
+ => HEAD HTTP://tweakers.net HTTP/1.1
+ => User-Agent: curl/7.26.0
+ => Host: tweakers.net
+ => Accept: */*
+ => Proxy-Connection: Keep-Alive
+ => 
+<=  HTTP/1.1 200 OK
+<=  Server: Apache
+<=  X-Tweakers-Server: phobos
+<=  Expires: Mon, 26 Jul 1995 05:00:00 GMT
+<=  Last-Modified: Mon, 11 Jun 2012 19:23:09 GMT
+[..]        
+
+** ssh tunnel using
+through a ssh tunnel:
+server side: cat testfile |nc -l 3333
+client side:
+ssh -f -L 23333:127.0.0.1:3333 serverusername@severip sleep 10;\
+nc 127.0.0.1 23333 > tests
+ssh -L
+ -L [bind_address:]port:host:hostport
+             Specifies that the given port on the local (client) host is to be forwarded to the
+             given host and port on the remote side. 
+
+client(for ssh)                                        | server
+=======================================================|=======================
+                                                       | nc -l 3333
+                                                       |0 0.0.0.0:3333  0.0.0.0:*      LISTEN  
+ ssh -L 23333:127.0.0.1:3333  srvusrn@serverhost       |
+            --------------------- client:tempport   ######### serverhost:sshport(22) ESTABLISHED
+           /|\       127.0.0.1:23333  0.0.0.0:* LISTEN |                     |
+            |         0::1:23333      :::*      LISTEN |                     |
+nc 127.0.0.1 23333                                     |                    \|/ 
+            |---- 127.0.0.1:23333---127.0.0.1:5166 ESTB| 127.0.0.1:3333-----127.0.0.1:5233 ESTAB
+=================================================================================
+
+
+a relay host using ssh:
+
+EndUser 202                |client(for ssh) 140                                   | server, 99
+===========================|======================================================|=======================
+                           |                                                      | nc -l 3333
+                           |                                                      |0 0.0.0.0:3333  0.0.0.0:* LISTEN  
+                           |ssh -f -L 10.121.122.140:23333:10.121.122.99:3333 \   |
+                           |guolili@10.121.122.99  sleep 60                       |
+                           |                                   140:tempport   ######### 99:sshport(22) ESTABLISHED
+                           |              10.121.122.140:23333 /|\  0.0.0.0:* LISTEN|        |
+nc 10.121.122.140 23333    |                                    |                  |        \|/
+      202:temport   ############ 140:23333  ESTABLISHED---------                   |127.0.0.1:temport----127.0.0.0.1:3333
+                           |                                                       |
+             
+
+
+* tcp udp packet conversion in the application layer
+netcat is a powerful tool to do the coversion
+nc is very handy to send data from a file or pipe and can save the received data to a file
+** udp packet conver to tcp packet
+
+      nc  -l -p 6666              nc -u -l -p 5555 | nc 127.0.0.1 6666            nc -u 127.0.0.1 5555 
+          
+           |   tcp syn connect                       |                              |               
+           |<----------------------------------------| udp data send                | 
+           |                                         |<-----------------------------udpcli in
+           |       tcp data "udpcli"                 |udpdata be redirect to tcpcon 
+           |<----------------------------------------|       
+          udpcli out                                 |
+                                                     |
+         tcpsrv in                                   | 
+           |      tcp data "tcpsrv"                  |
+           |---------------------------------------->|(output of nc .. 6666 should e here)
+           |                                        tcpsrv out
+           |                                         | 
+           |                                      udpsrv in
+           |  tcp data "udpsrv"                      |
+           |<----------------------------------------|                                                 
+          udpsrv out
+As we can see, only one direction udp traffic could be converted into tcp data
+
+there's a problem here, this can be a bidirection,
+
+mkfifo named_pipe    // create a named pipe
+nc  -l -p 6666     nc -u -l -p 5555 <named_pipe | nc 127.0.0.1 6666 >named_pipe   nc -u 127.0.0.1 5555 
+// this way is how to create a bi-directional pipe, using pipe | and name_pipe to 
+
+** tcp packet convert to a udp packet
+nc 127.0.0.1 4444  
+nc -l -p 4444  >tt
+the data will be received in file tt
+
+cat tt | nc -u 127.0.0.1 5555
+nc -u -l -p 5555 
+the content  of file tt will be recevied here and be printed out 
+
+nc -l -p 4444 |nc -u 127.0.0.1 5555
+
+** netcat powerful tools
+why linux treat everything as a file including a device, that's awesome, 
+cause you could use command line (redirect to any command) to process the data, 
+the data could be anything, for example a video stream
+for example /dev/video6 is a channel output the video info, we could use netcat to pass it 
+cat /dev/video6 |nc -lp 7777 
+another term:
+nc ipadr 7777|mplayer -vo x11 ...
+then we could see a video here
+nc -l -p 12345 | tar xvzf - 
+- means the stardard input
+ 
+* tcp connection close(FIN or RST sent)
+if you want to send RST to close the connection, 
+set so_linger to 0.
+##########################
+        struct linger ling;
+        ling.l_onoff = 1;
+        ling.l_linger = 0;
+        Setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
+############################
+then when call close() function, it will send RST, otherwise it will send FIN if no non-empty receive kernel-buffer.
+
+Summary for lazy people ^^: calling close(2) on a socket with a
+> non-empty receive kernel-buffer cause the connection to be ReSeT and
+> the send buffer discarded and not sent.
+
+Yes; this is all as it should be.
+
+> 1) Is this a standard behavior?
+
+Yes.
+
+> Doesn't the RFC state that every pending data is sent when the
+> connection is closed?
+
+The RFCs describe the TCP protocol, not the sockets API.
+
+> 2) Shouldn't that behavior be documented somewhere? I didn't found any
+> information about that anywhere. I looked at the man close(2),
+> shutdown(2), socket(7), tcp(7).
+>
+> >From this I deduce that shutdown must be called everytime we want to
+> close a socket. But this is not taught anywhere. :p
+
+In many cases, shutdown() is not necessary. Normally, one side knows
+whether the other side will send more data. E.g. for (non-pipelined)
+HTTP, the client sends a request, the server sends a response, then
+closes the connection. At that point, the client sees EOF then
+close()s the socket (or it could just close the socket once the amount
+of data specified by the Content-Length header has been received).
+
+With a request-response protocol, either the requestor sends a "quit"
+command resulting in the responder closing the connection, or the
+requestor will just close the connection instead of issuing a request. 
+In the latter case, it will either perform a half-close or just wait
+until any outstanding response has been received and perform a
+full-close.
+
+If you close the receive side of the connection while the other end is
+still sending, the kernel needs to inform the sender that data was
+discarded (analogous to EPIPE for a pipe). It does so by sending a
+RST. A FIN merely indicates that it has ceased sending data; a RST
+asserts that the connection no longer exists.
+
+Once it has sent a RST, it cannot send any additional data. Doing so
+would just result in the receiver discarding the data and sending a
+RST, so there's no point.
+
+If you want the other end to see EOF while your end still receives
+data, use shutdown(fd, SHUT_WR) to perform a half-close. This sends a
+FIN and effectively makes the descriptor read-only.
+
+The classic example of a half-close is for the rsh protocol, where
+each side transmits independently and the format of the data is
+unknown to either the client or the server. If the user types Ctrl-D
+(or whatever the EOF character is), the rsh client receives EOF which
+needs to be passed to the server, which is done using a half-close. 
+The server then closes the the descriptor used to write to the pty
+master, which causes the shell to read EOF from the slave. Once all
+processes writing to the slave have terminated, rshd reads EOF from
+the master, closes the socket, server sends FIN to the client, which
+the rsh client sees as EOF, at which point it terminates.
+
+* TCP VS. SCTP
+** SCTP introduction
+Stream Control Transmission Protocol (SCTP).  SCTP is designed to
+   transport Public Switched Telephone Network (PSTN) signaling messages
+   over IP networks, but is capable of broader applications.
+
+   SCTP is a reliable transport protocol operating on top of a
+   connectionless packet network such as IP.  It offers the following
+   services to its users:
+
+   --  acknowledged error-free non-duplicated transfer of user data,
+
+   --  data fragmentation to conform to discovered path MTU size,
+
+   --  sequenced delivery of user messages within multiple streams, with
+       an option for order-of-arrival delivery of individual user
+       messages,
+
+   --  optional bundling of multiple user messages into a single SCTP
+       packet, and
+
+   --  network-level fault tolerance through supporting of multi-homing
+       at either or both ends of an association.
+
+   The design of SCTP includes appropriate congestion avoidance behavior
+   and resistance to flooding and masquerade attacks.
+
+** comparison of two protocol
+The limitations that users have wished to bypass include
+   the following:
+
+   -- TCP provides both reliable data transfer and strict order-of-
+      transmission delivery of data.  Some applications need reliable
+      transfer without sequence maintenance, while others would be
+      satisfied with partial ordering of the data.  In both of these
+      cases, the head-of-line blocking offered by TCP causes unnecessary
+      delay.
+
+   -- The stream-oriented nature of TCP is often an inconvenience.
+      Applications must add their own record marking to delineate their
+      messages, and must make explicit use of the push facility to
+      ensure that a complete message is transferred in a reasonable
+      time.
+
+   -- The limited scope of TCP sockets complicates the task of providing
+      highly-available data transfer capability using multi-homed hosts.
+
+   -- TCP is relatively vulnerable to denial-of-service attacks, such as
+      SYN attacks.
+
+** SCTP features
+
+*** multiple streams by identifiers in data transfer
+TSN: ..63               ...64
+stream identifier:0         0
+stream sequence:0           1 
+
+*** multiple associations in sctp
+The basic service offered by SCTP is the reliable transfer of user
+   messages between peer SCTP users.  It performs this service within
+   the context of an association between two SCTP endpoints.  
+
+assocaiation is similar to tcp's one connection.
+in TCP, a connection effectively is represented by the pair of source and destination endpoint IP addresses and ports,
+one server, multiple clients, the server ip and port are the same but
+client's different to identify different clients in different sockets.
+connection 1: server.servipaddr.servport -----cli1.ipaddr1.port1
+connection 2: server.servipaddr.servport -----cli12.ipaddr2.port2
+
+
+in SCTP, the associations is represented by the pair of source and dst IP
+and ports also(not multihoming case). one server, multiple clients, the 
+server side has only one socket to deal with all the assciations unless you
+peeloff a specific association id to another socket.
+association 1: server.servipaddr.servport -----cli1.ipaddr1.port1
+association 2: server.servipaddr.servport -----cli12.ipaddr2.port2
+
+ in SCTP, the source and destination can both be multihomed, so they will be represented by the set of source and the set of destination addresses. For one-to-many sockets, the source addresses may be shared by many associations, so I need the destination addresses to identify an association properly. For a single association, these destination addresses all belong to a single endpoint computer.
+
+association 1: server.servipaddrlist[0].servport -----cli1.ipaddr1list[0].port1
+association 1: server.servipaddrlist[1].servport -----cli1.ipaddr1list[0].port1
+association 1: server.servipaddrlist[0].servport -----cli1.ipaddr1list[1].port1
+association 1: server.servipaddrlist[1].servport -----cli1.ipaddr1list[1].port1
+if server has two ipaddr and client has two ip addr for multihoming feature,
+all these four address pair are association 1
+
+association 2: server.servipaddr.servport -----cli12.ipaddr2.port2
+
+
+SCTP is connection-oriented in nature, but the SCTP association is a
+   broader concept than the TCP connection.  SCTP provides the means for
+   each SCTP endpoint (Section 1.3) to provide the other endpoint
+   (during association startup) with a list of transport addresses
+   (i.e., multiple IP addresses in combination with an SCTP port)
+   through which that endpoint can be reached and from which it will
+   originate SCTP packets.  The association spans transfers over all of
+   the possible source/destination combinations that may be generated
+   from each endpoint's lists.
+
+
+      |  SCTP User  |                                    |  SCTP User  |
+      | Application |                                    | Application |
+      |-------------|                                    |-------------|
+      |    SCTP     |                                    |    SCTP     |
+      |  Transport  |                                    |  Transport  |
+      |   Service   |                                    |   Service   |
+      |-------------|                                    |-------------|
+      |             |One or more    ----      One or more|             |
+      | IP Network  |IP address      \/        IP address| IP Network  |
+      |   Service   |appearances     /\       appearances|   Service   |
+      |_____________|               ----                 |_____________|
+
+        SCTP Node A |<-------- Network transport ------->| SCTP Node B
+
+                         Figure 1: An SCTP Association
+
+In a word, sctp assocaciation is a connection from client to server
+(with dst.ipaddr.port andsrc.ipaddr.port), 
+in multihoming case, the ipaddr in both dst and src could be a list of 
+ip addr, but the same port number in both direction port.
+
+
+o  Transport address: A transport address is traditionally defined by
+      a network-layer address, a transport-layer protocol, and a
+      transport-layer port number.  In the case of SCTP running over IP,
+      a transport address is defined by the combination of an IP address
+      and an SCTP port number (where SCTP is the transport protocol).
+
+o  SCTP endpoint: The logical sender/receiver of SCTP packets.  On a
+      multi-homed host, an SCTP endpoint is represented to its peers as
+      a combination of a set of eligible destination transport addresses
+      to which SCTP packets can be sent and a set of eligible source
+      transport addresses from which SCTP packets can be received.  All
+      transport addresses used by an SCTP endpoint must use the same
+      port number, but can use multiple IP addresses.  A transport
+      address used by an SCTP endpoint must not be used by another SCTP
+      endpoint.  In other words, a transport address is unique to an
+      SCTP endpoint.
+
+** SCTP uplayer programming
+
+linux能够支持sctp协议，但是默认情况下不支持。如果你在编写sctp方面的应用程序时遇到：
+<netinet/sctp.h> no such file or directory。
+在终端输入： 
+sudo apt-get install libsctp-dev lksctp-tools
+测试sctp的代码遇到如下报错：
+netinet/sctp.h no such file or directory
+
+yum -y install lksctp-tools-devel
+
+all the structure defined in /usr/include/netinet/sctp.h
+sctp bind  error
+bind error: permisiion denied.
+disa selinux 
+
+
+How to check the status of SELINUX in linux system
+Use the below given command to check SELINUX
+
+getenforce
+
+or open the file /etc/sysconfig/selinux and find the value of “SELINUX=enforcing”
+In below given /etc/sysconfig/selinux file. The selinux is in enforcing mode.
+
+[root@localhost ~]# cat /etc/sysconfig/selinux
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing – SELinux security policy is enforced.
+# permissive – SELinux prints warnings instead of enforcing.
+# disabled – No SELinux policy is loaded.
+SELINUX=enforcing
+# SELINUXTYPE= can take one of these two values:
+# targeted – Targeted processes are protected,
+# mls – Multi Level Security protection.
+SELINUXTYPE=targeted
+
+[root@localhost ~]#
+
+
+To temporary change the SELINUX mode into permissive state in running system without reboot.
+use the command setenforce 0
+
+[root@localhost ~]# getenforce
+Enforcing
+[root@localhost ~]#
+[root@localhost ~]# setenforce 0
+[root@localhost ~]#
+[root@localhost ~]# getenforce
+Permissive
+[root@localhost ~]#
+
+For permanent change in selinux mode edit the file /etc/sysconfig/selinux.
+Change the value of SELINUX=enforcing into permissive or disabled and restart the system
+
+vi /etc/sysconfig/selinux
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing – SELinux security policy is enforced.
+# permissive – SELinux prints warnings instead of enforcing.
+# disabled – No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+# targeted – Targeted processes are protected,
+# mls – Multi Level Security protection.
+SELINUXTYPE=targeted
+
+Save the file and RESTART the system. Without restart of system SELINUX mode will not be changed permanently.
+
+Note: SELINUX has 3 mode
+*** events in sctp
+Events
+The SCTP stack can generate events when “interesting” things happen. By default, all event generation is turned off except for data events. In the last article, I discussed the SCTP call sctp_rcvmsg(). By default, this just returns the data read. But, I also wanted to find out on which stream the data came, and for this I had to turn on the data_io_event so the SCTP stack would fill in the sctp_sndrcvinfo structure, which has the sinfo_stream field. Events are listed in the sctp_event_subscribe structure:
+
+struct sctp_event_subscribe { 
+    uint8_t sctp_data_io_event; 
+    uint8_t sctp_association_event; 
+    uint8_t sctp_address_event; 
+    uint8_t sctp_send_failure_event; 
+    uint8_t sctp_peer_error_event; 
+    uint8_t sctp_shutdown_event; 
+    uint8_t sctp_partial_delivery_event; 
+    uint8_t sctp_adaptation_layer_event; 
+    uint8_t sctp_authentication_event; 
+};
+An application sets fields to one for events it is interested in and zero for the others. It then makes a call to setsockopt() with SCTP_EVENTS. For example:
+
+struct sctp_event_subscribe event ={0};
+memset(&event, 0, sizeof(event)); 
+event.sctp_data_io_event = 1; 
+event.sctp_association_event = 1; 
+setsockopt(fd, IPPROTO_SCTP, SCTP_EVENTS, 
+           &event, sizeof(event));
+
+Events are delivered inline along with “ordinary” data whenever a read (using sctp_recvmsg or similar) is done. If the application turns on events, reads will contain a mixture of events and data. The application then will need to examine each read to see whether it is an event or data to be processed. This is quite straightforward. If the flags field in the sctp_recvmsg() call has the MSG_NOTIFICATION bit set, the read message contains an event; otherwise, it contains data as before. Pseudo-code for this is:
+
+
+nread = sctp_rcvmsg(..., msg, ..., &flags); 
+if (flags & MSG_NOTIFICATION) 
+    handle_event(msg); 
+else 
+    handle_data(msg, nread);
+
+Events can be used to tell the following: if a new association has started or if an old one has terminated; if a peer has changed state by, say, one of the interfaces becoming unavailable or a new interface becoming available; if a send has failed, a remote error has occurred or a remote peer has shut down; if partial delivery has failed; and if authentication information is available.
+
+If an event is received in the event buffer, first its type must be found, and then the buffer can be cast to a suitable type for that event. For example, the code to handle a shutdown event is:
+
+
+void handle_event(void *buf) { 
+    union sctp_notification *notification; 
+    struct sn_header *head; 
+
+    notification = buf; 
+    switch(notification->sn_header.sn_type) { 
+    case SCTP_SHUTDOWN_EVENT: { 
+        struct sctp_shutdown_event *shut; 
+        shut = (struct sctp_shutdown_event *) buf; 
+        printf("Shutdown on assoc id %d\n", 
+                shut->sse_assoc_id); 
+        break; 
+    }
+     case SCTP_ASSOC_CHANGE: {
+        struct sctp_assoc_change *assoc;
+        assoc = (struct sctp_assoc_change *) pRecvBuffer;
+        printf("Init on assoc id %d\n",
+                assoc->sac_assoc_id);
+        break;
+    }
+
+    default: 
+        printf("Unhandled event type %d\n", 
+               notification->sn_header.sn_type);
+    }
+
+Closing an Association
+A socket can support multiple associations. If you close a socket, it closes all of the associations! It is sometimes desirable to close only a single association but not the socket, so that the socket can continue to be used for the other associations.
+
+SCTP can abort an association or close it gracefully. Graceful shutdown will ensure that any queued messages are delivered properly before shutdown, while abort does not do this. Either of these are signaled by setting the sinfo_flags in the sctp_sndrcvinfo structure to the appropriate value. A graceful shutdown is signaled by setting the shutdown flag and writing a message (with no data):
+
+
+sinfo.sinfo_flags = SCTP_EOF; sctp_send(..., &sinfo, ...);
+
+The reader then will be sent an sctp_shutdown_event if it has that event type enabled. The code to handle such an event was shown above. This can be done only on one-to-many sockets though. For one-to-one sockets, you are limited to using close().
+
+
+Getting the Association ID
+Many of the calls that deal with associations take an association ID as a parameter. Whereas in TCP, a connection effectively is represented by the pair of source and destination endpoint IP addresses, in SCTP, the source and destination can both be multihomed, so they will be represented by the set of source and the set of destination addresses. For one-to-many sockets, the source addresses may be shared by many associations, so I need the destination addresses to identify an association properly. For a single association, these destination addresses all belong to a single endpoint computer. The SCTP variation on getsockopt()—that is, sctp_opt_info()—is used to find an association from an address. The reason I cannot simply use getsockopt() is that I need to pass in a socket address, and the return value includes the association value. This in/out semantics is not supported by all implementations of getsockopt(). The code is:
+
+
+sctp_assoc_t get_associd(int sockfd, struct sockaddr *sa, socklen_t salen) { 
+    struct sctp_paddrinfo sp; 
+    int sz; 
+    
+    sz = sizeof(struct sctp_paddrinfo); 
+    bzero(&sp, sz); 
+    memcpy(&sp.spinfo_address, sa, salen); 
+    if (sctp_opt_info(sockfd, 0, SCTP_GET_PEER_ADDR_INFO, &sp, &sz) == -1) 
+        perror("get assoc"); 
+    return (sp.spinfo_assoc_id); 
+}
+
+Note that Unix Network Programming (volume 1, 3rd ed.) by W. Richard Stevens, et al., gives different code: the specification has changed since that book was written, and the above is now the preferred way (and Stevens' code doesn't work under Linux anyway).
+
+Multiple Associations
+A server can handle multiple clients in a number of ways: a TCP server can use a single server socket that listens for clients and deals with them sequentially, or it could fork off each new client connection as a separate process or thread, or it could have many sockets and poll or select between them. A UDP server typically will keep no client state and will treat each message in its entirety as a separate entity. SCTP offers another variation, roughly halfway between TCP and UDP.
+
+An SCTP socket can handle multiple long-lived associations to many endpoints simultaneously. It supports the “connection-oriented” semantics of TCP by maintaining an association ID for each association. On the other hand, it is like UDP in that each read usually returns a complete message from a client. SCTP applications use the TCP model by using the one-to-one sockets that I have discussed in the previous two articles. And, it uses a one-to-many model, which is more like UDP by using a one-to-many socket. When you create a socket, you specify whether it is one-to-one or one-to-many. In the first article in this series, I created a one-to-one socket by the call:
+
+sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP)
+To create a one-to-many socket, I simply change the second parameter:
+
+sockfd = socket(AF_INET, SOCK_SEQPACKET, IPPROTO_SCTP)
+A TCP server handles multiple connections simultaneously by essentially using concurrent reads. This is done by using multiple processes, threads, or by poll/select among many sockets. A UDP server typically uses a single read loop, handling each message as it arrives. An SCTP one-to-many server looks like a UDP server: it will bind a socket and listen. Then, instead of blocking on accept(), which would return a new one-to-one socket, it blocks on sctp_rcvmsg(), which returns a message from either a new or existing association. Pseudo-code for such a server is:
+
+
+sockfd = socket(...); 
+bind(sockfd, ...); 
+listen(sockfd, ...); 
+while (true) { 
+    nread = sctp_rcvmsg(sockfd, ..., buf, ..., &info); 
+    assoc_id = sinfo.sinfo_assoc_id; 
+    stream = sinfo.sinfo_stream; 
+    handle_message(assoc_id, stream, buf, nread); 
+}
+
+A client also can use the one-to-many socket model. After binding to a port (probably an ephemeral one), it can use the single socket to connect to many other endpoints and use this single socket to send messages to any of them. It even can do away with an explicit connect operation and just start sending to new endpoints (an implicit connection is done if no existing association exists).
+
+Peeled-Off Sockets
+One-to-one sockets follow the TCP model; one-to-many sockets follow the UDP model. Is it possible to have both at once? Yes, it is, to some extent. For example, you may have a server that you can talk to in two modes: ordinary user and superuser. Messages from ordinary users may be handled in UDP style, reading and just responding, while superuser connections may need to be treated differently. SCTP allows a connection on a one-to-many socket to be “peeled off” and become a one-to-one socket. This one-to-one socket may then be treated in TCP-style, while all other associations remain on the one-to-many socket.
+
+** Unordered Messages
+SCTP normally delivers messages within a stream in the order in which they were written. If you don't need this, you can turn off the ordering feature. This can make delivery of messages faster, as they don't have to be reassembled into the correct order.
+
+** multihoming feature
+Usually when no data transfered in a period of time, then HEARTBEAT
+will be sent to other ipaddress except the one last used to transfer data.
+And then a data should be sent, but the primary/last used path is unavailable,
+(No SACK data is received), then it will send the second path which is available in the HEATBEAT testing(have received heartbeat-ack)
+
+http://www.linuxjournal.com/article/9784 multiple asscociations with SCTP
+
+
+
+* Port scaanner for tcp, udp, sctp
+** How we know if the sever of tcp, upd , sctp is listening on the port which we wanted to connet
+tcp/sctp :(connection oriented)
+if SYN/INIT message was received in a server, but the destination port is not listend, then kernel will send a RST/ABORT message to client who sent SYN/INIT message.
+
+udp: (not connection oriented)
+if UDP send a message to a port that no udp socket is received at, then kernel will send an icmp(port unreachable)
+
+sometimes , when sctp client send a INIT message to server, client will receive an icmp(protocol unreachable) packet. some versions of linux kernel not support sctp, so (protocol unreachable)
+
+
+** Types of various scannings
+*** TCP scanning
+The simplest port scanners use the operating system's network functions and are generally the next option to go to when SYN is not a feasible option (described next). Nmap calls this mode connect scan, named after the Unix connect() system call. If a port is open, the operating system completes the TCP three-way handshake, and the port scanner immediately closes the connection to avoid performing a Denial-of-service attack.[3] Otherwise an error code is returned. This scan mode has the advantage that the user does not require special privileges. However, using the OS network functions prevents low-level control, so this scan type is less common. This method is "noisy", particularly if it is a "portsweep": the services can log the sender IP address and Intrusion detection systems can raise an alarm.
+
+*** SYN scanning
+SYN scan is another form of TCP scanning. Rather than use the operating system's network functions, the port scanner generates raw IP packets itself, and monitors for responses. This scan type is also known as "half-open scanning", because it never actually opens a full TCP connection. The port scanner generates a SYN packet. If the target port is open, it will respond with a SYN-ACK packet. The scanner host responds with an RST packet, closing the connection before the handshake is completed.[3] If the port is closed but unfiltered, the target will instantly respond with a RST packet.
+
+The use of raw networking has several advantages, giving the scanner full control of the packets sent and the timeout for responses, and allowing detailed reporting of the responses. There is debate over which scan is less intrusive on the target host. SYN scan has the advantage that the individual services never actually receive a connection. However, the RST during the handshake can cause problems for some network stacks, in particular simple devices like printers. There are no conclusive arguments either way.
+
+*** UDP scanning
+UDP scanning is also possible, although there are technical challenges. UDP is a connectionless protocol so there is no equivalent to a TCP SYN packet. However, if a UDP packet is sent to a port that is not open, the system will respond with an ICMP port unreachable message. Most UDP port scanners use this scanning method, and use the absence of a response to infer that a port is open. However, if a port is blocked by a firewall, this method will falsely report that the port is open. If the port unreachable message is blocked, all ports will appear open. This method is also affected by ICMP rate limiting.[4]
+
+An alternative approach is to send application-specific UDP packets, hoping to generate an application layer response. For example, sending a DNS query to port 53 will result in a response, if a DNS server is present. This method is much more reliable at identifying open ports. However, it is limited to scanning ports for which an application specific probe packet is available. Some tools (e.g., nmap) generally have probes for less than 20 UDP services, while some commercial tools (e.g., nessus) have as many as 70. In some cases, a service may be listening on the port, but configured not to respond to the particular probe packet.
+
+*** ACK scanning
+ACK scanning is one of the more unusual scan types, as it does not exactly determine whether the port is open or closed, but whether the port is filtered or unfiltered. This is especially good when attempting to probe for the existence of a firewall and its rulesets. Simple packet filtering will allow established connections (packets with the ACK bit set), whereas a more sophisticated stateful firewall might not.[5]
+
+*** Window scanning
+Rarely used because of its outdated nature, window scanning is fairly untrustworthy in determining whether a port is opened or closed. It generates the same packet as an ACK scan, but checks whether the window field of the packet has been modified. When the packet reaches its destination, a design flaw attempts to create a window size for the packet if the port is open, flagging the window field of the packet with 1's before it returns to the sender. Using this scanning technique with systems that no longer support this implementation returns 0's for the window field, labeling open ports as closed.[6]
+
+*** FIN scanning
+Since SYN scans are not surreptitious enough, firewalls are, in general, scanning for and blocking packets in the form of SYN packets.[3] FIN packets can bypass firewalls without modification. Closed ports reply to a FIN packet with the appropriate RST packet, whereas open ports ignore the packet on hand. This is typical behavior due to the nature of TCP, and is in some ways an inescapable downfall.[7]
+Other scan types
+
+Some more unusual scan types exist. These have various limitations and are not widely used. Nmap supports most of these.[5]
+
+    X-mas and Null Scan - are similar to FIN scanning, but:[3]

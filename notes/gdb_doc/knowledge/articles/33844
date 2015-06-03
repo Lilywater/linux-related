@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:sioct="http://rdfs.org/sioc/types#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://access.redhat.com/knowledge/articles/33844" />
+<link rel="shortlink" href="https://access.redhat.com/knowledge/node/33844" />
+<link rel="shortcut icon" href="https://access.redhat.com/knowledge/sites/default/files/shadowman.ico" type="image/vnd.microsoft.icon" />
+<meta name="portal_comment_count" content="42" />
+<meta name="portal_rating" content="0" />
+<meta content="Red Hat Customer Portal FAQ" about="/knowledge/articles/33844" property="dc:title" />
+<meta about="/knowledge/articles/33844" property="sioc:num_replies" content="40" datatype="xsd:integer" />
+<meta name="portal_title" content="Red Hat Customer Portal FAQ" />
+<meta name="portal_id" content="33844" />
+  <title>Red Hat Customer Portal FAQ - Red Hat Customer Portal</title>
+  
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon03" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="https://access.redhat.com/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="https://access.redhat.com/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "https://access.redhat.com", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="https://access.redhat.com/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script>
+	  <link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_amM9R0R7hqNzKeT_8aSB73VNefWn7AMRBBqQGYALGGU.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_2OtW7FBmXvVPE4iKTZ5GjRalay2DG0BMAUpWKcnfihA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_n_E1-fTcENp3eBp9Qjr_w8xIgU7No_sXHMbR2HBolYA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/webassets/avalon/s/boxes-columns.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_2fMW7fHbVwsH66Ft_-P266h3Ul30RxNkjW-w6o-3QXU.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_e0Oi8I1L8cGJ7KxcUbimLkO-ivlPDoZXuBZMWKAz5GY.css" media="print" />
+
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_4IP9gN5rHKyHgmNHeyyJUuHdIpJi3W2WYDFx8McGvQk.css" media="all" />
+<![endif]-->
+
+<!--[if lte IE 7]>
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_pRKWqsShIuNuqjxZ91nMNlCNf4fqkTW8SFoNLBqKH0U.css" media="all" />
+<![endif]-->
+
+<!--[if lte IE 6]>
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_GCNkXOhnRhBWFVG0YBPSXdAPd6XUabQZQBvN-2ZGH24.css" media="all" />
+<![endif]-->
+  <link rel="stylesheet" type="text/css" media="all" href="https://access.redhat.com/webassets/avalon/s/list.css" />
+  <script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_kPKw9MerbP1HIOaFCy9zwrUWSGUa2iKyW6ih9PEtqck.js"></script>
+<script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_4Cytgm39a5IwdYEODENnCKznLoylVgAXNq9Y3W0WxY8.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+breadcrumbs = [
+  ["Knowledge", "/knowledge/"],
+  ["Articles", "/knowledge/articles/"],
+  ["Red Hat Customer Portal FAQ"]
+];
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_GKwmhKXGpGFVY3R--JdHm1K2OR-S9pc_xlwIzHx7xnM.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var analyticsPageName = "red hat customer portal faq|articles/33844"
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_sovHJXGcwBf_kQZMvQT4iKfXErnZaVa8UqXlCKgbEC8.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/knowledge\/","pathPrefix":"","ajaxPageState":{"theme":"kcs","theme_token":"zCSRpUm0rshPxCjsXiSb2pD-9fg6pCm2wAsp5uRJsbs","js":{"modules\/jquery_update\/replace\/jquery\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/libraries\/chosen\/chosen\/chosen.jquery.min.js":1,"modules\/chosen\/chosen.js":1,"0":1,"sites\/all\/modules\/custom\/fivestar\/js\/fivestar.js":1,"1":1,"sites\/all\/themes\/kcs\/js\/kcs_base.js":1,"sites\/all\/themes\/kcs\/js\/showdown.js":1,"sites\/all\/themes\/kcs\/js\/case_links.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/date\/date_api\/date.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/user\/user.css":1,"modules\/views\/css\/views.css":1,"sites\/all\/libraries\/chosen\/chosen\/chosen.css":1,"modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/custom\/features\/best_answer\/best_answer.css":1,"sites\/all\/modules\/custom\/fivestar\/css\/fivestar.css":1,"https:\/\/access.redhat.com\/webassets\/avalon\/s\/boxes-columns.css":1,"sites\/all\/themes\/kcs\/css\/html-reset.css":1,"sites\/all\/themes\/kcs\/css\/wireframes.css":1,"sites\/all\/themes\/kcs\/css\/layout-fixed.css":1,"sites\/all\/themes\/kcs\/css\/page-backgrounds.css":1,"sites\/all\/themes\/kcs\/css\/tabs.css":1,"sites\/all\/themes\/kcs\/css\/pages.css":1,"sites\/all\/themes\/kcs\/css\/blocks.css":1,"sites\/all\/themes\/kcs\/css\/navigation.css":1,"sites\/all\/themes\/kcs\/css\/views-styles.css":1,"sites\/all\/themes\/kcs\/css\/nodes.css":1,"sites\/all\/themes\/kcs\/css\/comments.css":1,"sites\/all\/themes\/kcs\/css\/forms.css":1,"sites\/all\/themes\/kcs\/css\/fields.css":1,"sites\/all\/themes\/kcs\/css\/kcs.css":1,"sites\/all\/themes\/kcs\/css\/print.css":1,"sites\/all\/themes\/kcs\/css\/ie.css":1,"sites\/all\/themes\/kcs\/css\/ie7.css":1,"sites\/all\/themes\/kcs\/css\/ie6.css":1}},"chosen":{"selector":"#edit-field-kcs-component-select-und, #edit-field-kcs-sbr-select-und, #edit-field-kcs-product-select-und, #edit-field-kcs-type-select-und, #edit-language, #edit-field-kcs-a-category-select-und, #edit-field-kcs-state-select-und, #edit-field-kcs-tags-select-und, #edit-field-kcs-state-select-value, #edit-field-vid-reference-product-und, #edit-state, #edit-product, #edit-type, #edit-category, #edit-field-kcs-product-select-tid, #edit-field-kcs-type-select-tid, #edit-field-kcs-a-category-select-tid, #edit-sort-bef-combine, #edit-kcs-state, #edit-field-category-tid, #edit-field-product-tid, #edit-field-tags-tid, #edit-field-category-und, #edit-field-product-und, #edit-field-tags-und, #views-exposed-form-questions-list-questions-filter-block #edit-field-category, #edit-field-tags-und, #views-exposed-form-questions-list-questions-filter-block #edit-field-product, #views-exposed-form-questions-list-questions-filter-block #edit-field-tags","minimum":"0"},"section":"red hat customer portal faq"});
+//--><!]]>
+</script>
+    <!--[if lt IE 9]>
+  <script src="https://access.redhat.com/knowledge/sites/all/themes/kcs/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body class="portal-page  kcs_external" >
+  <div id="skip-link">
+    <a href="#main-menu" class="element-invisible element-focusable">Jump to Navigation</a>
+  </div>
+  
+    
+	<div id="outer-wrapper" class="wrapo">
+		<div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="https://access.redhat.com/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="https://access.redhat.com/home">
+						<img src="https://access.redhat.com/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="https://access.redhat.com/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="https://access.redhat.com/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="https://access.redhat.com/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="https://access.redhat.com/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="https://access.redhat.com/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="https://access.redhat.com/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+			<div id="main-wrap" class="wrapu">
+				<div id="main-top"></div>
+				
+  <div id="content-narrow">
+      
+<script type="text/javascript">
+	siteMapState = "knowledge";
+</script>
+<div class="wrapi">
+    <div id="container" class="clearWrap c-mF statusPublished">
+        <div id="content" class="clearfix">
+            <div id="main" class="">
+                				
+                <!-- googleoff: all--> 
+                <div class="messages warning">
+<h2 class="element-invisible">Warning message</h2>
+<a href="https://access.redhat.com/login?redirectTo=https://access.redhat.com/knowledge/articles/33844">log in</a> to add comments or rate this document</div>
+                <!--googleon: all-->
+
+                                    <article id="main-content" class="kcs_article">				
+                    <header>
+                                                <h1 class="title" id="page-title">Red Hat Customer Portal FAQ</h1>                                                                          <div class="pubdate"><span class="icon-clock" aria-hidden="true"></span> Updated 18 Oct 2012, 9:29 PM GMT</div>
+                                            </header>
+                                                                            <div class="content-area kcs_article-area">
+                                                                                									<aside id="sidebar"> 
+                                      <div class="region region-sidebar-second column sidebar "><div class="section">
+    <div id="block-boxes-rate" class="block block-boxes block-boxes-simple first last odd count-1">
+
+        <h2 class="block-title">Rate</h2>
+    
+  <div class="content">
+    <div class="clearfix fivestar-average-stars fivestar-average-text"><div class="fivestar-static-form-item"><div class="form-item form-type-item">
+ <div class="fivestar-default"><div class="fivestar-widget-static fivestar-widget-static-vote fivestar-widget-static-5 clearfix"><div class="star star-1 star-odd star-first"><span class="off">0</span></div><div class="star star-2 star-even"><span class="off"></span></div><div class="star star-3 star-odd"><span class="off"></span></div><div class="star star-4 star-even"><span class="off"></span></div><div class="star star-5 star-odd star-last"><span class="off"></span></div></div></div>
+<div class="description"><div class="fivestar-summary fivestar-summary-average-count"><span class="empty">No votes yet</span></div></div>
+</div>
+</div></div>  </div>
+
+</div><!-- /.block -->
+  </div></div><!-- /.section, /.region -->
+                                </aside>
+  								                                                        <div id="doc">
+                                <div class="section">
+                                                                              <div class="region region-content">
+    <div id="block-system-main" class="block block-system first last odd count-1">
+
+      
+  <div class="content">
+    <div id="node-33844" class="node node-kcs-article view-mode-full clearfix" about="/knowledge/articles/33844" typeof="sioc:Item foaf:Document">
+
+                  
+  
+    <div class="content">
+      <div class="field field-name-field-kcs-article-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even"><ul>
+<li><a href="#What_is_the_Red_Hat_Customer_Portal">What is the Red Hat Customer Portal?</a></li>
+<li><a href="#How_do_I_access_the_Customer_Portal">How do I access the Customer Portal?</a></li>
+<li><a href="#What_are_the_features_and_benefits_of_the_Red_Hat_Customer_Portal">What are the features and benefits of the Red Hat Customer Portal?</a></li>
+<li><a href="#What_languages_does_it_support">What languages does it support?</a></li>
+<li><a href="#Who_can_access_the_Customer_Portal">Who can access the Customer Portal?</a></li>
+<li><a href="#I_am_an_existing_customer_with_active_subscriptions_Where_can_I_find_my_login">I am an existing customer with active subscriptions. Where can I find my login?</a></li>
+<li><a href="#I_am_an_existing_customer_with_active_subscriptions_but_when_I_login_I_dont_have_access_to_all_the_content_Why_not">I am an existing customer with active subscriptions, but when I login I don't have access to all the content. Why not?</a></li>
+<li><a href="#How_do_I_purchase_subscriptions">How do I purchase subscriptions?</a></li>
+<li><a href="#How_are_support_cases_integrated">How are support cases integrated?</a></li>
+<li><a href="#Where_do_I_report_defects_or_request_feature_improvements">Where do I report defects or request feature improvements?</a></li>
+<li><a href="#How_are_downloads_and_errata_integrated">How are downloads and errata integrated?</a></li>
+<li><a href="#How_do_I_access_the_Red_Hat_Knowledgebase_">How do I access the Red Hat Knowledgebase ?</a></li>
+<li><a href="#How_do_I_access_product_documentation">How do I access product documentation?</a></li>
+<li><a href="#Will_RHN_be_accessable_from_the_Red_Hat_Customer_Portal">Will RHN be accessible from the Red Hat Customer Portal?</a></li>
+<li><a href="#What_Red_Hat_technologies_are_used_for_the_Red_Hat_Customer_Portal">What Red Hat technologies are used for the Red Hat Customer Portal?</a></li>
+</ul>
+<h4 id="What_is_the_Red_Hat_Customer_Portal">What is the Red Hat Customer Portal?</h4>
+<p>The Red Hat Customer Portal enables subscription customers to access everything provided with their subscription from one convenient location.</p>
+<h4 id="How_do_I_access_the_Customer_Portal">How do I access the Customer Portal?</h4>
+<p>Go to: https://access.redhat.com</p>
+<h4 id="What_are_the_features_and_benefits_of_the_Red_Hat_Customer_Portal">What are the features and benefits of the Red Hat Customer Portal?</h4>
+<p>The Red Hat Customer Portal provides customers with access to:</p>
+<ul>
+<li>Red Hat support ticketing and reporting system</li>
+<li>Solutions, FAQs, and official product documentation</li>
+<li>Thorough, integrated search</li>
+<li>Rich educational content, including whitepapers, info sheets, and multimedia presentations</li>
+<li>Downloads, updates, and evaluations</li>
+<li>Subscription and account management tools</li>
+</ul>
+<h4 id="What_languages_does_it_support">What languages does it support?</h4>
+<ul>
+<li>English</li>
+<li>Spanish</li>
+<li>German</li>
+<li>Italian</li>
+<li>Korean</li>
+<li>French</li>
+<li>Japanese</li>
+<li>Portuguese (Brazilian)</li>
+<li>Chinese (Simplified)</li>
+</ul>
+<h4 id="Who_can_access_the_Customer_Portal">Who can access the Customer Portal?</h4>
+<p>Anyone can access the Customer Portal. However, some content is available exclusively to Red Hat customers with active subscriptions.</p>
+<h4 id="I_am_an_existing_customer_with_active_subscriptions_Where_can_I_find_my_login">I am an existing customer with active subscriptions. Where can I find my login?</h4>
+<p>You can <a href="https://www.redhat.com/wapps/sso/lostPassword.html">retrieve your Red Hat login and/or reset your password</a>. Please see <a href="/knowledge/node/16762">this Knowledgebase article</a> for more information, or <a href="http://www.redhat.com/about/contact/dir/#custservice">contact Customer Service</a> for further assistance.</p>
+<h4 id="I_am_an_existing_customer_with_active_subscriptions_but_when_I_login_I_dont_have_access_to_all_the_content_Why_not">I am an existing customer with active subscriptions, but when I login I don't have access to all the content. Why not?</h4>
+<p>You may be logging in with an account that is not associated with your entitlements, or with one that has an email address associated to it which still needs to be confirmed. If you believe you should have access to all of the content on the Customer Portal, please <a href="http://www.redhat.com/about/contact/dir/#custservice">contact Customer Service</a> for assistance.</p>
+<h4 id="How_do_I_purchase_subscriptions">How do I purchase subscriptions?</h4>
+<p>To purchase subscriptions, <a href="https://access.redhat.com/support/contact/Sales.html">contact Sales</a>.</p>
+<h4 id="How_are_support_cases_integrated">How are support cases integrated?</h4>
+<p>Support cases can be managed directly through the Customer Portal. For more information refer to <a href="/knowledge/node/38363">How do I open and manage a support case on the Customer Portal?</a> and <a href="/knowledge/node/38672">New Red Hat Case Management System FAQ</a></p>
+<h4 id="Where_do_I_report_defects_or_request_feature_improvements">Where do I report defects or request feature improvements?</h4>
+<p>To report a defect or request a feature improvement, open a support case and choose "Red Hat Customer Portal" as the product. A new support case can be created by clicking "Create a New Case" under the "Support" tab in the customer portal.</p>
+<h4 id="How_are_downloads_and_errata_integrated">How are downloads and errata integrated?</h4>
+<p>Middleware downloads and updates have been visually integrated within the new Customer Portal. Platform downloads and updates, including errata, will continue to provided by RHN, which is linked from the download section and the top of any page.</p>
+<h4 id="How_do_I_access_the_Red_Hat_Knowledgebase_">How do I access the Red Hat Knowledgebase ?</h4>
+<p>Click "Knowledgebase" within the Knowledge section or search from any search form within the Customer Portal.</p>
+<h4 id="How_do_I_access_product_documentation">How do I access product documentation?</h4>
+<p>Product documentation (e.g. manuals, release notes) can be found in the Knowledge section.</p>
+<h4 id="Will_RHN_be_accessable_from_the_Red_Hat_Customer_Portal">Will RHN be accessable from the Red Hat Customer Portal?</h4>
+<p>A link within the Downloads section of the Customer Portal will direct you to the entitled software page within RHN. Because RHN and the Customer Portal both use the Red Hat Single Sign-On authentication service, you will not need to log in again.</p>
+<h4 id="What_Red_Hat_technologies_are_used_for_the_Red_Hat_Customer_Portal">What Red Hat technologies are used for the Red Hat Customer Portal?</h4>
+<p>The Red Hat Customer Portal is powered Red Hat Enterprise Linux, JBoss Enterprise Application Platform, and JBoss Seam.</p>
+</div>
+      </div>
+</div>
+<footer><div class="footer-inner"><div class="taxonomy-group"><div class="taxonomy-list field_kcs_type_select">  <h3 class="field-label">
+    Article Type  </h3>
+
+<ul class="field field-name-field-kcs-type-select field-type-taxonomy-term-reference field-label-above">
+
+      <li>
+      <a href="/knowledge/article-type/general" typeof="skos:Concept" property="rdfs:label skos:prefLabel">General</a>    </li>
+  
+</ul>
+</div></div><div class="taxonomy-group"></div><div class="taxonomy-group"></div></div></footer>    </div>
+  
+  <div id="comments-footer"> 
+  <div id="comments" class="comment-wrapper">
+          <h2 class="title">Comments</h2>
+      
+  <div id="comment-wrapper"><div id="comment-wrapper-314243"><a id="comment-314243"></a>
+
+</div><div id="comment-wrapper-314653"><a id="comment-314653"></a>
+
+</div><div id="comment-wrapper-315163"><a id="comment-315163"></a>
+
+</div><div id="comment-wrapper-315593"><a id="comment-315593"></a>
+
+</div><div id="comment-wrapper-317363"><a id="comment-317363"></a>
+
+</div><div id="comment-wrapper-318223"><a id="comment-318223"></a>
+
+</div><div id="comment-wrapper-318323"><a id="comment-318323"></a>
+
+</div><div id="comment-wrapper-318583"><a id="comment-318583"></a>
+
+  <div class="comment even public" about="/knowledge/comment/318583#comment-318583" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2010-09-17T07:27:18+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Sify Technologies on Fri, 09/17/2010 - 07:27</span>      <a href="/knowledge/comment/318583#comment-318583" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>How to change the severity level of raised case?</p>
+<p>Please add this question on FAQ and answer this question.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+<div id="comment-wrapper-318773" class="indented"><a id="comment-318773"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/318773#comment-318773" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2010-09-19T23:38:12+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Sam Folk-Williams on Sun, 09/19/2010 - 23:38</span>      <a href="/knowledge/comment/318773#comment-318773" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/knowledge/comment/318583#comment-318583" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi,</p>
+<p>I've added this question to the Case Mangement FAQ: https://access.redhat.com/kb/docs/DOC-38673</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div></div><div id="comment-wrapper-322113"><a id="comment-322113"></a>
+
+</div><div id="comment-wrapper-323443"><a id="comment-323443"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/323443#comment-323443" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-01-06T16:17:22+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Jeff Layton on Thu, 01/06/2011 - 16:17</span>      <a href="/knowledge/comment/323443#comment-323443" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>I don't see any "Report a Problem" links on any of the pages in the CP. Can you clarify where I should report problems with a particular web page?</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+<div id="comment-wrapper-323453" class="indented"><a id="comment-323453"></a>
+
+  <div class="comment even public" about="/knowledge/comment/323453#comment-323453" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-01-06T16:37:41+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Sam Folk-Williams on Thu, 01/06/2011 - 16:37</span>      <a href="/knowledge/comment/323453#comment-323453" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/knowledge/comment/323443#comment-323443" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi,</p>
+<p>I've updated the document with accurate instructions for how to report a problem. This procedure has changed with the recent portal upgrade.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div></div><div id="comment-wrapper-323613"><a id="comment-323613"></a>
+
+</div><div id="comment-wrapper-324323"><a id="comment-324323"></a>
+
+</div><div id="comment-wrapper-324493"><a id="comment-324493"></a>
+
+</div><div id="comment-wrapper-324503"><a id="comment-324503"></a>
+
+</div><div id="comment-wrapper-324513"><a id="comment-324513"></a>
+
+</div><div id="comment-wrapper-324523"><a id="comment-324523"></a>
+
+</div><div id="comment-wrapper-324533"><a id="comment-324533"></a>
+
+</div><div id="comment-wrapper-324543"><a id="comment-324543"></a>
+
+</div><div id="comment-wrapper-324553"><a id="comment-324553"></a>
+
+</div><div id="comment-wrapper-324563"><a id="comment-324563"></a>
+
+</div><div id="comment-wrapper-325643"><a id="comment-325643"></a>
+
+</div><div id="comment-wrapper-326323"><a id="comment-326323"></a>
+
+</div><div id="comment-wrapper-328833"><a id="comment-328833"></a>
+
+</div><div id="comment-wrapper-329923"><a id="comment-329923"></a>
+
+  <div class="comment even public" about="/knowledge/comment/329923#comment-329923" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-06-05T23:31:26+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Ricardo Carrillo on Sun, 06/05/2011 - 23:31</span>      <a href="/knowledge/comment/329923#comment-329923" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Does exist a case managment&nbsp;&nbsp; system opensource ?</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+<div id="comment-wrapper-329983" class="indented"><a id="comment-329983"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/329983#comment-329983" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-06-06T14:38:49+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Dennis Hunter on Mon, 06/06/2011 - 14:38</span>      <a href="/knowledge/comment/329983#comment-329983" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/knowledge/comment/329923#comment-329923" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Yes "RT" is one of them.</p>
+<h3><a href="http://bestpractical.com/">Best Practical</a></h3>
+<p><em>RT</em>: Request Tracker is the leading enterprise-grade <em>open source</em> issue tracking system. Every day thousands of organizations use it for bug tracking, <strong>...</strong><br />
+Goto</p>
+<p>http://bestpractical.com/</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+<div id="comment-wrapper-336213" class="indented"><a id="comment-336213"></a>
+
+  <div class="comment even public" about="/knowledge/comment/336213#comment-336213" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-11-27T06:35:14+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Sercan yilmaz on Sun, 11/27/2011 - 06:35</span>      <a href="/knowledge/comment/336213#comment-336213" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/knowledge/comment/329983#comment-329983" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>I am looking for such a system ..</p>
+<p><a href="http://www.semrehberi.com">Semrehberi<br />
+</a></p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div></div></div><div id="comment-wrapper-330063"><a id="comment-330063"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/330063#comment-330063" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-06-07T19:50:09+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Michele Newman on Tue, 06/07/2011 - 19:50</span>      <a href="/knowledge/comment/330063#comment-330063" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>It appears that all url's that point to a specific section in a product doc (<a href="http://www.redhat.com/docs/en-US/Red_Hat_Network_Satellite/5.3/API_Overview/html/handlers/ServerGroupHandler.html#addOrRemoveSystems">http://www.redhat.com/docs/en-US/Red&#95;Hat&#95;Network&#95;Satellite/5.3/API&#95;Overview/html/handlers/ServerGroupHandler.html&#35;addOrR emoveSystems</a>) redirect to http://docs.redhat.com/docs/en-US/index.html instead of its intended target.&nbsp; Please fix, tks.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-335993"><a id="comment-335993"></a>
+
+</div><div id="comment-wrapper-336333"><a id="comment-336333"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/336333#comment-336333" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2011-12-02T14:45:09+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Ruban prasath on Fri, 12/02/2011 - 14:45</span>      <a href="/knowledge/comment/336333#comment-336333" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>How to extract a single file from tarball</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-350513"><a id="comment-350513"></a>
+
+  <div class="comment even public" about="/knowledge/comment/350513#comment-350513" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-02-23T06:54:36+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">nanhore26 on Thu, 02/23/2012 - 06:54</span>      <a href="/knowledge/comment/350513#comment-350513" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>How can see videos?</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-351773"><a id="comment-351773"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/351773#comment-351773" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-03-03T06:43:45+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">venkatp2012@yahoo.co.in on Sat, 03/03/2012 - 06:43</span>      <a href="/knowledge/comment/351773#comment-351773" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi i am planning to setup the RHEV-H , please guide me already RHEV- Manager running .so please explain how to proceed further to configure the RHEV-H and connect to the RHEV-manager.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-352203"><a id="comment-352203"></a>
+
+  <div class="comment even public" about="/knowledge/comment/352203#comment-352203" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-03-06T15:44:24+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">lengku qiufeng on Tue, 03/06/2012 - 15:44</span>      <a href="/knowledge/comment/352203#comment-352203" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi i am planning to setup the RHEV-H , please guide me already RHEV- Manager running .so please explain how to proceed further to configure the RHEV-H and connect to the RHEV-manager.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-354913"><a id="comment-354913"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/354913#comment-354913" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-03-24T14:09:19+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">shyamk89 on Sat, 03/24/2012 - 14:09</span>      <a href="/knowledge/comment/354913#comment-354913" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>am planing to test rhev-h ...</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-357883"><a id="comment-357883"></a>
+
+  <div class="comment even public" about="/knowledge/comment/357883#comment-357883" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-04-09T09:50:14+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Yang Subeom on Mon, 04/09/2012 - 09:50</span>      <a href="/knowledge/comment/357883#comment-357883" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>hi, im going to setup the RHEV for my bunch of servers. But i don&#039;t know about this system(virtual). i need a tutorial even a video. please help me what can i do that this.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-359663"><a id="comment-359663"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/359663#comment-359663" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-04-18T12:59:54+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Jack Huang on Wed, 04/18/2012 - 12:59</span>      <a href="/knowledge/comment/359663#comment-359663" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi, I am trying to download the RHEL 4Update9 iso&#039;s, but failed. Can anyone please let me know the location/link  so that I can download the same.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-399463"><a id="comment-399463"></a>
+
+</div><div id="comment-wrapper-448383"><a id="comment-448383"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/448383#comment-448383" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-12-21T10:02:56+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Joseph Farrugia on Fri, 12/21/2012 - 10:02</span>      <a href="/knowledge/comment/448383#comment-448383" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>As everyone know there are many versions of RedHat OS. Can you help me choose the right version for me (I&#039;m new to RedHat, therefore some links for books to learn will be essential for me). I want it to learn for personal use &amp; perhaps for my career (up-coming programmer). Hope it&#039;s enough to help.</p>
+<p>                            Thanks in advance,<br />
+                            Joseph.</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+<div id="comment-wrapper-450853" class="indented"><a id="comment-450853"></a>
+
+  <div class="comment comment-by-node-author last even public" about="/knowledge/comment/450853#comment-450853" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2013-01-04T04:29:01+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">David Powles on Fri, 01/04/2013 - 04:29</span>      <a href="/knowledge/comment/450853#comment-450853" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/33844" class="rdf-meta"></span><span rel="sioc:reply_of" resource="/knowledge/comment/448383#comment-448383" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi Joseph,</p>
+<p>We have many experienced users of Red Hat Enterprise Linux active in the RHEL group here on the customer portal. Why not start a discussion there and ask about useful resources and books to learn from? https://access.redhat.com/groups/red-hat-enterprise-linux</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div></div></div>
+  </div>
+	</div>
+</div><!-- /.node -->
+  </div>
+
+</div><!-- /.block -->
+  </div><!-- /.region -->
+                                    
+                                </div><!-- /.section -->
+                            </div><!-- /#doc -->
+                    </div>
+                                    </article><!-- /article#main-content -->
+                            </div><!--  /#main -->
+			
+                    </div><!-- /#content -->
+            </div><!-- /#container -->
+</div><!-- /.wrapi -->
+  </div>
+
+  
+			</div>
+			<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="https://access.redhat.com/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="https://access.redhat.com/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="https://access.redhat.com/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="https://access.redhat.com/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="https://access.redhat.com/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="https://access.redhat.com/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="https://access.redhat.com/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="https://access.redhat.com/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="https://access.redhat.com/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+			</div>
+			<!-- end footerWrap -->
+		</div>
+	</div>
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="https://access.redhat.com/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+	  </body>
+</html>

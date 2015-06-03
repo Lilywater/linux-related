@@ -1,0 +1,12 @@
+
+你可以用下面的命令在根目录下创建一个你需要的目录：
+
+                devb-ram cam quiet disk name=.ram@1 ram capacity=0,nodinit blk ramdisk=10m,cache=0,vnode=256
+                dinit -q -h /dev/ram0
+                mount -tqnx4 /dev/ram0   /yourDirectoryName
+
+除了devb-ram, dinit,等命令外，你还需要加上如下的库
+
+cam-disk.so
+fs-qnx4.so
+io-blk.so

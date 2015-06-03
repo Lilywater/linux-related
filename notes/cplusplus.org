@@ -1,0 +1,1722 @@
+* C 基本
+** memory alignment
+Here is a structure with members of various types, totaling 8 bytes before compilation:
+
+struct MixedData
+{
+    char Data1;
+    short Data2;
+    int Data3;
+    char Data4;
+};
+After compilation the data structure will be supplemented with padding bytes to ensure a proper alignment for each of its members:
+
+struct MixedData  /* After compilation in 32-bit x86 machine */
+{
+    char Data1; /* 1 byte */
+    char Padding1[1]; /* 1 byte for the following 'short' to be aligned on a 2 byte boundary 
+assuming that the address where structure begins is an even number */
+    short Data2; /* 2 bytes */
+    int Data3;  /* 4 bytes - largest structure member */
+    char Data4; /* 1 byte */
+    char Padding2[3]; /* 3 bytes to make total size of the structure 12 bytes */
+};
+The compiled size of the structure is now 12 bytes. It is important to note that 
+
+
+modify the default alignment 
+#pragma pack(push)  /* push current alignment to stack */
+#pragma pack(1)     /* set alignment to 1 byte boundary */
+ 
+struct MyPackedData
+{
+    char Data1;
+    long Data2;
+    char Data3;
+};
+ 
+#pragma pack(pop)   /* restore original alignment from stack */
+This structure would have a compiled size of 6 bytes on a 32-bit system
+
+** gcc optimization
+gcc -O
+*** -O0 is the default one
+Reduce compilation time and make debugging produce the expected results.
+*** -O1/2/3
+may make the debugging miss some line which was optimized
+
+**  printf format
+printf the content of a memory address 
+it should be unsigned char *
+----------------------------------
+char ab[5]={254,10,'c'};
+void main()
+{
+  for(i=0; i< NUM; i++)
+    printf(" %02x",((unsigned char *)ab)[i]);
+// convert the pointer to (unsigned char *) is very import for the 
+//correct format output
+}
+
+-----------------------------------
+0xf3 0x0a 0x63
+------------------------
+
+%+2x(%2x)    (right alignment at least 2 characters padding space in the left)
+%-2x         (left alignment at least 2 characters padding space in the right)
+%02x    (right alignment at least 2 characters, if not enough characters to output, padding with 0 in the left)
+
+** strcpy 和memcpy
+*** string
+char *strcpy(char *dest, const char *src);
+char *strncpy(char *dest, const char *src, size_t n);
+
+DESCRIPTION
+       The  strcpy()  function copies the string pointed to by src, including the terminating null
+       byte ('\0'), to the buffer pointed to by dest.  The strings may not overlap, and the desti‐
+       nation string dest must be large enough to receive the copy.
+###strcpy  实际拷贝的字符个数是以\0为界限，所以对于没有以\0结束的字符串源，会导致越界问题
+       The strncpy() function is similar, except that at most n bytes of src are copied.  Warning:
+       If there is no null byte among the first n bytes of src, the string placed in dest will not
+       be null-terminated.
+
+strlen 和sizeof返回不同，sizeof包括('\0'），但strlen不包括
+
+*** memory
+       void *memcpy(void *dest, const void *src, size_t n);
+
+DESCRIPTION
+       The  memcpy() function copies n bytes from memory area src to memory area dest.  The memory
+       areas should not overlap.  Use memmove(3) if the memory areas do overlap.
+
+RETURN VALUE
+       The memcpy() function returns a pointer to dest.
+
+*** strlen and sizeof
+char cstr[]={'h','e','l','l','o'};
+printf ("sizeof is %d and strlen is %d\n", sizeof(cstr),strlen(cstr));
+5,5
+char str[]="hello";
+printf ("sizeof is %d and strlen is %d\n", sizeof(str),strlen(str)
+6,5
+
+*** sizeof is a function not a macro，typedef
+gcc -E 表示preprocess the file not compile it.
+lily@willow:~/libtest$ cat size.c
+#define XL(c) c++
+typedef struct list{
+int a;
+char b;
+} List;
+main()
+{
+  List ll;  
+  int s = sizeof(int);
+  XL(s);
+
+}
+lily@willow:~/libtest$ gcc -E size.c 
+# 1 "size.c"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "size.c"
+
+typedef struct list{
+int a;
+char b;
+} List;
+main()
+{
+  List ll;
+  int s = sizeof(int);
+  s++;
+
+}
+
+
+##====================
+#由此可见，sizeof是个function，而不是宏，typedef也不是宏，而是类型别名
+
+** 简单的C语言函数，考虑健壮性
+*** 字符串拷贝
+已知strcpy的函数原型：char *strcpy(char *strDest, const char *strSrc)其中strDest 是目的字符串，strSrc 是源字符串。不调用C++/C 的字符串库函数，请编写函数 strcpy。 
+
+答案： 
+
+char *strcpy(char *strDest, const char *strSrc) 
+
+{ 
+
+if ( strDest == NULL || strSrc == NULL) 
+
+return NULL ; 
+
+if ( strDest == strSrc) 
+
+return strDest ; 
+
+char *tempptr = strDest ; 
+
+while( (*strDest++ = *strSrc++) != ‘\0’) 
+
+; 
+
+return tempptr ; 
+
+} 
+*** 内存之间拷贝
+内存之间的拷贝，总是i++从小往大拷贝，这时程序员的习惯，但实际上当源和目的有交叉的情况，需要从后往前拷贝
+写一个函数，完成内存之间的拷贝。[考虑问题是否全面]
+答：
+void* mymemcpy( void *dest, const void *src, size_t count )
+{
+       char* pdest = static_cast<char*>( dest );
+       const char* psrc = static_cast<const char*>( src );
+## 这里转换类型非常必要，因为void *的指针不能*dest这样用，因为不知到此类型的实际大小
+       if( pdest>psrc && pdest<psrc+cout )  *能考虑到这种情况就行了*
+       {
+           for( size_t i=count-1; i!=-1; --i )
+                   pdest[i] = psrc[i];
+       }
+       else
+       {
+           for( size_t i=0; i<count; ++i )
+               pdest[i] = psrc[i];
+       }
+       return dest;
+}
+##  优化，兼容不同字长的计算机
+“数据类型"socklen_t"和int应该具有相同的长度。否则就会破坏 BSD套接字层的填充.POSIX开始的时候用的是size_t,
+ Linus Torvalds(他希望有更多的人,但显然不是很多) 努力向他们解释使用size_t是完全错误的,因为在64位结构中 size_t
+和int的长度是不一样的,而这个参数(也就是accept函数的第三参数)的长度必须和int一致,因为这是BSD套接字接口标准.
+最终POSIX的那帮家伙找到了解决的办法,那就是创造了一个新的类型"socklen_t".Linux Torvalds说这是由于他们发现了自己的
+错误但又不好意思向大家伙儿承认,所以另外创造了一个新的数据类型 。
+    在C++中，size_t的引入增强了程序在不同平台上的可移植性，经测试发现，在32位系统中size_t是4字节的，
+而在64位系统中，size_t是8字节的，这样利用该类型可以增强程序的可移植性。”
+
+字长是cpu的数据宽度，如果考虑效率的话，可以按cpu的字长拷贝，即 wide = sizeof（size_t);
+#得出wide可以兼容不同字长的计算机
+size_t * pidst = (size_t *) dest;
+size_t *pisrc =(size_t *) src;
+size_t remain =  pidst%wide;
+count -=remain;
+  for( size_t i=0; i<count/wide ; ++i )
+         pidst[i] = pisrc[i];
+if(remain)
+{
+  char * pcdst =(char *) dest;
+  char * pcsrc =(char *) src;
+  for( size_t j=0; j<remain ; ++j )
+         pcdst[i] = pcsrc[i];
+}
+  
+##########内存拷贝的优化版
+*** memcpy是如何优化拷贝的
+2009-06-19 17:57
+本文主要介绍下memcpy()的工作原理，其中采用的优化方法以及思路值得学习。
+
+
+以下为glibc2.5中的memcpy的源码：
+
+void *
+memcpy (dstpp, srcpp, len)
+     void *dstpp;
+     const void *srcpp;
+     size_t len;
+{
+unsigned long int dstp = (long int) dstpp;
+unsigned long int srcp = (long int) srcpp;
+//如果需要拷贝的字节数大于临界值，则会使用优化方法进行拷贝
+if (len >= OP_T_THRES)   //根据不同的情况，OP_T_THRES定义为16或8
+    {
+      len -= (-dstp) % OPSIZ; //小技巧，很值得学习
+      BYTE_COPY_FWD (dstp, srcp, (-dstp) % OPSIZ); //按照字节进行对齐
+      PAGE_COPY_FWD_MAYBE (dstp, srcp, len, len); //对于特殊平台可能使用虚拟页拷贝
+      WORD_COPY_FWD (dstp, srcp, len, len); //大字节拷贝
+    }
+BYTE_COPY_FWD (dstp, srcp, len);
+return dstpp;
+}
+
+整个memcpy的流程为：
+1. 判断需要拷贝的字节数是否大于某一临界值。如果大于临界值，则可以使用更加强大的优化手段进行拷贝。否则，直接转6。
+2. 假设要拷贝的目的地如下所示：
+
+                           
+其中start为拷贝目的地的起始地址，end为拷贝目的地的结束地址，align border为内存中的对齐边界。在大多数平台下，从内存对齐边界开始拷贝会有许多的优化方法可以使用，此处memcpy正是利用了这点。
+3. 计算start到align border的距离，此处使用了一个非常聪明的小技巧。使用 (-dstp) % OPSIZ 来计算start到align border的距离，这样可以减少一次判断。然后使用字节拷贝的方法来拷贝start到align border之间的内存。
+4. 对于特殊平台，可能使用page copy的方法。由于限制条件较多，一般x86平台下不会使用。
+5. 使用word copy的方法进行字节块拷贝，此处是memcpy优化的关键，优化的条件是拷贝地址处于对齐边界。在pentium系列平台和非pentium系列平台下，word copy有两种实现方式。
+6. 剩余的不能采用word copy的尾部使用字节拷贝。
+
+以下为x86平台下字节拷贝和字节块拷贝的实现
+字节拷贝的实现：
+#define BYTE_COPY_FWD(dst_bp, src_bp, nbytes)                                      \
+do {                                                                              \
+    int __d0;                                                                      \
+    asm volatile(/* Clear the direction flag, so copying goes forward. */    \
+                 "cld\n"                                                      \
+                 /* Copy bytes. */                                              \
+                 "rep\n"                                                      \
+                 "movsb" :                                                      \
+                 "=D" (dst_bp), "=S" (src_bp), "=c" (__d0) :                      \
+                 "0" (dst_bp), "1" (src_bp), "2" (nbytes) :                      \
+                 "memory");                                                      \
+} while (0)
+没啥好说的，利用x86的movsb指令实现字节拷贝。使用movsb指令时，需设置EDI，ESI，ECX寄存器的值,EDI寄存器存放拷贝的
+目的地址，ESI寄存器存放拷贝的源地址，ECX为需要拷贝的字节数。拷贝完成之后，EDI中的值会保存到dst_bp中，
+ESI中的值会保存到src_bp中。这也是为什么memcpy中没有出现对dst_bp操作的原因。
+
+非Pentium平台下的word copy的实现：
+#define WORD_COPY_FWD(dst_bp, src_bp, nbytes_left, nbytes)                      \
+do                                                                              \
+    {                                                                              \
+      int __d0;                                                                      \
+      asm volatile(/* Clear the direction flag, so copying goes forward. */ \
+                   "cld\n"                                                      \
+                   /* Copy longwords. */                                      \
+                   "rep\n"                                                      \
+                   "movsl" :                                                      \
+                    "=D" (dst_bp), "=S" (src_bp), "=c" (__d0) :                      \
+                   "0" (dst_bp), "1" (src_bp), "2" ((nbytes) / 4) :              \
+                   "memory");                                                      \
+      (nbytes_left) = (nbytes) % 4;                                              \
+    } while (0)
+利用x86的movsl指令实现四字节拷贝。如果movsl和movsb花费相同的cpu时钟周期，那优化后的拷贝时间将是原来的四分之一。
+恩，相当可观了。。。
+
+Pentium平台下的word copy的实现：
+#define WORD_COPY_FWD(dst_bp, src_bp, nbytes_left, nbytes)                \
+do                                                                        \
+    {                                                                        \
+      asm volatile ("subl        $32,%2\n"                                \
+                    "js                2f\n"                                        \
+                    "movl        0(%0),%%edx\n"        /* alloc dest line */        \
+                    "1:\n"                                                \
+                    "movl        28(%0),%%eax\n"        /* alloc dest line */        \
+                    "subl        $32,%2\n"        /* decr loop count */        \
+                    "movl        0(%1),%%eax\n"        /* U pipe */                \
+                    "movl        4(%1),%%edx\n"        /* V pipe */                \
+                    "movl        %%eax,0(%0)\n"        /* U pipe */                \
+                    "movl        %%edx,4(%0)\n"        /* V pipe */                \
+                    "movl        8(%1),%%eax\n"                                \
+                    "movl        12(%1),%%edx\n"                                \
+                    "movl        %%eax,8(%0)\n"                                \
+                    "movl        %%edx,12(%0)\n"                                \
+                    "movl        16(%1),%%eax\n"                                \
+                    "movl        20(%1),%%edx\n"                                \
+                    "movl        %%eax,16(%0)\n"                                \
+                    "movl        %%edx,20(%0)\n"                                \
+                    "movl        24(%1),%%eax\n"                                \
+                    "movl        28(%1),%%edx\n"                                \
+                    "movl        %%eax,24(%0)\n"                                \
+                    "movl        %%edx,28(%0)\n"                                \
+                    "leal        32(%1),%1\n"        /* update src ptr */        \
+                    "leal        32(%0),%0\n"        /* update dst ptr */        \
+                    "jns        1b\n"                                        \
+                    "2: addl        $32,%2" :                                \
+                    "=r" (dst_bp), "=r" (src_bp), "=r" (nbytes_left) :        \
+                    "0" (dst_bp), "1" (src_bp), "2" (nbytes) :                \
+                    "ax", "dx");                                        \
+    } while (0)
+字节块单元的大小变为了32。在执行过程中，利用Pentium平台下的pipeline技术。此处光看代码可能感觉不出来优化，但是
+联想一下Pentium平台下强大的流水线技术就会发现以上指令中的许多工作都可以并发执行，执行效率会大大提高。
+
+** Volatile 的作用
+volatile 影响编译器编译的结果,指出，volatile 变量是随时可能发生变化的，与volatile变量有关的运算，不要进行编译优化，以免出错
+，（VC++ 在产生release版可执行码时会进行编译优化，加volatile关键字的变量有关的运算，将不进行编译优化。）。
+
+例如：
+volatile int i=10;
+int j = i;
+...
+int k = i;
+
+volatile 告诉编译器i是随时可能发生变化的，每次使用它的时候必须从i的地址中读取，因而编译器生成的可执行码会重新从i的
+地址读取数据放在k中。
+
+而优化做法是，由于编译器发现两次从i读数据的代码之间的代码没有对i进行过操作，它会自动把上次读的数据放在k中。
+而不是重新从i里面读。这样以来，如果i是一个寄存器变量或者表示一个端口数据就容易出错，所以说volatile可以保
+建议使用volatile变量的场所：
+
+(1) 并行设备的硬件寄存器
+(2) 一个中断服务子程序中会访问到的非自动变量（全局变量）
+(3) 多线程应用中被几个任务共享的变量 证对特殊地址的稳定访问，不会出错。
+
+** 变量的内存对齐问题
+*** 概念
+　　 对齐跟数据在内存中的位置有关。如果一个变量的内存地址正好位于它长度(如果小于4，如果大于4，则取4）的整数倍，他就被称做自然对齐。比如在32位cpu下，
+假设一个整型变量的地址为0x00000004，那它就是自然对齐的。
+　　 需要字节对齐的根本原因在于CPU访问数据的效率问题。假设上面整型变量的地址不是自然对齐，比如为0x00000002，
+则CPU如果取它的值的话需要访问两次内存，第一次取从0x00000002-0x00000003的一个short，第二次取
+从0x00000004-0x00000005的一个 short然后组合得到所要的数据，如果变量在0x00000003地址上的话则要访问三次内存，
+第一次为char，第二次为short，第三次为 char，然后组合得到整型数据。而如果变量在自然对齐位置上，则只要一次就可以取出
+数据。一些系统对对齐要求非常严格，比如sparc系统，如果取未对齐的数据会发生错误，举个例：
+　　　　char ch[8];
+　　char *p = &ch[1];
+　　int i = *(int *)p;
+　　运行时会报segment error，而在x86上就不会出现错误，只是效率下降。
+
+*** 对齐的种类
+why alignmet?
+
+1.数据类型自身的对齐值：min(sizeof(type),wl) #wl,字长，32位系统为4,64为系统为8
+comparision of type long between 32bits and 64 bits
+           | 32 bit  | 64 bit |
+pointer    | 4       |   8    |
+int        | 4       |   4    |
+long       | 4       |   8    |
+### only long sizeof is different in normal type
+long long  | 8       |   8    |
+float      | 4       |   4    |   
+double     | 8       |   8    |
+char       | 1       |   1    |
+short      | 2       |   2    |
+
+   
+
+
+自身对齐值是sizeof和word length（4）中取最小值。比如char：sizeof 为1，wl为4，则char对齐为1.
+int：sizeof为4，wl为4， 则int对齐为4.
+double：sizeof为8，wl为4，则double对齐为4.
+
+      对于char型数据，其自身对齐值为1，对于short型为2，对于int,float,double类型，其自身对齐值为4，单位字节。
+虽然double sizeof是8，但是取最小的。
+2.结构体或者类,联合的自身对齐值：其成员中自身对齐值最大的那个值。
+3.指定对齐值：#pragma pack (value)时的指定对齐值value。如果没有这个宏，每个编译器都有特定的默认值，GNU和vc都是4。
+这个值一般是根据cpu的int型字长来的。
+
+也即其分配的地址只要addr%N==0
+
+4.数据成员、结构体和类的有效对齐值：自身对齐值和指定对齐值中小的那个值。
+所以数据成员在分配内存的时候是根据自身对齐值和默认的4（如果指定则用指定的）的对齐值取最小值对齐的。
+
+in a word, alignment should be less or equal to default value(word lenhth)
+in 32 bit system, 4 bytes is the word length, when no specific aligned, pack.if so, the default is n;
+n should be 2^. from 1,2,4.....
+
+
+*** example
+sizeof(long) = 4;
+sizeof(float) =4;
+sizeof(double)=8;
+struct A
+{
+char b;
+double d;
+short s;
+};
+b为第一个位置，
+d的自然对齐是N=8，而默认是4，取最小值为4，而b是一个字节，则填充3字节后为的的地址。
+s的自然对齐是N=2，而默认是4，取最小值为4，前面是12个字节了，取对齐值2，则不需填充直接用。
+A的自然对齐是其中最大的double值=8，而默认是4，则取4为默认对齐值，一共是12字节，需填充4个字节为16%4==0；
+所以sizeof(structA) 是16
+
+如果是64bit system，
+d alignment is 8, and system's alignment is 8, so d should be aligned in 8 bytes pos.
+1 +7  
+alignment min(double, wl)=8,so need padding 7 bytes
+8   
+2 + 6
+here short is 2, but the whole struct should be aligned with maximum member,double, min(double,wl) which is 8, so 
+24 totally
+
+
+struct B
+{
+ char a;
+ struct A aa;
+};
+sizoef(struct B) 是20.可见structA是4字节对齐的 
+   
+*** 更改C编译器的缺省字节对齐方式
+
+在缺省情况下，C编译器为每一个变量或是数据单元按其自然对界条件分配空间。一般地，可以通过下面的方法来改变缺省的对界条件：
+· 使用伪指令#pragma pack (n)，C编译器将按照n个字节对齐。
+· 使用伪指令#pragma pack ()，取消自定义字节对齐方式。
+
+另外，还有如下的一种方式：
+· __attribute((aligned (n)))，n必须为2的几次幂， n表示指定对齐
+· __attribute__ ((packed))，取消结构在编译过程中的优化对齐，按照实际占用字节数进行对齐。
+
+##example
+#pragma pack(1) //让编译器对这个结构作1字节对齐
+struct test
+{
+char x1;
+short x2;
+float x3;
+char x4;
+};
+#pragma pack() //取消1字节对齐，恢复为默认4字节对齐
+这时候sizeof(struct test)的值为8。
+
+#pragma pack(2) //让编译器对这个结构作2字节对齐
+struct test
+{
+char x1;      1 + pad1
+short x2;     2
+float x3;     4
+char x4;      1 +pad1   ## maximum is 2, so struct test is 2 alignment. 10 is enough
+};
+#pragma pack() //取消1字节对齐，恢复为默认4字节对齐
+这时候sizeof(struct test)的值为10。
+
+　struct stu{
+　　 char sex;
+　　 int length;
+　　 char name[10];
+　　}__attribute__ ((aligned (1)));
+
+　　　　struct stu my_stu;
+　　则sizeof(my_stu)可以得到大小为15
+
+#define GNUC_PACKED __attribute__((packed))
+struct PACKED test
+{
+char x1;
+short x2;
+float x3;
+char x4;
+}GNUC_PACKED;
+
+这时候sizeof(struct test)的值仍为8。
+
+*** 字节对齐可能带来的隐患:
+
+        代码中关于对齐的隐患，很多是隐式的。比如在强制类型转换的时候。例如：
+unsigned int i = 0x12345678;
+unsigned char *p=NULL;
+unsigned short *p1=NULL;
+
+p=&i;
+*p=0x00;
+p1=(unsigned short *)(p+1);
+*p1=0x0000;
+最后两句代码，从奇数边界去访问unsignedshort型变量，显然不符合对齐的规定。
+在x86上，类似的操作只会影响效率，但是在MIPS或者sparc上，可能就是一个error,因为它们要求必须字节对齐.
+
+** 有符号数的正0和负0
+byte signed：from -128(-2^7) to 127(2^7-1)
+-128 means the most left bit is 1, and other bit is 0
+other bits ~ +1 =128
+byte unsigned: from 0 to 255(2^8-1)
+
+** 高效的算法
+*** 输入一个字符串，将其逆序后输出。（使用C++，不建议用伪码）
+#include <iostream>
+using namespace std;
+void main()
+{
+  char a[50];memset(a,0,sizeof(a));
+  int i=0,j;
+  char t;
+  cin.getline(a,50,'\n');
+  for(i=0,j=strlen(a)-1;i<strlen(a)/2;i++,j--)  //二分查找的效率
+  {
+  t=a[i];
+  a[i]=a[j];
+  a[j]=t;
+  }
+  cout<<a<<endl;  
+}
+
+//第二种
+
+string str;
+cin>>str;
+str.replace;
+cout<<str;
+
+*** 用C++写个程序，如何判断一个操作系统是16位还是32位的？不能用sizeof()函数
+A1:
+16位的系统下，
+int i = 65536;
+cout << i; // 输出0；
+int i = 65535;
+cout << i; // 输出-1；
+
+32位的系统下，
+int i = 65536;
+cout << i; // 输出65536；
+int i = 65535;
+cout << i; // 输出65535；
+
+A2:
+
+int a = ~0;
+if( a>65536 ) 
+{
+  cout<<"32 bit"<<endl;
+}
+else
+{
+  cout<<"16 bit"<<endl;
+}
+。
+
+--------------------------------------------------------------------------
+*** 在不用第三方参数的情况下，交换两个参数的值
+#include <stdio.h>
+
+void main()
+{
+  int i=60;
+  int j=50;
+  i=i+j;
+  j=i-j;
+  i=i-j;
+  printf("i=%d\n",i);
+  printf("j=%d\n",j);
+}
+
+方法二：
+i^=j;
+j^=i;
+i^=j;
+
+方法三：
+// 用加减实现，而且不会溢出
+a = a+b-(b=a)
+
+*** 在一个升序的链表里按序插入一个新的node
+如果链表里含有相同值，返回1，如果成功插入返回0，失败返回-1.
+typedef struct taglist
+{
+  int value;
+struct taglist * netx; 
+}List;
+
+int AddNode(int value, List * pHead)
+{
+# pHead 为空的情况
+#   如果value小于或等于pHead->value, 则插入一个新值为value的头
+#  List *pl = pHead;
+   do
+  {
+   if( value > pl->value)   // there's no condition that value <= pl->value, becasue it's a ascedant order list
+// and the conditon has been dealed above the whiel, 
+   {
+       if(pl->next)
+       {
+          if(pl->next->value > value)
+          {add a new node afer pl; return 0;}
+          else if(pl->next->value == value)
+          {return 1;}
+          else pl = pl->next;
+       }
+      else
+         break;  //the new node should be the last node
+   }    
+   }while(pl);
+## deal add the node as tail of the list
+  if(pl)
+{   List * pp= new List;
+   pl->next = pp;
+  pp->value = value;
+  pp->next = NULL;  
+}
+  else
+  return -1;  //there must be something wrong 
+}
+
+** 大小端字节
+*** 概念
+小端字节是指n个字节的数据以字节为单位在内存中的存放顺序，
+低位字节存放在低内存地址里，大端则相反，一般Intel CPU采用小端
+union test
+{
+ int x;
+char b[4];
+};
+test x;
+x.x=256;
+printf("the array b is %d, %d,%d, %d",x.b[0],x.b[1],x.b[2],x.b[3]);
+0,1,0,0 
+
+ |     0000 0000    b[0]
+ |     0000 0001    b[1]
+ |     0000 0000    b[2]
+\|/    0000 0000    b[3]
+
+*** 网络字节序 
+我们在big-endian的机器上创建了这个test文件,把其复制到little-endian的机器上再用fread读到一个short里面,我们得到的就不再是0x3132而是0x3231了,这样读到的数据就是错误的,所以在两个字节顺序不一样的机器上传输数据时需要特别小心字节顺序,理解了字节顺序在可以帮助我们写出移植行更高的代码.
+正因为有字节顺序的差别,所以在网络传输的时候定义了所有字节顺序相关的数据都使用big-endian,BSD的代码中定义了四个宏来处理:
+#define ntohs(n)     //网络字节顺序到主机字节顺序 n代表net, h代表host, s代表short
+#define htons(n)     //主机字节顺序到网络字节顺序 n代表net, h代表host, s代表short
+#define ntohl(n)      //网络字节顺序到主机字节顺序 n代表net, h代表host, s代表 long
+#define htonl(n)      //主机字节顺序到网络字节顺序 n代表net, h代表host, s代表 long
+
+
+*** endian, so how to konw if your cpu is big or little endian:
+using ntohs(n)==n if true, it's big endian,.
+When you get a hexstring for 2 octets in big endian, you don't know how to interpret 
+them as a short
+in your system, casue which byte should be the first one?
+so you using ntohs(n)==n to determin the endian big/little, then get the related order
+to the addr.   
+for a system, ntohs(n)==n is equal to htons(n)==n
+-------------------
+unsigned short ss= 256;
+printf("the ss is %d and htons is %d, and ntohs is %d",ss,htons(ss),ntohs(ss) );
+ss:            256        1        1
+oss:            1         256      256
+--------------------------------------------------
+when you get a number ss, then how to encode it into the network order(big endian),
+unsigned char rawnetowrk[2] 
+a[0]=rawnetwork[0];  a[1]=rawnetwork[1];
+unsigned short dd=0;
+dd = (unsigned short *)&a[0];
+dd=ntohs(dd);   equal to dd=htons(dd);  //this code is endian compatible
+/*for a little endian, dd is different from origin, but big endian, the same*/ 
+
+
+So in such case, the two function ntohs and htons are the same.
+is not the meaning that network to host or host to network any more,
+it will exchange the bytes order(little endian) or not(big endian) in a endian known
+system. using ntohs(n)==n to determine that, for both endians sytem,
+  
+
+
+** 联合和位域
+unino and bit field
+are all pack space, especially for the embedded system,not enough memory space
+
+*** 联合
+联合是一种类型，union的大小是数据成员中最大的值的，其余的成员共享此空间
+union test
+{
+ int x;
+ char b[4];
+};
+
+*** 位结构 
+  位结构是一种特殊的结构, 在需按位访问一个字节或字的多个位时, 位结构 
+比按位运算符更加方便。 
+  位结构定义的一般形式为: 
+  struct位结构名{ 
+  数据类型 变量名: 整型常数; 
+  数据类型 变量名: 整型常数; 
+  } 位结构变量; 
+  其中: 数据类型必须是int(unsigned或signed)。 整型常数必须是非负的整 
+数, 范围是0~15, 表示二进制位的个数, 即表示有多少位。 
+  变量名是选择项, 可以不命名, 这样规定是为了排列需要。 
+  例如: 下面定义了一个位结构。 
+  struct{ 
+  unsigned incon: 8; /*incon占用低字节的0~7共8位*/ 
+  unsigned txcolor: 4;/*txcolor占用高字节的0~3位共4位*/ 
+  unsigned bgcolor: 3;/*bgcolor占用高字节的4~6位共3位*/ 
+  unsigned blink: 1; /*blink占用高字节的第7位*/ 
+  }ch; 
+  位结构成员的访问与结构成员的访问相同。 
+  例如: 访问上例位结构中的bgcolor成员可写成: 
+  ch.bgcolor 
+  
+  注意: 
+  1. 位结构中的成员可以定义为unsigned, 也可定义为signed, 但当成员长 
+度为1时, 会被认为是unsigned类型。因为单个位不可能具有符号。 
+  2. 位结构中的成员不能使用数组和指针, 但位结构变量可以是数组和指针, 
+如果是指针, 其成员访问方式同结构指针。 
+  3. 位结构总长度(位数), 是各个位成员定义的位数之和, 可以超过两个字 
+节。 
+  4. 位结构成员可以与其它结构成员一起使用。 
+  例如: 
+  struct info{ 
+  char name[8]; 
+  int age; 
+  struct addr address; 
+  float pay; 
+  unsigned state: 1; 
+  unsigned pay: 1; 
+  }workers;
+  上例的结构定义了关于一个工人的信息。其中有两个位结构成员, 每个位结 
+构成员只有一位, 因此只占一个字节但保存了两个信息, 该字节中第一位表示工 
+人的状态, 第二位表示工资是否已发放。由此可见使用位结构可以节省存贮空间。
+
+
+** extern in C 
+	"extern" changes the linkage. With the keyword, the function / variable is assumed to be available somewhere else and the resolving is deferred to the linker.
+
+	There's a difference between "extern" on functions and on variables: on variables it doesn't instantiate the variable itself, i.e. doesn't allocate any memory. This needs to be done somewhere else. Thus it's important if you want to import the variable from somewhere else. For functions, this only tells the compiler that linkage is extern. As this is the default (you use the keyword "static" to indicate that a function is not bound using extern linkage) you don't need to use it explicitly.
+
+a example is a global variable needed to be declared in the header file, which many o file needed, but the real allocation memory for this global variable need to be defineded in c file only once.
+
+
+Don't initialize variables in headers. Put declaration in header and initialization in one of the c files.
+
+In the header:
+extern int i;   // this is declaration
+
+In file2.c:
+int i=1;        // this is definition
+
+
+
+
+* C和C++
+** C和C++有什么不同
+
+从机制上：c是面向过程的（但c也可以编写面向对象的程序）；c++是面向对象的，提供了类。但是，
+c++编写面向对象的程序比c容易
+从适用的方向：c适合要求代码体积小的，效率高的场合，如嵌入式；c++适合更上层的，复杂的； llinux核心大部分是c写的，因为它是系统软件，效率要求极高。
+C语言是结构化编程语言，C++是面向对象编程语言。
+C++侧重于对象而不是过程，侧重于类的设计而不是逻辑的设计
+**  用C模拟实现C++
+//#include "stdafx.h"
+/*
+描述:纯c模拟类,纯c编写c++类,纯c实现c++类的简单范例,结构模拟类,struct 编写class.
+c编写类是实现纯c编写com组件的基础。
+*/
+#include <stdio.h>
+
+typedef struct _Vtbl
+{
+    void (*AddRef)(struct CObject* obj,int);//所有的函数的第一个参数类似class的隐匿的this指针
+    void (*Release)(struct CObject* obj);
+}Vtbl;//函数指针数组
+
+typedef struct CObject
+{
+    Vtbl vtbl;//函数指针数组指向成员函数
+    int a;
+    int b;
+}Cobj;//结构模拟类的简单定义
+
+
+void fun1(Cobj *obj,int count)//成员函数
+{
+    obj->a+=count;
+    printf("CObject::a=%d\n",obj->a);
+}
+
+void fun2(Cobj *obj)//成员函数
+{
+    obj->a--;
+    printf("CObject::a=%d\n",obj->a);
+}
+
+static Vtbl vt={fun1,fun2};//声明一个静态函数指针数组
+
+int main()
+{
+    Cobj obj;//定义对象
+    obj.vtbl=vt;
+    obj.a= 10;
+    obj.vtbl.AddRef(&obj,1);
+    obj.vtbl.Release(&obj);
+    return 0;
+} 
+
+
+* C++基本
+** 简单的String定义，C++特性
+12. 已知String类定义如下： 
+
+class String 
+
+{ 
+
+public: 
+
+String(const char *str = NULL); // 通用构造函数 
+
+String(const String &another); // 拷贝构造函数 
+
+~ String(); // 析构函数 
+
+String & operater =(const String &rhs); // 赋值函数 
+
+private: 
+
+char *m_data; // 用于保存字符串 
+
+}; 
+
+尝试写出类的成员函数实现。 
+
+答案： 
+
+String::String(const char *str) 
+
+{ 
+
+if ( str == NULL ) //strlen在参数为NULL时会抛异常才会有这步判断 
+
+{ 
+
+m_data = new char[1] ; 
+
+m_data[0] = '\0' ; 
+
+} 
+
+else 
+
+{ 
+
+m_data = new char[strlen(str) + 1];
+
+strcpy(m_data,str); 
+
+} 
+
+} 
+
+String::String(const String &another) 
+
+{ 
+
+m_data = new char[strlen(another.m_data) + 1]; 
+
+strcpy(m_data,other.m_data); 
+
+} 
+
+String& String::operator =(const String &rhs) 
+
+{ 
+
+if ( this == &rhs) 
+
+return *this ; 
+
+delete []m_data; //删除原来的数据，新开一块内存 
+
+m_data = new char[strlen(rhs.m_data) + 1]; 
+
+strcpy(m_data,rhs.m_data); 
+
+return *this ; 
+
+} 
+
+String::~String() 
+
+{ 
+
+delete []m_data ; 
+
+} 
+
+** C++ 和C 函数之间相互引用，由于C++的重载特性，编译器对C++和C函数名处理不同
+15.在C++ 程序中调用被C 编译器编译后的函数，为什么要加extern “C”？ 
+
+首先，作为extern是C/C++语言中表明函数和全局变量作用范围（可见性）的关键字，该关键字告诉编译器，其声明的函数和变量可以在本模块或其它模块中使用。 
+
+通常，在模块的头文件中对本模块提供给其它模块引用的函数和全局变量以关键字extern声明。例如，如果模块B欲引用该模块A中定义的全局变量 和函数时只需
+包含模块A的头文件即可。这样，模块B中调用模块A中的函数时，在编译阶段，模块B虽然找不到该函数，但是并不会报错；它会在连接阶段中从模 块A编译生成的目
+标代码中找到此函数 
+extern "C"是连接申明(linkage declaration),被extern "C"修饰的变量和函数是按照C语言方式编译和连接的,来看看C++中对类似C的函数是怎样编译的： 
+作为一种面向对象的语言，C++支持函数重载，而过程式语言C则不支持。函数被C++编译后在符号库中的名字与C语言的不同。例如，假设某个函数的原型为： 
+void foo( int x, int y ); 
+
+　　 
+
+该函数被C编译器编译后在符号库中的名字为_foo，而C++编译器则会产生像_foo_int_int之类的名字（不同的编译器可能生成的名字不同，
+但是都采用了相同的机制，生成的新名字称为“mangled name”）。 
+
+_foo_int_int这样的名字包含了函数名、函数参数数量及类型信息，C++就是靠这种机制来实现函数重载的。例如，在C++中，函数 void 
+foo( int x, int y )与void foo( int x, float y )编译生成的符号是不相同的，后者为 _foo_int_float。 
+
+同样地，C++中的变量除支持局部变量外，还支持类成员变量和全局变量。用户所编写程序的类成员变量可能与全局变量同名，我们以"."来区分。而 本质上，
+编译器在进行编译时，与函数的处理相似，也为类中的变量取了一个独一无二的名字，这个名字与用户程序中同名的全局变量名字不同。 
+
+未加extern "C"声明时的连接方式 
+假设在C++中，模块A的头文件如下： 
+
+// 模块A头文件　moduleA.h 
+
+#ifndef MODULE_A_H 
+
+#define MODULE_A_H 
+
+int foo( int x, int y ); 
+
+#endif
+
+在模块B中引用该函数： 
+
+// 模块B实现文件　moduleB.cpp 
+
+#include "moduleA.h" 
+
+foo(2,3); 
+
+　　 
+
+实际上，在连接阶段，连接器会从模块A生成的目标文件moduleA.obj中寻找_foo_int_int这样的符号！ 
+
+加extern "C"声明后的编译和连接方式 
+
+加extern "C"声明后，模块A的头文件变为： 
+
+// 模块A头文件　moduleA.h 
+
+#ifndef MODULE_A_H 
+
+#define MODULE_A_H 
+
+extern "C" int foo( int x, int y );
+
+#endif　　 
+
+在模块B的实现文件中仍然调用foo( 2,3 )，其结果是： 
+
+（1）模块A编译生成foo的目标代码时，没有对其名字进行特殊处理，采用了C语言的方式； 
+（2）连接器在为模块B的目标代码寻找foo(2,3)调用时，寻找的是未经修改的符号名_foo。 
+
+如果在模块A中函数声明了foo为extern "C"类型，而模块B中包含的是extern int foo( int x, int y ) ，则模块B找不到模块A中的函数；反之亦然。 
+
+所以，可以用一句话概括extern “C”这个声明的真实目的（任何语言中的任何语法特性的诞生都不是随意而为的，来源于真实世界的需求驱动。 我们在思考问题时，
+不能只停留在这个语言是怎么做的，还要问一问它为什么要这么做，动机是什么，这样我们可以更深入地理解许多问题）：实现C++与C及其 它语言的混合编程。　　 
+
+明白了C++中extern "C"的设立动机，我们下面来具体分析extern "C"通常的使用技巧： 
+
+extern "C"的惯用法 
+
+（1）在C++中引用C语言中的函数和变量，在包含C语言头文件（假设为cExample.h）时，需进行下列处理： 
+
+extern "C" 
+{ 
+
+#include "cExample.h" 
+
+} 
+
+而在C语言的头文件中，对其外部函数只能指定为extern类型，C语言中不支持extern "C"声明，在.c文件中包含了extern "C"时会出现编译语法错误。 
+
+C++引用C函数例子工程中包含的三个文件的源代码如下： 
+
+
+#ifndef C_EXAMPLE_H 
+
+#define C_EXAMPLE_H 
+
+extern int add(int x,int y); 
+
+#endif 
+
+
+#include "cExample.h" 
+
+int add( int x, int y ) 
+
+{ 
+return x + y; 
+} 
+
+// c++实现文件，调用add：cppFile.cpp 
+
+extern "C" 
+
+{ 
+
+#include "cExample.h" 
+
+} 
+
+int main(int argc, char* argv[])
+
+{ 
+
+add(2,3); 
+
+return 0; 
+
+} 
+
+如果C++调用一个C语言编写的.DLL时，当包括.DLL的头文件或声明接口函数时，应加extern "C" {　}。 
+
+（2）在C中引用C++语言中的函数和变量时，C++的头文件需添加extern "C"，但是在C语言中不能直接引用声明了extern "C"的该头文件，应该仅将C
+文件中将C++中定义的extern "C"函数声明为extern类型。 
+
+C引用C++函数例子工程中包含的三个文件的源代码如下： 
+
+//C++头文件 cppExample.h 
+
+#ifndef CPP_EXAMPLE_H 
+
+#define CPP_EXAMPLE_H
+
+extern "C" int add( int x, int y ); 
+
+#endif 
+
+//C++实现文件 cppExample.cpp 
+
+#include "cppExample.h" 
+
+int add( int x, int y ) 
+
+{ 
+
+return x + y; 
+
+} 
+
+
+extern int add( int x, int y ); 
+
+int main( int argc, char* argv[] ) 
+
+{ 
+
+add( 2, 3 ); 
+
+return 0; 
+
+} 
+
+15题目的解答请参考《C++中extern “C”含义深层探索》注解： 
+
+** 设计模式中关联，聚合
+16. 关联、聚合(Aggregation)以及组合(Composition)的区别？ 
+
+涉及到UML中的一些概念：关联是表示两个类的一般性联系，比如“学生”和“老师”就是一种关联关系；聚合表示has-a的关系，是一种相对松散的关系，
+聚合类不需要对被聚合类负责，如下图所示，用空的菱形表示聚合关系： 
+
+从实现的角度讲，聚合可以表示为: 
+
+class A {...} class B { A* a; .....} 
+
+而组合表示contains-a的关系，关联性强于聚合：组合类与被组合类有相同的生命周期，组合类要对被组合类负责，采用实心的菱形表示组合关系： 
+实现的形式是: 
+
+class A{...} class B{ A a; ...} 
+
+参考文章：http://blog.csdn.net/wfwd/archive/2006/05/30/763753.aspx
+
+http://blog.csdn.net/wfwd/archive/2006/05/30/763760.aspx 
+
+
+17.面向对象的三个基本特征，并简单叙述之？ 
+1. 封装：将客观事物抽象成类，每个类对自身的数据和方法实行protection(private, protected,public) 
+2. 继承：广义的继承有三种实现形式：实现继承（指使用基类的属性和方法而无需额外编码的能力）、可视继承（子窗体使用父窗体的外观和实现代 码）
+接口继承（仅使用属性和方法，实现滞后到子类实现）。前两种（类继承）和后一种（对象组合=>接口继承以及纯虚函数）构成了功能复用的两种方式。 
+3. 多态：是将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说，
+就是一句话：允许将子类类型的指针赋值给父类类型的指针。 
+
+
+18. 重载（overload)和重写(overried，有的书也叫做“覆盖”）的区别？ 
+常考的题目。从定义上来说： 
+重载：是指允许存在多个同名函数，而这些函数的参数表不同（或许参数个数不同，或许参数类型不同，或许两者都不同）。 
+重写：是指子类重新定义复类虚函数的方法。 
+
+从实现原理上来说： 
+重载：编译器根据函数不同的参数表，对同名函数的名称做修饰，然后这些同名函数就成了不同的函数（至少对于编译器来说是这样的）。如，有两个同名
+函数：function func(p:integer):integer;和function func(p:string):integer;。那么 编译器做过修饰后的函数名称可能是这样的：
+int_func、str_func。对于这两个函数的调用，在编译器间就已经确定了，是静态的。也就是说，它 们的地址在编译期就绑定了（早绑定）
+因此，重载和多态无关！ 
+
+重写：和多态真正相关。当子类重新定义了父类的虚函数后，父类指针根据赋给它的不同的子类指针，动态的调用属于子类的该函数，这样的函数
+调用在编译期间是无法确定的（调用的子类的虚函数的地址无法给出）。因此，这样的函数地址是在运行期绑定的（晚绑定）。
+
+** 指向同一变量的静态变量
+** sizeof and pointer+1 mean
+*** a pointer's size is system wide,in 32bit system, it's 4, and in 64bit system, it's 8.
+*** a array size is the value in []
+#include <stdio.h>
+main()
+{
+   char *a="012345";
+   char b[10]="012345";
+   printf("size of a is %d\n", sizeof(a));      4
+   printf("size of *a is %d\n", sizeof(*a));    1
+   printf("size of b is %d\n", sizeof(b));      10
+   printf("size of *b is %d\n", sizeof(*b));    1 
+   printf("address of  b  is %x\n", &b);        0x10
+   printf("address of  b +1 is %x\n", &b+1);    0x1a     //sizeof b is 10, so &b+1=addr+1*10
+   printf("address of  b[0] +1 is %x\n", &b[0]+1);    0x11     //sizeof b[0] is 1, so &b[0]+1=addr+1*1
+}
+2. int aa[]={1,2,3,4,5}
+int * p = &aa +1; 
+## p =&aa+5*4 bytes.
+## *(aa+1) is 2, so aa+1 will be &aa+4bytes
+
+
+
+1. 以下三条输出语句分别输出什么？[C易] 
+char str1[] = "abc"; 
+char str2[] = "abc"; 
+const char str3[] = "abc"; 
+const char str4[] = "abc"; 
+const char* str5 = "abc"; 
+const char* str6 = "abc"; //这种形式定义的字符串在全局内存里，并且不可写。
+cout << boolalpha << ( str1==str2 ) << endl; // 输出什么？ false
+cout << boolalpha << ( str3==str4 ) << endl; // 输出什么？ false
+cout << boolalpha << ( str5==str6 ) << endl; // 输出什么？ true
+
+3. char *a ="abcdef";
+   char b[50] = "abcdef";
+sizeof(a)= a pointer length in 64bit system is 8.
+sizeof(b)= 50;
+sizof(*a)=1;
+sizeof(*b)=1;
+
+** 内联函数inline
+内联函数是指函数体被插入到调用的代码里，没有函数的调用开销。
+内联函数一定要简单，不能有循环。
+一个函数不能即是虚函数又是内联。内联的实现机制与虚函数的实现相矛盾。
+** 空类所需的函数
+C++中的空类，默认产生哪些类成员函数？[C++易]
+=======================
+class Empty
+{
+public:
+       Empty();                             // 缺省构造函数
+       Empty( const Empty& );               // 拷贝构造函数
+       ~Empty();                            // 析构函数
+       Empty& operator=( const Empty& ); // 赋值运算符
+       Empty* operator&();                  // 取址运算符
+       const Empty* operator&() const;      // 取址运算符 const
+};
+
+===================================================
+http://cenpeng1113.blog.163.com/blog/static/8551896320101261937423/
+
+* 从内存布局理解变量，函数
+一般来说编译器现将代码编译成汇编语言，也就是函数调用等，但变量没有运行时还是静态的。
+比如这个位置要调用一下函数，就要把代码段的位置给出，让函数跳到相应代码段的函数执行。
+当程序开始运行，就开始分配内存，数据段的内存存放全局数据。
+也就是在main入口前，全局变量空间就被分配在数据段的全局数据区了。
+堆栈处理是函数调用的基本过程，实际上，函数里的所有变量（除去静态变量）都是在堆栈上分配的，
+包括临时的参数和返回值。
+堆内存是malloc，new，delet，free操作的相应内存。
+** static 在C++ 的作用
+当static作用于成员变量和成员函数时意味着什么？
+static 成员变量的内存也在全局区，而且对于static来说是一个class一个，而不是一个object一个。
+当然对于static 成员变量的操作也需要static成员函数来进行。
+static成员变量必须在全局开始处初始化，所有函数外。
+int test::ss = 0; *必须在全局处初始化类的成员变量，否则链接会报错。*
+class test{
+public: 
+   static int ss;
+   int tt;
+   static void dosss() {ss++;};
+};
+main()
+{
+ test::dosss(); *静态函数的调用形式，实际上静态函数是没有this指针的，所以只有通过类调用*
+ test a;
+ a.dosss();
+ test *p;
+ p->dosss();
+}
+*** static 成员不在对象或类的大小中
+上例中sizeof(test)为4，sizeof（a）也是4， 静态成员不算在其中
+ 
+http://blog.csdn.net/starlee/article/details/2062586
+** static 和 extern 在c中
+static作用于局部变量，则是把变量的分配区放在了全局数据区，而作用域放在了函数内。
+static作用于全局变量，表明这个变量的作用域在本C文件上。（extern则表示其他c文件可用）
+staic作用于函数，表明这个函数的可见范围在文C文件上。  （extern则表示其他c文件可用）
+---------
+main()
+{
+test();
+test();
+test();
+}
+test()
+{
+static int i=0;  *在申明时就必须初始化*
+i++;
+printf("static data is %d\n",i);
+}
+-----------------------
+
+
+* 类的函数和变量的汇编形式
+** 对于创建某个类的对象而言，实际在程序运行时所做的就是分配内存空间（非静态成员变量），而通过对象调用其成员函数(非虚函数）则是在编译的时候就确定好了。
+------------------------------------------------------------
+class CNullPointCall
+{
+public:
+    static void Test1();
+    void Test2();
+    void Test3(int iTest);
+    void Test4();
+
+private:
+    static int m_iStatic;
+    int m_iTest;
+};
+
+int CNullPointCall::m_iStatic = 0;
+void CNullPointCall::Test1()
+{
+    cout << m_iStatic << endl;
+}
+void CNullPointCall::Test2()
+{
+    cout << "Very Cool!" << endl; 
+}
+void CNullPointCall::Test3(int iTest)
+{
+    cout << iTest << endl; 
+}
+void CNullPointCall::Test4()
+{
+    cout << m_iTest << endl; 
+}
+
+CNullPointCall *pNull = NULL; // *没错，就是给指针赋值为空*
+pNull->Test1(); // call 1  // *CNullPointCall::Test1()* //括号内是函数的地址
+pNull->Test2(); // call 2  
+pNull->Test3(13); // call 3
+pNull->Test4(); // call 4
+--------------------------------------------
+空指针并不影响对成员函数的调用，因为这是编译期间就做好的，而根据就是pNull的原型来做的。
+那么pNull这个实际分配内存的对象地址怎样传入呢？这是通过this指针完成的。
+c++代码向C代码的转换，实际上C++是基于C的，至少在第一阶段，编译器会先把C++代码转换成C代码的形式，可见C++是包裹了C的。
+CNullPointCall::Test4(CNullPointCall *this)
+{
+cout << this->m_iTest <<endl;
+}
+pNull->Test4();  *//CNullPointCall::Test4(pNull);//*
+所以这个call4 会导致segmention fault，用了空指针
+但其他三个函数的调用将是成功的，因为没有操作对象的变量（非静态变量）；
+
+** class类型的强制转换
+为什么要有强制转换，那是因为这两个类型会有些联系，比如把子类指针强制转换给父类
+结果是什么呢？
+---------------------
+class Parent
+{
+public:
+void  func1(){}
+  int var;
+}
+class Child
+{
+public:
+ void func1(){}
+  int var1;
+}
+Parent * p=new Child();
+p->func1();   *// Parent::func1(p);* 
+cout << p->var1;   *// cout << Parent::var1;这里将编译不过*
+也就是说p在外部只能调用和Parent相关的函数和变量，不能访问Child自己的，虽然实际p是Child的地址。
+但是还是可以通过强制转换来分文var1
+int * pv = (int *)p;
+cout << *(++pv); *这里就可以访问var1了，Child有两个变量var和var1，++pv就是var1的地址*
+
+** C++的多态，虚函数
+对于编译器而言，规则就是这样，在对函数的调用必须是编译期间就决定好的，如果想动态地在程序运行时改变，似乎是很困难的，
+虽然类型可以转换，但是p让然访问不了除了parent的Child的函数，当然变量还是可以的，虽然表面调用不行，但至少可以通过
+偏移地址，如上例。
+这时虚函数就登场了，这是设计者do the trick。
+既然通过地址总可以访问到变量，那么就将函数于变量联系起来，这就是虚拟函数表的指针。
+对于含有虚拟函数的对象里，总有一个虚拟函数表指针，指向虚拟函数表，这个表包含这个类所有的虚拟函数地址。pVtab
+是这个对象的第一个成员变量,指针指向虚函数表。
+===============================
+class Parent()
+{
+public:
+  virtual fun1() {}
+ int var;
+};
+class Child():public Parent
+{
+public:
+ virtual func1() {}
+ int var1;
+};
+typedef void(*Fun)(void); *//函数的指针*
+main()
+{
+  Child cd;
+  int ** pVtab = (int **)&cd;
+  Fun pFun;
+  for (int i=0; (Fun)pVtab[0][i]!=NULL; i++){
+                pFun = (Fun)pVtab[0][i];
+                cout << "    ["<<i<<"] ";
+                pFun();
+    }
+  cout << "var is " << (int)pVtab[1];
+  cout << "var1 is" << (int)pVtab[2];
+}
+==========================================
+
+* C++对象的析构和构造顺序
+构造函数
+    先看看构造函数的调用顺序规则，只要我们在平时编程的时候遵守这种约定，任何关于构造函数的调用问题都能解决；构造函数的调用顺序总是如下：
+1.基类构造函数。如果有多个基类，则构造函数的调用顺序是某类在类派生表中出现的顺序，而不是它们在成员初始化表中的顺序。
+2.成员类对象构造函数。如果有多个成员类对象则构造函数的调用顺序是对象在类中被声明的顺序，而不是它们出现在成员初始化表中的顺序。
+3.派生类构造函数。
+
+析构函数
+    析构函数的调用顺序与构造函数的调用顺序正好相反，将上面3个点反过来用就可以了，首先调用派生类的析构函数；其次再调用成员类对象的析构函数；最后调用基类的析构函数。
+    析构函数在下边3种情况时被调用：
+    1.对象生命周期结束，被销毁时(一般类成员的指针变量与引用都i不自动调用析构函数)；
+    2.delete指向对象的指针时，或delete指向对象的基类类型指针，而其基类虚构函数是虚函数时；
+    3.对象i是对象o的成员，o的析构函数被调用时，对象i的析构函数也被调用。
+
+** 多次继承并有某个类的对象作为数据成员
+下面用例子来说说构造函数的的调用顺序：
+#include "stdafx.h"
+#include "iostream"
+using namespace std;
+class Base
+{
+public:
+    Base(){ std::cout<<"Base::Base()"<<std::endl; }
+    ~Base(){ std::cout<<"Base::~Base()"<<std::endl; }
+};
+
+class Base1:public Base
+{
+public:
+    Base1(){ std::cout<<"Base1::Base1()"<<std::endl; }
+    ~Base1(){ std::cout<<"Base1::~Base1()"<<std::endl; }
+};
+
+class Derivei
+{
+public:
+    Derive(){ std::cout<<"Derive::Derive()"<<std::endl; }
+    ~Derive(){ std::cout<<"Derive::~Derive()"<<std::endl; }
+};
+
+class Derive1:public Base1
+{
+private:
+    Derive m_derive;
+public:
+    Derive1(){ std::cout<<"Derive1::Derive1()"<<std::endl; }
+    ~Derive1(){ std::cout<<"Derive1::~Derive1()"<<std::endl; }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    Derive1 derive;
+    return 0;
+}
+
+运行结果是：
+Base::Base()
+Base1::Base1()
+Derive::Derive()
+Derive1::Derive1()
+Derive1::~Derive1()
+Derive::~Derive()
+Base1::~Base1()
+Base::~Base()
+
+那么根据上面的输出结果，笔者稍微进行一下讲解，构造函数的调用顺序是；首先，如果存在基类，那么先调用基类的构造函数，如果基类的构造函数中仍然存在基类，那么程序会继续进行向上查找，直到找到它最早的基类进行初始化；如上例中类Derive1，继承于类Base与Base1；其次，如果所调用的类中定义的时候存在着对象被声明，那么在基类的构造函数调用完成以后，再调用对象的构造函数，如上例中在类Derive1中声明的对象Derive m_derive；最后，将调用派生类的构造函数，如上例最后调用的是Derive1类的构造函数。
+
+** virtual析构函数
+下面来说一说为多态基类声明virtual析构函数：
+在C++中，构造函数不能声时为虚函数，这是因为编译器在构造对象时，必须知道确切类型，才能正确的生成对象，因此，不允许使用动态束定；其次，在构造函数执行之前，对象并不存在，无法使用指向此此对象的指针来调用构造函数，然而，析构函数是可以声明为虚函数；C++明白指出，当derived class对象经由一个base class指针被删除，而该base class带着一个non-virtual析构函数，其结果未有定义---实际执行时通常发生的是对象的derived成分没被销毁掉。
+
+看下面的例子：
+class Base
+{
+public:
+    Base(){ std::cout<<"Base::Base()"<<std::endl; }
+    ~Base(){ std::cout<<"Base::~Base()"<<std::endl; }
+};
+
+class Derive:public Base
+{
+public:
+    Derive(){ std::cout<<"Derive::Derive()"<<std::endl; }
+    ~Derive(){ std::cout<<"Derive::~Derive()"<<std::endl; }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    Base* pBase = new Derive(); 
+    //这种base classed的设计目的是为了用来"通过base class接口处理derived class对象"
+    delete pBase;
+
+    return 0;
+}
+
+输出的结果是：
+Base::Base()
+Derive::Derive()
+Base::~Base()
+从上面的输出结果可以看出，析构函数的调用结果是存在问题的，也就是说析构函数只作了局部销毁工作，这可能形成资源泄漏败坏数据结构等问题；那么
+解决此问题的方法很简单，给base class一个virtual析构函数；
+
+class Base
+{
+public:
+    Base(){ std::cout<<"Base::Base()"<<std::endl; }
+    virtual ~Base(){ std::cout<<"Base::~Base()"<<std::endl; }
+};
+
+class Derive:public Base
+{
+public:
+    Derive(){ std::cout<<"Derive::Derive()"<<std::endl; }
+    ~Derive(){ std::cout<<"Derive::~Derive()"<<std::endl; }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    Base* pBase = new Derive();
+    delete pBase;
+
+    return 0;
+}
+
+输出结果是：
+Base::Base()
+Derive::Derive()
+Derive::~Derive()
+Base::~Base()
+可能上面的输出结果正是我们所希望的吧，呵呵！由此还可以看出虚函数还是多态的基础，在C++中没有虚函数就无法实现多态特性；因为不声明
+为虚函数就不能实现“动态联编”，所以也就不能实现多态啦！
+* C++ 纯虚函数和虚基类
+** 虚基类的概念
+class A  
+{  
+public:  
+    int iValue;  
+};  
+  
+class B:public A  
+{  
+public:  
+    void bPrintf(){cout<<"This is class B"<<endl;};  
+};  
+  
+class C:public A  
+{  
+public:  
+    void cPrintf(){cout<<"This is class C"<<endl;};  
+};  
+  
+class D:public B,public C  
+{  
+public:  
+    void dPrintf(){cout<<"This is class D"<<endl;};  
+};  
+  
+void main()  
+{  
+    D d;  
+    cout<<d.iValue<<endl; //错误，不明确的访问  
+    cout<<d.A::iValue<<endl; //正确  
+    cout<<d.B::iValue<<endl; //正确  
+    cout<<d.C::iValue<<endl; //正确  
+}  
+从代码中可以看出类B C都继承了类A的iValue成员,因此类B C都有一个成员变量iValue ，而类D又继承了B C，这样类D就有一个重名的成员 iValue(一个是
+从类B中继承过来的，一个是从类C中继承过来的).在主函数中调用d.iValue 因为类D有一个重名的成员iValue编译器不知道调用 从谁继承过来的iValue所以
+就产生的二义性的问题.正确的做法应该是加上作用域限定符 d.B::iValue 表示调用从B类继承过来的iValue。不过 类D的实例中就有多个iValue的实例，
+就会占用内存空间。所以C++中就引用了虚基类的概念，来解决这个问题。 
+
+C++代码  
+class A  
+{  
+public:  
+    int iValue;  
+};  
+  
+class B:virtual public A  
+{  
+public:  
+    void bPrintf(){cout<<"This is class B"<<endl;};  
+};  
+  
+class C:virtual public A  
+{  
+public:  
+    void cPrintf(){cout<<"This is class C"<<endl;};  
+};  
+  
+class D:public B,public C  
+{  
+public:  
+    void dPrintf(){cout<<"This is class D"<<endl;};  
+};  
+  
+void main()  
+{  
+    D d;  
+    cout<<d.iValue<<endl; //正确  
+}  
+在继承的类的前面加上virtual关键字表示被继承的类是一个虚基类，它的被继承成员在派生类中只保留一个实例。例如iValue这个成员，从类 D这个角度上来
+看，它是从类B与类C继承过来的，而类B C又是从类A继承过来的，但它们只保留一个副本。因此在主函数中调用d.iValue时就不 会产生错误。 
+
+
+** 纯虚函数和抽象类
+纯虚函数 
+    与其叫纯虚函数还不如叫抽象类,它只是声明一个函数但不实现它，让派生类去实现它,其实这也很好理解。 
+
+C++代码  
+class Vehicle  
+{  
+public:  
+    virtual void PrintTyre()=0; //纯虚函数是这样定义的  
+};  
+  
+class Camion:public Vehicle  
+{  
+public:  
+    virtual void PrintTyre(){cout<<"Camion tyre four"<<endl;};  
+};  
+  
+class Bike:public Vehicle  
+{  
+public:  
+    virtual void PrintTyre(){cout<<"Bike tyre two"<<endl;};  
+};  
+  
+void main()  
+{  
+    Camion c;  
+    Bike b;  
+    b.PrintTyre();  
+    c.PrintTyre();  
+}  
+如上代码，定义了一个交通工具类（Vehicle），类中有一函数可打印出交通工具的轮胎个数，但交通工具很多轮胎个数自然也就不确定，
+所以 就把它定义为纯虚函数,也就是光定义函数名不去实现它，类Camion继承了Vehicle并实现了里面的代码，打印出有4个轮胎。
+Bike类也是一样。有一点须要注意一下，纯虚函数不能实化化，但可以声明指针。 
+
+
+总结 
+
+    虚基类 
+    1, 一个类可以在一个类族中既被用作虚基类，也被用作非虚基类。 
+    2, 在派生类的对象中，同名的虚基类只产生一个虚基类子对象，而某个非虚基类产生各自的子对象。 
+    3, 虚基类子对象是由最派生类的构造函数通过调用虚基类的构造函数进行初始化的。 
+    4, 最派生类是指在继承结构中建立对象时所指定的类。 
+    5, 派生类的构造函数的成员初始化列表中必须列出对虚基类构造函数的调用；如果未列出，则表示使用该虚基类的缺省构造函数。 
+    6, 从虚基类直接或间接派生的派生类中的构造函数的成员初始化列表中都要列出对虚基类构造函数的调用。但只有用于建立对象的最派生 类的构造函数调用虚基类的构造函数，而该派生类的所有基类中列出的对虚基类的构造函数的调用在执行中被忽略，从而保证对虚基类子对象只初始化一次。 
+    7, 在一个成员初始化列表中同时出现对虚基类和非虚基类构造函数的调用时，虚基类的构造函数先于非虚基类的构造函数执行。 
+
+    虚函数 
+    1, 虚函数是非静态的、非内联的成员函数，而不能是友元函数，但虚函数可以在另一个类中被声明为友元函数。 
+    2, 虚函数声明只能出现在类定义的函数原型声明中，而不能在成员函数的函数体实现的时候声明。 
+    3, 一个虚函数无论被公有继承多少次，它仍然保持其虚函数的特性。 
+    4, 若类中一个成员函数被说明为虚函数，则该成员函数在派生类中可能有不同的实现。当使用该成员函数操作指针或引用所标识的对象时 ，对该成员函数调用
+可采用动态联编。 
+    5, 定义了虚函数后，程序中声明的指向基类的指针就可以指向其派生类。在执行过程中，该函数可以不断改变它所指向的对象，调用不同 版本的成员函数，而且这些动作都是在运行时动态实现的。虚函数充分体现了面向对象程序设计的动态多态性。纯虚函数 版本的成员函数，而且这些动作都是在运行时动态实现的。虚函数充分体现了面向对象程序设计的动态多态性。 
+
+    纯虚函数 
+    1, 当在基类中不能为虚函数给出一个有意义的实现时，可以将其声明为纯虚函数，其实现留待派生类完成。 
+    2, 纯虚函数的作用是为派生类提供一个一致的接口。 
+    3, 纯虚函数不能实化化，但可以声明指针。
+
+
+* 操作系统相关知识
+** 实时系统和非实时系统的区别
+实时系统（Real-time operating system,RTOS）的正确性不仅依赖系统计算的逻辑结果，还依赖于产生这个结果的时间。实时系统能够在
+指定或者确定的时间内完成系统功能和外部或内部、同步或异步时间做出响应的系统。因此实时系统应该在事先定义的时间范围内识别和处
+理离散事件的能力；系统能够处理和储存控制系统所需要的大量数据
+实时系统根据任务优先级严格控制任务的相应时间，高优先级的任务能够抢占正在执行的低优先级任务的处理器，
+这样会造成程序运行的上下文频繁切换。
+而非实时系统则不这样，正在执行的任务不能被高优先级任务抢占，除非自己主动放弃，或结束。
+
+* 网络相关知识
+** ISO七层网络模型和 TCP/IP五层协议
+| Physical Layer    |             | Hub    |          |
+| Link Layer        | Mac address | Switch | ARP,RARP |
+| Internet Layer    | Ip address  | Route  |ICMP,IGMP |
+| Trasport Layer    | TCP/UDP     |        |SSL,TLS   |
+| Application Layer | port        |        |FTP, Simple Mail Transfer Protocol (SMTP)                                          |
+
+** tcp/ip连接与释放问题
+连接有三次握手，释放有四次握手，
+释放时第三次握手问题是A到B已经关闭，但是为什么A还能向B传送数据。
+
+** tcp和udp链接的区别
+
+面向链接和非面向连接的区别，保证数据传输的可靠性和快捷性的区别
+
++++++++++++++++++++++++++
+* c plus plus
+class Base
+{
+ public:
+  Base(int pa=6)  // default value of pa , no Base() will be generated anymore 
+  {a = pa;}    // inline function(put function declare and definition together
+               // inline function is not a reaaly function, no function caliing and stack
+              // use, just handled in preprocess. gcc -E will see?
+  virtual  ~Base ()  // no function parameter of course, for this will be implicitly called.
+  { cout << "base destruction";}
+  int a;
+}
+class Derived
+{
+public: 
+ Derived(int pa, int pb):Base()  //here Base is in default invoking
+ Derived(int pa, int pb)  //here Base() is in implicitly invoking, if no B() define
+// there will be compilation error. if no construction function at all in Base, then
+// c++ will genrated Base(); Base(Base &other);  ~Base();  Base & Operator=( const Base & other) ;
+ 
+ Derived(int pa, int pb):Base(pb)  //here Base is in default invoking
+{
+  b=pb;
+  a= pa;  // this is the error usage, for a should be init in Base like Base(pa)
+ }
+  ~
+ virtual ~Derived ()  // no function parameter of course, for this will be implicitly called.
+// virtual destruction func means this des func will be in virtual function table;
+// Base *p = new Derived(3,4);
+//  delete p;  /* here will invoke  ~Derived not ~Base */
+  { cout << "Derived destruction";}
+int b;
+
+}
+
+Derived d;
+print d Derived instance like:
+$5 = {<Base> = {_vptr.Base = 0x8048e10, a = 99}, b = 3}
+                //virtal func table pointer, if no virtual func, no this pointer 
+when d is out of the life scope
+~Derived() will be invoked and it will implicitly invoking base destructor, the order is vs constructor order 
+// Derived des firstly, then Base des secondly
+"Derived destrunction"
+"Base destruction"
+
+####
+friend function
+Friend functions
+In principle, private and protected members of a class cannot be accessed from outside the same class in which they are declared. However, this rule does not apply to "friends".
+
+Friends are functions or classes declared with the friend keyword.
+
+A non-member function can access the private and protected members of a class if it is declared a friend of that class. That is done by including a declaration of this external function within the class, and preceding it with the keyword friend:
+
+
+// friend functions
+#include <iostream>
+using namespace std;
+
+class Rectangle {
+    int width, height;
+  public:
+    Rectangle() {}
+    Rectangle (int x, int y) : width(x), height(y) {}
+    int area() {return width * height;}
+    friend Rectangle duplicate (const Rectangle&);
+};
+
+Rectangle duplicate (const Rectangle& param)
+{
+  Rectangle res;
+  res.width = param.width*2;
+  res.height = param.height*2;
+  return res;
+}
+
+int main () {
+  Rectangle foo;
+  Rectangle bar (2,3);
+  foo = duplicate (bar);
+  cout << foo.area() << '\n';
+  return 0;
+}
+
+########################
+in 64bit sytem, int is 4 bytes long(for compatible), but pointer is 8bytes long.
+int aa[]={1,2,3,4,5}
+int *ptr=(int *)(&aa +1);  // &aa +1 means &aa + 5*4(bytes)
+while *(aa+1) // aa+1 means &aa + 4 bytes
+
+
+

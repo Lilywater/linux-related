@@ -1,0 +1,23 @@
+#!/bin/bash
+if [ -z "$1" ]
+then
+SCOPE=verify
+else
+SCOPE="$1"
+fi
+
+~/ttcn/MME_SGSN_tester/project/makeScope.sh "$SCOPE" 1>erlog 2>&1 &
+
+#make -f MakefileCutTime SCOPE=verify -j3 auto_gen 1>11 2>erlog &
+pid="$!"
+#echo "make -f MakefileCutTime SCOPE=verify -j3 auto_gen 1>11 2>erlog &"
+echo "~/ttcn/MME_SGSN_tester/project/makeScope.sh $SCOPE 1>erlog 2>&1 &
+"
+#pid=`ps ux|grep -m 1 make |awk '{print $2}'`
+#if [ ! -z "$?"  ]
+#then
+#echo "no make program running\n"
+#exit
+#fi
+
+tail -F --pid="$pid" erlog

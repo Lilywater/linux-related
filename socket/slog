@@ -1,0 +1,123 @@
+17194 13:52:05.177730 execve("./sss", ["./sss"], [/* 45 vars */]) = 0
+17194 13:52:05.178145 uname({sys="Linux", node="localhost.localdomain", ...}) = 0
+17194 13:52:05.178301 brk(0)            = 0x9036000
+17194 13:52:05.178357 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178430 open("tls/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178478 open("tls/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178521 open("tls/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178563 open("tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178604 open("i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178647 open("i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178688 open("sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178730 open("libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178770 open("/opt/tools/openssl/lib/tls/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178823 stat64("/opt/tools/openssl/lib/tls/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178874 open("/opt/tools/openssl/lib/tls/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178923 stat64("/opt/tools/openssl/lib/tls/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.178979 open("/opt/tools/openssl/lib/tls/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179029 stat64("/opt/tools/openssl/lib/tls/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179074 open("/opt/tools/openssl/lib/tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179123 stat64("/opt/tools/openssl/lib/tls", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179167 open("/opt/tools/openssl/lib/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179217 stat64("/opt/tools/openssl/lib/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179264 open("/opt/tools/openssl/lib/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179312 stat64("/opt/tools/openssl/lib/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179357 open("/opt/tools/openssl/lib/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179405 stat64("/opt/tools/openssl/lib/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179449 open("/opt/tools/openssl/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179496 stat64("/opt/tools/openssl/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+17194 13:52:05.179577 open("/opt/tools/gmp/lib/tls/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179627 stat64("/opt/tools/gmp/lib/tls/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179673 open("/opt/tools/gmp/lib/tls/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179721 stat64("/opt/tools/gmp/lib/tls/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179766 open("/opt/tools/gmp/lib/tls/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179814 stat64("/opt/tools/gmp/lib/tls/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179859 open("/opt/tools/gmp/lib/tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179906 stat64("/opt/tools/gmp/lib/tls", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.179949 open("/opt/tools/gmp/lib/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180006 stat64("/opt/tools/gmp/lib/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180052 open("/opt/tools/gmp/lib/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180110 stat64("/opt/tools/gmp/lib/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180154 open("/opt/tools/gmp/lib/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180201 stat64("/opt/tools/gmp/lib/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180244 open("/opt/tools/gmp/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180290 stat64("/opt/tools/gmp/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+17194 13:52:05.180360 open("/opt/tools/mpfr/lib/tls/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180410 stat64("/opt/tools/mpfr/lib/tls/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180456 open("/opt/tools/mpfr/lib/tls/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180504 stat64("/opt/tools/mpfr/lib/tls/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180549 open("/opt/tools/mpfr/lib/tls/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180597 stat64("/opt/tools/mpfr/lib/tls/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180642 open("/opt/tools/mpfr/lib/tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180689 stat64("/opt/tools/mpfr/lib/tls", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180732 open("/opt/tools/mpfr/lib/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180780 stat64("/opt/tools/mpfr/lib/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180825 open("/opt/tools/mpfr/lib/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180872 stat64("/opt/tools/mpfr/lib/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180916 open("/opt/tools/mpfr/lib/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.180971 stat64("/opt/tools/mpfr/lib/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181016 open("/opt/tools/mpfr/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181062 stat64("/opt/tools/mpfr/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+17194 13:52:05.181132 open("/opt/tools/gcc-4.3.2/lib/tls/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181184 stat64("/opt/tools/gcc-4.3.2/lib/tls/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181231 open("/opt/tools/gcc-4.3.2/lib/tls/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181280 stat64("/opt/tools/gcc-4.3.2/lib/tls/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181326 open("/opt/tools/gcc-4.3.2/lib/tls/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181375 stat64("/opt/tools/gcc-4.3.2/lib/tls/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181422 open("/opt/tools/gcc-4.3.2/lib/tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181470 stat64("/opt/tools/gcc-4.3.2/lib/tls", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181515 open("/opt/tools/gcc-4.3.2/lib/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181566 stat64("/opt/tools/gcc-4.3.2/lib/i686/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181613 open("/opt/tools/gcc-4.3.2/lib/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181660 stat64("/opt/tools/gcc-4.3.2/lib/i686", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181705 open("/opt/tools/gcc-4.3.2/lib/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181753 stat64("/opt/tools/gcc-4.3.2/lib/sse2", 0xbf902dfc) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181807 open("/opt/tools/gcc-4.3.2/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+17194 13:52:05.181854 stat64("/opt/tools/gcc-4.3.2/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+17194 13:52:05.181926 open("/etc/ld.so.cache", O_RDONLY) = 3
+17194 13:52:05.181999 fstat64(3, {st_mode=S_IFREG|0644, st_size=84070, ...}) = 0
+17194 13:52:05.182064 old_mmap(NULL, 84070, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb77fb000
+17194 13:52:05.182121 close(3)          = 0
+17194 13:52:05.182171 open("/lib/tls/libc.so.6", O_RDONLY) = 3
+17194 13:52:05.182218 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\20\377"..., 512) = 512
+17194 13:52:05.182273 fstat64(3, {st_mode=S_IFREG|0755, st_size=1454546, ...}) = 0
+17194 13:52:05.182337 old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77fa000
+17194 13:52:05.182397 old_mmap(0x45dfb000, 1219772, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x45dfb000
+17194 13:52:05.182451 old_mmap(0x45f1f000, 16384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x124000) = 0x45f1f000
+17194 13:52:05.182514 old_mmap(0x45f23000, 7356, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x45f23000
+17194 13:52:05.182570 close(3)          = 0
+17194 13:52:05.182618 old_mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77f9000
+17194 13:52:05.182746 mprotect(0x45f1f000, 4096, PROT_READ) = 0
+17194 13:52:05.182791 mprotect(0x45df7000, 4096, PROT_READ) = 0
+17194 13:52:05.182828 set_thread_area({entry_number:-1 -> 6, base_addr:0xb77f96c0, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0
+17194 13:52:05.182877 munmap(0xb77fb000, 84070) = 0
+17194 13:52:05.182939 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 3
+17194 13:52:05.183006 fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 13), ...}) = 0
+17194 13:52:05.183075 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb780f000
+17194 13:52:05.183120 write(1, "sock sucessful\n", 15) = 15
+17194 13:52:05.183187 bind(3, {sa_family=AF_INET, sin_port=htons(8003), sin_addr=inet_addr("127.0.0.1")}, 16) = 0
+17194 13:52:05.183239 write(1, "bind sucess\n", 12) = 12
+17194 13:52:05.183284 listen(3, 12)     = 0
+17194 13:52:05.183334 write(1, "listen sucessful\n", 17) = 17
+17194 13:52:05.183377 write(1, "begin accept:\n", 14) = 14
+17194 13:52:05.183423 accept(3, {sa_family=AF_INET, sin_port=htons(46792), sin_addr=inet_addr("127.0.0.1")}, [16]) = 4
+17194 13:52:07.961654 write(1, "accept a new client,ip:127.0.0.1"..., 51) = 51
+17194 13:52:07.961728 clone(child_stack=0, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77f9708) = 17196
+17194 13:52:07.961842 close(4)          = 0
+17196 13:52:07.961968 close(3 <unfinished ...>
+17194 13:52:07.962016 write(1, "begin accept:\n", 14 <unfinished ...>
+17196 13:52:07.962044 <... close resumed> ) = 0
+17194 13:52:07.962070 <... write resumed> ) = 14
+17194 13:52:07.962099 accept(3,  <unfinished ...>
+17196 13:52:07.962150 write(1, "begin recv count: 0\n", 20) = 20
+17196 13:52:07.962413 recv(4, "tigerjibo\0", 50, 0) = 10
+17196 13:52:07.962683 write(1, "recv sucessful:tigerjibo\n", 25) = 25
+17196 13:52:07.962912 write(1, "begin send count 0\n", 19) = 19
+17196 13:52:07.963025 send(4, "recv 10 numbers bytes\n\0\277\324\177\337E\370\204\337"..., 50, 0) = 50
+17196 13:52:07.963142 write(1, "send sucess\n", 12) = 12
+17196 13:52:07.963214 --- SIGSEGV (Segmentation fault) @ 0 (0) ---
+17194 13:52:07.963964 <... accept resumed> 0xbf9037d0, [16]) = ? ERESTARTSYS (To be restarted)
+17194 13:52:07.964000 --- SIGCHLD (Child exited) @ 0 (0) ---
+17194 13:52:07.964026 accept(3, 0xbf9037d0, [16]) = ? ERESTARTSYS (To be restarted)
+17194 13:52:11.368457 --- SIGINT (Interrupt) @ 0 (0) ---
+17194 13:52:11.368545 +++ killed by SIGINT +++

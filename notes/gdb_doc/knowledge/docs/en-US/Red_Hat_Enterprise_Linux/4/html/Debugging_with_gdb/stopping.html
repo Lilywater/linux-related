@@ -1,0 +1,1484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head dir="ltr">
+	<script type="text/javascript">
+		var siteMapState="";
+	</script>
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Stopping and Continuing - Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon04" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script><link rel="HOME" title="Red Hat Enterprise Linux 4" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/index.html"><link rel="PREVIOUS" title="Debugging programs with multiple processes" <link rel="PREVIOUS" title="Debugging programs with multiple processes" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/processes.html"><link rel="NEXT" title="Continuing and stepping" <link rel="NEXT" title="Continuing and stepping" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/continuing-and-stepping.html"><link rel="STYLESHEET" type="text/css" <link rel="STYLESHEET" type="text/css" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/rhdocs-man.css" />
+		<link rel="stylesheet" type="text/css" href="/chrome_themes/umbra/s/docs.css" />
+</head>
+
+<body dir="ltr" class="sfdc_available ">
+
+	<div id="outer-wrapper" class="wrapo"><div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="/home">
+						<img src="/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+		<div id="main-wrap" class="wrapu">
+			<div id="main-top"></div>
+			<div class="wrapi">
+				<div id="container" class="clearWrap">
+					<div id="content" class="c-mF">
+						<!--googleoff: all--><noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript><!--googleon: all-->		
+						<div id="main" class=""><!--googleoff: all--><div id="breadcrumbs"><a href="/knowledge/">Knowledge</a> &gt; <a href="/knowledge/docs/">Product Documentation</a> &gt; <a href="/knowledge/docs/Red_Hat_Enterprise_Linux/">Red Hat Enterprise Linux</a> &gt; 4</div><!--googleon: all--><div class="NAVHEADER"><table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><th colspan="3" align="center">Red Hat Enterprise Linux 4: Debugging with gdb</th></tr><tr><td width="10%" align="left" valign="bottom"><a href="processes.html" accesskey="P">Prev</a></td><td width="80%" align="center" valign="bottom"></td><td width="10%" align="right" valign="bottom"><a href="continuing-and-stepping.html" accesskey="N">Next</a></td></tr></table><hr align="LEFT" width="100%" /></div><div class="CHAPTER"><h1><a name="STOPPING"></a>Chapter 7. Stopping and Continuing</h1><p>The principal purposes of using a debugger are so that you can stop your
+program before it terminates; or so that, if your program runs into
+trouble, you can investigate and find out why.
+  </p><p>Inside gdb, your program may stop for any of several reasons,
+such as a signal, a breakpoint, or reaching a new line after a
+gdb command such as <tt class="COMMAND">step</tt>.  You may then examine and
+change variables, set new breakpoints or remove old ones, and then
+continue execution.  Usually, the messages shown by gdb provide
+ample explanation of the status of your program--but you can also
+explicitly request this information at any time.
+  </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">info program</tt></dt><dd><p>Display information about the status of your program: whether it is
+running or not, what process it is, and why it stopped.
+     </p></dd></dl></div><div class="SECT1"><h1 class="SECT1"><a name="BREAKPOINTS"></a>7.1. Breakpoints, watchpoints, and catchpoints</h1><p>A <i class="FIRSTTERM">breakpoint</i> makes your program stop whenever a certain point in
+the program is reached.  For each breakpoint, you can add conditions to
+control in finer detail whether your program stops.  You can set
+breakpoints with the <tt class="COMMAND">break</tt> command and its variants (refer to <a href="stopping.html#SET-BREAKS">Section 7.1.1 <i>Setting breakpoints</i></a>), to specify the place where your program
+should stop by line number, function name or exact address in the
+program.
+   </p><p>In HP-UX, SunOS 4.x, SVR4, and Alpha OSF/1 configurations, you can set
+breakpoints in shared libraries before the executable is run.  There is
+a minor limitation on HP-UX systems: you must wait until the executable
+is run in order to set breakpoints in shared library routines that are
+not called directly by the program (for example, routines that are
+arguments in a <tt class="COMMAND">pthread_create</tt> call).
+   </p><p>A <i class="FIRSTTERM">watchpoint</i> is a special breakpoint that stops your program
+when the value of an expression changes.  You must use a different
+command to set watchpoints (refer to <a href="stopping.html#SET-WATCHPOINTS">Section 7.1.2 <i>Setting watchpoints</i></a>), but aside from that, you can manage a watchpoint like
+any other breakpoint: you enable, disable, and delete both breakpoints
+and watchpoints using the same commands.
+   </p><p>You can arrange to have values from your program displayed automatically
+whenever gdb stops at a breakpoint. 
+Refer to <a href="auto-display.html">Section 10.6 <i>Automatic display</i></a>.
+   </p><p>A <i class="FIRSTTERM">catchpoint</i> is another special breakpoint that stops your program
+when a certain kind of event occurs, such as the throwing of a C<i class="WORDASWORD">++</i>
+exception or the loading of a library.  As with watchpoints, you use a
+different command to set a catchpoint (refer to <a href="stopping.html#SET-CATCHPOINTS">Section 7.1.3 <i>Setting catchpoints</i></a>), but aside from that, you can manage a catchpoint like any
+other breakpoint.  (To stop when your program receives a signal, use the
+<tt class="COMMAND">handle</tt> command. Refer to <a href="signals.html">Section 7.3 <i>Signals</i></a>.
+   </p><p>gdb assigns a number to each breakpoint, watchpoint, or
+catchpoint when you create it; these numbers are successive integers
+starting with one.  In many of the commands for controlling various
+features of breakpoints you use the breakpoint number to say which
+breakpoint you want to change.  Each breakpoint may be <i class="FIRSTTERM">enabled</i> or
+<i class="FIRSTTERM">disabled</i>; if disabled, it has no effect on your program until you
+enable it again.
+   </p><p>Some gdb commands accept a range of breakpoints on which to
+operate.  A breakpoint range is either a single breakpoint number, like
+<tt class="COMMAND">5</tt>, or two such numbers, in increasing order, separated by a
+hyphen, like <tt class="COMMAND">5-7</tt>.  When a breakpoint range is given to a command,
+all breakpoint in that range are operated on.
+   </p><div class="SECT2"><h2 class="SECT2"><a name="SET-BREAKS"></a>7.1.1. Setting breakpoints</h2><p>Breakpoints are set with the <tt class="COMMAND">break</tt> command (abbreviated
+<tt class="COMMAND">b</tt>).  The debugger convenience variable <tt class="COMMAND">$bpnum</tt> records the
+number of the breakpoint you've set most recently; refer to <a href="convenience-vars.html">Section 10.9 <i>Convenience variables</i></a>, for a discussion of what you can do with
+convenience variables.
+    </p><p>You have several ways to say where the breakpoint should go.
+    </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">break <tt class="VARNAME">function</tt></tt></dt><dd><p>Set a breakpoint at entry to function <tt class="VARNAME">function</tt>.
+When using source languages that permit overloading of symbols, such as
+C<i class="WORDASWORD">++</i>, <tt class="VARNAME">function</tt> may refer to more than one possible place to break. Refer to <a href="stopping.html#BREAKPOINT-MENUS">Section 7.1.8 <i>Breakpoint menus</i></a>, for a discussion of that situation.
+       </p></dd><dt><tt class="COMMAND">break +<tt class="VARNAME">offset</tt></tt>, <tt class="COMMAND">break -<tt class="VARNAME">offset</tt></tt></dt><dd><p>Set a breakpoint some number of lines forward or back from the position
+at which execution stopped in the currently selected <i class="FIRSTTERM">stack frame</i>. Refer to <a href="stack.html#FRAMES">Section 8.1 <i>Stack frames</i></a> for a description of stack frames.)
+       </p></dd><dt><tt class="COMMAND">break <tt class="VARNAME">linenum</tt></tt></dt><dd><p>Set a breakpoint at line <tt class="VARNAME">linenum</tt> in the current source file.
+The current source file is the last file whose source text was printed.
+The breakpoint will stop your program just before it executes any of the
+code on that line.
+       </p></dd><dt><tt class="COMMAND">break <tt class="VARNAME">filename</tt>:<tt class="VARNAME">linenum</tt></tt></dt><dd><p>Set a breakpoint at line <tt class="VARNAME">linenum</tt> in source file <tt class="VARNAME">filename</tt>.
+       </p></dd><dt><tt class="COMMAND">break <tt class="VARNAME">filename</tt>:<tt class="VARNAME">function</tt></tt></dt><dd><p>Set a breakpoint at entry to function <tt class="VARNAME">function</tt> found in file
+<tt class="VARNAME">filename</tt>.  Specifying a file name as well as a function name is
+superfluous except when multiple files contain similarly named
+functions.
+       </p></dd><dt><tt class="COMMAND">break *<tt class="VARNAME">address</tt></tt></dt><dd><p>Set a breakpoint at address <tt class="VARNAME">address</tt>.  You can use this to set
+breakpoints in parts of your program which do not have debugging
+information or source files.
+       </p></dd><dt><tt class="COMMAND">break</tt></dt><dd><p>When called without any arguments, <tt class="COMMAND">break</tt> sets a breakpoint at
+the next instruction to be executed in the selected stack frame
+(refer to <a href="stack.html">Chapter 8 <i>Examining the Stack</i></a>).  In any selected frame but the
+innermost, this makes your program stop as soon as control
+returns to that frame.  This is similar to the effect of a
+<tt class="COMMAND">finish</tt> command in the frame inside the selected frame--except
+that <tt class="COMMAND">finish</tt> does not leave an active breakpoint.  If you use
+<tt class="COMMAND">break</tt> without an argument in the innermost frame, gdb stops
+the next time it reaches the current location; this may be useful
+inside loops.
+       </p><p>gdb normally ignores breakpoints when it resumes execution, until at
+least one instruction has been executed.  If it did not do this, you
+would be unable to proceed past a breakpoint without first disabling the
+breakpoint.  This rule applies whether or not the breakpoint already
+existed when your program stopped.
+       </p></dd><dt><tt class="COMMAND">break … if <tt class="VARNAME">cond</tt></tt></dt><dd><p>Set a breakpoint with condition <tt class="VARNAME">cond</tt>; evaluate the expression
+<tt class="VARNAME">cond</tt> each time the breakpoint is reached, and stop only if the
+value is nonzero--that is, if <tt class="VARNAME">cond</tt> evaluates as true.
+<tt class="COMMAND">…</tt> stands for one of the possible arguments described
+above (or no argument) specifying where to break. 
+Refer to <a href="stopping.html#CONDITIONS">Section 7.1.6 <i>Break conditions</i></a> for more information on breakpoint conditions.
+       </p><p>       </p></dd><dt><tt class="COMMAND">tbreak <tt class="VARNAME">args</tt></tt></dt><dd><p>Set a breakpoint enabled only for one stop.  <tt class="VARNAME">args</tt> are the
+same as for the <tt class="COMMAND">break</tt> command, and the breakpoint is set in the same
+way, but the breakpoint is automatically deleted after the first time your
+program stops there. 
+Refer to <a href="stopping.html#DISABLING">Section 7.1.5 <i>Disabling breakpoints</i></a>.
+       </p><p>       </p></dd><dt><tt class="COMMAND">hbreak <tt class="VARNAME">args</tt></tt></dt><dd><p>Set a hardware-assisted breakpoint.  <tt class="VARNAME">args</tt> are the same as for the
+<tt class="COMMAND">break</tt> command and the breakpoint is set in the same way, but the
+breakpoint requires hardware support and some target hardware may not
+have this support.  The main purpose of this is EPROM/ROM code
+debugging, so you can set a breakpoint at an instruction without
+changing the instruction.  This can be used with the new trap-generation
+provided by SPARClite DSU and some x86-based targets.  These targets
+will generate traps when a program accesses some data or instruction
+address that is assigned to the debug registers.  However the hardware
+breakpoint registers can take a limited number of breakpoints.  For
+example, on the DSU, only two data breakpoints can be set at a time, and
+gdb will reject this command if more than two are used.  Delete
+or disable unused hardware breakpoints before setting new ones
+(refer to <a href="stopping.html#DISABLING">Section 7.1.5 <i>Disabling breakpoints</i></a> and <a href="stopping.html#CONDITIONS">Section 7.1.6 <i>Break conditions</i></a>.
+       </p><p>       </p></dd><dt><tt class="COMMAND">thbreak <tt class="VARNAME">args</tt></tt></dt><dd><p>Set a hardware-assisted breakpoint enabled only for one stop.  <tt class="VARNAME">args</tt>
+are the same as for the <tt class="COMMAND">hbreak</tt> command and the breakpoint is set in
+the same way.  However, like the <tt class="COMMAND">tbreak</tt> command,
+the breakpoint is automatically deleted after the
+first time your program stops there.  Also, like the <tt class="COMMAND">hbreak</tt>
+command, the breakpoint requires hardware support and some target hardware
+may not have this support. 
+Refer to <a href="stopping.html#DISABLING">Section 7.1.5 <i>Disabling breakpoints</i></a> and <a href="stopping.html#CONDITIONS">Section 7.1.6 <i>Break conditions</i></a>.
+       </p><p>       </p></dd><dt><tt class="COMMAND">rbreak <tt class="VARNAME">regex</tt></tt></dt><dd><p>Set breakpoints on all functions matching the regular expression
+<tt class="VARNAME">regex</tt>.  This command sets an unconditional breakpoint on all
+matches, printing a list of all breakpoints it set.  Once these
+breakpoints are set, they are treated just like the breakpoints set with
+the <tt class="COMMAND">break</tt> command.  You can delete them, disable them, or make
+them conditional the same way as any other breakpoint.
+       </p><p>The syntax of the regular expression is the standard one used with tools
+like <tt class="COMMAND">grep</tt>.  Note that this is different from the syntax used by
+shells, so for instance <tt class="COMMAND">foo*</tt> matches all functions that include
+an <tt class="COMMAND">fo</tt> followed by zero or more <tt class="COMMAND">o</tt>s.  There is an implicit
+<tt class="COMMAND">.*</tt> leading and trailing the regular expression you supply, so to
+match only functions that begin with <tt class="COMMAND">foo</tt>, use <tt class="COMMAND">^foo</tt>.
+       </p><p>When debugging C<i class="WORDASWORD">++</i> programs, <tt class="COMMAND">rbreak</tt> is useful for setting
+breakpoints on overloaded functions that are not members of any special
+classes.
+       </p><p>       </p></dd><dt><tt class="COMMAND">info breakpoints [<tt class="VARNAME">n</tt>]</tt>, <tt class="COMMAND">info break [<tt class="VARNAME">n</tt>]</tt>, <tt class="COMMAND">info watchpoints [<tt class="VARNAME">n</tt>]</tt></dt><dd><p>Print a table of all breakpoints, watchpoints, and catchpoints set and
+not deleted, with the following columns for each breakpoint:
+       </p><p></p><div class="VARIABLELIST"><dl><dt><i class="EMPHASIS">Breakpoint Numbers</i>, <i class="EMPHASIS">Type</i></dt><dd><p>Breakpoint, watchpoint, or catchpoint.
+          </p></dd><dt><i class="EMPHASIS">Disposition</i></dt><dd><p>Whether the breakpoint is marked to be disabled or deleted when hit.
+          </p></dd><dt><i class="EMPHASIS">Enabled or Disabled</i></dt><dd><p>Enabled breakpoints are marked with <tt class="COMMAND">y</tt>.  <tt class="COMMAND">n</tt> marks breakpoints
+that are not enabled.
+          </p></dd><dt><i class="EMPHASIS">Address</i></dt><dd><p>Where the breakpoint is in your program, as a memory address.
+          </p></dd><dt><i class="EMPHASIS">What</i></dt><dd><p>Where the breakpoint is in the source for your program, as a file and
+line number.
+          </p></dd></dl></div><p>If a breakpoint is conditional, <tt class="COMMAND">info break</tt> shows the condition on
+the line following the affected breakpoint; breakpoint commands, if any,
+are listed after that.
+       </p><p><tt class="COMMAND">info break</tt> with a breakpoint
+number <tt class="VARNAME">n</tt> as argument lists only that breakpoint.  The
+convenience variable <tt class="COMMAND">$_</tt> and the default examining-address for
+the <tt class="COMMAND">x</tt> command are set to the address of the last breakpoint
+listed (refer to <a href="memory.html">Section 10.5 <i>Examining memory</i></a>).
+       </p><p><tt class="COMMAND">info break</tt> displays a count of the number of times the breakpoint
+has been hit.  This is especially useful in conjunction with the
+<tt class="COMMAND">ignore</tt> command.  You can ignore a large number of breakpoint
+hits, look at the breakpoint info to see how many times the breakpoint
+was hit, and then run again, ignoring one less than that number.  This
+will get you quickly to the last hit of that breakpoint.
+       </p></dd></dl></div><p>gdb allows you to set any number of breakpoints at the same place in
+your program.  There is nothing silly or meaningless about this.  When
+the breakpoints are conditional, this is even useful
+(refer to <a href="stopping.html#CONDITIONS">Section 7.1.6 <i>Break conditions</i></a>).
+    </p><p>gdb itself sometimes sets breakpoints in your program for
+special purposes, such as proper handling of <tt class="COMMAND">longjmp</tt> (in C
+programs).  These internal breakpoints are assigned negative numbers,
+starting with <tt class="COMMAND">-1</tt>; <tt class="COMMAND">info breakpoints</tt> does not display them.
+You can see these breakpoints with the gdb maintenance command
+<tt class="COMMAND">maint info breakpoints</tt> 
+(refer to <a href="maintenance-commands.html">Appendix C <i>Maintenance Commands</i></a>).
+    </p></div><div class="SECT2"><h2 class="SECT2"><a name="SET-WATCHPOINTS"></a>7.1.2. Setting watchpoints</h2><p>You can use a watchpoint to stop execution whenever the value of an
+expression changes, without having to predict a particular place where
+this may happen.
+    </p><p>Depending on your system, watchpoints may be implemented in software or
+hardware.  gdb does software watchpointing by single-stepping your
+program and testing the variable's value each time, which is hundreds of
+times slower than normal execution.  (But this may still be worth it, to
+catch errors where you have no clue what part of your program is the
+culprit.)
+    </p><p>On some systems, such as HP-UX, gnu/Linux and some other x86-based targets,
+gdb includes support for
+hardware watchpoints, which do not slow down the running of your
+program.
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">watch <tt class="VARNAME">expr</tt></tt></dt><dd><p>Set a watchpoint for an expression.  gdb will break when <tt class="VARNAME">expr</tt>
+is written into by the program and its value changes.
+       </p><p>       </p></dd><dt><tt class="COMMAND">rwatch <tt class="VARNAME">expr</tt></tt></dt><dd><p>Set a watchpoint that will break when watch <tt class="VARNAME">expr</tt> is read by the program.
+       </p><p>       </p></dd><dt><tt class="COMMAND">awatch <tt class="VARNAME">expr</tt></tt></dt><dd><p>Set a watchpoint that will break when <tt class="VARNAME">expr</tt> is either read or written into
+by the program.
+       </p><p>       </p></dd><dt><tt class="COMMAND">info watchpoints</tt></dt><dd><p>This command prints a list of watchpoints, breakpoints, and catchpoints;
+it is the same as <tt class="COMMAND">info break</tt>.
+       </p></dd></dl></div><p>gdb sets a <i class="FIRSTTERM">hardware watchpoint</i> if possible.  Hardware
+watchpoints execute very quickly, and the debugger reports a change in
+value at the exact instruction where the change occurs.  If gdb
+cannot set a hardware watchpoint, it sets a software watchpoint, which
+executes more slowly and reports the change in value at the next
+statement, not the instruction, after the change occurs.
+    </p><p>When you issue the <tt class="COMMAND">watch</tt> command, gdb reports
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">Hardware watchpoint <tt class="VARNAME">num</tt>: <tt class="VARNAME">expr</tt></pre></td></tr></table>       </p><p>if it was able to set a hardware watchpoint.
+    </p><p>Currently, the <tt class="COMMAND">awatch</tt> and <tt class="COMMAND">rwatch</tt> commands can only set
+hardware watchpoints, because accesses to data that don't change the
+value of the watched expression cannot be detected without examining
+every instruction as it is being executed, and gdb does not do
+that currently.  If gdb finds that it is unable to set a
+hardware breakpoint with the <tt class="COMMAND">awatch</tt> or <tt class="COMMAND">rwatch</tt> command, it
+will print a message like this:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">Expression cannot be implemented with read/access watchpoint.</pre></td></tr></table>    </p><p>Sometimes, gdb cannot set a hardware watchpoint because the
+data type of the watched expression is wider than what a hardware
+watchpoint on the target machine can handle.  For example, some systems
+can only watch regions that are up to 4 bytes wide; on such systems you
+cannot set hardware watchpoints for an expression that yields a
+double-precision floating-point number (which is typically 8 bytes
+wide).  As a work-around, it might be possible to break the large region
+into a series of smaller ones and watch them with separate watchpoints.
+    </p><p>If you set too many hardware watchpoints, gdb might be unable
+to insert all of them when you resume the execution of your program.
+Since the precise number of active watchpoints is unknown until such
+time as the program is about to be resumed, gdb might not be
+able to warn you about this when you set the watchpoints, and the
+warning will be printed only when the program is resumed:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">Hardware watchpoint <tt class="VARNAME">num</tt>: Could not insert watchpoint</pre></td></tr></table>       </p><p>If this happens, delete or disable some of the watchpoints.
+    </p><p>The SPARClite DSU will generate traps when a program accesses some data
+or instruction address that is assigned to the debug registers.  For the
+data addresses, DSU facilitates the <tt class="COMMAND">watch</tt> command.  However the
+hardware breakpoint registers can only take two data watchpoints, and
+both watchpoints must be the same kind.  For example, you can set two
+watchpoints with <tt class="COMMAND">watch</tt> commands, two with <tt class="COMMAND">rwatch</tt> commands,
+<i class="EMPHASIS">or</i> two with <tt class="COMMAND">awatch</tt> commands, but you cannot set one
+watchpoint with one command and the other with a different command.
+gdb will reject the command if you try to mix watchpoints.
+Delete or disable unused watchpoint commands before setting new ones.
+    </p><p>If you call a function interactively using <tt class="COMMAND">print</tt> or <tt class="COMMAND">call</tt>,
+any watchpoints you have set will be inactive until gdb reaches another
+kind of breakpoint or the call completes.
+    </p><p>gdb automatically deletes watchpoints that watch local
+(automatic) variables, or expressions that involve such variables, when
+they go out of scope, that is, when the execution leaves the block in
+which these variables were defined.  In particular, when the program
+being debugged terminates, <i class="EMPHASIS">all</i> local variables go out of scope,
+and so only watchpoints that watch global variables remain set.  If you
+rerun the program, you will need to set all such watchpoints again.  One
+way of doing that would be to set a code breakpoint at the entry to the
+<tt class="COMMAND">main</tt> function and when it breaks, set all the watchpoints.
+    </p><a name="AEN2165"></a><blockquote class="BLOCKQUOTE"><p><i class="EMPHASIS">Warning:</i> In multi-thread programs, watchpoints have only limited
+usefulness.  With the current watchpoint implementation, gdb
+can only watch the value of an expression <i class="EMPHASIS">in a single thread</i>.  If
+you are confident that the expression can only change due to the current
+thread's activity (and if you are also confident that no other thread
+can become current), then you can use watchpoints as usual.  However,
+gdb may not notice when a non-current thread's activity changes
+the expression.
+     </p><p><i class="EMPHASIS">HP-UX Warning:</i> In multi-thread programs, software watchpoints
+have only limited usefulness.  If gdb creates a software
+watchpoint, it can only watch the value of an expression <i class="EMPHASIS">in a
+single thread</i>.  If you are confident that the expression can only
+change due to the current thread's activity (and if you are also
+confident that no other thread can become current), then you can use
+software watchpoints as usual.  However, gdb may not notice
+when a non-current thread's activity changes the expression.  (Hardware
+watchpoints, in contrast, watch an expression in all threads.)
+     </p></blockquote></div><div class="SECT2"><h2 class="SECT2"><a name="SET-CATCHPOINTS"></a>7.1.3. Setting catchpoints</h2><p>You can use <i class="FIRSTTERM">catchpoints</i> to cause the debugger to stop for certain
+kinds of program events, such as C<i class="WORDASWORD">++</i> exceptions or the loading of a
+shared library.  Use the <tt class="COMMAND">catch</tt> command to set a catchpoint.
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">catch <tt class="VARNAME">event</tt></tt></dt><dd><p>Stop when <tt class="VARNAME">event</tt> occurs.  <tt class="VARNAME">event</tt> can be any of the following:
+       </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">throw</tt></dt><dd><p>The throwing of a C<i class="WORDASWORD">++</i> exception.
+          </p></dd><dt><tt class="COMMAND">catch</tt></dt><dd><p>The catching of a C<i class="WORDASWORD">++</i> exception.
+          </p></dd><dt><tt class="COMMAND">exec</tt></dt><dd><p>A call to <tt class="COMMAND">exec</tt>.  This is currently only available for HP-UX.
+          </p></dd><dt><tt class="COMMAND">fork</tt></dt><dd><p>A call to <tt class="COMMAND">fork</tt>.  This is currently only available for HP-UX.
+          </p></dd><dt><tt class="COMMAND">vfork</tt></dt><dd><p>A call to <tt class="COMMAND">vfork</tt>.  This is currently only available for HP-UX.
+          </p></dd><dt><tt class="COMMAND">load</tt>, <tt class="COMMAND">load <tt class="VARNAME">libname</tt></tt></dt><dd><p>The dynamic loading of any shared library, or the loading of the library
+<tt class="VARNAME">libname</tt>.  This is currently only available for HP-UX.
+          </p></dd><dt><tt class="COMMAND">unload</tt>, <tt class="COMMAND">unload <tt class="VARNAME">libname</tt></tt></dt><dd><p>The unloading of any dynamically loaded shared library, or the unloading
+of the library <tt class="VARNAME">libname</tt>.  This is currently only available for HP-UX.
+          </p></dd></dl></div></dd><dt><tt class="COMMAND">tcatch <tt class="VARNAME">event</tt></tt></dt><dd><p>Set a catchpoint that is enabled only for one stop.  The catchpoint is
+automatically deleted after the first time the event is caught.
+       </p></dd></dl></div><p>Use the <tt class="COMMAND">info break</tt> command to list the current catchpoints.
+    </p><p>There are currently some limitations to C<i class="WORDASWORD">++</i> exception handling
+(<tt class="COMMAND">catch throw</tt> and <tt class="COMMAND">catch catch</tt>) in gdb:
+    </p><p></p><ul><li style="list-style-type: disc"><p>If you call a function interactively, gdb normally returns
+control to you when the function has finished executing.  If the call
+raises an exception, however, the call may bypass the mechanism that
+returns control to you and cause your program either to abort or to
+simply continue running until it hits a breakpoint, catches a signal
+that gdb is listening for, or exits.  This is the case even if
+you set a catchpoint for the exception; catchpoints on exceptions are
+disabled within interactive calls.
+      </p></li><li style="list-style-type: disc"><p>You cannot raise an exception interactively.
+      </p></li><li style="list-style-type: disc"><p>You cannot install an exception handler interactively.
+      </p></li></ul><p>Sometimes <tt class="COMMAND">catch</tt> is not the best way to debug exception handling:
+if you need to know exactly where an exception is raised, it is better to
+stop <i class="EMPHASIS">before</i> the exception handler is called, since that way you
+can see the stack before any unwinding takes place.  If you set a
+breakpoint in an exception handler instead, it may not be easy to find
+out where the exception was raised.
+    </p><p>To stop just before an exception handler is called, you need some
+knowledge of the implementation.  In the case of gnu C<i class="WORDASWORD">++</i>, exceptions are
+raised by calling a library function named <tt class="COMMAND">__raise_exception</tt>
+which has the following ANSI C interface:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">    /* <tt class="VARNAME">addr</tt> is where the exception identifier is stored.
+       <tt class="VARNAME">id</tt> is the exception identifier.  */
+    void __raise_exception (void **addr, void *id);</pre></td></tr></table>       </p><p>To make the debugger catch all exceptions before any stack
+unwinding takes place, set a breakpoint on <tt class="COMMAND">__raise_exception</tt>
+(refer to <a href="stopping.html#BREAKPOINTS">Section 7.1 <i>Breakpoints, watchpoints, and catchpoints</i></a>).
+    </p><p>With a conditional breakpoint (refer to <a href="stopping.html#CONDITIONS">Section 7.1.6 <i>Break conditions</i></a>)
+that depends on the value of <tt class="VARNAME">id</tt>, you can stop your program when
+a specific exception is raised.  You can use multiple conditional
+breakpoints to stop your program when any of a number of exceptions are
+raised.
+    </p></div><div class="SECT2"><h2 class="SECT2"><a name="DELETE-BREAKS"></a>7.1.4. Deleting breakpoints</h2><p>It is often necessary to eliminate a breakpoint, watchpoint, or
+catchpoint once it has done its job and you no longer want your program
+to stop there.  This is called <i class="FIRSTTERM">deleting</i> the breakpoint.  A
+breakpoint that has been deleted no longer exists; it is forgotten.
+    </p><p>With the <tt class="COMMAND">clear</tt> command you can delete breakpoints according to
+where they are in your program.  With the <tt class="COMMAND">delete</tt> command you can
+delete individual breakpoints, watchpoints, or catchpoints by specifying
+their breakpoint numbers.
+    </p><p>It is not necessary to delete a breakpoint to proceed past it.  gdb
+automatically ignores breakpoints on the first instruction to be executed
+when you continue execution without changing the execution address.
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">clear</tt></dt><dd><p>Delete any breakpoints at the next instruction to be executed in the
+selected stack frame (refer to <a href="selection.html">Section 8.3 <i>Selecting a frame</i></a>).  When
+the innermost frame is selected, this is a good way to delete a
+breakpoint where your program just stopped.
+       </p></dd><dt><tt class="COMMAND">clear <tt class="VARNAME">function</tt></tt>, <tt class="COMMAND">clear <tt class="VARNAME">filename</tt>:<tt class="VARNAME">function</tt></tt></dt><dd><p>Delete any breakpoints set at entry to the function <tt class="VARNAME">function</tt>.
+       </p></dd><dt><tt class="COMMAND">clear <tt class="VARNAME">linenum</tt></tt>, <tt class="COMMAND">clear <tt class="VARNAME">filename</tt>:<tt class="VARNAME">linenum</tt></tt></dt><dd><p>Delete any breakpoints set at or within the code of the specified line.
+       </p><p>       </p></dd><dt><tt class="COMMAND">delete [breakpoints] [<tt class="VARNAME">range</tt>…]</tt></dt><dd><p>Delete the breakpoints, watchpoints, or catchpoints of the breakpoint
+ranges specified as arguments.  If no argument is specified, delete all
+breakpoints (gdb asks confirmation, unless you have <tt class="COMMAND">set
+confirm off</tt>).  You can abbreviate this command as <tt class="COMMAND">d</tt>.
+       </p></dd></dl></div></div><div class="SECT2"><h2 class="SECT2"><a name="DISABLING"></a>7.1.5. Disabling breakpoints</h2><p>Rather than deleting a breakpoint, watchpoint, or catchpoint, you might
+prefer to <i class="FIRSTTERM">disable</i> it.  This makes the breakpoint inoperative as if
+it had been deleted, but remembers the information on the breakpoint so
+that you can <i class="FIRSTTERM">enable</i> it again later.
+    </p><p>You disable and enable breakpoints, watchpoints, and catchpoints with
+the <tt class="COMMAND">enable</tt> and <tt class="COMMAND">disable</tt> commands, optionally specifying one
+or more breakpoint numbers as arguments.  Use <tt class="COMMAND">info break</tt> or
+<tt class="COMMAND">info watch</tt> to print a list of breakpoints, watchpoints, and
+catchpoints if you do not know which numbers to use.
+    </p><p>A breakpoint, watchpoint, or catchpoint can have any of four different
+states of enablement:
+    </p><p></p><ul><li style="list-style-type: disc"><p>Enabled.  The breakpoint stops your program.  A breakpoint set
+with the <tt class="COMMAND">break</tt> command starts out in this state.
+      </p></li><li style="list-style-type: disc"><p>Disabled.  The breakpoint has no effect on your program.
+      </p></li><li style="list-style-type: disc"><p>Enabled once.  The breakpoint stops your program, but then becomes
+disabled.
+      </p></li><li style="list-style-type: disc"><p>Enabled for deletion.  The breakpoint stops your program, but
+immediately after it does so it is deleted permanently.  A breakpoint
+set with the <tt class="COMMAND">tbreak</tt> command starts out in this state.
+      </p></li></ul><p>You can use the following commands to enable or disable breakpoints,
+watchpoints, and catchpoints:
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">disable [breakpoints] [<tt class="VARNAME">range</tt>…]</tt></dt><dd><p>Disable the specified breakpoints--or all breakpoints, if none are
+listed.  A disabled breakpoint has no effect but is not forgotten.  All
+options such as ignore-counts, conditions and commands are remembered in
+case the breakpoint is enabled again later.  You may abbreviate
+<tt class="COMMAND">disable</tt> as <tt class="COMMAND">dis</tt>.
+       </p><p>       </p></dd><dt><tt class="COMMAND">enable [breakpoints] [<tt class="VARNAME">range</tt>…]</tt></dt><dd><p>Enable the specified breakpoints (or all defined breakpoints).  They
+become effective once again in stopping your program.
+       </p></dd><dt><tt class="COMMAND">enable [breakpoints] once <tt class="VARNAME">range</tt>…</tt></dt><dd><p>Enable the specified breakpoints temporarily.  gdb disables any
+of these breakpoints immediately after stopping your program.
+       </p></dd><dt><tt class="COMMAND">enable [breakpoints] delete <tt class="VARNAME">range</tt>…</tt></dt><dd><p>Enable the specified breakpoints to work once, then die.  gdb
+deletes any of these breakpoints as soon as your program stops there.
+       </p></dd></dl></div><p>Except for a breakpoint set with <tt class="COMMAND">tbreak</tt> (refer to <a href="stopping.html#SET-BREAKS">Section 7.1.1 <i>Setting breakpoints</i></a>), breakpoints that you set are initially enabled;
+subsequently, they become disabled or enabled only when you use one of
+the commands above.  (The command <tt class="COMMAND">until</tt> can set and delete a
+breakpoint of its own, but it does not change the state of your other
+breakpoints; (refer to <a href="continuing-and-stepping.html">Section 7.2 <i>Continuing and stepping</i></a>.)
+    </p></div><div class="SECT2"><h2 class="SECT2"><a name="CONDITIONS"></a>7.1.6. Break conditions</h2><p>The simplest sort of breakpoint breaks every time your program reaches a
+specified place.  You can also specify a <i class="FIRSTTERM">condition</i> for a
+breakpoint.  A condition is just a Boolean expression in your
+programming language (refer to <a href="data.html#EXPRESSIONS">Section 10.1 <i>Expressions</i></a>).  A breakpoint with
+a condition evaluates the expression each time your program reaches it,
+and your program stops only if the condition is <i class="EMPHASIS">true</i>.
+    </p><p>This is the converse of using assertions for program validation; in that
+situation, you want to stop when the assertion is violated--that is,
+when the condition is false.  In C, if you want to test an assertion expressed
+by the condition <tt class="VARNAME">assert</tt>, you should set the condition
+<tt class="COMMAND">! <tt class="VARNAME">assert</tt></tt> on the appropriate breakpoint.
+    </p><p>Conditions are also accepted for watchpoints; you may not need them,
+since a watchpoint is inspecting the value of an expression anyhow--but
+it might be simpler, say, to just set a watchpoint on a variable name,
+and specify a condition that tests whether the new value is an interesting
+one.
+    </p><p>Break conditions can have side effects, and may even call functions in
+your program.  This can be useful, for example, to activate functions
+that log program progress, or to use your own print functions to
+format special data structures. The effects are completely predictable
+unless there is another enabled breakpoint at the same address.  (In
+that case, gdb might see the other breakpoint first and stop your
+program without checking the condition of this one.)  Note that
+breakpoint commands are usually more convenient and flexible than break
+conditions for the
+purpose of performing side effects when a breakpoint is reached
+(refer to <a href="stopping.html#BREAK-COMMANDS">Section 7.1.7 <i>Breakpoint command lists</i></a>).
+    </p><p>Break conditions can be specified when a breakpoint is set, by using
+<tt class="COMMAND">if</tt> in the arguments to the <tt class="COMMAND">break</tt> command. 
+Refer to <a href="stopping.html#SET-BREAKS">Section 7.1.1 <i>Setting breakpoints</i></a>.  They can also be changed at any time
+with the <tt class="COMMAND">condition</tt> command.
+    </p><p>You can also use the <tt class="COMMAND">if</tt> keyword with the <tt class="COMMAND">watch</tt> command.
+The <tt class="COMMAND">catch</tt> command does not recognize the <tt class="COMMAND">if</tt> keyword;
+<tt class="COMMAND">condition</tt> is the only way to impose a further condition on a
+catchpoint.
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">condition <tt class="VARNAME">bnum</tt> <tt class="VARNAME">expression</tt></tt></dt><dd><p>Specify <tt class="VARNAME">expression</tt> as the break condition for breakpoint,
+watchpoint, or catchpoint number <tt class="VARNAME">bnum</tt>.  After you set a condition,
+breakpoint <tt class="VARNAME">bnum</tt> stops your program only if the value of
+<tt class="VARNAME">expression</tt> is true (nonzero, in C).  When you use
+<tt class="COMMAND">condition</tt>, gdb checks <tt class="VARNAME">expression</tt> immediately for
+syntactic correctness, and to determine whether symbols in it have
+referents in the context of your breakpoint.  If <tt class="VARNAME">expression</tt> uses
+symbols not referenced in the context of the breakpoint, gdb
+prints an error message:
+       </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="90%"><tr><td><pre class="SCREEN">No symbol &quot;foo&quot; in current context.</pre></td></tr></table>                        </p><p>gdb does
+not actually evaluate <tt class="VARNAME">expression</tt> at the time the <tt class="COMMAND">condition</tt>
+command (or a command that sets a breakpoint with a condition, like
+<tt class="COMMAND">break if …</tt>) is given, however. 
+Refer to <a href="data.html#EXPRESSIONS">Section 10.1 <i>Expressions</i></a>.
+       </p></dd><dt><tt class="COMMAND">condition <tt class="VARNAME">bnum</tt></tt></dt><dd><p>Remove the condition from breakpoint number <tt class="VARNAME">bnum</tt>.  It becomes
+an ordinary unconditional breakpoint.
+       </p></dd></dl></div><p>A special case of a breakpoint condition is to stop only when the
+breakpoint has been reached a certain number of times.  This is so
+useful that there is a special way to do it, using the <i class="FIRSTTERM">ignore
+count</i> of the breakpoint.  Every breakpoint has an ignore count, which
+is an integer.  Most of the time, the ignore count is zero, and
+therefore has no effect.  But if your program reaches a breakpoint whose
+ignore count is positive, then instead of stopping, it just decrements
+the ignore count by one and continues.  As a result, if the ignore count
+value is <tt class="VARNAME">n</tt>, the breakpoint does not stop the next <tt class="VARNAME">n</tt> times
+your program reaches it.
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">ignore <tt class="VARNAME">bnum</tt> <tt class="VARNAME">count</tt></tt></dt><dd><p>Set the ignore count of breakpoint number <tt class="VARNAME">bnum</tt> to <tt class="VARNAME">count</tt>.
+The next <tt class="VARNAME">count</tt> times the breakpoint is reached, your program's
+execution does not stop; other than to decrement the ignore count, gdb
+takes no action.
+       </p><p>To make the breakpoint stop the next time it is reached, specify
+a count of zero.
+       </p><p>When you use <tt class="COMMAND">continue</tt> to resume execution of your program from a
+breakpoint, you can specify an ignore count directly as an argument to
+<tt class="COMMAND">continue</tt>, rather than using <tt class="COMMAND">ignore</tt>. 
+Refer to <a href="continuing-and-stepping.html">Section 7.2 <i>Continuing and stepping</i></a>.
+       </p><p>If a breakpoint has a positive ignore count and a condition, the
+condition is not checked.  Once the ignore count reaches zero,
+gdb resumes checking the condition.
+       </p><p>You could achieve the effect of the ignore count with a condition such
+as <tt class="COMMAND">$foo- &lt;= 0</tt> using a debugger convenience variable that
+is decremented each time. 
+Refer to <a href="convenience-vars.html">Section 10.9 <i>Convenience variables</i></a>.
+       </p></dd></dl></div><p>Ignore counts apply to breakpoints, watchpoints, and catchpoints.
+    </p></div><div class="SECT2"><h2 class="SECT2"><a name="BREAK-COMMANDS"></a>7.1.7. Breakpoint command lists</h2><p>You can give any breakpoint (or watchpoint or catchpoint) a series of
+commands to execute when your program stops due to that breakpoint.  For
+example, you might want to print the values of certain expressions, or
+enable other breakpoints.
+    </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">commands [<tt class="VARNAME">bnum</tt>]</tt>, <tt class="COMMAND">… <tt class="VARNAME">command-list</tt> …</tt>, <tt class="COMMAND">end</tt></dt><dd><p>Specify a list of commands for breakpoint number <tt class="VARNAME">bnum</tt>.  The commands
+themselves appear on the following lines.  Type a line containing just
+<tt class="COMMAND">end</tt> to terminate the commands.
+       </p><p>To remove all commands from a breakpoint, type <tt class="COMMAND">commands</tt> and
+follow it immediately with <tt class="COMMAND">end</tt>; that is, give no commands.
+       </p><p>With no <tt class="VARNAME">bnum</tt> argument, <tt class="COMMAND">commands</tt> refers to the last
+breakpoint, watchpoint, or catchpoint set (not to the breakpoint most
+recently encountered).
+       </p></dd></dl></div><p>Pressing <span class="KEYCAP"><keycap>[RET]</keycap></span> as a means of repeating the last gdb command is
+disabled within a <tt class="VARNAME">command-list</tt>.
+    </p><p>You can use breakpoint commands to start your program up again.  Simply
+use the <tt class="COMMAND">continue</tt> command, or <tt class="COMMAND">step</tt>, or any other command
+that resumes execution.
+    </p><p>Any other commands in the command list, after a command that resumes
+execution, are ignored.  This is because any time you resume execution
+(even with a simple <tt class="COMMAND">next</tt> or <tt class="COMMAND">step</tt>), you may encounter
+another breakpoint--which could have its own command list, leading to
+ambiguities about which list to execute.
+    </p><p>If the first command you specify in a command list is <tt class="COMMAND">silent</tt>, the
+usual message about stopping at a breakpoint is not printed.  This may
+be desirable for breakpoints that are to print a specific message and
+then continue.  If none of the remaining commands print anything, you
+see no sign that the breakpoint was reached.  <tt class="COMMAND">silent</tt> is
+meaningful only at the beginning of a breakpoint command list.
+    </p><p>The commands <tt class="COMMAND">echo</tt>, <tt class="COMMAND">output</tt>, and <tt class="COMMAND">printf</tt> allow you to
+print precisely controlled output, and are often useful in silent
+breakpoints. 
+Refer to <a href="output.html">Section 22.4 <i>Commands for controlled output</i></a>.
+    </p><p>For example, here is how you could use breakpoint commands to print the
+value of <tt class="COMMAND">x</tt> at entry to <tt class="COMMAND">foo</tt> whenever <tt class="COMMAND">x</tt> is positive.
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">break foo if x&gt;0
+commands
+silent
+printf &quot;x is %d\n&quot;,x
+cont
+end</pre></td></tr></table>       </p><p>One application for breakpoint commands is to compensate for one bug so
+you can test for another.  Put a breakpoint just after the erroneous line
+of code, give it a condition to detect the case in which something
+erroneous has been done, and give it commands to assign correct values
+to any variables that need them.  End with the <tt class="COMMAND">continue</tt> command
+so that your program does not stop, and start with the <tt class="COMMAND">silent</tt>
+command so that no output is produced.  Here is an example:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">break 403
+commands
+silent
+set x = y + 4
+cont
+end</pre></td></tr></table>       </p></div><div class="SECT2"><h2 class="SECT2"><a name="BREAKPOINT-MENUS"></a>7.1.8. Breakpoint menus</h2><p>Some programming languages (notably C<i class="WORDASWORD">++</i> and Objective-C) permit a
+single function name
+to be defined several times, for application in different contexts.
+This is called <i class="FIRSTTERM">overloading</i>.  When a function name is overloaded,
+<tt class="COMMAND">break <tt class="VARNAME">function</tt></tt> is not enough to tell gdb where you want
+a breakpoint.  If you realize this is a problem, you can use
+something like <tt class="COMMAND">break <tt class="VARNAME">function</tt>(<tt class="VARNAME">types</tt>)</tt> to specify which
+particular version of the function you want.  Otherwise, gdb offers
+you a menu of numbered choices for different possible breakpoints, and
+waits for your selection with the prompt <tt class="COMMAND">&gt;</tt>.  The first two
+options are always <tt class="COMMAND">[0] cancel</tt> and <tt class="COMMAND">[1] all</tt>.  Typing <tt class="USERINPUT"><b>1</b></tt>
+sets a breakpoint at each definition of <tt class="VARNAME">function</tt>, and typing
+<tt class="USERINPUT"><b>0</b></tt> aborts the <tt class="COMMAND">break</tt> command without setting any new
+breakpoints.
+    </p><p>For example, the following session excerpt shows an attempt to set a
+breakpoint at the overloaded symbol <tt class="COMMAND">String::after</tt>.
+We choose three particular definitions of that function name:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb) b String::after
+[0] cancel
+[1] all
+[2] file:String.cc; line number:867
+[3] file:String.cc; line number:860
+[4] file:String.cc; line number:875
+[5] file:String.cc; line number:853
+[6] file:String.cc; line number:846
+[7] file:String.cc; line number:735
+&gt; 2 4 6
+Breakpoint 1 at 0xb26c: file String.cc, line 867.
+Breakpoint 2 at 0xb344: file String.cc, line 875.
+Breakpoint 3 at 0xafcc: file String.cc, line 846.
+Multiple breakpoints were set.
+Use the &quot;delete&quot; command to delete unwanted
+ breakpoints.
+(gdb)
+                     </pre></td></tr></table>    </p></div><div class="SECT2"><h2 class="SECT2"><a name="ERROR-IN-BREAKPOINTS"></a>7.1.9. &quot;Cannot insert breakpoints&quot;</h2><p>Under some operating systems, breakpoints cannot be used in a program if
+any other process is running that program.  In this situation,
+attempting to run or continue a program with a breakpoint causes
+gdb to print an error message:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">Cannot insert breakpoints.
+The same program may be running in another process.</pre></td></tr></table>           </p><p>When this happens, you have three ways to proceed:
+    </p><p></p><ol type="1"><li><p>Remove or disable the breakpoints, then continue.
+      </p></li><li><p>Suspend gdb, and copy the file containing your program to a new
+name.  Resume gdb and use the <tt class="COMMAND">exec-file</tt> command to specify
+that gdb should run your program under that name.
+Then start your program again.
+      </p></li><li><p>Relink your program so that the text segment is nonsharable, using the
+linker option <tt class="COMMAND">-N</tt>.  The operating system limitation may not apply
+to nonsharable executables.
+      </p></li></ol><p>A similar message can be printed if you request too many active
+hardware-assisted breakpoints and watchpoints:
+    </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">Stopped; cannot insert breakpoints.
+You may have requested too many hardware breakpoints and watchpoints.</pre></td></tr></table>       </p><p>This message is printed when you attempt to resume the program, since
+only then gdb knows exactly how many hardware breakpoints and
+watchpoints it needs to insert.
+    </p><p>When this message is printed, you need to disable or remove some of the
+hardware-assisted breakpoints and watchpoints, and then continue.
+    </p></div></div></div><div class="NAVFOOTER"><hr align="LEFT" width="100%"><table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td width="33%" align="left" valign="top"><a href="processes.html" accesskey="P">Prev</a></td><td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td><td width="33%" align="right" valign="top"><a href="continuing-and-stepping.html" accesskey="N">Next</a></td></tr><tr><td width="33%" align="left" valign="top">Debugging programs with multiple processes</td><td width="34%" align="center" valign="top">&nbsp;</td><td width="33%" align="right" valign="top">Continuing and stepping</td></tr></table></hr></div>
+		<script type="text/javascript">
+			ajq(document).ready(function() {
+				ajq(".docnav").clone().appendTo("#main");
+				var floatingtoc = ajq("#floatingtoc");
+				ajq("#floatingtoc").load('index.html .toc:eq(0)', function() {
+					var links = floatingtoc.find('a');
+
+					var docnav = ajq('.docnav');
+					docnav.find('.home').remove();
+
+					var previous = docnav.find('.previous');
+					previous.after('<li><select style="display: none;" class="pageSelect"></select></li>');
+
+					var select = ajq('.pageSelect');
+					var title = ajq('title').html().match(/[A-Z0-9.]*/)[0];
+
+					links.each(function() {
+						var link = ajq(this);
+						if (link.html().indexOf(title) === 0) {
+							select.append('<option selected="selected" value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+						}
+						select.append('<option value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+					});
+					select.fadeIn();
+
+					select.change(function() {
+						var newValue = ajq(this).attr('value');
+						window.location.href = newValue;
+					});
+				});
+			});
+		</script>
+						</div> <!-- end main -->
+					</div> <!-- end content -->
+					<br class="clearboth" />
+				</div> <!-- end container -->
+			</div> <!-- end wrapi -->
+		</div><!-- end main-wrap -->
+		<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+		</div><!-- end footerWrap -->
+	</div></div><!-- end wrapper, outer-wrapper -->
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+</body>
+</html>

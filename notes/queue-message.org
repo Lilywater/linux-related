@@ -1,0 +1,469 @@
+
+* 消息队列的设计与实现(multiple producer, a single consumer)
+消息驱动机制是 GUI 系统的基础，消息驱动的底层基础设施之一是消息队列，它是整个 GUI 系统运转中枢，
+环形队列
+环行队列是一种首尾相连的队列数据结构，遵循先进先出原则 
+
+
+在环形队列中用一组连续地址的存储单元依次存放从队列头到队列尾的元素，通过两个指针 read_pos 和 write_pos 分别指向读取位置和写入位置。
+
+初始化队列时，令 read_pos = write_pos = 0，每当写入一个新元素时， write_pos 增 1；每当读取一个元素时，read_pos 增 1 。若队列已满，不能往队列写入数据；若队列为空，则不能读取数据。判断列是否为满的的方法是看 (write_pos + 1)% QUEUE_SIZE == read_pos 是否成立，判断队列是否为空的方法是看 write_pos == read_pos 是否成立。
+
+鉴于多个线程同时访问环形队列，需要考虑线程之间的互斥和同步问题，拟采用锁控制多个线程互斥访问环形队列，使用信号量控制线程之间的同步。
+
+一段时间内只能有一个线程获得锁，当它持有锁时，其它线程要访问环形队列必须等待，直到前者释放锁。由此，锁可以保证多个线程互斥的访问环形队列。
+
+线程从队列对数据前首先判断信号量是否大于 1 ，若是，则从队列读数据；否则，进入等待状态，直到信号量大于 1 为止；线程往队列写入一个数据后，会将信号量增 1 ，若有线程在等待，则会被唤醒。由此，信号量实现了多线程同步访问环形队列。
+
+ 
+
+初始化时为环形队列分配内存空间，并完成锁和信号量的初始化； 
+若往环形队列写数据，首先要获得锁， 若锁已被占用，则进入等待状态，否则进一步去判断环形队列是否已满。若满了，则释放锁并返回；若队列未满，将数据写入 write_pos 位置，write_pos 增 1，释放锁并将信号量增 1，表示已写入一个数据； 
+若从环形队列读数据，首先判断信号量是否大于 1 ，若不是，则等待，否则去获取锁，若锁已被占用，则等待，否则从 read_pos 位置读取数据，将 read_pos 增 1 ，释放锁，读取完毕。 
+数据结构
+环形队列的数据结构如下所示：
+
+
+typedef _MSG {
+    int message;
+    void* param;
+} MSG;
+
+typedef _MSGQUE {
+    pthread_mutex_t lock;
+    sem_t  wait;
+
+    MSG* msg;
+    int size;
+
+    int read_ops;
+    int write_ops;
+} MSGQUEUE;
+
+
+
+环形队列包括如下数据：
+
+lock：互斥锁； 
+wait：信号量 
+msg：指向数据区的指针； 
+size：环形队列数据最大个数； 
+read_ops：读取位置； 
+write_ops：写入位置。 
+队列初始化
+初始化主要完成三个任务：
+
+为环形队列分配内存； 
+初始化互斥锁，用 pthread_mutex_init 完成； 
+初始化信号量，用 sem_init 完成。 
+/* Create message queue */
+_msg_queue = malloc (sizeof (MSGQUEUE));
+
+/* init lock and sem */
+pthread_mutex_init (&_msg_queue->lock, NULL);
+sem_init (&_msg_queue->wait, 0, 0);
+
+/* allocate message memory */
+_msg_queue -> msg = malloc (sizeof(MSG) * nr_msg);
+_msg_queue -> size = nr_msg;
+
+
+** 写操作
+如上面的流程图介绍，写操作主要包括如下几步： - 获取锁；
+
+判断队列是否已满； 
+若没满，将数据写入 write_pos 处，将 write_pos 增 1，并判断 write_pos 是否越界； 
+释放锁，并将信号量增 1。 
+
+/* lock the message queue */
+pthread_mutex_lock (_msg_queue->lock);
+
+/* check if the queue is full. */
+if ((_msg_queue->write_pos + 1)% _msg_queue->size == _msg_queue->read_pos) {
+    /* Message queue is full. */
+    pthread_mutex_unlock (_msg_queue->lock);
+    return;
+}
+
+/* write a data to write_pos. */
+_msg_queue -> msg [write_pos] = *msg;
+write_pos ++;
+
+/* check if write_pos if overflow. */
+if (_msg_queue->write_pos >= _msg_queue->size)
+    _msg_queue->write_pos = 0;
+
+/* release lock */
+pthread_mutex_unlock (_msg_queue->lock);
+
+sem_post (_msg_queue->wait); // semphore should be operated without lockon
+
+
+** 读操作
+同理，读操作分如下几个步骤：
+
+检查信号量； 
+获取锁； 
+判断队列是否为空； 
+若不为空，则读取 read_ops 处的数据，将 read_ops 增 1，并判断 read_pos 是否越界； 
+并释放锁。 
+
+sem_wait (_msg_queue->wait);// wait sem, should be outside the mutex protection to avoid dead lock
+
+/* lock the message queue */
+pthread_mutex_lock (_msg_queue->lock);
+
+/* check if queue is empty */
+if (_msg_queue->read_pos != _msg_queue->write_pos) {
+    msg = _msg_queue->msg + _msg_queue->read_pos;
+
+/* read a data and check if read_pos is overflow */
+    _msg_queue->read_pos ++;
+    if (_msg_queue->read_pos >= _msg_queue->size)
+        _msg_queue->read_pos = 0;
+
+    return;
+}
+
+/* release lock*/
+pthread_mutex_unlock (_msg_queue->lock);
+
+
+
+问题
+本文采用的环形队列是固定长度的，还可进一步改进，设计成可变长度的环形队列； 
+本文的消息队列是“先进先出”原则，没有考虑带优先级的消息，但这种场合是存在的； 
+本文重点介绍了消息队列的原理和实现，对于一个 GUI 程序来讲，还需要一个消息循环与消息队列一起工作，消息循环将单独总结。 
+ 
+ 
+
+--------------------------------------------------------------------------------
+* multiple consumer, one single producer
+the prototype is a thread pool.
+Threads in thread pools are multiple consmer, and sigle producer is a taskqueue which needed to be executed by those threads.
+** example of a thread pool implementation
+#include "threadpool.h"
+
+#include <errno.h>
+#include <string.h>
+
+Task::Task(void (*fn_ptr)(void*), void* arg) : m_fn_ptr(fn_ptr), m_arg(arg)
+{
+}
+
+Task::~Task()
+{
+}
+
+void Task::operator()()
+{
+  (*m_fn_ptr)(m_arg);
+  if (m_arg != NULL) {
+    delete m_arg;
+  }
+}
+
+void Task::run()
+{
+  (*m_fn_ptr)(m_arg);
+}
+
+ThreadPool::ThreadPool() : m_pool_size(DEFAULT_POOL_SIZE)
+{
+  cout << "Constructed ThreadPool of size " << m_pool_size << endl;
+}
+
+ThreadPool::ThreadPool(int pool_size) : m_pool_size(pool_size)
+{
+  cout << "Constructed ThreadPool of size " << m_pool_size << endl;
+}
+
+ThreadPool::~ThreadPool()
+{
+  // Release resources
+  if (m_pool_state != STOPPED) {
+    destroy_threadpool();
+  }
+}
+
+// We can't pass a member function to pthread_create.
+// So created the wrapper function that calls the member function
+// we want to run in the thread.
+extern "C"
+void* start_thread(void* arg)
+{
+  ThreadPool* tp = (ThreadPool*) arg;
+  tp->execute_thread();
+  return NULL;
+}
+
+int ThreadPool::initialize_threadpool()
+{
+  // TODO: COnsider lazy loading threads instead of creating all at once
+  m_pool_state = STARTED;
+  int ret = -1;
+  for (int i = 0; i < m_pool_size; i++) {
+    pthread_t tid;
+    ret = pthread_create(&tid, NULL, start_thread, (void*) this);
+    if (ret != 0) {
+      cerr << "pthread_create() failed: " << ret << endl;
+      return -1;
+    }
+    m_threads.push_back(tid);
+  }
+  cout << m_pool_size << " threads created by the thread pool" << endl;
+
+  return 0;
+}
+
+int ThreadPool::destroy_threadpool()
+{
+  // Note: this is not for synchronization, its for thread communication!
+  // destroy_threadpool() will only be called from the main thread, yet
+  // the modified m_pool_state may not show up to other threads until its 
+  // modified in a lock!
+  m_task_mutex.lock();
+  m_pool_state = STOPPED;  // to avoid consumer still waiting while producer won't produce any more
+  m_task_mutex.unlock();
+  cout << "Broadcasting STOP signal to all threads..." << endl;
+  m_task_cond_var.broadcast(); // notify all threads we are shttung down
+
+  int ret = -1;
+  for (int i = 0; i < m_pool_size; i++) {
+    void* result;
+    ret = pthread_join(m_threads[i], &result);
+    cout << "pthread_join() returned " << ret << ": " << strerror(errno) << endl;
+    m_task_cond_var.broadcast(); // try waking up a bunch of threads that are still waiting
+  }
+  cout << m_pool_size << " threads exited from the thread pool" << endl;
+  return 0;
+}
+
+void* ThreadPool::execute_thread()
+{
+  Task* task = NULL;
+  cout << "Starting thread " << pthread_self() << endl;
+  while(true) {
+    // Try to pick a task
+    cout << "Locking: " << pthread_self() << endl;
+    m_task_mutex.lock();
+    
+    // We need to put pthread_cond_wait in a loop for two reasons:
+    // 1. There can be spurious wakeups (due to signal/ENITR)
+    // 2. When mutex is released for waiting, another thread can be waken up
+    //    from a signal/broadcast and that thread can mess up the condition.
+    //    So when the current thread wakes up the condition may no longer be
+    //    actually true!
+    while ((m_pool_state != STOPPED) && (m_tasks.empty())) {
+      // Wait until there is a task in the queue
+      // Unlock mutex while wait, then lock it back when signaled
+      cout << "Unlocking and waiting: " << pthread_self() << endl;
+      m_task_cond_var.wait(m_task_mutex.get_mutex_ptr());
+      cout << "Signaled and locking: " << pthread_self() << endl;
+    }
+
+    // If the thread was woken up to notify process shutdown, return from here
+    if (m_pool_state == STOPPED) {
+      cout << "Unlocking and exiting: " << pthread_self() << endl;
+      m_task_mutex.unlock();
+      pthread_exit(NULL);
+    }
+
+    task = m_tasks.front();
+    m_tasks.pop_front();
+    cout << "Unlocking: " << pthread_self() << endl;
+    m_task_mutex.unlock();
+
+    //cout << "Executing thread " << pthread_self() << endl;
+    // execute the task
+    (*task)(); // could also do task->run(arg);
+    //cout << "Done executing thread " << pthread_self() << endl;
+    delete task;
+  }
+  return NULL;
+}
+
+int ThreadPool::add_task(Task* task)
+{
+  m_task_mutex.lock();
+
+  // TODO: put a limit on how many tasks can be added at most
+  m_tasks.push_back(task);
+
+  m_task_cond_var.signal(); // wake up one thread that is waiting for a task to be available
+
+  m_task_mutex.unlock();
+
+  return 0;
+}
+
+
+** futex VS. pthread_mutex_lock /pthread_mutex_unlock
+futex is a raw call in linux kernel for (Fast Usersapce Mutex), and the latter is a system call function in user space.
+In c file pthread_mutex_(un)lock funtion
+in strace result, there's a futex and not only invoking from your own c file will result in futex calling, even if there's no pthread_mutex calling, there might be futex calling
+for example, if two threads calling printf, there's futex operation when printf call, for you don't want standard output will be mixed with two thread's output.
+
+If a c file has pthread_create calling, then there's a futex in main thread always.
+strace -f -tt -o log ./exe
+============================
+765   11:18:11.880012 set_tid_address(0xb7f52708) = 765
+765   11:18:11.880048 set_robust_list(0xb7f52710, 0xc) = 0
+765   11:18:11.880086 futex(0xbfed2d94, FUTEX_WAKE_PRIVATE, 1) = 0
+========================
+
+pthread_join
+=================
+./example.4686:     05:53:16.256380 futex(0xb7f40bd8, FUTEX_WAIT, 4687, NULL) = 0
+============
+4686 is a main thread which created tid 4687, and it will wait for 4687 to finish
+
+
+** futex OPERATION
+
+    WAIT (addr, val) Checks if the value stored at the address addr is val, and if it is puts the current thread to sleep.
+        Returns 0 if the process was woken by a FUTEX_WAKE call. See ERRORS for the various possible error returns. 
+
+    WAKE (addr, val) Wakes up val number of threads waiting on the address addr. 
+	    Returns the number of processes woken up. 
+
+In this system an atomic increment and test operation is performed on the mutex variable in user space.
+If the result of the operation indicates that there was no contention on the lock(No thread WAIT on this), the call to pthread_mutex_lock returns without ever context switching into
+the kernel, so the operation of taking a mutex can be very fast.
+
+Only if contention was detected does a system call (called futex) and context switch into the kernel occurs that puts the calling process to sleep until the mutex is released.
+
+pthread_mutex_lock won't always trigger futex(WAIT), for if the lock is available, then no futex operation needed, and no futex in strace log file.
+
+but pthread_mutex_unlock will always trigger WAKE, if no thread is waiting for that mutex, then return value will be  0.
+
+
+if you want to get the pthread_mutex function related futex operation, you need to identify which one is which, for printf in diffenret tids  will trigger futex also.
+=============================================================================================
+ex2log_1|80| 6840  11:57:25.147408 futex(0x8049c04, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+ex2log_1|82| 6841  11:57:25.147461 futex(0x8049c04, FUTEX_WAKE_OP_PRIVATE, 1, 1, 0x8049c00, {FUTEX_OP_SET, 0, FUTEX_OP_CMP_GT, 1}) = 1
+ex2log_1|83| 6840  11:57:25.147501 <... futex resumed> ) = 0
+ex2log_1|85| 6840  11:57:25.147559 futex(0x8049be0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+ex2log_1|91| 6841  11:57:28.149439 futex(0x8049be0, FUTEX_WAKE_PRIVATE, 1) = 1
+ex2log_1|92| 6840  11:57:28.149485 <... futex resumed> ) = 0
+ex2log_1|94| 6840  11:57:28.149551 futex(0xa0f0d0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+ex2log_1|96| 6841  11:57:28.149598 futex(0xa0f0d0, FUTEX_WAKE_PRIVATE, 1) = 1
+ex2log_1|97| 6840  11:57:28.149631 <... futex resumed> ) = 0
+=======================================================================
+this 0xa0f0d0 is for printf, and 0x8049be0 is for pthread_mutex
+
+---------------------------------------------------------------
+69 6841  11:57:23.145857 futex(0x8049be0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+ 70 6840  11:57:23.145877 write(1, "Consumer 3086379920 get lock wai"..., 55) = 55
+ 71 6840  11:57:23.145932 futex(0xa0f0d0, FUTEX_WAKE_PRIVATE, 1) = 0
+ 72 6840  11:57:23.145973 rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
+ 73 6840  11:57:23.146024 rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
+ 74 6840  11:57:23.146072 rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+ 75 6840  11:57:23.146120 nanosleep({2, 0}, {2, 0}) = 0
+ 76 6840  11:57:25.147286 futex(0x8049be0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+ 77 6841  11:57:25.147324 <... futex resumed> ) = 0
+ 78 6840  11:57:25.147346 <... futex resumed> ) = 1
+ 79 6841  11:57:25.147370 write(1, "Producer 3075890064 get lock to "..., 40 <unfinished ...>
+ 80 6840  11:57:25.147408 futex(0x8049c04, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+ 81 6841  11:57:25.147429 <... write resumed> ) = 40
+ 82 6841  11:57:25.147461 futex(0x8049c04, FUTEX_WAKE_OP_PRIVATE, 1, 1, 0x8049c00, {FUTEX_OP_SET, 0, FUTEX_OP_CMP_GT, 1}) = 1
+ 83 6840  11:57:25.147501 <... futex resumed> ) = 0
+ 84 6841  11:57:25.147524 write(1, "Producer 3075890064 signal 3 sec"..., 33 <unfinished ...>
+ 85 6840  11:57:25.147559 futex(0x8049be0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+ 86 6841  11:57:25.147579 <... write resumed> ) = 33
+ 87 6841  11:57:25.147604 rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
+ 88 6841  11:57:25.147655 rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
+ 89 6841  11:57:25.147704 rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+ 90 6841  11:57:25.147745 nanosleep({3, 0}, {3, 0}) = 0
+ 91 6841  11:57:28.149439 futex(0x8049be0, FUTEX_WAKE_PRIVATE, 1) = 1
+ 92 6840  11:57:28.149485 <... futex resumed> ) = 0
+ 93 6841  11:57:28.149510 write(1, "Producer 3075890064 mutex unlock"..., 35 <unfinished ...>
+ 94 6840  11:57:28.149551 futex(0xa0f0d0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+ 95 6841  11:57:28.149572 <... write resumed> ) = 35
+ 96 6841  11:57:28.149598 futex(0xa0f0d0, FUTEX_WAKE_PRIVATE, 1) = 1
+ 97 6840  11:57:28.149631 <... futex resumed> ) = 0
+ 98 6841  11:57:28.149654 _exit(0)          = ?
+ 99 6840  11:57:28.149676 write(1, "Consumer 3086379920 get  conditi"..., 38) = 38
+100 6840  11:57:28.149736 futex(0xa0f0d0, FUTEX_WAKE_PRIVATE, 1) = 0
+101 6840  11:57:28.149775 futex(0x8049be0, FUTEX_WAKE_PRIVATE, 1) = 0
+--------------------------------------------------------------
+
+this 0x8049c04 is for pthread_cond_wait/signal's conditional variable
+===============================================================
+6840  11:57:25.147408 futex(0x8049c04, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+6841  11:57:25.147429 <... write resumed> ) = 40
+6841  11:57:25.147461 futex(0x8049c04, FUTEX_WAKE_OP_PRIVATE, 1, 1, 0x8049c00, {FUTEX_OP_SET, 0, FUTEX_OP_CMP_GT, 1}) = 1
+6840  11:57:25.147501 <... futex resumed> ) = 0
++++++++++++++++++++++++++++++++++++++++++++++
+
+** pthread_cond_wait(cond, mutex)
+==========================
+release the mutex(WAKE)
+wait  for conditional
+condition get woked
+try to ge the mutex(WAIT)
+Got the mutex
+========================
+After above steps ptrhead_cond_wait will return,
+*** why?
+to avoid dead lock. if consumer that got mutex waiting for a producer to produce, it should assure that there's something to consume, if not, then producer will wait for the mutex lock to produce something. So each one will wait for each other,and no one will get singaled for ever.
+
+So when a consumer wait for a conditioner, it can't hold the mutex lock.
+So this pthread_cond_wait will release the mutex if it has gotten the mutex.and when it got conditional signaled it will got the mutex to return.
+
+** pthread_cond_broadcast vs. pthread_cond_signal
+======================================================
+28914 09:14:20.719046 futex(0x8049c44, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+28915 09:14:20.719069 futex(0x8049c44, FUTEX_CMP_REQUEUE_PRIVATE, 1, 2147483647, 0x8049c20, 4 <unfinished ...>
+28914 09:14:20.719088 <... futex resumed> ) = -1 EAGAIN (Resource temporarily unavailable)
+28915 09:14:20.719113 <... futex resumed> ) = 1
+28913 09:14:20.719129 <... futex resumed> ) = 0
+28915 09:14:20.719151 write(1, "condition signalded\n", 20 <unfinished ...>
+28914 09:14:20.719180 futex(0x8049c20, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>  //wait for mutex, returned from condition var,
+28915 09:14:20.719217 <... write resumed> ) = 20
+28913 09:14:20.719238 futex(0x8049c20, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>  //wait for mutex, returned from condition var
+28915 09:14:20.719325 futex(0x8049c20, FUTEX_WAKE_PRIVATE, 1) = 1            //producer release mutex lock
+28915 09:14:20.719363 write(1, "mutex released\n", 15 <unfinished ...>
+28914 09:14:20.719386 <... futex resumed> ) = 0                               // got mutex lock
+28915 09:14:20.719533 _exit(0)          = ?
+28914 09:14:20.719581 write(1, "child 1 passing wait phanseThe c"..., 47) = 47 //return from pthread_cond_wait
+28914 09:14:20.719637 futex(0x8049c20, FUTEX_WAKE_PRIVATE, 1) = 1          //release mutex lock
+28914 09:14:20.719674 _exit(0)          = ?
+28913 09:14:20.719691 <... futex resumed> ) = 0                            //got mutex lock, return from pthred_cond_wait
+28913 09:14:20.719736 write(1, "child 0 passing wait phanseThe c"..., 47 <unfinished ...>
+
+==================================================
+tid 28915 invoke pthread_cond_broadcast, it use FUTEX_CMP_REQUEUE_PRIVATE and wake up only 1 thread,
+so tid 28913 get it successfully, but tid 28914 get -1, but they both returned from waiting for condition variable, 28914 try to get mutex lock.
+
+but if use pthread_cond_signal here, then only 1 thread will return from condition var waiting, the other one will still waiting for the signalling(pthread_cond_signal/broadcast) again. 
+
+** example of usage
+There's two different ways of doing this and you're mixing them up.
+
+1. always signal
+pop:
+pthread_mutex_lock(&mutex);
+while (stack.isEmpty())
+pthread_cond_wait(&cvar, &mutex);
+item = stack.pop();
+pthread_mutex_unlock(&mutex);
+return item;
+
+push:
+pthread_mutex_lock(&mutex);
+stack.push(item);
+pthread_cond_signal(&cvar); // always signal
+pthread_mutex_unlock(&mutex);
+
+2. broadcast if empty
+pop: // same as 1.
+
+push:
+pthread_mutex_lock(&mutex);
+bWasEmpty = stack.isEmpty();
+stack.push(item);
+if (bWasEmpty)
+pthread_cond_broadcast(&cvar); // broadcast if previously empty
+pthread_mutex_unlock(&mutex);
+--

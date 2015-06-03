@@ -1,0 +1,1069 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head dir="ltr">
+	<script type="text/javascript">
+		var siteMapState="";
+	</script>
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Debugging Information in Separate Files - Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon03" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script><link rel="HOME" title="Red Hat Enterprise Linux 4" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/index.html"><link rel="UP" title="gdb Files" <link rel="UP" title="gdb Files" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/gdb-files.html"><link rel="PREVIOUS" title="gdb Files" <link rel="PREVIOUS" title="gdb Files" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/gdb-files.html"><link rel="NEXT" title="Errors reading symbol files" <link rel="NEXT" title="Errors reading symbol files" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/symbol-errors.html"><link rel="STYLESHEET" type="text/css" <link rel="STYLESHEET" type="text/css" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/rhdocs-man.css" />
+		<link rel="stylesheet" type="text/css" href="/chrome_themes/umbra/s/docs.css" />
+</head>
+
+<body dir="ltr" class="sfdc_available ">
+
+	<div id="outer-wrapper" class="wrapo"><div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="/home">
+						<img src="/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+		<div id="main-wrap" class="wrapu">
+			<div id="main-top"></div>
+			<div class="wrapi">
+				<div id="container" class="clearWrap">
+					<div id="content" class="c-mF">
+						<!--googleoff: all--><noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript><!--googleon: all-->		
+						<div id="main" class=""><!--googleoff: all--><div id="breadcrumbs"><a href="/knowledge/">Knowledge</a> &gt; <a href="/knowledge/docs/">Product Documentation</a> &gt; <a href="/knowledge/docs/Red_Hat_Enterprise_Linux/">Red Hat Enterprise Linux</a> &gt; 4</div><!--googleon: all--><div class="NAVHEADER"><table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><th colspan="3" align="center">Red Hat Enterprise Linux 4: Debugging with gdb</th></tr><tr><td width="10%" align="left" valign="bottom"><a href="gdb-files.html" accesskey="P">Prev</a></td><td width="80%" align="center" valign="bottom">Chapter 17. gdb Files</td><td width="10%" align="right" valign="bottom"><a href="symbol-errors.html" accesskey="N">Next</a></td></tr></table><hr align="LEFT" width="100%" /></div><div class="SECT1"><h1 class="SECT1"><a name="SEPARATE-DEBUG-FILES"></a>17.2. Debugging Information in Separate Files</h1><p>gdb allows you to put a program's debugging information in a
+file separate from the executable itself, in a way that allows
+gdb to find and load the debugging information automatically.
+Since debugging information can be very large -- sometimes larger
+than the executable code itself -- some systems distribute debugging
+information for their executables in separate files, which users can
+install only when they need to debug a problem.
+   </p><p>If an executable's debugging information has been extracted to a
+separate file, the executable should contain a <i class="FIRSTTERM">debug link</i> giving
+the name of the debugging information file (with no directory
+components), and a checksum of its contents.  (The exact form of a
+debug link is described below.)  If the full name of the directory
+containing the executable is <tt class="VARNAME">execdir</tt>, and the executable has a
+debug link that specifies the name <tt class="VARNAME">debugfile</tt>, then gdb
+will automatically search for the debugging information file in three
+places:
+   </p><p></p><ul><li style="list-style-type: disc"><p>the directory containing the executable file (that is, it will look
+for a file named <tt class="COMMAND"><tt class="VARNAME">execdir</tt>/<tt class="VARNAME">debugfile</tt></tt>,
+     </p></li><li style="list-style-type: disc"><p>a subdirectory of that directory named <tt class="COMMAND">.debug</tt> (that is, the
+file <tt class="COMMAND"><tt class="VARNAME">execdir</tt>/.debug/<tt class="VARNAME">debugfile</tt></tt>, and
+     </p></li><li style="list-style-type: disc"><p>a subdirectory of the global debug file directory that includes the
+executable's full path, and the name from the link (that is, the file
+<tt class="COMMAND"><tt class="VARNAME">globaldebugdir</tt>/<tt class="VARNAME">execdir</tt>/<tt class="VARNAME">debugfile</tt></tt>, where
+<tt class="VARNAME">globaldebugdir</tt> is the global debug file directory, and
+<tt class="VARNAME">execdir</tt> has been turned into a relative path).
+     </p></li></ul><p>gdb checks under each of these names for a debugging
+information file whose checksum matches that given in the link, and
+reads the debugging information from the first one it finds.
+   </p><p>So, for example, if you ask gdb to debug <tt class="COMMAND">/usr/bin/ls</tt>,
+which has a link containing the name <tt class="COMMAND">ls.debug</tt>, and the global
+debug directory is <tt class="COMMAND">/usr/lib/debug</tt>, then gdb will look
+for debug information in <tt class="COMMAND">/usr/bin/ls.debug</tt>,
+<tt class="COMMAND">/usr/bin/.debug/ls.debug</tt>, and
+<tt class="COMMAND">/usr/lib/debug/usr/bin/ls.debug</tt>.
+   </p><p>You can set the global debugging info directory's name, and view the
+name gdb is currently using.
+   </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">set debug-file-directory <tt class="VARNAME">directory</tt></tt></dt><dd><p>Set the directory which gdb searches for separate debugging
+information files to <tt class="VARNAME">directory</tt>.
+      </p><p>      </p></dd><dt><tt class="COMMAND">show debug-file-directory</tt></dt><dd><p>Show the directory gdb searches for separate debugging
+information files.
+      </p></dd></dl></div><p>A debug link is a special section of the executable file named
+<tt class="COMMAND">.gnu_debuglink</tt>.  The section must contain:
+   </p><p></p><ul><li style="list-style-type: disc"><p>A filename, with any leading directory components removed, followed by
+a zero byte,
+     </p></li><li style="list-style-type: disc"><p>zero to three bytes of padding, as needed to reach the next four-byte
+boundary within the section, and
+     </p></li><li style="list-style-type: disc"><p>a four-byte CRC checksum, stored in the same endianness used for the
+executable file itself.  The checksum is computed on the debugging
+information file's full contents by the function given below, passing
+zero as the <tt class="VARNAME">crc</tt> argument.
+     </p></li></ul><p>Any executable file format can carry a debug link, as long as it can
+contain a section named <tt class="COMMAND">.gnu_debuglink</tt> with the contents
+described above.
+   </p><p>The debugging information file itself should be an ordinary
+executable, containing a full set of linker symbols, sections, and
+debugging information.  The sections of the debugging information file
+should have the same names, addresses and sizes as the original file,
+but they need not contain any data -- much like a <tt class="COMMAND">.bss</tt> section
+in an ordinary executable.
+   </p><p>As of December 2002, there is no standard GNU utility to produce
+separated executable / debugging information file pairs.  Ulrich
+Drepper's <tt class="COMMAND">elfutils</tt> package, starting with version 0.53,
+contains a version of the <tt class="COMMAND">strip</tt> command such that the command
+<tt class="USERINPUT"><b>strip foo -f foo.debug</b></tt> removes the debugging information from
+the executable file <tt class="COMMAND">foo</tt>, places it in the file
+<tt class="COMMAND">foo.debug</tt>, and leaves behind a debug link in <tt class="COMMAND">foo</tt>.
+   </p><p>Since there are many different ways to compute CRC's (different
+polynomials, reversals, byte ordering, etc.), the simplest way to
+describe the CRC used in <tt class="COMMAND">.gnu_debuglink</tt> sections is to give the
+complete code for a function that computes it:
+   </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">unsigned long
+gnu_debuglink_crc32 (unsigned long crc,
+                     unsigned char *buf, size_t len)
+{
+  static const unsigned long crc32_table[256] =
+    {
+      0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419,
+      0x706af48f, 0xe963a535, 0x9e6495a3, 0x0edb8832, 0x79dcb8a4,
+      0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07,
+      0x90bf1d91, 0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de,
+      0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7, 0x136c9856,
+      0x646ba8c0, 0xfd62f97a, 0x8a65c9ec, 0x14015c4f, 0x63066cd9,
+      0xfa0f3d63, 0x8d080df5, 0x3b6e20c8, 0x4c69105e, 0xd56041e4,
+      0xa2677172, 0x3c03e4d1, 0x4b04d447, 0xd20d85fd, 0xa50ab56b,
+      0x35b5a8fa, 0x42b2986c, 0xdbbbc9d6, 0xacbcf940, 0x32d86ce3,
+      0x45df5c75, 0xdcd60dcf, 0xabd13d59, 0x26d930ac, 0x51de003a,
+      0xc8d75180, 0xbfd06116, 0x21b4f4b5, 0x56b3c423, 0xcfba9599,
+      0xb8bda50f, 0x2802b89e, 0x5f058808, 0xc60cd9b2, 0xb10be924,
+      0x2f6f7c87, 0x58684c11, 0xc1611dab, 0xb6662d3d, 0x76dc4190,
+      0x01db7106, 0x98d220bc, 0xefd5102a, 0x71b18589, 0x06b6b51f,
+      0x9fbfe4a5, 0xe8b8d433, 0x7807c9a2, 0x0f00f934, 0x9609a88e,
+      0xe10e9818, 0x7f6a0dbb, 0x086d3d2d, 0x91646c97, 0xe6635c01,
+      0x6b6b51f4, 0x1c6c6162, 0x856530d8, 0xf262004e, 0x6c0695ed,
+      0x1b01a57b, 0x8208f4c1, 0xf50fc457, 0x65b0d9c6, 0x12b7e950,
+      0x8bbeb8ea, 0xfcb9887c, 0x62dd1ddf, 0x15da2d49, 0x8cd37cf3,
+      0xfbd44c65, 0x4db26158, 0x3ab551ce, 0xa3bc0074, 0xd4bb30e2,
+      0x4adfa541, 0x3dd895d7, 0xa4d1c46d, 0xd3d6f4fb, 0x4369e96a,
+      0x346ed9fc, 0xad678846, 0xda60b8d0, 0x44042d73, 0x33031de5,
+      0xaa0a4c5f, 0xdd0d7cc9, 0x5005713c, 0x270241aa, 0xbe0b1010,
+      0xc90c2086, 0x5768b525, 0x206f85b3, 0xb966d409, 0xce61e49f,
+      0x5edef90e, 0x29d9c998, 0xb0d09822, 0xc7d7a8b4, 0x59b33d17,
+      0x2eb40d81, 0xb7bd5c3b, 0xc0ba6cad, 0xedb88320, 0x9abfb3b6,
+      0x03b6e20c, 0x74b1d29a, 0xead54739, 0x9dd277af, 0x04db2615,
+      0x73dc1683, 0xe3630b12, 0x94643b84, 0x0d6d6a3e, 0x7a6a5aa8,
+      0xe40ecf0b, 0x9309ff9d, 0x0a00ae27, 0x7d079eb1, 0xf00f9344,
+      0x8708a3d2, 0x1e01f268, 0x6906c2fe, 0xf762575d, 0x806567cb,
+      0x196c3671, 0x6e6b06e7, 0xfed41b76, 0x89d32be0, 0x10da7a5a,
+      0x67dd4acc, 0xf9b9df6f, 0x8ebeeff9, 0x17b7be43, 0x60b08ed5,
+      0xd6d6a3e8, 0xa1d1937e, 0x38d8c2c4, 0x4fdff252, 0xd1bb67f1,
+      0xa6bc5767, 0x3fb506dd, 0x48b2364b, 0xd80d2bda, 0xaf0a1b4c,
+      0x36034af6, 0x41047a60, 0xdf60efc3, 0xa867df55, 0x316e8eef,
+      0x4669be79, 0xcb61b38c, 0xbc66831a, 0x256fd2a0, 0x5268e236,
+      0xcc0c7795, 0xbb0b4703, 0x220216b9, 0x5505262f, 0xc5ba3bbe,
+      0xb2bd0b28, 0x2bb45a92, 0x5cb36a04, 0xc2d7ffa7, 0xb5d0cf31,
+      0x2cd99e8b, 0x5bdeae1d, 0x9b64c2b0, 0xec63f226, 0x756aa39c,
+      0x026d930a, 0x9c0906a9, 0xeb0e363f, 0x72076785, 0x05005713,
+      0x95bf4a82, 0xe2b87a14, 0x7bb12bae, 0x0cb61b38, 0x92d28e9b,
+      0xe5d5be0d, 0x7cdcefb7, 0x0bdbdf21, 0x86d3d2d4, 0xf1d4e242,
+      0x68ddb3f8, 0x1fda836e, 0x81be16cd, 0xf6b9265b, 0x6fb077e1,
+      0x18b74777, 0x88085ae6, 0xff0f6a70, 0x66063bca, 0x11010b5c,
+      0x8f659eff, 0xf862ae69, 0x616bffd3, 0x166ccf45, 0xa00ae278,
+      0xd70dd2ee, 0x4e048354, 0x3903b3c2, 0xa7672661, 0xd06016f7,
+      0x4969474d, 0x3e6e77db, 0xaed16a4a, 0xd9d65adc, 0x40df0b66,
+      0x37d83bf0, 0xa9bcae53, 0xdebb9ec5, 0x47b2cf7f, 0x30b5ffe9,
+      0xbdbdf21c, 0xcabac28a, 0x53b39330, 0x24b4a3a6, 0xbad03605,
+      0xcdd70693, 0x54de5729, 0x23d967bf, 0xb3667a2e, 0xc4614ab8,
+      0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b,
+      0x2d02ef8d
+    };
+  unsigned char *end;
+
+  crc = ~crc &amp; 0xffffffff;
+  for (end = buf + len; buf &lt; end; ++buf)
+    crc = crc32_table[(crc ^ *buf) &amp; 0xff] ^ (crc &gt;&gt; 8);
+  return ~crc &amp; 0xffffffff;
+}</pre></td></tr></table>      </p></div><div class="NAVFOOTER"><hr align="LEFT" width="100%"><table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td width="33%" align="left" valign="top"><a href="gdb-files.html" accesskey="P">Prev</a></td><td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td><td width="33%" align="right" valign="top"><a href="symbol-errors.html" accesskey="N">Next</a></td></tr><tr><td width="33%" align="left" valign="top">gdb Files</td><td width="34%" align="center" valign="top"><a href="gdb-files.html" accesskey="U">Up</a></td><td width="33%" align="right" valign="top">Errors reading symbol files</td></tr></table></hr></div>
+		<script type="text/javascript">
+			ajq(document).ready(function() {
+				ajq(".docnav").clone().appendTo("#main");
+				var floatingtoc = ajq("#floatingtoc");
+				ajq("#floatingtoc").load('index.html .toc:eq(0)', function() {
+					var links = floatingtoc.find('a');
+
+					var docnav = ajq('.docnav');
+					docnav.find('.home').remove();
+
+					var previous = docnav.find('.previous');
+					previous.after('<li><select style="display: none;" class="pageSelect"></select></li>');
+
+					var select = ajq('.pageSelect');
+					var title = ajq('title').html().match(/[A-Z0-9.]*/)[0];
+
+					links.each(function() {
+						var link = ajq(this);
+						if (link.html().indexOf(title) === 0) {
+							select.append('<option selected="selected" value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+						}
+						select.append('<option value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+					});
+					select.fadeIn();
+
+					select.change(function() {
+						var newValue = ajq(this).attr('value');
+						window.location.href = newValue;
+					});
+				});
+			});
+		</script>
+						</div> <!-- end main -->
+					</div> <!-- end content -->
+					<br class="clearboth" />
+				</div> <!-- end container -->
+			</div> <!-- end wrapi -->
+		</div><!-- end main-wrap -->
+		<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+		</div><!-- end footerWrap -->
+	</div></div><!-- end wrapper, outer-wrapper -->
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+</body>
+</html>

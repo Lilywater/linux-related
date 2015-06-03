@@ -1,0 +1,349 @@
+* identification of mme and mobile subscriber
+** mobile identification
+IMSI: unique international mobile sbuscriber identity
+
+TMSI(Temporary Mobile subscriber indenties)
+ In order to support the subscriber identity confidentiality service the VLRs, SGSNs and MMEs may allocate Temporary Mobile Subscriber Identities (TIMSI) to visiting mobile subscribers. The VLR, SGSN, and MME must be capable of correlating an allocated TIMSI with the IMSI of the Mobile Station (MS) to which it is allocated.
+
+An MS may be allocated three TMSIs, one for services provided through the MSC, one for services provided through the SGSN (P-TIMSI for short) and one for the services provided via the MME (M-TIMSI which is part of GUTI).
+
+
+*** composition of IMSI
+|     IMSI   |
+ MCC MNC MSIN
+    | NMSI   |
+MSIN: Moblie subscriber identification number
+    Mobile Country Code (MCC) consisting of three digits. The MSS identifies uniquely the country of domicile of mobile subscriber. 
+    Mobile Network Code (MNC) consisting of two or three digits for GSM/UMTS applications.  That's why, if you are close to your country border UE is still using eNodeBs that belongs/are controled by Mobile Operator from your country. In other words .. the MNC identifies the home PLMN of the mobile subscriber. The length of the MNC (two or three digits) depends on the value of the MCC. A mixture of two and three digit MNC codes within a single MCC area is not recommended according to 3GPP specification.
+    Mobile Subscriber Identification Number (MSIN) identifying the mobile subscriber within a PLMN.
+
+In Fig. 1. there is also shown NMSI entity. The National Mobile Subscriber Identity (NMSI) consists of the MNC and the NMSI.
+
+this will be allocated to each mobile subsriber in every (GSM, UMTS and EPS)sytem.
+
+** Globally Unique MME id(GUMMEI)
+-----    MCC: 244 ---finland
+         MNC: 123  ---LTE4U
+gummei   MMEGID: 1
+______   MMEC :1
+Globally Unique MME Identifier (GUMMEI)
+The format and size of the GUTI is:
+GUTI = GUMMEI + M-TMSI, where
+GUMMEI = MCC + MNC + MME Identifier and
+MME Identifier = MME Group ID + MME Code
+MCC and MNC shall have the same field size as in earlier 3GPP systems.
+M-TMSI shall be of 32 bits length.
+MME Group ID shall be of 16 bits length.
+MME Code shall be of 8 bits length.
+
+
+
+
+** Globally Unique Temporary UE Identity (GUTI )
+The purporse of the GUTI is to provife an unambiguous identification of the UE that does not reveal the UE or the user's permanent identity in the Evolved Packet System (EPS). It also allows the identification of the MME and network. It can be used by network and the UE to establish UE's identity during signaling between them in EPS.
+On GUTI consist two main components:
+
+    GUMMEI - that uniquely identifies the MME which has allocated the GUTI
+    M-TMSI - other that uniquely identifies the UE within the MME because of allocated the GUTI
+
+Because of that when UE is contacting the network it sends the GUTI to the eNodeB which then uses the GUTI number to identify to which MME re-establish request will be send. If the UE has moved from UMTS cell to LTE cell, a TAU procedure is made (because UE does not have its GUTI) and P-TMSI is send. By this way MME, which is in control of area to which UE moved to, can contact SGSN, which controlled area where UE was previously, to request the subscribers current profile like IP address and PDP contexts. Situation is similiar when UE has moved from LTE to UMTS cell. GUTI is sent as the P-TMSI parameter and the procedure is reffered as Routing Area Update (RAU).
+If there is a situation where eNodeB from new LTE cell is not associated with MME on which GUMMEI is pointing eNodeB simply will select new MME. The new MME could get context information from old MME using same GUTI.
+
+
+-       GUTI=<GUMMEI><M-TMSI>
+Fig. 2. GUTI structure
+
+-       GUTI=<GUMMEI><M-TMSI>
+-	GUMMEI=<MCC><MNC><MME group Id><MME Code>
+-	Mapped GUMMEI=<MCC><MNC><MME group Id=LAC><MME Code=8 MSB of NRI>
+
+
+
+* S1 Setup
+enb must told mme its tracking area which is configured by operator
+** enb configuration
+enb: own ip addr
+     MCC: 244
+     MNC: 123
+     enB ID:2
+     MME IP: 
+
+** s1 setup request procedure
+enb will establish a sctp connection to mme, and notify mme that its Tracking area
+
+enb1:TA1     S1 setup request( enbid, TA1,TA2)
+     TA2    ------------------------------------>   MME
+           
+              S1 setup response(gummei,capacity)
+	    <------------------------------------
+
+* basic attach with imsi
+triggered by a ue press a power button to switch on the phone
+
+
+
+UE                               ENB                              MME                              HSS                              DNS                              SGW                              
+|                                |                                |                                |                                |                                |
+|------------------------------->|                                |                                |                                |                                |
+|A: RFC connection established   |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|------------------------------->|                                |                                |                                |                                |
+|M: NAS attach request(imsi,)    |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|------------------------------->|                                |                                |                                |                                |
+|A: [enb_s1_id]                  |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |------------------------------->|                                |                                |                                |
+|                                |M: initial ue message(enb_s1ap_ |                                |                                |                                |
+|                                |id,TAI(tracking area identifica |                                |                                |                                |
+|                                |tion in ue),NAS_attach_request( |                                |                                |                                |
+|                                |imsi))                          |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |------------------------------->|                                |                                |                                |
+|                                |A: <imsi,enb_s1ap_id> [mme_s1ap |                                |                                |                                |
+|                                |_id,GUTI, MME-TEID]             |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |------------------------------->|                                |                                |
+|                                |                                |M: authentication info request( |                                |                                |
+|                                |                                |imsi)                           |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |<-------------------------------|                                |                                |
+|                                |                                |M: allocation info answer(authe |                                |                                |
+|                                |                                |ntication&security parameters)  |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |<-------------------------------|                                |                                |                                |
+|                                |M: Downlink nas trasport(enb_s1 |                                |                                |                                |
+|                                |ap_id,mme_s1ap_id,authenticatio |                                |                                |                                |
+|                                |n request)                      |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |<-------------------------------|                                |                                |                                |
+|                                |A: <mme_s1ap_id>                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|<-------------------------------|                                |                                |                                |                                |
+|M: authentication Request       |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|------------------------------->|                                |                                |                                |                                |
+|M; authentication response      |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |------------------------------->|                                |                                |                                |
+|                                |M: uplink nas trasnport(enb_s1a |                                |                                |                                |
+|                                |p_id,mme_s1ap_id, authenticatio |                                |                                |                                |
+|                                |n response)                     |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |<-------------------------------|                                |                                |                                |
+|                                |M: DownlinkNASTransport (enb_s1 |                                |                                |                                |
+|                                |ap_id,mme_s1ap_id,[securityMode |                                |                                |                                |
+|                                |Command(cypher alg)])           |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                | tester calculate (cypher/inte) |                                |                                |                                |
+|                                |key using kasme                 |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|<-------------------------------|                                |                                |                                |                                |
+|M: [securityModeCommand]        |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|------------------------------->|                                |                                |                                |                                |
+|M: [{securityModeComplete}]     |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |<-------------------------------|                                |                                |                                |
+|                                |M: UplinkNASTransport (enb_s1ap |                                |                                |                                |
+|                                |_id,mme_s1ap_id,[{securityModeC |                                |                                |                                |
+|                                |omplete}]                       |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |------------------------------->|                                |                                |
+|                                |                                |M; Update Location Request(IMSI)|                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |<-------------------------------|                                |                                |
+|                                |                                |M: Update Location answer(Qos p |                                |                                |
+|                                |                                |rofile,APN)                     |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |---------------------------------------------------------------->|                                |
+|                                |                                |M: APN                          |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |<----------------------------------------------------------------|                                |
+|                                |                                |M: PGW IP                       |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |------------------------------------------------------------------------------------------------->|
+|                                |                                |M: create session request(MME-T |                                |                                |
+|                                |                                |EID,IMSI)                       |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |------------------------------------------------------------------------------------------------->|
+|                                |                                |A: <mme-teid,imsi>  [sgw-teid-c |                                |                                |
+|                                |                                |,sgw-teid-u]                    |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |<-------------------------------------------------------------------------------------------------|
+|                                |                                |M: create session response(mme- |                                |                                |
+|                                |                                |teid, sgw-teid-c,sgw-teid-u)    |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |<-------------------------------------------------------------------------------------------------|
+|                                |                                |A: <SGW_TEID-u>                 |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |<-------------------------------|                                |                                |                                |
+|                                |M: initial context setup reques |                                |                                |                                |
+|                                |t(enb_s1ap_id,mme_s1_id,SGW-TEI |                                |                                |                                |
+|                                |D,[{NAS_attach accept(GUTI,TALI |                                |                                |                                |
+|                                |ST}]))                          |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |<-------------------------------|                                |                                |                                |
+|                                |A: <sgw-teid> [enb-TEID]        |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|<-------------------------------|                                |                                |                                |                                |
+|M: [{attach accept(guti,talist) |                                |                                |                                |                                |
+|}]                              |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|<-------------------------------|                                |                                |                                |                                |
+|A: <guti,talist>                |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |------------------------------->|                                |                                |                                |
+|                                |M: InitialContextSetupResponse  |                                |                                |                                |
+|                                |(enb_s1ap_id,mme_s1_id,SGW-TEID |                                |                                |                                |
+|                                |,enb-TEID-U))                   |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |------------------------------->|                                |                                |                                |
+|                                |A: <enb TEID-U> temporarily     |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------->|
+|M: first uplink data packet     |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|------------------------------->|                                |                                |                                |                                |
+|M: Attach complete              |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |------------------------------->|                                |                                |                                |
+|                                |M: S1AP.UplinkNASTransport(enb_ |                                |                                |                                |
+|                                |s1ap_id,mme_s1_id,SGW-TEID,[{at |                                |                                |                                |
+|                                |tach complete}])                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |------------------------------------------------------------------------------------------------->|
+|                                |                                |M: modify bearer request(sgw-te |                                |                                |
+|                                |                                |id,enb-teid)                    |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |------------------------------------------------------------------------------------------------->|
+|                                |                                |A: <enb-teid>                   |                                |                                |
+|                                |                                |                                |                                |                                |
+|<-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|M: first downlink data packet   |                                |                                |                                |                                |
+|                                |                                |                                |                                |                                |
+|                                |                                |<-------------------------------------------------------------------------------------------------|
+|                                |                                |M: ModifyBearerResponse(MME TEI |                                |                                |
+|                                |                                |D-C)                            |                                |                                |
+|                                |                                |                                |                                |                                |
+
+
+picture example: 
+M means message() means parameter in message,[] means inteigiry protected message,{}means cyphered message 
+A means Action. <> means stored [] means allocated
+
+so after the attach, there are some value in the network element accordingly
+
+ue: guti, tailist
+enb: enb-s1-id, mme-s1-id, enb-teid, sgw-teid
+sgw: imsi, mme-teid, sgw-teid, enb-teid
+mme: ismi,enb-s1-id,mme-s1-id, guti, mme-teid, sgw-teid
+
+
+note all the data packet won't pass mme, data only in sgw and enb(enb talk with  ue via radio network)
+other components are connected via real nettwork(core net work?) 
+mme will only control the ue's guti and talist.
+talist is the tas which not needed to do TAU for ue, if ue entered another tas not in talist, ue will perform TAU to mme,
+mme will get updated where ue is
+
+
+* S1 Release
+when enb found  ue lose rrc connection(radio connect) to it, there will be s1 release procedure, started by enb.
+ue  ecm = idle
+
+
+sgw will remove enb related info, enb will remove all the info related to the attach()
+mme will remove ue-associated info ims1 and enb_s1ap_id
+
+enb detected that ue is lost, it will send a ue context release rquest(enb_s1ap_id, mme_s1ap_id, cause of release) to mme
+
+so S1 release procedure was triggered
+
+enb: enb-s1-id, mme-s1-id,      mme:imsi,enb-s1-id,mme-s1-id,                 sgw:imsi, mme-teid,
+enb-teid, sgw-teid                  guti, mme-teid, sgw-teid                      sgw-teid,enb-teid
+|                                    |                                            |
+|ue context release request(enb-s1-id|                                            |
+|mme-s1ap-id, casue of release)      |                                            |
+|----------------------------------->| release access bearers                     |
+|                                    |  request(SGW TEID-C)                       |  
+|                                    |------------------------------------------->|(enb-teid)Remove
+|                                    |                                            |---------
+|                                    |                                            |
+|                                    |relaes aceess bearers response              |
+|                                    |<-------------------------------------------|
+|                                    |                                            |
+|ue context release command(         |
+| enb-s1-id,mme-s1-id)               |
+|<-----------------------------------|
+|                                    |
+|(all the filed above)Remove         |
+|                                    |
+|                                    |
+|ue context release complete         |
+|(enb-s1-id, mme-s1-id)              |
+|----------------------------------->|(enb-s1ap-id) Remove
+
+
+
+* Service Request 
+when after s1 release, us ecm=idle
+ue want to send some message, it will establish RRC connection to enb and sending Service Request NAS Message
+
+ue                     enb                              mme                                      sgw
+guti,talist            none                  imsi,guti,mme-teid,sgw-teid          imsi,mme-teid,sgw-teid
+|                       |                                    |                                    |
+|service requst(S-TMSI) |                                    |                                    |
+|---------------------->|                                    |                                    |
+|                       |[enb-s1ap=id]                       |                                    |
+|                       |                                    |                                    |
+|                       |initial ue message(enb-s1ap-id,     |                                    |
+|                       | S-TMSI,<servic request>)           |                                    | 
+|                       |----------------------------------->|                                    |
+|                       |                                    |                                    |  
+|                       |                                    |                                    |                                    
+|                       |initial context setup req           |                                    | 
+|                       | (enb-s1ap-id,mme-s1ap-id, sgw-teid)|                                    |
+|                       |<---------------------------------- |                                    |
+|                       |                                    |                                    | 
+|                       |[enb-teid]                          |                                    | 
+|                       |{mme-s1ap-id,sgw-teid}              |                                    |
+|                       |                                    |                                    |
+|                       |                                    |                                    |
+|                       | first uplink data packet           |                                    |
+|---------------------->|------------------------------------------------------------------------>|
+|                       |                                    |                                    |
+|                       |initial context respose             |                                    |
+|                       |(enb-s1ap-id,mme-s1ap-id,enb-teid)  |                                    |
+|                       |----------------------------------->|                                    |
+|                       |                                    |                                    |
+|                       |                                    |modify bearer req(sgw-teid,enb-teid |
+|                       |                                    |----------------------------------->| 
+|                       |                                    |                                    |{enb-teid}
+|                       |                                    |                                    |
+|                       |   first donwlink data packet       |                                    |
+|<----------------------|<------------------------------------------------------------------------|
+|                       |                                    |                                    |
+|                       |                                    |                                    |
+|                       |                                    |modify bearer resp(mme-teid)        |
+|                       |                                    |<-----------------------------------| 
+
+
+
+* Paging
+Paging is from sl rlease scenario
+SGW get some data from the Internet, incoming donwlink data, sgw start to buffer them and request mme to estalbishment of E-RAB
+
+SGW sent Downlink Data Notification(MME-TEID) to  mme
+mme find subscirber with MME-TEID 
+
+S-TMSI=MMEC+MTMSI 
+S_TMSI is used to identify the subscirber
+
+MME send Paing() to all the enbs in the list.
+paging(S-TMSI,TA1+TA2)
+
+paing(S-TMSI, TA2)
+
+when ue recevied paing message from enb, it will send a service request nas messaeg to eNB

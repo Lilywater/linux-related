@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:sioct="http://rdfs.org/sioc/types#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://access.redhat.com/knowledge/articles/112673" />
+<link rel="shortlink" href="https://access.redhat.com/knowledge/node/112673" />
+<link rel="shortcut icon" href="https://access.redhat.com/knowledge/sites/default/files/shadowman.ico" type="image/vnd.microsoft.icon" />
+<meta name="portal_comment_count" content="5" />
+<meta name="portal_rating" content="80" />
+<meta content="JBoss Enterprise Application Platform Component Details" about="/knowledge/articles/112673" property="dc:title" />
+<meta about="/knowledge/articles/112673" property="sioc:num_replies" content="5" datatype="xsd:integer" />
+<meta name="portal_title" content="JBoss Enterprise Application Platform Component Details" />
+<meta name="portal_id" content="112673" />
+  <title>JBoss Enterprise Application Platform Component Details - Red Hat Customer Portal</title>
+  
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon03" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="https://access.redhat.com/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="https://access.redhat.com/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "https://access.redhat.com", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="https://access.redhat.com/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script>
+	  <link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_amM9R0R7hqNzKeT_8aSB73VNefWn7AMRBBqQGYALGGU.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_2OtW7FBmXvVPE4iKTZ5GjRalay2DG0BMAUpWKcnfihA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_n_E1-fTcENp3eBp9Qjr_w8xIgU7No_sXHMbR2HBolYA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/webassets/avalon/s/boxes-columns.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_2fMW7fHbVwsH66Ft_-P266h3Ul30RxNkjW-w6o-3QXU.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_e0Oi8I1L8cGJ7KxcUbimLkO-ivlPDoZXuBZMWKAz5GY.css" media="print" />
+
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_4IP9gN5rHKyHgmNHeyyJUuHdIpJi3W2WYDFx8McGvQk.css" media="all" />
+<![endif]-->
+
+<!--[if lte IE 7]>
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_pRKWqsShIuNuqjxZ91nMNlCNf4fqkTW8SFoNLBqKH0U.css" media="all" />
+<![endif]-->
+
+<!--[if lte IE 6]>
+<link type="text/css" rel="stylesheet" href="https://access.redhat.com/knowledge/sites/default/files/css/css_GCNkXOhnRhBWFVG0YBPSXdAPd6XUabQZQBvN-2ZGH24.css" media="all" />
+<![endif]-->
+  <link rel="stylesheet" type="text/css" media="all" href="https://access.redhat.com/webassets/avalon/s/list.css" />
+  <script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_kPKw9MerbP1HIOaFCy9zwrUWSGUa2iKyW6ih9PEtqck.js"></script>
+<script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_4Cytgm39a5IwdYEODENnCKznLoylVgAXNq9Y3W0WxY8.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+breadcrumbs = [
+  ["Knowledge", "/knowledge/"],
+  ["Articles", "/knowledge/articles/"],
+  ["JBoss Enterprise Application Platform Component Details"]
+];
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_GKwmhKXGpGFVY3R--JdHm1K2OR-S9pc_xlwIzHx7xnM.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var analyticsPageName = "jboss enterprise application platform component details|articles/112673"
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://access.redhat.com/knowledge/sites/default/files/js/js_sovHJXGcwBf_kQZMvQT4iKfXErnZaVa8UqXlCKgbEC8.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/knowledge\/","pathPrefix":"","ajaxPageState":{"theme":"kcs","theme_token":"K99W14RfBeQ-YuFFybDTJeU8lFb3KUCLsyuVbjwnHtk","js":{"modules\/jquery_update\/replace\/jquery\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/libraries\/chosen\/chosen\/chosen.jquery.min.js":1,"modules\/chosen\/chosen.js":1,"0":1,"sites\/all\/modules\/custom\/fivestar\/js\/fivestar.js":1,"1":1,"sites\/all\/themes\/kcs\/js\/kcs_base.js":1,"sites\/all\/themes\/kcs\/js\/showdown.js":1,"sites\/all\/themes\/kcs\/js\/case_links.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/date\/date_api\/date.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/user\/user.css":1,"modules\/views\/css\/views.css":1,"sites\/all\/libraries\/chosen\/chosen\/chosen.css":1,"modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/custom\/features\/best_answer\/best_answer.css":1,"sites\/all\/modules\/custom\/fivestar\/css\/fivestar.css":1,"https:\/\/access.redhat.com\/webassets\/avalon\/s\/boxes-columns.css":1,"sites\/all\/themes\/kcs\/css\/html-reset.css":1,"sites\/all\/themes\/kcs\/css\/wireframes.css":1,"sites\/all\/themes\/kcs\/css\/layout-fixed.css":1,"sites\/all\/themes\/kcs\/css\/page-backgrounds.css":1,"sites\/all\/themes\/kcs\/css\/tabs.css":1,"sites\/all\/themes\/kcs\/css\/pages.css":1,"sites\/all\/themes\/kcs\/css\/blocks.css":1,"sites\/all\/themes\/kcs\/css\/navigation.css":1,"sites\/all\/themes\/kcs\/css\/views-styles.css":1,"sites\/all\/themes\/kcs\/css\/nodes.css":1,"sites\/all\/themes\/kcs\/css\/comments.css":1,"sites\/all\/themes\/kcs\/css\/forms.css":1,"sites\/all\/themes\/kcs\/css\/fields.css":1,"sites\/all\/themes\/kcs\/css\/kcs.css":1,"sites\/all\/themes\/kcs\/css\/print.css":1,"sites\/all\/themes\/kcs\/css\/ie.css":1,"sites\/all\/themes\/kcs\/css\/ie7.css":1,"sites\/all\/themes\/kcs\/css\/ie6.css":1}},"chosen":{"selector":"#edit-field-kcs-component-select-und, #edit-field-kcs-sbr-select-und, #edit-field-kcs-product-select-und, #edit-field-kcs-type-select-und, #edit-language, #edit-field-kcs-a-category-select-und, #edit-field-kcs-state-select-und, #edit-field-kcs-tags-select-und, #edit-field-kcs-state-select-value, #edit-field-vid-reference-product-und, #edit-state, #edit-product, #edit-type, #edit-category, #edit-field-kcs-product-select-tid, #edit-field-kcs-type-select-tid, #edit-field-kcs-a-category-select-tid, #edit-sort-bef-combine, #edit-kcs-state, #edit-field-category-tid, #edit-field-product-tid, #edit-field-tags-tid, #edit-field-category-und, #edit-field-product-und, #edit-field-tags-und, #views-exposed-form-questions-list-questions-filter-block #edit-field-category, #edit-field-tags-und, #views-exposed-form-questions-list-questions-filter-block #edit-field-product, #views-exposed-form-questions-list-questions-filter-block #edit-field-tags","minimum":"0"},"section":"jboss enterprise application platform component details"});
+//--><!]]>
+</script>
+    <!--[if lt IE 9]>
+  <script src="https://access.redhat.com/knowledge/sites/all/themes/kcs/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body class="portal-page  kcs_external" >
+  <div id="skip-link">
+    <a href="#main-menu" class="element-invisible element-focusable">Jump to Navigation</a>
+  </div>
+  
+    
+	<div id="outer-wrapper" class="wrapo">
+		<div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="https://access.redhat.com/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="https://access.redhat.com/home">
+						<img src="https://access.redhat.com/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="https://access.redhat.com/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="https://access.redhat.com/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="https://access.redhat.com/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="https://access.redhat.com/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="https://access.redhat.com/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="https://access.redhat.com/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+			<div id="main-wrap" class="wrapu">
+				<div id="main-top"></div>
+				
+  <div id="content-narrow">
+      
+<script type="text/javascript">
+	siteMapState = "knowledge";
+</script>
+<div class="wrapi">
+    <div id="container" class="clearWrap c-mF statusPublished">
+        <div id="content" class="clearfix">
+            <div id="main" class="">
+                				
+                <!-- googleoff: all--> 
+                <div class="messages warning">
+<h2 class="element-invisible">Warning message</h2>
+<a href="https://access.redhat.com/login?redirectTo=https://access.redhat.com/knowledge/articles/112673">log in</a> to add comments or rate this document</div>
+                <!--googleon: all-->
+
+                                    <article id="main-content" class="kcs_article">				
+                    <header>
+                                                <h1 class="title" id="page-title">JBoss Enterprise Application Platform Component Details</h1>                                                                          <div class="pubdate"><span class="icon-clock" aria-hidden="true"></span> Updated 19 Feb 2013, 3:25 PM GMT</div>
+                                            </header>
+                                                                            <div class="content-area kcs_article-area">
+                                                                                									<aside id="sidebar"> 
+                                      <div class="region region-sidebar-second column sidebar "><div class="section">
+    <div id="block-boxes-rate" class="block block-boxes block-boxes-simple first last odd count-1">
+
+        <h2 class="block-title">Rate</h2>
+    
+  <div class="content">
+    <div class="clearfix fivestar-average-stars fivestar-average-text"><div class="fivestar-static-form-item"><div class="form-item form-type-item">
+ <div class="fivestar-default"><div class="fivestar-widget-static fivestar-widget-static-vote fivestar-widget-static-5 clearfix"><div class="star star-1 star-odd star-first"><span class="on">4</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="off"></span></div></div></div>
+<div class="description"><div class="fivestar-summary fivestar-summary-average-count"><span class="average-rating">Average: <span>4</span></span> <span class="total-votes">(<span>2</span> votes)</span></div></div>
+</div>
+</div></div>  </div>
+
+</div><!-- /.block -->
+  </div></div><!-- /.section, /.region -->
+                                </aside>
+  								                                                        <div id="doc">
+                                <div class="section">
+                                                                              <div class="region region-content">
+    <div id="block-system-main" class="block block-system first last odd count-1">
+
+      
+  <div class="content">
+    <div id="node-112673" class="node node-kcs-article view-mode-full clearfix" about="/knowledge/articles/112673" typeof="sioc:Item foaf:Document">
+
+                  
+  
+    <div class="content">
+      <div class="field field-name-field-kcs-article-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even"><p>As part of the <a href="http://www.redhat.com/products/jbossenterprisemiddleware/application-platform/">JBoss® Enterprise Application Platform (JBoss EAP)</a> release process, a number of open source projects have been integrated to form a stable Java™ EE application platform. Here you'll find the JBoss EAP component details for each initial major release.</p>
+<p>Open source projects are sourced from various open source communities, like the JBoss Community, Apache Software Foundation, and many others. Some components may have been added or removed for dependency or compatibility purposes, while others may be included as technology previews.</p>
+<div>
+<ul>
+<li><a href="#EAP_6">JBoss Enterprise Application Platform 6</a></li>
+<li><a href="#EAP_5">JBoss Enterprise Application Platform 5</a></li>
+<li><a href="#EAP_4_3">JBoss Enterprise Application Platform 4.3</a></li>
+<li><a href="#EAP_4_2">JBoss Enterprise Application Platform 4.2</a></li>
+</ul>
+</div>
+<h2 id="EAP_6">JBoss Enterprise Application Platform 6</h2>
+<p>The following components have been integrated into a single distribution for JBoss Enterprise Application Platform 6. This integrated Java application platform is fully supported for use in both development and production, according to your corresponding subscription agreement.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>EAP 6.0.0</th>
+<th>EAP 6.0.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>JBoss AS</th>
+<td>7.1.2 Final</td>
+<td>7.1.3 Final</td>
+</tr>
+<tr>
+<th>WELD</th>
+<td>1.1.8.Final</td>
+<td>1.1.10.Final</td>
+</tr>
+<tr>
+<th>Rest Easy</th>
+<td>2.3.3.Final</td>
+<td>2.3.4.Final</td>
+</tr>
+<tr>
+<th>mod_cluster</th>
+<td>1.2.1.Final</td>
+<td>1.2.3.Final</td>
+</tr>
+<tr>
+<th>Picketlink Federation</th>
+<td>2.1.1.Final</td>
+<td>2.1.3.Final</td>
+</tr>
+<tr>
+<th>JBoss Modules</th>
+<td>1.1.2.Final</td>
+<td>1.1.3.Final</td>
+</tr>
+<tr>
+<th>JBoss DMR</th>
+<td>1.1.1.Final</td>
+<td>1.1.1.Final</td>
+</tr>
+<tr>
+<th>JBoss Metadata</th>
+<td>7.0.3.Final</td>
+<td>7.0.4.Final</td>
+</tr>
+<tr>
+<th>JBoss XNIO</th>
+<td>3.0.4.GA</td>
+<td>3.0.7.GA</td>
+</tr>
+<tr>
+<th>PicketBox</th>
+<td>4.0.9.Final</td>
+<td>4.0.14.Final</td>
+</tr>
+<tr>
+<th>PicketBox Commons</th>
+<td>1.0.0.Final</td>
+<td>1.0.0.Final</td>
+</tr>
+<tr>
+<th>Hibernate Core</th>
+<td>4.1.3.Final</td>
+<td>4.1.6.Final</td>
+</tr>
+<tr>
+<th>Hibernate Infinispan (2LC)</th>
+<td>4.1.3.Final</td>
+<td>4.1.6.Final</td>
+</tr>
+<tr>
+<th>Hibernate Envers</th>
+<td>4.1.3.Final</td>
+<td>4.1.6.Final</td>
+</tr>
+<tr>
+<th>Hibernate Validator</th>
+<td>4.2.0.Final</td>
+<td>4.2.0.Final</td>
+</tr>
+<tr>
+<th>Hibernate JPA 2.0 API</th>
+<td>1.0.1.Final</td>
+<td>1.0.1.Final</td>
+</tr>
+<tr>
+<th>JBoss Web</th>
+<td>7.0.16.Final</td>
+<td>7.0.17.Final</td>
+</tr>
+<tr>
+<th>Infinispan</th>
+<td>5.1.4.Final</td>
+<td>5.1.8.Final</td>
+</tr>
+<tr>
+<th>IronJacamar (JCA 1.6)</th>
+<td>1.0.11.Final</td>
+<td>1.0.13.Final</td>
+</tr>
+<tr>
+<th>JGroups</th>
+<td>3.0.9.Final</td>
+<td>3.0.14.Final</td>
+</tr>
+<tr>
+<th>JBoss Transactions</th>
+<td>4.16.4.Final</td>
+<td>4.16.6.Final</td>
+</tr>
+<tr>
+<th>JBoss EJB Client</th>
+<td>1.0.10.Final</td>
+<td>1.0.11.Final</td>
+</tr>
+<tr>
+<th>JBoss EJB3 EXT API</th>
+<td>2.0.0</td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<th>JBoss WS API</th>
+<td>1.0.0.GA</td>
+<td>1.0.0.GA</td>
+</tr>
+<tr>
+<th>JBoss WS SPI</th>
+<td>2.0.3.GA</td>
+<td>2.0.4.GA</td>
+</tr>
+<tr>
+<th>JBoss WS Common</th>
+<td>2.0.4.GA</td>
+<td>2.0.4.GA</td>
+</tr>
+<tr>
+<th>JBoss WS Common Tools</th>
+<td>1.0.1.GA</td>
+<td>1.0.2.GA</td>
+</tr>
+<tr>
+<th>JBoss WS-CXF</th>
+<td>4.0.4.GA</td>
+<td>4.0.6.GA</td>
+</tr>
+<tr>
+<th>JBoss WS-Native (for jaxrpc only)</th>
+<td>4.0.4.GA</td>
+<td>4.0.6.GA</td>
+</tr>
+<tr>
+<th>JBoss VFS</th>
+<td>3.1.0.Final</td>
+<td>3.1.0.Final</td>
+</tr>
+<tr>
+<th>JBoss Remoting3</th>
+<td>3.2.8.GA</td>
+<td>3.2.14.GA</td>
+</tr>
+<tr>
+<th>JBoss Marshalling</th>
+<td>1.3.14.GA</td>
+<td>1.3.15.GA</td>
+</tr>
+<tr>
+<th>JBoss SASL</th>
+<td>1.0.1.Final</td>
+<td>1.0.3.Final</td>
+</tr>
+<tr>
+<th>JSF</th>
+<td>1.2_15-b01-redhat-1</td>
+<td>1.2_15-b01-redhat-2</td>
+</tr>
+<tr>
+<th>JSF2</th>
+<td>2.1.7-redhat-1</td>
+<td>2.1.13-redhat-1</td>
+</tr>
+<tr>
+<th>JacORB</th>
+<td>2.3.2-redhat-1</td>
+<td>2.3.2-redhat-2</td>
+</tr>
+<tr>
+<th>JBoss Security Negotiation</th>
+<td>2.2.0.SP1</td>
+<td>2.2.1.Final</td>
+</tr>
+<tr>
+<th>JBoss Management Console</th>
+<td>1.3.1.Final</td>
+<td>1.4.2.Final</td>
+</tr>
+<tr>
+<th>Hornet Q</th>
+<td>2.2.16.Final</td>
+<td>2.2.23.Final</td>
+</tr>
+<tr>
+<th>Netty (in HornetQ and Inifnispan)</th>
+<td>3.2.6.Final</td>
+<td>3.2.6.Final</td>
+</tr>
+<tr>
+<th>JBoss Logging</th>
+<td>3.1.1.GA</td>
+<td>3.1.2.GA</td>
+</tr>
+<tr>
+<th>Apache CXF</th>
+<td>2.4.6</td>
+<td>2.4.9</td>
+</tr>
+<tr>
+<th>Apache CXF XJC-Utils</th>
+<td>2.4.0</td>
+<td>2.4.0</td>
+</tr>
+<tr>
+<th>Apache WSS4J (for WS)</th>
+<td>1.6.5</td>
+<td>1.6.7</td>
+</tr>
+<tr>
+<th>Xalan</th>
+<td>2.7.1-redhat-1</td>
+<td>2.7.1-redhat-3</td>
+</tr>
+<tr>
+<th>Xerces</th>
+<td>2.9.1-redhat-1</td>
+<td>2.9.1-redhat-3</td>
+</tr>
+<tr>
+<th>JAXB</th>
+<td>2.2.5</td>
+<td>2.2.5-redhat-3</td>
+</tr>
+<tr>
+<th>Application Platform 6.0.0 Apache Web Server</th>
+<td>based on Apache 2.2.17</td>
+<td>based on Apache 2.2.22</td>
+</tr>
+</tbody>
+</table>
+<h3>Dependent Components</h3>
+<p>The following components have been included for dependency purposes only and are not fully supported for production or development as part of a JBoss Enterprise Application Platform subscription:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Hypersonic SQL</th>
+<td>This component provides default out-of-the-box database functionality for JBoss EAP for evaluation and development use only. Hypersonic SQL is not recommended or supported for production use.</td>
+</tr>
+</tbody>
+</table>
+<h3>Technology Preview Components</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>JBoss OSGi Framework</th>
+<td> 1.1.1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="EAP_5">JBoss Enterprise Application Platform 5</h2>
+<p>The following components have been integrated into a single distribution for JBoss Enterprise Application Platform 5. This integrated Java application platform is fully supported for use in both development and production, according to your corresponding subscription agreement.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                EAP 5.0.0</th>
+<th>
+                EAP 5.1.0</th>
+<th>
+                EAP 5.1.1</th>
+<th>
+                EAP 5.1.2</th>
+<th>
+                EAP 5.2.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Application Server</th>
+<td>
+                5.1.0.GA</td>
+<td>
+                5.1.0.GA</td>
+<td>
+                5.1.0.GA</td>
+<td>
+                5.1.0.GA</td>
+<td>
+                5.2.0.GA</td>
+</tr>
+<tr>
+<th>
+                JBoss Microcontainer</th>
+<td>
+                2.0.9.GA</td>
+<td>
+                2.0.10.GA</td>
+<td>
+                2.0.10.GA</td>
+<td>
+                2.0.10.GA</td>
+<td>
+                2.0.10.GA</td>
+</tr>
+<tr>
+<th>
+                Hibernate&reg; Core</th>
+<td>
+                3.3.2.GA</td>
+<td>
+                3.3.2.GA_CP03</td>
+<td>
+                3.3.2.GA_CP04</td>
+<td>
+                3.3.2.GA_CP04</td>
+<td>
+                3.3.2.GA_CP05></td>
+</tr>
+<tr>
+<th>
+                Hibernate Entity Manager</th>
+<td>
+                3.4.0.GA</td>
+<td>
+                3.4.0.GA_CP03</td>
+<td>
+                3.4.0.GA_CP04</td>
+<td>
+                3.4.0.GA_CP04</td>
+<td>
+                3.4.0.GA_CP05></td>
+</tr>
+<tr>
+<th>
+                Hibernate Annotations</th>
+<td>
+                3.4.0.GA</td>
+<td>
+                3.4.0.GA_CP03</td>
+<td>
+                3.4.0.GA_CP04</td>
+<td>
+                3.4.0.GA_CP04</td>
+<td>
+                3.4.0.GA_CP05></td>
+</tr>
+<tr>
+<th>
+                Hibernate Validator</th>
+<td>
+                3.1.0.GA</td>
+<td>
+                3.1.0.GA</td>
+<td>
+                3.1.0.GA</td>
+<td>
+                3.1.0.GA</td>
+<td>
+                3.1.0.GA</td>
+</tr>
+<tr>
+<th>
+                Hibernate Search</th>
+<td>
+                3.1.1.GA</td>
+<td>
+                3.1.1.GA_CP03</td>
+<td>
+                3.1.1.GA_CP04</td>
+<td>
+                3.1.1.GA_CP04</td>
+<td>
+                3.1.1.GA_CP05</td>
+</tr>
+<tr>
+<th>
+                JBoss Web (based on Tomcat 6.0)</th>
+<td>
+                2.1.3.GA</td>
+<td>
+                2.1.10.GA</td>
+<td>
+                2.1.12.GA</td>
+<td>
+                2.1.12.GA-patch-01</td>
+<td>
+                2.1.13.GA-patch-01</td>
+</tr>
+<tr>
+<th>
+                JBoss Cache</th>
+<td>
+                3.2.1.GA</td>
+<td>
+                3.2.5.GA</td>
+<td>
+                3.2.7.GA</td>
+<td>
+                3.2.8.GA</td>
+<td>
+                3.2.11.GA</td>
+</tr>
+<tr>
+<th>
+                JBoss JAXR</th>
+<td>
+                2.0.1</td>
+<td>
+                2.0.1</td>
+<td>
+                2.0.1</td>
+<td>
+                2.0.1</td>
+<td>
+                2.0.1</td>
+</tr>
+<tr>
+<th>
+                JGroups</th>
+<td>
+                2.6.13.GA</td>
+<td>
+                2.6.16.GA</td>
+<td>
+                2.6.19.Final</td>
+<td>
+                2.6.20.Final</td>
+<td>
+                2.6.22.Final</td>
+</tr>
+<tr>
+<th>
+                JBoss EJB3</th>
+<td>
+                1.1.18</td>
+<td>
+                1.3.6</td>
+<td>
+                1.3.7</td>
+<td>
+                1.3.8</td>
+<td>
+                1.3.9</td>
+</tr>
+<tr>
+<th>
+                JBoss Transactions</th>
+<td>
+                4.6.1 CP03</td>
+<td>
+                4.6.1.GA_CP07</td>
+<td>
+                4.6.1.CP11-Patch-01</td>
+<td>
+                4.6.1.CP12</td>
+<td>
+                4.6.1.CP13</td>
+</tr>
+<tr>
+<th>
+                JBoss Web Services (WS)</th>
+<td>
+                3.1.2 SP4</td>
+<td>
+                3.1.2 SP8</td>
+<td>
+                3.1.2.SP9</td>
+<td>
+                3.1.2.SP10</td>
+<td>
+                3.1.2.SP13</td>
+</tr>
+<tr>
+<th>
+                JBoss WS-Native</th>
+<td>
+                3.1.2 SP3</td>
+<td>
+                3.1.2 SP7</td>
+<td>
+                3.1.2.SP10</td>
+<td>
+                3.1.2.SP11</td>
+<td>
+                3.1.2.SP15</td>
+</tr>
+<tr>
+<th>
+                JBoss WS-CXF</th>
+<td>
+                3.1.2</td>
+<td>
+                3.1.2.SP7</td>
+<td>
+                3.1.2.SP8</td>
+<td>
+                3.1.2.SP9</td>
+<td>
+                3.1.2.SP13</td>
+</tr>
+<tr>
+<th>
+                Apache CXF</th>
+<td>
+                2.2.2</td>
+<td>
+                2.2.6-patch-01</td>
+<td>
+                2.2.12-patch-01</td>
+<td>
+                2.2.12-patch-02</td>
+<td>
+                2.2.12-patch-04</td>
+</tr>
+<tr>
+<th>
+                JBoss AOP</th>
+<td>
+                2.1.6.GA</td>
+<td>
+                2.1.6.CP01</td>
+<td>
+                2.1.6.CP02</td>
+<td>
+                2.1.6.CP03</td>
+<td>
+                2.1.6.CP06</td>
+</tr>
+<tr>
+<th>
+                JBoss Remoting</th>
+<td>
+                2.5.2</td>
+<td>
+                2.5.3.SP1</td>
+<td>
+                2.5.4.SP2</td>
+<td>
+                2.5.4.SP3</td>
+<td>
+                2.5.4.SP4</td>
+</tr>
+<tr>
+<th>
+                JBoss Serialization</th>
+<td>
+                1.0.3.GA</td>
+<td>
+                1.0.4.FINAL</td>
+<td>
+                1.0.5.FINAL</td>
+<td>
+                1.0.5.FINAL</td>
+<td>
+                1.0.5.FINAL</td>
+</tr>
+<tr>
+<th>
+                JSF</th>
+<td>
+                1.2_13</td>
+<td>
+                1.2_13</td>
+<td>
+                1.2_13</td>
+<td>
+                1.2_13-patch-01</td>
+<td>
+                1.2_13-patch-01</td>
+</tr>
+<tr>
+<th>
+                JacORB</th>
+<td>
+                2.3.1.jboss.patch1</td>
+<td>
+                2.3.1.jboss.patch1</td>
+<td>
+                2.3.1.jboss-patch-02</td>
+<td>
+                2.3.2.jboss-patch-03</td>
+<td>
+                2.3.2.jboss-1</td>
+</tr>
+<tr>
+<th>
+                JPA</th>
+<td>
+                1.0.0</td>
+<td>
+                1.0.0</td>
+<td>
+                1.0.0</td>
+<td>
+                1.0.0</td>
+<td>
+                1.0.2.GA</td>
+</tr>
+<tr>
+<th>
+                JBoss Security</th>
+<td>
+                2.0.4.SP1</td>
+<td>
+                2.0.4.SP4</td>
+<td>
+                2.0.4.SP7</td>
+<td>
+                2.0.4.SP8</td>
+<td>
+                2.0.5.SP3-1</td>
+</tr>
+<tr>
+<th>
+                JBoss Negotiation</th>
+<td>
+                2.0.3 SP1</td>
+<td>
+                2.0.3 SP3</td>
+<td>
+                2.0.3 SP3</td>
+<td>
+                2.0.3 SP3</td>
+<td>
+                2.1.3.GA</td>
+</tr>
+<tr>
+<th>
+                Xalan</th>
+<td>
+                2.7.1.patch02</td>
+<td>
+                2.7.1.patch02</td>
+<td>
+                2.7.1.patch04</td>
+<td>
+                2.7.1.patch05</td>
+<td>
+                2.7.1.patch05</td>
+</tr>
+<tr>
+<th>
+                Xerces</th>
+<td>
+                2.9.1-patch-01</td>
+<td>
+                2.9.1-patch-01</td>
+<td>
+                2.9.1-patch-01</td>
+<td>
+                2.9.1-patch-01</td>
+<td>
+                2.9.1-patch-02</td>
+</tr>
+<tr>
+<th>
+                JAXB</th>
+<td>
+                2.1.9.patch01</td>
+<td>
+                2.1.12.patch01</td>
+<td>
+                2.1.12.patch01</td>
+<td>
+                2.1.12-patch-02</td>
+<td>
+                2.1.12-patch-03</td>
+</tr>
+<tr>
+<th>
+                Seam</th>
+<td>
+                2.2.0.EAP5</td>
+<td>
+                2.2.2.EAP5</td>
+<td>
+                2.2.4.EAP5</td>
+<td>
+                2.2.5.EAP5</td>
+<td>
+                2.2.6.EAP5</td>
+</tr>
+<tr>
+<th>
+                RichFaces</th>
+<td>
+                3.3.1.GA</td>
+<td>
+                3.3.1.SP2</td>
+<td>
+                3.3.1.SP3</td>
+<td>
+                3.3.1.SP3</td>
+<td>
+                3.3.1.SP3</td>
+</tr>
+<tr>
+<th>
+                JBoss Admin Console</th>
+<td>
+                1.3.2.GA</td>
+<td>
+                1.3.4.SP1</td>
+<td>
+                1.3.4.SP4</td>
+<td>
+                1.3.4.SP5</td>
+<td>
+                1.3.4.SP6</td>
+</tr>
+<tr>
+<th>
+                JBoss Messaging</th>
+<td>
+                1.4.6</td>
+<td>
+                1.4.7.GA</td>
+<td>
+                1.4.8.SP1</td>
+<td>
+                1.4.8.SP5</td>
+<td>
+                1.4.8.SP9</td>
+</tr>
+<tr>
+<th>
+                HornetQ</th>
+<td>
+                &nbsp;</td>
+<td>
+                &nbsp;</td>
+<td>
+                2.2.5.GA (TP)</td>
+<td>
+                2.2.10.GA</td>
+<td>
+                2.2.24.EAP_GA</td>
+</tr>
+<tr>
+<th>
+                mod_jk</th>
+<td>
+                1.2.28</td>
+<td>
+                1.2.30</td>
+<td>
+                1.2.31</td>
+<td>
+                1.2.31</td>
+<td>
+                1.2.31</td>
+</tr>
+<tr>
+<th>
+                mod_cluster</th>
+<td>
+                1.0.2.GA</td>
+<td>
+                1.0.4.GA</td>
+<td>
+                1.0.10.GA_CP01</td>
+<td>
+                1.0.10.GA_CP02</td>
+<td>
+                1.0.10.GA_CP04</td>
+</tr>
+<tr>
+<th>
+                JBoss RESTEasy</th>
+<td>
+                1.1.CP01</td>
+<td>
+                1.2.1</td>
+<td>
+                1.2.1.GA_CP01</td>
+<td>
+                1.2.1.GA_CP02</td>
+<td>
+                1.2.1.GA_CP02_patch02</td>
+</tr>
+<tr>
+<th>
+                JBoss Native</th>
+<td>
+                2.0.6</td>
+<td>
+                2.0.6</td>
+<td>
+                2.0.6</td>
+<td>
+                2.0.6</td>
+<td>
+                2.0.6</td>
+</tr>
+<tr>
+<th>
+                PicketLink Federation</th>
+<td>
+                &nbsp;</td>
+<td>
+                1.0.3</td>
+<td>
+                1.0.3</td>
+<td>
+                2.0.6</td>
+<td>
+                2.1.5.Final</td>
+</tr>
+<tr>
+<th>
+                Netty</th>
+<td>
+                &nbsp;</td>
+<td>
+                3.2.1.Final</td>
+<td>
+                3.2.3.Final</td>
+<td>
+                3.2.3.Final</td>
+<td>
+                3.2.5.Final</td>
+</tr>
+</tbody>
+</table>
+<h3>Dependent Components</h3>
+<p>The following components have been included for dependency purposes only and are not fully supported for production or development as part of a JBoss Enterprise Application Platform subscription:</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                Quartz Job Scheduler</th>
+<td>
+                The Quartz Job Scheduler is used internally by the Java EE Timer Service and Seam Asynchronous methods with the Quartz Dispatcher. It is only supported within these contexts.</td>
+</tr>
+<tr>
+<th >
+                JBoss jBPM 3.2 (jPDL)</th>
+<td>
+                This item is required to implement pageflow features for JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+<p>                JBoss Rules 5 (Drools)</th>
+<td>
+                This item is required to implement rule-based security features for JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                Hypersonic SQL</th>
+<td>
+                This component provides default out-of-the-box database functionality for JBoss EAP for evaluation and development use only. Hypersonic SQL is not recommended or supported for production use.</td>
+</tr>
+</tbody>
+</table>
+<h3>Technology Preview Components</h3>
+<p>Some features in JBoss EAP 5 are provided as technology preview. This means that while these components have been included in JBoss EAP, they're not considered functionally complete and are not suitable for production use. So they're supported in development (according to your corresponding subscription agreement) but not recommended or supported for production use.</p>
+<p>These components are included as a customer convenience and to provide the components' features with wider exposure. Customers are encouraged to provide feedback and suggestions for a technology preview feature before it becomes fully supported. Red Hat® intends to fully support technology preview features in a future release.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Web Services CXF</th>
+<td>
+                The JBoss Web Services CXF web stack is a tech preview in JBoss EAP 5.0.1, and fully supported in JBoss EAP 5.1.0 and later versions.</td>
+</tr>
+<tr>
+<th>
+                PicketLink Federation (Tech Preview)</th>
+<td>
+                PicketLink Federation is a tech preview in JBoss EAP 5.1.1</td>
+</tr>
+<tr>
+<th>
+                HornetQ Message Broker</th>
+<td>
+                HornetQ is a tech preview in JBoss EAP 5.1.1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="EAP_4_3">JBoss Enterprise Application Platform 4.3</h2>
+<p>The following components have been integrated into a single distribution for JBoss EAP 4.3. This integrated Java application platform is fully supported for use in both development and production, according to your corresponding subscription agreement.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Application Server</th>
+<td>
+                4.2.1 with various updates, component upgrades, and bug fixes</td>
+</tr>
+<tr>
+<th>
+                Hibernate</th>
+<td>
+                3.2.4 SP1 CP01</td>
+</tr>
+<tr>
+<th>
+                Hibernate Entity Manager</th>
+<td>
+                3.2.1</td>
+</tr>
+<tr>
+<th>
+                Hibernate Annotations</th>
+<td>
+                3.2.1 GA patch01</td>
+</tr>
+<tr>
+<th>
+                JBoss Seam</th>
+<td>
+                1.2.1 JBPAPP_4_3_0_GA</td>
+</tr>
+<tr>
+<th>
+                JBoss Web (embedded Tomcat 6.0)</th>
+<td>
+                2.0.0 GA CP05</td>
+</tr>
+<tr>
+<th>
+                JBoss Cache</th>
+<td>
+                1.4.1 SP8 patch02</td>
+</tr>
+<tr>
+<th>
+                JGroups (for caching and clustering)</th>
+<td>
+                2.4.1 SP4</td>
+</tr>
+<tr>
+<th>
+                JBoss Messaging</th>
+<td>
+                1.4.0 SP3 CP01</td>
+</tr>
+<tr>
+<th>
+                JBoss Transactions</th>
+<td>
+                4.2.3 SP5</td>
+</tr>
+<tr>
+<th>
+                JBoss Web Services (JBossWS)</th>
+<td>
+                2.0.1 SP2</td>
+</tr>
+<tr>
+<th>
+                JBossXB</th>
+<td>
+                1.0.0 SP1</td>
+</tr>
+<tr>
+<th>
+                JBoss AOP</th>
+<td>
+                1.5.5</td>
+</tr>
+<tr>
+<th>
+                JBoss Remoting</th>
+<td>
+                2.2.2 SP4</td>
+</tr>
+<tr>
+<th>
+                JBoss Serialization</th>
+<td>
+                1.0.3</td>
+</tr>
+<tr>
+<th>
+                JacORB</th>
+<td>
+                2.3.0 jboss.patch5</td>
+</tr>
+</tbody>
+</table>
+<h3>Excluded Elements</h3>
+<p>The following subcomponents or features have been removed from JBoss EAP 4.3:</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Removed item</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Web 2.0</th>
+<td>
+                The Apache Portable Runtime and native IO elements have been removed.</td>
+<td>
+                This item is expected to be included in JBoss EAP 5.0.</td>
+</tr>
+</tbody>
+</table>
+<h3>Dependent Components</h3>
+<p>The following components have been included for dependency purposes only and are not fully supported for production or development as part of a JBoss EAP subscription.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                Quartz Job Scheduler</th>
+<td>
+                Quartz Job Scheduler is used internally by the Java EE Timer Service and is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                JBoss jBPM 3.1.4 (jPDL)</th>
+<td>
+                This item is required to implement pageflow features for JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                JBoss Rules 3.2.1 (Drools)</th>
+<td>
+                This item is required to implement rule-based security features for JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                RichFaces 3.0.1 snapshot</th>
+<td>
+                This item is bundled with JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                Ajax4Jsf 1.1.1 snapshot</th>
+<td>
+                This item is bundled with JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                Hypersonic SQL</th>
+<td>
+                This component provides default out-of-the-box database functionality for JBoss EAP for evaluation and development use only. Hypersonic SQL is not recommended or supported as a production-use database.</td>
+</tr>
+</tbody>
+</table>
+<h3>Technology Preview Components</h3>
+<p>There are no features in this release that are considered technology previews.</p>
+<h2 id="EAP_4_2">JBoss Enterprise Application Platform 4.2</h2>
+<p>The following components have been integrated into a single distribution for JBoss EAP 4.2. This integrated Java application platform is fully supported for use in both development and production, according to your corresponding subscription agreement.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Application Server</th>
+<td>
+                4.2.0</td>
+</tr>
+<tr>
+<th>
+                Hibernate</th>
+<td>
+                3.2.4 SP1</td>
+</tr>
+<tr>
+<th>
+                Hibernate Entity Manager</th>
+<td>
+                3.2.1</td>
+</tr>
+<tr>
+<th>
+                Hibernate Annotations</th>
+<td>
+                3.2.1</td>
+</tr>
+<tr>
+<th>
+                JBoss Seam</th>
+<td>
+                1.2.1</td>
+</tr>
+<tr>
+<th>
+                JBoss Web (embedded Tomcat 6.0)</th>
+<td>
+                2.0.0</td>
+</tr>
+<tr>
+<th>
+                JBoss Cache</th>
+<td>
+                1.4.1 SP3</td>
+</tr>
+<tr>
+<th>
+                JGroups (for caching and clustering)</th>
+<td>
+                2.4.1 SP3</td>
+</tr>
+<tr>
+<th>
+                JBossMQ</th>
+<td>
+                4.2.0</td>
+</tr>
+<tr>
+<th>
+                JBoss Transactions</th>
+<td>
+                4.2.3 SP4</td>
+</tr>
+<tr>
+<th>
+                JBoss Web Services (JBossWS)</th>
+<td>
+                1.2.1</td>
+</tr>
+<tr>
+<th>
+                JBoss AOP</th>
+<td>
+                1.5.5</td>
+</tr>
+<tr>
+<th>
+                JBoss Remoting</th>
+<td>
+                2.2.0 SP4</td>
+</tr>
+<tr>
+<th>
+                JBoss Serialization</th>
+<td>
+                1.0.3</td>
+</tr>
+</tbody>
+</table>
+<h3>Excluded Elements</h3>
+<p>The following subcomponents or features have been removed from JBoss EAP 4.2.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Removed item</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Web 2.0</th>
+<td>
+                The Apache Portable Runtime and native IO elements have been removed.</td>
+<td>
+                This item is expected to be included in JBoss EAP 5.0.</td>
+</tr>
+</tbody>
+</table>
+<h3>Dependent Components</h3>
+<p>The following components have been included for dependency purposes only and are not fully supported for production or development as part of a JBoss EAP subscription.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                Quartz Job Scheduler</th>
+<td>
+                Quartz Job Scheduler is used internally by the Java EE Timer Service and is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                JBoss jBPM 3.1.4 (jPDL)</th>
+<td>
+                This item is required to implement pageflow features for JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                JBoss Rules 3.2.1 (Drools)</th>
+<td>
+                This item is required to implement rule-based security features for JBoss Seam, so the use of this component is only supported within this context.</td>
+</tr>
+<tr>
+<th>
+                Hypersonic SQL</th>
+<td>
+                This component provides default out-of-the-box database functionality for JBoss EAP for evaluation and development use only. Hypersonic SQL is not recommended or supported as a production-use database.</td>
+</tr>
+</tbody>
+</table>
+<h3>Technology Preview Components</h3>
+<p>Some features in JBoss EAP 4.2 are provided as technology previews. This means that while these components have been included in JBoss EAP, they're not considered functionally complete. They're supported in development (according to your corresponding subscription agreement) but are not recommended or supported for production use.</p>
+<p>These components are included as a customer convenience and to provide the components' features with wider exposure. Customers are encouraged to provide feedback and suggestions for a technology preview feature before it becomes fully supported. Red Hat intends to fully support technology preview features in a future release.</p>
+<table>
+<thead>
+<tr>
+<th>
+                Component</th>
+<th>
+                Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+                JBoss Web Services (JBossWS) - JAX-WS</th>
+<td>
+                The JAX-WS functionality within JBossWS is not feature-complete and is therefore not ready for production use. We expect to provide an updated JBossWS component with full JAX-WS support in the JBoss EAP 4.3 and 5.0 releases.</td>
+</tr>
+</tbody>
+</table>
+</div>
+      </div>
+</div>
+<footer><div class="footer-inner"><div class="taxonomy-group"><div class="taxonomy-list field_kcs_type_select">  <h3 class="field-label">
+    Article Type  </h3>
+
+<ul class="field field-name-field-kcs-type-select field-type-taxonomy-term-reference field-label-above">
+
+      <li>
+      <a href="/knowledge/article-type/general" typeof="skos:Concept" property="rdfs:label skos:prefLabel">General</a>    </li>
+  
+</ul>
+</div></div><div class="taxonomy-group"><div class="taxonomy-list field_kcs_product_select">  <h3 class="field-label">
+    Product(s)  </h3>
+
+<ul class="field field-name-field-kcs-product-select field-type-taxonomy-term-reference field-label-above">
+
+      <li>
+      <a href="/knowledge/products/jboss-enterprise-application-platform" typeof="skos:Concept" property="rdfs:label skos:prefLabel">JBoss Enterprise Application Platform</a>    </li>
+  
+</ul>
+</div></div><div class="taxonomy-group"><div class="taxonomy-list field_kcs_a_category_select">  <h3 class="field-label">
+    Category  </h3>
+
+<ul class="field field-name-field-kcs-a-category-select field-type-taxonomy-term-reference field-label-above">
+
+      <li>
+      <a href="/knowledge/category/supportability" typeof="skos:Concept" property="rdfs:label skos:prefLabel">Supportability</a>    </li>
+  
+</ul>
+</div></div></div></footer>    </div>
+  
+  <div id="comments-footer"> 
+  <div id="comments" class="comment-wrapper">
+          <h2 class="title">Comments</h2>
+      
+  <div id="comment-wrapper"><div id="comment-wrapper-413443"><a id="comment-413443"></a>
+
+  <div class="comment first odd public" about="/knowledge/comment/413443#comment-413443" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2012-10-04T10:40:30+01:00" datatype="xsd:dateTime" rel="sioc:has_creator">Marc Zottner on Thu, 10/04/2012 - 10:40</span>      <a href="/knowledge/comment/413443#comment-413443" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/112673" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>EAP 4.3 support JDK 1.6u7 too according to the compatibility documentation:</p>
+<p>https://access.redhat.com/knowledge/docs/en-US/JBoss_Enterprise_Application_Platform/4.3/html-single/JDK6_Compatibility_Notes/index.html</p>
+<p>Could you please update this documents accordingly?</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-448093"><a id="comment-448093"></a>
+
+</div><div id="comment-wrapper-453383"><a id="comment-453383"></a>
+
+  <div class="comment odd public" about="/knowledge/comment/453383#comment-453383" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2013-01-16T13:29:33+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Nils Ottosson on Wed, 01/16/2013 - 13:29</span>      <a href="/knowledge/comment/453383#comment-453383" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/112673" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Could you please update the document with details for EAP 6.0.1?</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-453413"><a id="comment-453413"></a>
+
+  <div class="comment even public" about="/knowledge/comment/453413#comment-453413" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2013-01-16T13:59:40+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Shaun Appleton on Wed, 01/16/2013 - 13:59</span>      <a href="/knowledge/comment/453413#comment-453413" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/112673" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi Nils,</p>
+<p>A draft version has been written, it is awaiting a review - so it shouldn&#039;t be too long before it appears.</p>
+<p>Regards,</p>
+<p>Shaun</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div><div id="comment-wrapper-455073"><a id="comment-455073"></a>
+
+  <div class="comment last odd public" about="/knowledge/comment/455073#comment-455073" typeof="sioc:Post sioct:Comment">
+    
+    
+    <div class="submitted">
+      <span property="dc:date dc:created" content="2013-01-23T09:43:22+00:00" datatype="xsd:dateTime" rel="sioc:has_creator">Shaun Appleton on Wed, 01/23/2013 - 09:43</span>      <a href="/knowledge/comment/455073#comment-455073" class="permalink" rel="bookmark">Permalink</a>    </div>
+    <div class="content">
+      <span rel="sioc:reply_of" resource="/knowledge/articles/112673" class="rdf-meta"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden ">
+    <div class="field-items">
+          <div class="field-item even" property="content:encoded"><p>Hi Nils,</p>
+<p>As you can see this has now been updated.</p>
+<p>Cheers,</p>
+<p>Shaun</p>
+</div>
+      </div>
+</div>
+          </div>
+  </div>
+</div></div>
+  </div>
+	</div>
+</div><!-- /.node -->
+  </div>
+
+</div><!-- /.block -->
+  </div><!-- /.region -->
+                                    
+                                </div><!-- /.section -->
+                            </div><!-- /#doc -->
+                    </div>
+                                    </article><!-- /article#main-content -->
+                            </div><!--  /#main -->
+			
+                    </div><!-- /#content -->
+            </div><!-- /#container -->
+</div><!-- /.wrapi -->
+  </div>
+
+  
+			</div>
+			<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="https://access.redhat.com/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="https://access.redhat.com/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="https://access.redhat.com/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="https://access.redhat.com/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="https://access.redhat.com/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="https://access.redhat.com/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="https://access.redhat.com/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="https://access.redhat.com/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="https://access.redhat.com/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+			</div>
+			<!-- end footerWrap -->
+		</div>
+	</div>
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="https://access.redhat.com/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+	  </body>
+</html>

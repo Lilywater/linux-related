@@ -1,0 +1,1202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head dir="ltr">
+	<script type="text/javascript">
+		var siteMapState="";
+	</script>
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>gdb Files - Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon03" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script><link rel="HOME" title="Red Hat Enterprise Linux 4" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/index.html"><link rel="PREVIOUS" title="Patching programs" <link rel="PREVIOUS" title="Patching programs" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/patching.html"><link rel="NEXT" title="Debugging Information in Separate Files" <link rel="NEXT" title="Debugging Information in Separate Files" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/separate-debug-files.html"><link rel="STYLESHEET" type="text/css" <link rel="STYLESHEET" type="text/css" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/rhdocs-man.css" />
+		<link rel="stylesheet" type="text/css" href="/chrome_themes/umbra/s/docs.css" />
+</head>
+
+<body dir="ltr" class="sfdc_available ">
+
+	<div id="outer-wrapper" class="wrapo"><div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="/home">
+						<img src="/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+		<div id="main-wrap" class="wrapu">
+			<div id="main-top"></div>
+			<div class="wrapi">
+				<div id="container" class="clearWrap">
+					<div id="content" class="c-mF">
+						<!--googleoff: all--><noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript><!--googleon: all-->		
+						<div id="main" class=""><!--googleoff: all--><div id="breadcrumbs"><a href="/knowledge/">Knowledge</a> &gt; <a href="/knowledge/docs/">Product Documentation</a> &gt; <a href="/knowledge/docs/Red_Hat_Enterprise_Linux/">Red Hat Enterprise Linux</a> &gt; 4</div><!--googleon: all--><div class="NAVHEADER"><table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><th colspan="3" align="center">Red Hat Enterprise Linux 4: Debugging with gdb</th></tr><tr><td width="10%" align="left" valign="bottom"><a href="patching.html" accesskey="P">Prev</a></td><td width="80%" align="center" valign="bottom"></td><td width="10%" align="right" valign="bottom"><a href="separate-debug-files.html" accesskey="N">Next</a></td></tr></table><hr align="LEFT" width="100%" /></div><div class="CHAPTER"><h1><a name="GDB-FILES"></a>Chapter 17. gdb Files</h1><p>gdb needs to know the file name of the program to be debugged,
+both in order to read its symbol table and in order to start your
+program.  To debug a core dump of a previous run, you must also tell
+gdb the name of the core dump file.
+  </p><div class="SECT1"><h1 class="SECT1"><a name="FILES"></a>17.1. Commands to specify files</h1><p>You may want to specify executable and core dump file names.  The usual
+way to do this is at start-up time, using the arguments to
+gdb's start-up commands (refer to <a href="invocation.html">Chapter 4 <i>Getting In and Out of gdb</i></a>).
+   </p><p>Occasionally it is necessary to change to a different file during a
+gdb session.  Or you may run gdb and forget to specify
+a file you want to use.  In these situations the gdb commands
+to specify new files are useful.
+   </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">file <tt class="VARNAME">filename</tt></tt></dt><dd><p>Use <tt class="VARNAME">filename</tt> as the program to be debugged.  It is read for its
+symbols and for the contents of pure memory.  It is also the program
+executed when you use the <tt class="COMMAND">run</tt> command.  If you do not specify a
+directory and the file is not found in the gdb working directory,
+gdb uses the environment variable <tt class="COMMAND">PATH</tt> as a list of
+directories to search, just as the shell does when looking for a program
+to run.  You can change the value of this variable, for both gdb
+and your program, using the <tt class="COMMAND">path</tt> command.
+      </p><p>On systems with memory-mapped files, an auxiliary file named
+<tt class="COMMAND"><tt class="VARNAME">filename</tt>.syms</tt> may hold symbol table information for
+<tt class="VARNAME">filename</tt>.  If so, gdb maps in the symbol table from
+<tt class="COMMAND"><tt class="VARNAME">filename</tt>.syms</tt>, starting up more quickly.  See the
+descriptions of the file options <tt class="COMMAND">-mapped</tt> and <tt class="COMMAND">-readnow</tt>
+(available on the command line, and with the commands <tt class="COMMAND">file</tt>,
+<tt class="COMMAND">symbol-file</tt>, or <tt class="COMMAND">add-symbol-file</tt>, described below),
+for more information.
+      </p></dd><dt><tt class="COMMAND">file</tt></dt><dd><p><tt class="COMMAND">file</tt> with no argument makes gdb discard any information it
+has on both executable file and the symbol table.
+      </p><p>      </p></dd><dt><tt class="COMMAND">exec-file [ <tt class="VARNAME">filename</tt> ]</tt></dt><dd><p>Specify that the program to be run (but not the symbol table) is found
+in <tt class="VARNAME">filename</tt>.  gdb searches the environment variable <tt class="COMMAND">PATH</tt>
+if necessary to locate your program.  Omitting <tt class="VARNAME">filename</tt> means to
+discard information on the executable file.
+      </p><p>      </p></dd><dt><tt class="COMMAND">symbol-file [ <tt class="VARNAME">filename</tt> ]</tt></dt><dd><p>Read symbol table information from file <tt class="VARNAME">filename</tt>.  <tt class="COMMAND">PATH</tt> is
+searched when necessary.  Use the <tt class="COMMAND">file</tt> command to get both symbol
+table and program to run from the same file.
+      </p><p><tt class="COMMAND">symbol-file</tt> with no argument clears out gdb information on your
+program's symbol table.
+      </p><p>The <tt class="COMMAND">symbol-file</tt> command causes gdb to forget the contents
+of its convenience variables, the value history, and all breakpoints and
+auto-display expressions.  This is because they may contain pointers to
+the internal data recording symbols and data types, which are part of
+the old symbol table data being discarded inside gdb.
+      </p><p><tt class="COMMAND">symbol-file</tt> does not repeat if you press <span class="KEYCAP"><keycap>[RET]</keycap></span> again after
+executing it once.
+      </p><p>When gdb is configured for a particular environment, it
+understands debugging information in whatever format is the standard
+generated for that environment; you may use either a gnu compiler, or
+other compilers that adhere to the local conventions.
+Best results are usually obtained from gnu compilers; for example,
+using <tt class="COMMAND">gcc</tt> you can generate debugging information for
+optimized code.
+      </p><p>For most kinds of object files, with the exception of old SVR3 systems
+using COFF, the <tt class="COMMAND">symbol-file</tt> command does not normally read the
+symbol table in full right away.  Instead, it scans the symbol table
+quickly to find which source files and which symbols are present.  The
+details are read later, one source file at a time, as they are needed.
+      </p><p>The purpose of this two-stage reading strategy is to make gdb
+start up faster.  For the most part, it is invisible except for
+occasional pauses while the symbol table details for a particular source
+file are being read.  (The <tt class="COMMAND">set verbose</tt> command can turn these
+pauses into messages if desired. 
+Refer to <a href="messages-warnings.html">Section 21.7 <i>Optional warnings and messages</i></a>.)
+      </p><p>We have not implemented the two-stage strategy for COFF yet.  When the
+symbol table is stored in COFF format, <tt class="COMMAND">symbol-file</tt> reads the
+symbol table data in full right away.  Note that &quot;stabs-in-COFF&quot;
+still does the two-stage strategy, since the debug info is actually
+in stabs format.
+      </p><p>      </p></dd><dt><tt class="COMMAND">symbol-file <tt class="VARNAME">filename</tt> [ -readnow ] [ -mapped ]</tt>, <tt class="COMMAND">file <tt class="VARNAME">filename</tt> [ -readnow ] [ -mapped ]</tt></dt><dd><p>You can override the gdb two-stage strategy for reading symbol
+tables by using the <tt class="COMMAND">-readnow</tt> option with any of the commands that
+load symbol table information, if you want to be sure gdb has the
+entire symbol table available.
+      </p><p>If memory-mapped files are available on your system through the
+<tt class="COMMAND">mmap</tt> system call, you can use another option, <tt class="COMMAND">-mapped</tt>, to
+cause gdb to write the symbols for your program into a reusable
+file.  Future gdb debugging sessions map in symbol information
+from this auxiliary symbol file (if the program has not changed), rather
+than spending time reading the symbol table from the executable
+program.  Using the <tt class="COMMAND">-mapped</tt> option has the same effect as
+starting gdb with the <tt class="COMMAND">-mapped</tt> command-line option.
+      </p><p>You can use both options together, to make sure the auxiliary symbol
+file has all the symbol information for your program.
+      </p><p>The auxiliary symbol file for a program called <tt class="VARNAME">myprog</tt> is called
+<tt class="COMMAND"><tt class="VARNAME">myprog</tt>.syms</tt>.  Once this file exists (so long as it is newer
+than the corresponding executable), gdb always attempts to use
+it when you debug <tt class="VARNAME">myprog</tt>; no special options or commands are
+needed.
+      </p><p>The <tt class="COMMAND">.syms</tt> file is specific to the host machine where you run
+gdb.  It holds an exact image of the internal gdb
+symbol table.  It cannot be shared across multiple host platforms.
+      </p><p>      </p></dd><dt><tt class="COMMAND">core-file [ <tt class="VARNAME">filename</tt> ]</tt></dt><dd><p>Specify the whereabouts of a core dump file to be used as the &quot;contents
+of memory&quot;.  Traditionally, core files contain only some parts of the
+address space of the process that generated them; gdb can access the
+executable file itself for other parts.
+      </p><p><tt class="COMMAND">core-file</tt> with no argument specifies that no core file is
+to be used.
+      </p><p>Note that the core file is ignored when your program is actually running
+under gdb.  So, if you have been running your program and you
+wish to debug a core file instead, you must kill the subprocess in which
+the program is running.  To do this, use the <tt class="COMMAND">kill</tt> command
+(refer to <a href="kill-process.html">Section 6.8 <i>Killing the child process</i></a>).
+      </p><p>      </p></dd><dt><tt class="COMMAND">add-symbol-file <tt class="VARNAME">filename</tt> <tt class="VARNAME">address</tt></tt>, <tt class="COMMAND">add-symbol-file <tt class="VARNAME">filename</tt> <tt class="VARNAME">address</tt> [ -readnow ] [ -mapped ]</tt>, <tt class="COMMAND">add-symbol-file <tt class="VARNAME">filename</tt> -s<tt class="VARNAME">section</tt> <tt class="VARNAME">address</tt> …</tt></dt><dd><p>The <tt class="COMMAND">add-symbol-file</tt> command reads additional symbol table
+information from the file <tt class="VARNAME">filename</tt>.  You would use this command
+when <tt class="VARNAME">filename</tt> has been dynamically loaded (by some other means)
+into the program that is running.  <tt class="VARNAME">address</tt> should be the memory
+address at which the file has been loaded; gdb cannot figure
+this out for itself.  You can additionally specify an arbitrary number
+of <tt class="COMMAND">-s<tt class="VARNAME">section</tt> <tt class="VARNAME">address</tt></tt> pairs, to give an explicit
+section name and base address for that section.  You can specify any
+<tt class="VARNAME">address</tt> as an expression.
+      </p><p>The symbol table of the file <tt class="VARNAME">filename</tt> is added to the symbol table
+originally read with the <tt class="COMMAND">symbol-file</tt> command.  You can use the
+<tt class="COMMAND">add-symbol-file</tt> command any number of times; the new symbol data
+thus read keeps adding to the old.  To discard all old symbol data
+instead, use the <tt class="COMMAND">symbol-file</tt> command without any arguments.
+      </p><p>Although <tt class="VARNAME">filename</tt> is typically a shared library file, an
+executable file, or some other object file which has been fully
+relocated for loading into a process, you can also load symbolic
+information from relocatable <tt class="COMMAND">.o</tt> files, as long as:
+      </p><p></p><ul><li style="list-style-type: disc"><p>the file's symbolic information refers only to linker symbols defined in
+that file, not to symbols defined by other object files,
+        </p></li><li style="list-style-type: disc"><p>every section the file's symbolic information refers to has actually
+been loaded into the inferior, as it appears in the file, and
+        </p></li><li style="list-style-type: disc"><p>you can determine the address at which every section was loaded, and
+provide these to the <tt class="COMMAND">add-symbol-file</tt> command.
+        </p></li></ul><p>Some embedded operating systems, like Sun Chorus and VxWorks, can load
+relocatable files into an already running program; such systems
+typically make the requirements above easy to meet.  However, it's
+important to recognize that many native systems use complex link
+procedures (<tt class="COMMAND">.linkonce</tt> section factoring and C++ constructor table
+assembly, for example) that make the requirements difficult to meet.  In
+general, one cannot assume that using <tt class="COMMAND">add-symbol-file</tt> to read a
+relocatable object file's symbolic information will have the same effect
+as linking the relocatable object file into the program in the normal
+way.
+      </p><p><tt class="COMMAND">add-symbol-file</tt> does not repeat if you press <span class="KEYCAP"><keycap>[RET]</keycap></span> after using it.
+      </p><p>You can use the <tt class="COMMAND">-mapped</tt> and <tt class="COMMAND">-readnow</tt> options just as with
+the <tt class="COMMAND">symbol-file</tt> command, to change how gdb manages the symbol
+table information for <tt class="VARNAME">filename</tt>.
+      </p><p>      </p></dd><dt><tt class="COMMAND">add-shared-symbol-file</tt></dt><dd><p>The <tt class="COMMAND">add-shared-symbol-file</tt> command can be used only under Harris' CXUX
+operating system for the Motorola 88k.  gdb automatically looks for
+shared libraries, however if gdb does not find yours, you can run
+<tt class="COMMAND">add-shared-symbol-file</tt>.  It takes no arguments.
+      </p><p>      </p></dd><dt><tt class="COMMAND">section</tt></dt><dd><p>The <tt class="COMMAND">section</tt> command changes the base address of section SECTION of
+the exec file to ADDR.  This can be used if the exec file does not contain
+section addresses, (such as in the a.out format), or when the addresses
+specified in the file itself are wrong.  Each section must be changed
+separately.  The <tt class="COMMAND">info files</tt> command, described below, lists all
+the sections and their addresses.
+      </p><p>      </p></dd><dt><tt class="COMMAND">info files</tt>, <tt class="COMMAND">info target</tt></dt><dd><p><tt class="COMMAND">info files</tt> and <tt class="COMMAND">info target</tt> are synonymous; both print the
+current target (refer to <a href="targets.html">Chapter 18 <i>Specifying a Debugging Target</i></a>),
+including the names of the executable and core dump files currently in
+use by gdb, and the files from which symbols were loaded.  The
+command <tt class="COMMAND">help target</tt> lists all possible targets rather than
+current ones.
+      </p><p>      </p></dd><dt><tt class="COMMAND">maint info sections</tt></dt><dd><p>Another command that can give you extra information about program sections
+is <tt class="COMMAND">maint info sections</tt>.  In addition to the section information
+displayed by <tt class="COMMAND">info files</tt>, this command displays the flags and file
+offset of each section in the executable and core dump files.  In addition,
+<tt class="COMMAND">maint info sections</tt> provides the following command options (which
+may be arbitrarily combined):
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">ALLOBJ</tt></dt><dd><p>Display sections for all loaded object files, including shared libraries.
+         </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">sections</tt></tt></dt><dd><p>Display info only for named <tt class="VARNAME">sections</tt>.
+         </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">section-flags</tt></tt></dt><dd><p>Display info only for sections for which <tt class="VARNAME">section-flags</tt> are true.
+The section flags that gdb currently knows about are:
+         </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">ALLOC</tt></dt><dd><p>Section will have space allocated in the process when loaded.
+Set for all sections except those containing debug information.
+            </p></dd><dt><tt class="COMMAND">LOAD</tt></dt><dd><p>Section will be loaded from the file into the child process memory.
+Set for pre-initialized code and data, clear for <tt class="COMMAND">.bss</tt> sections.
+            </p></dd><dt><tt class="COMMAND">RELOC</tt></dt><dd><p>Section needs to be relocated before loading.
+            </p></dd><dt><tt class="COMMAND">READONLY</tt></dt><dd><p>Section cannot be modified by the child process.
+            </p></dd><dt><tt class="COMMAND">CODE</tt></dt><dd><p>Section contains executable code only.
+            </p></dd><dt><tt class="COMMAND">DATA</tt></dt><dd><p>Section contains data only (no executable code).
+            </p></dd><dt><tt class="COMMAND">ROM</tt></dt><dd><p>Section will reside in ROM.
+            </p></dd><dt><tt class="COMMAND">CONSTRUCTOR</tt></dt><dd><p>Section contains data for constructor/destructor lists.
+            </p></dd><dt><tt class="COMMAND">HAS_CONTENTS</tt></dt><dd><p>Section is not empty.
+            </p></dd><dt><tt class="COMMAND">NEVER_LOAD</tt></dt><dd><p>An instruction to the linker to not output the section.
+            </p></dd><dt><tt class="COMMAND">COFF_SHARED_LIBRARY</tt></dt><dd><p>A notification to the linker that the section contains
+COFF shared library information.
+            </p></dd><dt><tt class="COMMAND">IS_COMMON</tt></dt><dd><p>Section contains common symbols.
+            </p></dd></dl></div></dd></dl></div><p>      </p></dd><dt><tt class="COMMAND">set trust-readonly-sections on</tt></dt><dd><p>Tell gdb that readonly sections in your object file
+really are read-only (that is, that their contents will not change).
+In that case, gdb can fetch values from these sections
+out of the object file, rather than from the target program.
+For some targets (notably embedded ones), this can be a significant
+enhancement to debugging performance.
+      </p><p>The default is off.
+      </p></dd><dt><tt class="COMMAND">set trust-readonly-sections off</tt></dt><dd><p>Tell gdb not to trust readonly sections.  This means that
+the contents of the section might change while the program is running,
+and must therefore be fetched from the target when needed.
+      </p></dd></dl></div><p>All file-specifying commands allow both absolute and relative file names
+as arguments.  gdb always converts the file name to an absolute file
+name and remembers it that way.
+   </p><p>gdb supports HP-UX, SunOS, SVr4, Irix 5, and IBM RS/6000 shared
+libraries.
+   </p><p>gdb automatically loads symbol definitions from shared libraries
+when you use the <tt class="COMMAND">run</tt> command, or when you examine a core file.
+(Before you issue the <tt class="COMMAND">run</tt> command, gdb does not understand
+references to a function in a shared library, however--unless you are
+debugging a core file).
+   </p><p>On HP-UX, if the program loads a library explicitly, gdb
+automatically loads the symbols at the time of the <tt class="COMMAND">shl_load</tt> call.
+   </p><p>There are times, however, when you may wish to not automatically load
+symbol definitions from shared libraries, such as when they are
+particularly large or there are many of them.
+   </p><p>To control the automatic loading of shared library symbols, use the
+commands:
+   </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">set auto-solib-add <tt class="VARNAME">mode</tt></tt></dt><dd><p>If <tt class="VARNAME">mode</tt> is <tt class="COMMAND">on</tt>, symbols from all shared object libraries
+will be loaded automatically when the inferior begins execution, you
+attach to an independently started inferior, or when the dynamic linker
+informs gdb that a new library has been loaded.  If <tt class="VARNAME">mode</tt>
+is <tt class="COMMAND">off</tt>, symbols must be loaded manually, using the
+<tt class="COMMAND">sharedlibrary</tt> command.  The default value is <tt class="COMMAND">on</tt>.
+      </p><p>      </p></dd><dt><tt class="COMMAND">show auto-solib-add</tt></dt><dd><p>Display the current autoloading mode.
+      </p></dd></dl></div><p>To explicitly load shared library symbols, use the <tt class="COMMAND">sharedlibrary</tt>
+command:
+   </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">info share</tt>, <tt class="COMMAND">info sharedlibrary</tt></dt><dd><p>Print the names of the shared libraries which are currently loaded.
+      </p><p>      </p></dd><dt><tt class="COMMAND">sharedlibrary <tt class="VARNAME">regex</tt></tt>, <tt class="COMMAND">share <tt class="VARNAME">regex</tt></tt></dt><dd><p>Load shared object library symbols for files matching a
+Unix regular expression.
+As with files loaded automatically, it only loads shared libraries
+required by your program for a core file or after typing <tt class="COMMAND">run</tt>.  If
+<tt class="VARNAME">regex</tt> is omitted all shared libraries required by your program are
+loaded.
+      </p></dd></dl></div><p>On some systems, such as HP-UX systems, gdb supports
+autoloading shared library symbols until a limiting threshold size is
+reached.  This provides the benefit of allowing autoloading to remain on
+by default, but avoids autoloading excessively large shared libraries,
+up to a threshold that is initially set, but which you can modify if you
+wish.
+   </p><p>Beyond that threshold, symbols from shared libraries must be explicitly
+loaded.  To load these symbols, use the command <tt class="COMMAND">sharedlibrary
+<tt class="VARNAME">filename</tt></tt>.  The base address of the shared library is determined
+automatically by gdb and need not be specified.
+   </p><p>To display or set the threshold, use the commands:
+   </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">set auto-solib-limit <tt class="VARNAME">threshold</tt></tt></dt><dd><p>Set the autoloading size threshold, in an integral number of megabytes.
+If <tt class="VARNAME">threshold</tt> is nonzero and shared library autoloading is enabled,
+symbols from all shared object libraries will be loaded until the total
+size of the loaded shared library symbols exceeds this threshold.
+Otherwise, symbols must be loaded manually, using the
+<tt class="COMMAND">sharedlibrary</tt> command.  The default threshold is 100 (that is, 100
+Mb).
+      </p><p>      </p></dd><dt><tt class="COMMAND">show auto-solib-limit</tt></dt><dd><p>Display the current autoloading size threshold, in megabytes.
+      </p></dd></dl></div><p>Shared libraries are also supported in many cross or remote debugging
+configurations.  A copy of the target's libraries need to be present on the
+host system; they need to be the same as the target libraries, although the
+copies on the target can be stripped as long as the copies on the host are
+not.
+   </p><p>You need to tell gdb where the target libraries are, so that it can
+load the correct copies--otherwise, it may try to load the host's libraries.
+gdb has two variables to specify the search directories for target
+libraries.
+   </p><p></p><div class="VARIABLELIST"><p><b></b></p><dl><dt><tt class="COMMAND">set solib-absolute-prefix <tt class="VARNAME">path</tt></tt></dt><dd><p>If this variable is set, <tt class="VARNAME">path</tt> will be used as a prefix for any
+absolute shared library paths; many runtime loaders store the absolute
+paths to the shared library in the target program's memory.  If you use
+<tt class="COMMAND">solib-absolute-prefix</tt> to find shared libraries, they need to be laid
+out in the same way that they are on the target, with e.g. a
+<tt class="COMMAND">/usr/lib</tt> hierarchy under <tt class="VARNAME">path</tt>.
+      </p><p>You can set the default value of <tt class="COMMAND">solib-absolute-prefix</tt> by using the
+configure-time <tt class="COMMAND">-with-sysroot</tt> option.
+      </p><p>      </p></dd><dt><tt class="COMMAND">show solib-absolute-prefix</tt></dt><dd><p>Display the current shared library prefix.
+      </p><p>      </p></dd><dt><tt class="COMMAND">set solib-search-path <tt class="VARNAME">path</tt></tt></dt><dd><p>If this variable is set, <tt class="VARNAME">path</tt> is a colon-separated list of directories
+to search for shared libraries.  <tt class="COMMAND">solib-search-path</tt> is used after
+<tt class="COMMAND">solib-absolute-prefix</tt> fails to locate the library, or if the path to
+the library is relative instead of absolute.  If you want to use
+<tt class="COMMAND">solib-search-path</tt> instead of <tt class="COMMAND">solib-absolute-prefix</tt>, be sure to
+set <tt class="COMMAND">solib-absolute-prefix</tt> to a nonexistant directory to prevent
+gdb from finding your host's libraries.
+      </p><p>      </p></dd><dt><tt class="COMMAND">show solib-search-path</tt></dt><dd><p>Display the current shared library search path.
+      </p></dd></dl></div></div></div><div class="NAVFOOTER"><hr align="LEFT" width="100%"><table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td width="33%" align="left" valign="top"><a href="patching.html" accesskey="P">Prev</a></td><td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td><td width="33%" align="right" valign="top"><a href="separate-debug-files.html" accesskey="N">Next</a></td></tr><tr><td width="33%" align="left" valign="top">Patching programs</td><td width="34%" align="center" valign="top">&nbsp;</td><td width="33%" align="right" valign="top">Debugging Information in Separate Files</td></tr></table></hr></div>
+		<script type="text/javascript">
+			ajq(document).ready(function() {
+				ajq(".docnav").clone().appendTo("#main");
+				var floatingtoc = ajq("#floatingtoc");
+				ajq("#floatingtoc").load('index.html .toc:eq(0)', function() {
+					var links = floatingtoc.find('a');
+
+					var docnav = ajq('.docnav');
+					docnav.find('.home').remove();
+
+					var previous = docnav.find('.previous');
+					previous.after('<li><select style="display: none;" class="pageSelect"></select></li>');
+
+					var select = ajq('.pageSelect');
+					var title = ajq('title').html().match(/[A-Z0-9.]*/)[0];
+
+					links.each(function() {
+						var link = ajq(this);
+						if (link.html().indexOf(title) === 0) {
+							select.append('<option selected="selected" value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+						}
+						select.append('<option value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+					});
+					select.fadeIn();
+
+					select.change(function() {
+						var newValue = ajq(this).attr('value');
+						window.location.href = newValue;
+					});
+				});
+			});
+		</script>
+						</div> <!-- end main -->
+					</div> <!-- end content -->
+					<br class="clearboth" />
+				</div> <!-- end container -->
+			</div> <!-- end wrapi -->
+		</div><!-- end main-wrap -->
+		<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+		</div><!-- end footerWrap -->
+	</div></div><!-- end wrapper, outer-wrapper -->
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+</body>
+</html>

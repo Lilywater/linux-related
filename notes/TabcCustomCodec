@@ -1,0 +1,382 @@
+? t.dif
+Index: GtpCodecT3.c
+===================================================================
+RCS file: /isource/cvsroot/ttcn3ts/TBPT/protocols/gtp/gtpV1/codec/src/GtpCodecT3.c,v
+retrieving revision 1.20
+diff -r1.20 GtpCodecT3.c
+399a400,404
+>   TabCregisterCustomLenCompFunc( GTP_REL5_IE_TYPES, 
+>                                  "UEAMBR",
+>                                  1, //ieLength
+>                                  TABC_ENC_LEN_COMP_ONLY,
+>                                   GtpIEUEAMBRCustomCalcEnc);
+419a425,429
+>   TabCregisterCustomLenCompFunc( GTP_REL5_IE_TYPES, 
+>                                  "UEAMBR",
+>                                  1, //ieLength
+>                                  TABC_DEC_LEN_COMP_ONLY,
+>                                   dummyCompFuncDec);
+1313a1324,1328
+> 
+>   TabCregisterCustomDecoder( GTP_REL5_IE_TYPES,      
+>                              "UEAMBRValue",                  
+>                              GtpV1_UEAMBRValDec);
+> 
+1355a1371,1372
+> 
+>   
+Index: GtpCustomCodecs.c
+===================================================================
+RCS file: /isource/cvsroot/ttcn3ts/TBPT/protocols/gtp/gtpV1/codec/src/GtpCustomCodecs.c,v
+retrieving revision 1.16
+diff -r1.16 GtpCustomCodecs.c
+3240a3241,3457
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> decode_result GtpV1_UEAMBRValDec(  RtsMsg *encMsg,
+> 									        RtsValueNode *valueNode,
+>                                             long encLength,
+>                                             char valueMustBePresent) {
+> 	/* Variables */
+> 	RtsTypeNode *typeNode = NULL;
+> 	long childNum = 0, fieldIterator = 0;
+>     long rewindPos = -1;
+>     char fieldMustBePresent = '?', childMustBePresent = '?';
+> 	RtsTypeNode *childTypeNode = NULL;
+> 	RtsValueNode *childValueNode = NULL;
+>    long curPos = -1;//save current position of the msg
+>     long specLen = -1;
+>     TabC_LenCompFunction lenCompFunc;
+>     const char* encAttr = NULL; // STS tmp
+> const char *moduleName = NULL; 
+> //t3rt_type_definition_module(t3rt_value_type(valueNode,t3ctx),t3ctx);
+> 
+>     decode_result ret = DEC_OK;
+> 
+> 	/* Get typeNode */
+> 	if (!EAPgetTypeNodeFromValueNode( valueNode, &typeNode)) {
+> 		return DEC_ERROR;
+> 	}
+> 
+>     if ( EAPgetTypeNodeKind( typeNode ) != EAP_RECORD_TYPE_KIND ) {
+>     	EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG,"DecodeTabEncodedRecordValue: Function called with non-record type kind! Aborting!",
+> 	         		 __FILE__,__LINE__);
+>         return DEC_ERROR;
+>     }
+> 
+> #ifdef DECODER_DEBUG
+>     printf("\nDecodeTabEncodedRecordValue: Starting decoding of record type (%s)...\n", EAPgetTypeNodeName( typeNode ));
+> #endif
+> 
+>     rewindPos = EAPgetMsgPosInBits( encMsg ); // save current posiiton for backup
+>     curPos = rewindPos;
+> 	/* iterate over all possible children */
+> 	childNum = EAPgetNumberOfTypeFields(typeNode);
+> 	ret = DEC_OK;
+> 	for (fieldIterator=0; fieldIterator<childNum && ret == DEC_OK; fieldIterator++) 
+> 	{	
+>         /* for the ith child : */
+>           // if(strstr (EAPgetValueNodeFieldName( valueNode, fieldIterator ), "extensionValue") )
+/********************only add this block with the DecodeTabEncodedRecordValue function*************/
+>            if(encLength == 8 &&  (fieldIterator== 2 || fieldIterator== 3))
+>            {
+>              if (!EAPsetFieldOmitted( valueNode, fieldIterator) ) return DEC_ERROR;
+>              ret =DEC_OK;
+>              continue;         
+>              
+>            } 
+/**********************************************************************************/
+>         /* loop initializations */
+>         if ( EAPisChildTypeOptional( typeNode, fieldIterator ) )
+>             fieldMustBePresent = '?';
+>         else 
+>             fieldMustBePresent = 'y';
+> 
+> 		/* get child Node */
+> 		if (!EAPgetChildTypeNode(typeNode, fieldIterator, &childTypeNode)) {
+>             ret = DEC_ERROR;
+> 			break;
+> 		}
+> 
+>         // START STS tmp! - hack to get implicit enc attr to work!
+>         if ( (encAttr = (char *)EAPgetAttrForTypeField(typeNode, fieldIterator)) != NULL &&
+>              strncmp( encAttr, "implicit:", 9 ) == 0 ) {
+>                     encAttr +=9;
+>                     specLen = atoi(strtok( (char*)encAttr, " "));
+> 
+>         } else
+>         // END STS tmp! - hack to get implicit enc attr to work!
+> 
+>             // check if there is an encoding attribute for variable length
+>             // and get it if there is (specLen = -1 if there is _none_)
+>         if ( getSpecLenValue(valueNode, fieldIterator, &specLen ) == FAILURE ) {
+> 			EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG,"DecodeTabEncodedRecordValue: Error when attempting to access length of field at position %d (named:%s) in record 'type %s'!\n",
+>                             __FILE__,__LINE__,
+> 					        fieldIterator,
+>                             EAPgetValueNodeFieldName ( valueNode, fieldIterator ),
+>  					        EAPgetValueNodeTypeDesc( valueNode ));	
+>             return DEC_ERROR;
+>         } else { // DIAMETER SPECIFIC BRANCH BEGINS
+> 	  moduleName = t3rt_type_definition_module(t3rt_value_type(valueNode,t3ctx),t3ctx);
+> 	  if (strstr(moduleName, "Diameter")!=0) {
+> 	  if ( specLen > 0 ) {
+> 	    if ( EAPisValueNodeString(valueNode,fieldIterator) == 1 ) {
+> 	      if (childNum == 8 ) specLen = specLen - 4 - 8;
+> 	      if (childNum == 7 ) specLen = specLen - 8;
+> 	      }
+> 	  }
+> 	  }} // DIAMETER SPECIFIC BRANCH ENDS
+>         if ( specLen == -2 ) {
+>             // then find and call custom len comp function
+>             if ( (lenCompFunc = checkAndGetTabCustomLenCompFunc( valueNode, fieldIterator, TABC_DEC_LEN_COMP_INV )) != NULL ) {
+>                 if ( lenCompFunc( encMsg, valueNode,fieldIterator, &specLen ) == FAILURE ) {
+>                     EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG, "DecodeTabEncodedRecordValue: Custom length computation failure when attempting to compute length of field \"%s\" (%ld) of record type \"%s\"!",
+>                                      __FILE__, __LINE__, 
+>                                      EAPgetTypeNodeFieldName( typeNode, fieldIterator ),
+>                                      fieldIterator,
+>                                      EAPgetTypeNodeName( typeNode ) );
+>                     return DEC_ERROR;
+>                 }
+>             } else {
+>                 EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG, "DecodeTabEncodedRecordValue: Could not find mandatory custom length computation function for field \"%s\" (%ld) of record type \"%s\"!",
+>                              __FILE__, __LINE__, 
+>                             EAPgetTypeNodeFieldName( typeNode, fieldIterator ),
+>                             fieldIterator,
+>                             EAPgetTypeNodeName( typeNode ) );
+>                 return DEC_ERROR;
+>             }
+>         } // end if specLen == -2
+>         if ( specLen == 0 ) {
+>             if( fieldMustBePresent != 'y' ) {
+>                 // if optional field set it to omit
+>                 if (!EAPsetFieldOmitted( valueNode, fieldIterator) ) return DEC_ERROR;
+>                 continue;
+>             } else {
+>               /* Commented out (TOFE 1588703)
+>                 if ( valueMustBePresent == 'y' ) {
+> 			        EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG,"DecodeTabEncodedRecordValue: Decoded length of _zero_ for mandatory field at position %d (named:%s) in record 'type %s'!\n",
+>                                     __FILE__,__LINE__,
+> 					                fieldIterator,
+>                                     EAPgetValueNodeFieldName ( valueNode, fieldIterator ),
+>  					                EAPgetValueNodeTypeDesc( valueNode ));	
+>                 }
+>                 return DEC_ERROR;
+>               */
+>             }
+>         }
+> 
+> 		/* Be optimist and create (empty) value node */
+> 		if (!EAPcreateValueNodeFromTypeNode(&childValueNode, childTypeNode)) {
+>             ret = DEC_ERROR;
+>             break;
+> 		}
+> 
+>         // communicate childMustBePresent flag taking into account that own
+>         // valueMustBePresent flag - this solves error display problem of mandatory 
+>         // fields in optional values
+>         // note that 묠this kind of encoding it does NOT matter if some fields have
+>         // laready been successfully decoded!
+>         if ( valueMustBePresent == '?' )
+>             childMustBePresent = '?';
+>         else 
+>             childMustBePresent = fieldMustBePresent;
+> 
+>         /* (Attempt to ) decode child - call child decoding function ! */
+> 		ret = invokeTabDecoder4Type( encMsg, 
+>                                      childValueNode, 
+>                                      specLen,
+>                                      childMustBePresent);
+> 
+>         /* if return value bad */ 
+> 		if ( ret != DEC_OK ) {
+>             /* compensate for earlier optimism */
+> 			EAPdeleteValueNode( childValueNode );
+>             // if optional field it is ok!
+>             if ( fieldMustBePresent == '?' ) { 
+> 				if (!EAPsetFieldOmitted( valueNode, fieldIterator) ) {
+>                     ret = DEC_ERROR;
+> 			        break;
+> 				} else {
+> 					ret = DEC_OK;
+> 				}
+> 			}
+>             else if (fieldMustBePresent == 'y') {
+>                 if ( valueMustBePresent == 'y' ) {
+>                    // Commented out (TOFE 1588703)
+>                    // EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG,"DecodeTabEncodedRecordValue: Error when decoding field %ld (named:%s) for type '%s'!",
+> 	         	       //          __FILE__,__LINE__,
+>                    //              fieldIterator,
+>                    //              EAPgetTypeNodeFieldName(typeNode,fieldIterator), 
+>                    //              EAPgetTypeNodeName(typeNode));
+>                 }
+>                 EAPsetMsgPosInBits(encMsg, rewindPos);
+>                 return DEC_ERROR; 
+>             } // end else if fieldMustBePresent == 'y'
+> 		}
+>         else { // if ret == DEC_OK
+>                         
+>       		/* Now that field decode is completed connect filled childValueNode */
+> 			if (!EAPconnectValueNodes( childValueNode, valueNode, fieldIterator)) {
+>                 ret = DEC_ERROR;
+> 				break;
+> 			}
+> 
+>         } // end if else (!DEC_OK)
+> 
+>     } // end for fieldIterator
+> 
+>     if ( ret == DEC_ERROR ) {
+>     	EAPprintMessage(NO_PROBLEM_LOCATION, ERROR_MSG,"DecodeTabEncodedRecordValue: Aborting decoding of type '%s' due to previous errors in field %ld (named:%s)!",
+> 	         		 __FILE__,__LINE__, 
+>                      EAPgetTypeNodeName(typeNode),
+>                      fieldIterator,
+>                      EAPgetTypeNodeFieldName(typeNode,fieldIterator));
+>         return DEC_ERROR;
+>     }
+>         
+> #ifdef DECODER_DEBUG
+> 	printf("\nDecodeTabEncodedRecordValue: Successfully decoded record value for \"%s\"\n",
+>             EAPgetTypeNodeName(typeNode));
+> #endif
+> 
+> 	return ret;
+> 
+> } // end function GtpV1_ExtendableDec
+> 
+> 
+Index: GtpCustomCodecs.h
+===================================================================
+RCS file: /isource/cvsroot/ttcn3ts/TBPT/protocols/gtp/gtpV1/codec/src/GtpCustomCodecs.h,v
+retrieving revision 1.10
+diff -r1.10 GtpCustomCodecs.h
+213a214,217
+> decode_result GtpV1_UEAMBRValDec(  RtsMsg *encMsg,
+> 									        RtsValueNode *valueNode,
+>                                             long encLength,
+>                                             char valueMustBePresent) ;
+Index: GtpCustomCompFcts.c
+===================================================================
+RCS file: /isource/cvsroot/ttcn3ts/TBPT/protocols/gtp/gtpV1/codec/src/GtpCustomCompFcts.c,v
+retrieving revision 1.6
+diff -r1.6 GtpCustomCompFcts.c
+535a536,585
+> 
+> 
+> int GtpIEUEAMBRCustomCalcEnc(  RtsMsg* encMsg, 
+>                             RtsValueNode *recValueNode, 
+>                             long fieldPos, 
+>                             long* specLen ) {
+> 
+>   RtsValueNode* gtpValueNode = NULL;
+>   RtsValueNode* valueNode = NULL;
+>   RtsValueInfo* pValueInfo = NULL;
+>   RtsValueInfo newValueInfo;
+>   long i = 0;
+>   __int64 specifiedLen = 0, actualLen = 0;
+>   long autoLen,autoLenPos;
+>   RtsMsg* lvMsg = NULL;
+> 
+> 
+>     if (!EAPgetChildValueNode(recValueNode, 2, &gtpValueNode)) return FAILURE;
+>   
+> 	autoLenPos = EAPgetMsgSizeInBits(encMsg);
+> 	if (autoLenPos%8 != 0 ) abort();
+> 	autoLenPos = autoLenPos /8;
+> 	EAPcreateMsg(NULL,0,&lvMsg);
+> 	if (!invokeTabEncoder4Type( gtpValueNode, specLen, lvMsg )) return FAILURE;
+> 	autoLen = EAPgetMsgSizeInBytes(lvMsg);
+> 	EAPdelMsg (lvMsg);
+> 	actualLen = ((__int64)autoLen);
+> 
+> 
+>   // get specified len from template
+>   if (!EAPgetChildValueNode(recValueNode, 1, &valueNode)) return FAILURE;
+>   if (!EAPgetNodeValue(valueNode, &pValueInfo)) return FAILURE;
+>   specifiedLen = *((__int64*)pValueInfo->value);
+> 
+>   if (specifiedLen == 0 ) {
+>       // the automatic len computation - modify the value prior to its encoding
+>       newValueInfo.value = (void*)(&actualLen);
+>       newValueInfo.bitsize = 16;
+>       if (!EAPsetNodeValue(valueNode, &newValueInfo)) return FAILURE;
+>   } else if ( actualLen != specifiedLen ) {
+>     EAPprintMessage(NO_PROBLEM_LOCATION, WARNING_MSG, "UEAMBRLengthEnc: The length value (%ld) specified in the UEAMBR length field for the encoded %s value is _not_ equal to its actual length (%ld)!",
+>                     __FILE__, __LINE__, 
+>                     (long)specifiedLen,
+>                     EAPgetValueNodeTypeDesc( gtpValueNode ),
+>                     (long)actualLen);
+>   }
+>   return SUCCESS;
+> } //end GtpMessageLengthFieldCustomCalcEnc
+> 
+> 
+Index: GtpCustomCompFcts.h
+===================================================================
+RCS file: /isource/cvsroot/ttcn3ts/TBPT/protocols/gtp/gtpV1/codec/src/GtpCustomCompFcts.h,v
+retrieving revision 1.3
+diff -r1.3 GtpCustomCompFcts.h
+70a71,74
+> int GtpIEUEAMBRCustomCalcEnc(  RtsMsg* encMsg, 
+>                             RtsValueNode *recValueNode, 
+>                             long fieldPos, 
+>                             long* specLen ); 
+
+Index: MME_SGSNtester/ttcn3libs/ttcn/GtpV1IETypes.ttcn
+/*Pay attention this ttcn file don't need to the same with the one in TBPT, because 
+the decode and encode fucntion is not created by t3cg for TAbc files(ttcn), not the same
+with asn files in TBPT, they must be the same with tester.Cause the decode/encode is created
+automatically by t3cg according to asn file
+*/
+======================
+  type record UEAMBR {
+    IEType                ieType(e_UE_AMBR),
+     UInt16                ieLength,
+    UEAMBRValue           ieValue     } 
+    with {
+    encode (ieLength) "compute: custom";  //this is for the register of  
+/* 
+ TabCregisterCustomLenCompFunc( "GtpV1IETypes", "UEAMBR", 1, //ieLength TABC_ENC_LEN_COMP_ONLY,GtpIEUEAMBRCustomCalcEnc);^ */
+    encode (ieValue) "length field: 1";
+/*
+this is for the decode function to get encLength(==8 when optional field omitted) when decoding UEAMBRValue  
+*/
+    }
+
+  type record UEAMBRValue {
+    UInt32                subscribedUEAMBRForUplink,
+    UInt32                subscribedUEAMBRForDownlink,
+    UInt32                authorizedUEAMBRForUplink    optional,
+    UInt32                authorizedUEAMBRForDownlink   optional
+    }
+=======================
+Specification 29060
+		Bits	
+	Octets	8	7	6	5	4	3	2	1	
+	1 	Type = 200 (Decimal)	
+	2 to 3	Length = n (Decimal)	
+	4 to 7	Subscribed UE-AMBR for Uplink	
+	8 to 11	Subscribed UE-AMBR for Downlink	
+	m to (m+3)	Authorized UE-AMBR for Uplink	
+	(m+4) to (n+3)	Authorized UE-AMBR for Downlink	
+			
+
+Figure 7.7.100:  UE-AMBR Information Element
+Authorized UE-AMBR for Uplink and Downlink fields are present in the IE only if the sender has their valid values available. Otherwise, the fields from m to (n+3) shall not be present.
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+So these two IE should be omited both or presented both.
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+

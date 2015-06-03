@@ -1,0 +1,456 @@
+* x window programing related
+
+1.commands
+xlsclients -l
+xdotool windowfocus 0x1a00ad2
+xdotool windowunmap 'id'
+
+xlsclients -l | grep -B 3 "firefox"   |grep Window|awk '{print $2}'|sed 's/://'
+xprop -root|grep "_NET_CLIENT_LIST_STACKING(WINDOW): window id"|cut -d\ -f 5
+
+xwininfo
+http://www.ibm.com/developerworks/cn/linux/l-cn-qt/
+
+xlsclients -l 找出的window id是_NET_WM_USER_TIME_WINDOW(WINDOW): window id # 0x8600084
+WM_CLIENT_LEADER(WINDOW): window id # 0x8600001
+一般是leader window id, 但实际上我们需要的是显示窗口的id， 就是佣xwininfo得到的显示的window id window id # 0x8600084。
+
+得到当前active window的id可以用
+xprop -root '_NET_ACTIVE_WINDOW'
+
+zxx@gll-bac:/usr/share/man$ xprop -root '_NET_ACTIVE_WINDOW'
+_NET_ACTIVE_WINDOW(WINDOW): window id # 0x8600083
+zxx@gll-bac:/usr/share/man$ xprop -id 0x8600083
+
+
+./gw id > wlist 
+for i in `cat wlist`; do echo $i; xwininfo -id "$i" |grep IsView ; done
+
+for i in `cat wlist`; do  xwininfo -id "$i" |grep IsView ;if [ $? -eq 0 ]; then  result=$i; fi; done
+
+for i in `cat wlist`; do  xwininfo -id "$i" |grep -q "IsViewable" ;if [ $? -eq 0 ]; then  echo $i > result; fi; done
+xdottool windowunmap 'id'
+        
+wmctrl
+xprop 
+xwininfo
+xlsclient
+
+这四条命令都可以得到窗口id，但是取得的都不同。
+xlsclient 列出的是leader window，
+实际需要的可以是xwininfo 用鼠标点中的和wmctrl -l 列出的。
+
+2.program
+http://stackoverflow.com/questions/151407/how-to-get-an-x11-window-from-a-process-id
+
+ // Attempt to identify a window by name or attribute.
+// by Adam Pierce <adam@doctort.org>
+
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <iostream>
+#include <list>
+
+using namespace std;
+
+class WindowsMatchingPid
+{
+public:
+    WindowsMatchingPid(Display *display, Window wRoot, unsigned long pid)
+    	: _display(display)
+    	, _pid(pid)
+    {
+    // Get the PID property atom.
+    	_atomPID = XInternAtom(display, "_NET_WM_PID", True);
+    	if(_atomPID == None)
+    	{
+    		cout << "No such atom" << endl;
+    		return;
+    	}
+
+    	search(wRoot);
+    }
+
+    const list<Window> &result() const { return _result; }
+
+private:
+    unsigned long  _pid;
+    Atom           _atomPID;
+    Display       *_display;
+    list<Window>   _result;
+
+    void search(Window w)
+    {
+    // Get the PID for the current Window.
+    	Atom           type;
+    	int            format;
+    	unsigned long  nItems;
+    	unsigned long  bytesAfter;
+    	unsigned char *propPID = 0;
+    	if(Success == XGetWindowProperty(_display, w, _atomPID, 0, 1, False, XA_CARDINAL,
+    	                                 &type, &format, &nItems, &bytesAfter, &propPID))
+    	{
+    		if(propPID != 0)
+    		{
+    		// If the PID matches, add this window to the result set.
+    			if(_pid == *((unsigned long *)propPID))
+    				_result.push_back(w);
+
+    			XFree(propPID);
+    		}
+    	}
+
+    // Recurse into child windows.
+    	Window    wRoot;
+    	Window    wParent;
+    	Window   *wChild;
+    	unsigned  nChildren;
+    	if(0 != XQueryTree(_display, w, &wRoot, &wParent, &wChild, &nChildren))
+    	{
+    		for(unsigned i = 0; i < nChildren; i++)
+    			search(wChild[i]);
+    	}
+    }
+};
+
+int main(int argc, char **argv)
+{
+    if(argc < 2)
+    	return 1;
+
+    int pid = atoi(argv[1]);
+    cout << "Searching for windows associated with PID " << pid << endl;
+
+// Start with the root window.
+    Display *display = XOpenDisplay(0);
+
+    WindowsMatchingPid match(display, XDefaultRootWindow(display), pid);
+
+// Print the result.
+    const list<Window> &result = match.result();
+    for(list<Window>::const_iterator it = result.begin(); it != result.end(); it++)
+    	cout << "Window #" << (unsigned long)(*it) << endl;
+
+    return 0;
+}
+
+===========================
+  在 unix 系统中，不同的应用程式要共享或交换资料，可以透过像
+      pipe，share memory 等内部程序沟通(InterProcess Communication)
+      的机制来达成；而在 X 视窗系统中，也提供了类似 unix 内部程序沟
+      通的机制，使得不同 X 视窗的应用程式可以共享或交换资料，这机制
+      就是 X 视窗系统中的性质(property)。打个比方来说，我们可以把 X
+      视窗的性质看做是一个可以装填资料的容器，这个容器标明了一个名字
+      与其内含值的资料型态，并且将这个容器放在相关应用程式都知道的
+      地方，於是这些相关的应用程式就可透过这个容器，来达成资料共享或
+      资料交换的目的。本文即就 X 视窗的性质机制作一番研讨，并设计两支
+      X 视窗的应用程式，来验证透过性质的机制可使不同的应用程式共享资料。
+       
+       
+      性质与原子
+       
+      在导言中提到过，性质必须有名字(name)及内含值的资料型态(data type)
+      ，这两者都是以可变长度的字元串来定义的，例如定义一个性质的名字
+      (name)为「bdc」，其资料型态(data type)为「bdc_type」。应用程式
+      可以自行定义性质的名字与内含值的资料型态，然後再分别将它们转换
+      为原子，也可以使用 X 视窗预先为我们定义好的性质名字的原子与资料
+      型态的原子，<X11/Xatom.h> 标头档中就包含了这些定义好的原子，
+      其起始字元串皆为「XA_」，如 XA_STRING，XA_INTEGER 等。而什麽
+      是原子呢？我们已经知道性质的名字与内含值的资料型态是以可变长度
+      的字元串来定义的，但是在 X 伺服器与应用程式之间，藉由传送整个
+      字元串来指定性质的名字与内含值的资料型态是没有效率且浪费网路
+      频宽的；因此，X 视窗系统以另一个三十二位元的识别码(32-bit id)
+      来表示这个字元串，这三十二位元的识别码就是「原子」(atom)。在
+      同一个 X 伺服器上，每一个原子都是唯一的(unique)，不会有两个
+      原子是相同的。
+       
+       
+      为性质命名
+       
+      应用程式可以使用 X 视窗预先定义的性质名字的原子，如果应用程式
+      不打算使用预先定义的性质名字的原子，可以自行定义性质的名字，
+      然後将它转换为原子。当应用程式为一个性质取定一个名字後，接著
+      便是将这个名字转换为 X 伺服器看得懂的原子，转换的工作可藉由呼叫
+       XInternAtom 来达成，其函式的型式如下：
+       
+           Display *display;
+           char    property_name[];
+           Bool    only_if_exists;
+           Atom    atom;
+       
+           atom = XInternAtom(display, property_name, only_if_exists);
+       
+           display 为应用程式和 X 伺服器的连线(connection)，通常 X 视窗的
+           应用程式一开始就会建立这条连线。
+           property_name 为性质的名字，当应用程式要产生一个新的性质时，
+           指定 False 给 only_if_exists；当性质已经存在且已悬挂在某视窗上，
+           则指定 True 给 only_if_exists，此时 XInternAtom 会传回该性质名字
+           相对应的原子；但是如果此性质已经不存在，而应用程式又指明 only_if_exists
+           之值为 True，此时 XInternAtom 的传回值为 None。在为性质命名时，必须
+           注意名字的大小写是有分别的，如「thing」和「Thing」，分别代表两个不同
+           性质的名字。
+       
+           如果 XInternAtom 在执行中发生错误，则其传籺ernAtom
+      以产生一个新的性质，其转换出来的原子叫做 myproperty。toplevel widget 有两个
+      孩子及两个孙子，分别是 rc 、 quit_btn 、 data_field 及 put_data，其中
+      data_field 及 put_data 都是 rc 的孩子。 put_data widget 有一个事件处理程序
+       (event handler) 叫做 PutData，其主要工作是当 put_data widget 被压下时，呼叫
+      XmTextGetString 函式将 text widget 中的资料存放到一个缓冲区後，再呼叫
+      XChangeProperty 函式将缓冲区内的资料存放到根视窗的性质中。 quit_btn widget
+      有一个回叫程序 (callback procedure) 叫做 delete_prop，其主要工作是呼叫 XDeleteProperty
+      函式删除该性质的定义，之後呼叫 XtCloseDispaly 函式把应用程式和 X 伺服器的连线
+      结束掉。
+       
+       
+      【 get_from_prop.c 】
+       
+      此程式的主要大纲为：在事件回圈(event loop)中侦收 PropertyNotify 事件，当
+      PropertyNotify 事件发生时，判断其发生事件的视窗是否为根视窗及性质名字的
+      原子是否为应用程式所感兴趣的原子；如果是，则呼叫 GetData 程序将性质内的资
+      料读取出来，显示在 text widget 上；如果其中一个条件不符，则呼叫 XtDispatchEvent
+      函式将事件丢往它该去的视窗上。程式一开始执行 X 视窗应用程式的初始化工作，以
+      产生一个 toplevel widget，接著分别呼叫 XtDisplay 及 DefaultRootWindow
+      以取得应用程式和 X 伺服器的连线及根视窗的视窗识别码，这两个都是呼叫性质操作
+      函式时会用到的参数；再来则是抓取命令列的第二个参数作为性质的名字，指定 True 给
+      only_if_exists 後，呼叫 XInternAtom 找出其相对应的原子，如果此性质不存在，则
+      传回 None。 toplevel widget 有两个孩子及一个孙子，分别是 rc 、 quit_bnt 及
+      data_field，其中 data_field 为 rc 的孩子。因为性质是悬挂在根视窗下，而根视窗
+      并不是一个 widget，所以无法使用 XtMainLoop 及 XtAddEventHandler 的函式呼叫来
+      对 PropertyNotify 事件做出反应，因此应用程式改采 Xlib 的风格来选择事件及设计
+      事件回圈。GetData 程序中呼叫了 XGetWindowProperty 函式，从根视窗的性质中去读
+      取资料，其参数 offset 及 length 分别为 0 及 8192，这是一般性质所能存放资料的
+      最大空间；参数 delete 之值为 False，表示应用程式在读取完性质内的资料後，不去
+      删除该性质的定义；应用程式所期望的性质资料型态为 XA_STRING ，这是 X 视窗预先
+      定义(predefined)的性质资料型态的原子，而此函式後面的五个参数皆为结果回传值，
+      执行完此函式後，应用程式判断其是否执行成功及性质内的真正资料型态是否和应用程式
+      所期望资料型态的一致，如果两项条件皆符合，接著便呼叫 XmTextSetString 函式将回传回来的
+      资料显示於 text widget 中，最後呼叫 XFree 函式把 X 视窗系统为应用程式配置的
+      缓冲空间(ret_property)释放掉。
+       
+       
+      程式执行画面说明
+       
+      图一：在背景下分别执行 put_to_prop 及 get_from_prop 两支程式，性质的名字为
+            「behavior」(put_to_prop behavior&;sleep 5;get_from_prop behavior&)，
+            待视窗出现後在 put_to_prop 的 text widget 中键入资料，此时尚未压下
+            PutData widget，所以 put_to_prop 的 text widget 中的资料还未存放到
+            根视窗的 behavior 性质中。
+      图二：压下在 put_to_prop 中的 PutData widget，此时 put_to_prop 的 text widget
+            中的资料被存放到悬挂在根视窗的 behavior 性质内，同此时刻 get_from_prop
+            侦收到 ProertyNotify 事件，接著就到根视窗的 behavior 性质中去读取资料，
+            并将资料显示於 get_from_prop 的 text widget 中。
+       
+       
+       
+       
+      /*
+       *  Program: put_to_prop.c
+       *
+       *  Purpose: Retrieve data from text widget, then put it into
+       *           a specified property which is hanged on root window.
+       *
+       *  Author : Chung-Chia Chen
+       *
+       *  Date   : Dec. 14, 1994
+       */
+       
+      #include <X11/StringDefs.h>
+      #include <X11/Intrinsic.h>
+      #include <X11/Xatom.h>
+      #include <Xm/Xm.h>
+      #include <Xm/RowColumn.h>
+      #include <Xm/PushB.h>
+      #include <Xm/Text.h>
+      #include <stdio.h>
+      #include <stdlib.h>
+       
+      #define ROWS 10
+      #define COLS 40
+       
+      static void PutData(Widget, Widget*, XEvent*);
+      static void DeleteProp(Widget, caddr_t, XmAnyCallbackStruct*);
+       
+      static Display   *mydisplay;
+      static Window    root_window;
+      static Atom      myproperty;
+       
+      void main(int argc, char *argv[])
+      {
+        Widget      toplevel, rc, put_data, data_field, quit_btn;
+       
+        if( argv[1] == NULL) {
+            printf("Usage: program_name property_name\n");
+            exit(0);
+        }
+       
+        toplevel = XtInitialize(argv[0], "PutDemo", NULL, 0,
+                                &argc, argv);
+       
+        mydisplay = XtDisplay(toplevel);
+       
+        if( (root_window = DefaultRootWindow(mydisplay)) == NULL ) {
+             printf("root_window id is null\n");
+             exit(-1);
+        }
+        /***************************************************
+         * Get the display and root window id.
+         ***************************************************/
+       
+        myproperty = XInternAtom(mydisplay, argv[1], False);
+        if( myproperty == None ) {
+            printf("Trying to create argv[1] property failed.", argv[1]);
+            exit(-1);
+        }
+        /**********************************************************
+         * Create a new property, convert the property's name
+         * into an atom called myproperty.
+         * Application takes predefined atom "XA_STRING" as the
+         * data type of the property, so the job that converts
+         * the property's data type into an atom can be exempted.
+         **********************************************************/
+       
+        rc = XtVaCreateManagedWidget("Panel",
+                              xmRowColumnWidgetClass,         toplevel,
+                              NULL);
+       
+        data_field = XtVaCreateManagedWidget("DataField",
+                                      xmTextWidgetClass,      rc,
+                                      XmNeditMode,    XmMULTI_LINE_EDIT,
+                                      XmNrows,        ROWS,
+                                      XmNcolumns,     COLS,
+                                      NULL);
+       
+        put_data = XtVaCreateManagedWidget("PutData",
+                                    xmPushButtonWidgetClass, rc,
+                                    NULL);
+       
+        XtAddEventHandler(put_data, ButtonPressMask, FALSE ,
+                          (XtEventHandler) PutData, &data_field);
+        /********************************************************
+         * Create a push button widget(put_data), then register
+         * an event handler named PutData which solicits button
+         * press event.
+         * data_field is taken as a client data which is gonna
+         * pass to the PutData event handler.
+         ********************************************************/
+       
+        quit_btn = XtVaCreateManagedWidget("Quit",
+                             xmPushButtonWidgetClass, rc,
+                             NULL);
+       
+        XtAddCallback(quit_btn, XmNactivateCallback,
+                      (XtCallbackProc) DeleteProp, NULL);
+       
+        XtRealizeWidget(toplevel);
+       
+        XtMainLoop();
+       
+      }
+       
+      static void PutData(Widget w,
+                          Widget *client_data,
+                          XEvent *ev)
+      {
+           char *buff;
+       
+           buff = XmTextGetString(*client_data);
+           if(buff == NULL) {
+              printf("XmTextGetString returns NULL\n");
+              return;
+           }
+       
+           XChangeProperty(mydisplay, root_window,
+                           myproperty, XA_STRING,
+                           32, PropModeReplace,
+                           (unsigned char*) buff, strlen(buff)); 
+
+
+
+
+
+3.x window property table
+http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
+
+
+
+4. x server
+The graphic interface in linux is provided by x server, server will provide all the resources,
+including window, paint.....
+since x server is a server so it has the number to specify it,
+hostanme:displaynum:screenum
+Normally, in one host which has only one screennum, the part matters is displaynum
+displaynum specify which server it is
+if hostname is not localhost, then 
+the X server is listen on the port :600n
+n is the displaynum when you log in
+echo $DISPLAY
+:1
+in the localhost, local program connect x server using unix stream such as
+unix 3 []  STREAM CONNECTED 355580   /tmp/.X11-unix/X4
+if the connection is from other host, then tcp connection used
+*****************
+in 140 host, echo $DISPLAY
+:1
+then in host 202, 
+export DISPLAY=10.121.122.140:0
+gedit
+then the prg gedit window will pop on the 140 host.
+--------------------------------
+in 140 host
+nestat -anpt |grep 60
+tcp 0  0  ::::6001   :::*   LISTEN 
+when connection established 
+tcp 0 0 10.121.122.140:6001    10.121.122.202:50862    ESTBLISHED
+
+So sometimes, fail to connect to X server, be refused,
+mostly because the access control of X server, using xhost + to allow all hosts could access
+the X server, in such case, you need to run xhost + in the 140 host to make 202 is accessible
+to it .
+
+5. connect x server via ssh
+using ssh -Y snail@10.121.122.140  in 202 host
+then the display number will be assigned automatically
+All true data transfer between the two hosts is via ssh connection
+while the x server message will be transport in ssh connection
+and two hosts will use two localhost tcp connection to transfer x server message
+-------------------------------
+snail@gemu ~ $ echo $DISPLAY
+:10 
+snail@gemu ~ $ netstat -atpn |grep 6010
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+tcp        0      0 127.0.0.1:6010          0.0.0.0:*               LISTEN      -
+tcp        0      0 127.0.0.1:49703         127.0.0.1:6010          ESTABLISHED 26805/gedit
+tcp        0      0 127.0.0.1:6010          127.0.0.1:49703         ESTABLISHED -
+tcp6       0      0 ::1:6010                :::*                    LISTEN      -
+-----------------------------------
+the real data transfer in ssh connection,
+and the x server message is extracted from ssh connection data,and forward to port localhost
+when type gedit in 202 host, 49703 is the forward port, it will connected to 6010.
+in fact the x server will be opened when ssh -Y successfully, it will listen on the port.
+when gedit is type, the connection is established
+-------------
+snail@gemu ~ $ netstat -atpn |grep 202
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+tcp        0      0 10.121.122.140:22       10.121.122.202:56635    ESTABLISHED -
+---------------
+[guolili@cougar src]$ echo $DISPLAY
+localhost:6 
+[guolili@cougar src]$ netstat -apn|grep X6
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+unix  2      [ ACC ]     STREAM     LISTENING     3732122 16392/Xvnc          /tmp/.X11-unix/X6
+unix  3      [ ]         STREAM     CONNECTED     7105044 16392/Xvnc          /tmp/.X11-unix/X6
+-----------------
+in the cougar before ssh -Y into gemu, the diplaynumber is 6, so wehn ssh into gemu, run gedit
+the gedit window will pop on the cougar number 6 x server
+when gedit is called, there will be an extara CONNECTED unix stream in the cougar(202)
+***************************
+So sometimes, fail to connect to X server, be refused,
+mostly because the access control of X server, using xhost + to allow all hosts could access
+the X server, but in ssh -Y case, it's not that case, cause it's client is itself localhost.
+
+
+* x window server access permission
+

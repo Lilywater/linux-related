@@ -1,0 +1,371 @@
+ /* Styles for Red Hat Customer Portal home page */
+
+.access, .highlights .box .contents, .topics {
+	background: url("/webassets/avalon/g/bg-home.png") repeat-x;
+	border: 1px solid;
+	border-color: #ededee #e5e6e7 #dededf;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	line-height: 100%;
+	margin: 0 0 25px;
+	position: relative;
+	text-shadow: 1px 1px 0 #fff;
+	z-index: 1;
+	}
+
+	.access {
+		min-height: 70px;
+		padding: 13px 7% 23px;
+		}
+
+	.highlights .box .contents {
+		margin-bottom: 0;
+		min-height: 191px;
+		}
+
+	.topics {
+		background: #fff;
+		border-top-color: #e5e6e7;
+		clear: left;
+		}
+
+	.access dd {
+		background: url("/webassets/avalon/g/bg-home.png") no-repeat -50px -555px;
+		display: none;
+		float: left;
+		margin: 0;
+		padding: 0 0 0 47px;
+		position: absolute;
+			left: 50px;
+			top: -7px;
+		text-shadow: none;
+		z-index: 2;
+		}
+
+		.access dd:hover {
+			display: block;
+			}
+
+		.access dd.second {
+			background-position: -182px -555px;
+			left: 182px;
+			padding-left: 66px;
+			}
+
+		.access dd.third {
+			background-position: 100% -555px;
+			left: auto;
+			padding-left: 0;
+			padding-right: 76px;
+			right: 31px;
+			}
+
+		.access dd a:link, .access dd a:visited, .access dd a:hover, .access dd a:active {
+			color: #fff;
+			}
+
+		.access dd li .outgoing {
+			background-image: url("/webassets/avalon/g/icons/outgoing-icon-3.png");
+			}
+
+	.access dl {
+		background: url("/webassets/avalon/g/bg-home.png") no-repeat 0 -408px;
+		height: 70px;
+		margin: 0;
+		position: absolute;
+			right: 7%;
+			top: 13px;
+		width: 420px;
+		}
+
+	.access dt {
+		background: url("/webassets/avalon/g/bg-home.png") no-repeat -7px -492px;
+		font-family: Overpass, "Liberation Sans", "Trebuchet MS", "Bitstream Vera Sans", helvetica, verdana, arial, sans-serif;
+		font-weight: bold;
+		font-size: 14px;
+		margin: 0;
+		padding: 40px 0 0;
+		position: absolute;
+			left: 7px;
+			top: 0;
+		text-align: center;
+		text-transform: uppercase;
+		width: 120px;
+		}
+
+		.access dt:hover {
+			background: none;
+			}
+
+			.access dt:hover + dd {
+				display: block;
+				}
+
+		.access dt.second {
+			background-position: -151px -492px;
+			left: 151px;
+			}
+
+		.access dt.third {
+			background-position: -297px -492px;
+			left: 298px;
+			}
+
+	.access li {
+		padding: 4px 0;
+		white-space: nowrap;
+		}
+
+		.fr .access li, .it .access li, .ja .access li {
+				white-space: normal;
+				}
+
+	.access p {
+		margin: 0;
+		padding: 21px 450px 0 0;
+		}
+
+		.access p strong {
+			display: block;
+			font-family: Overpass, "Liberation Sans", "Trebuchet MS", "Bitstream Vera Sans", helvetica, verdana, arial, sans-serif;
+			padding: 8px 0 0;
+			text-transform: uppercase;
+			}
+
+	#home .access ul, #home .topics ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		}
+
+		#home .access ul {
+			background: #4d4d4d;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			padding: 11px 16px;
+			}
+
+		#home .topics ul {
+			float: left;
+			margin: 13px 0;
+			width: 75%;
+			}
+
+.highlights {
+	clear: left;
+	}
+
+	.highlights .box {
+		float: left;
+		margin: 0 3.125% 5px 0;
+		width: 31.25%;
+		}
+
+		.highlights .last {
+			margin-right: 0;
+			}
+
+	.highlights h2, .topics h2 {
+		text-transform: uppercase;
+		}
+
+		.highlights h2 {
+			padding: 15px 5px 12px;
+			text-align: center;
+			}
+
+		.topics h2 {
+			background: url("/webassets/avalon/g/bg-trending.png") no-repeat 100% 50%;
+			float: left;
+			margin: 0 12px 0 0;
+			padding: 13px 25px 13px 15px;
+			}
+
+	.highlights .list {
+		list-style: none;
+		margin: 0 25px 0 30px !important;
+		padding: 0;
+		}
+
+		.highlights .list li {
+			margin: 0 0 12px 0;
+			}
+
+	.highlights p {
+		color: #555;
+		line-height: 130.77%;
+		margin: -8px 20px 9px;
+		text-align: center;
+		}
+
+	.highlights .logo, .highlights .thumbnail {
+		text-align: center;
+		}
+
+		.highlights .thumbnail a {
+			border: 5px solid #fff;
+			-webkit-box-shadow: 0px 0px 4px 0px #999;
+			-moz-box-shadow: 0px 0px 4px 0px #999;
+			box-shadow: 0px 0px 4px 0px #999;
+			display: inline-block;
+			position: relative;
+			}
+
+			.highlights .thumbnail.promo a:hover {
+				text-decoration: none;
+				}
+
+			.highlights .thumbnail a > span { /* hide from IE6 */
+				background: #333 url("/webassets/avalon/g/bg-video.png") no-repeat 50% 50%;
+				display: block;
+				-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
+				filter: alpha(opacity=45);
+				height: 100%;
+				opacity: .45;
+				position: absolute;
+					left: 0;
+					top: 0;
+				width: 100%;
+				}
+
+				.highlights .thumbnail.promo a > span { /* hide from IE6 */
+					background-color: #787878;
+					background-image: none;
+					-webkit-border-radius: 3px;
+					-moz-border-radius: 3px;
+					border-radius: 3px;
+					border-bottom: 1px solid #636363;
+					border-top: 1px solid #989898;
+					-webkit-box-shadow: 0px 0px 3px 0px #7a7a7a;
+					-moz-box-shadow: 0px 0px 3px 0px #7a7a7a;
+					box-shadow: 0px 0px 3px 0px #7a7a7a;
+					color: #fff;
+					-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+					filter: alpha(opacity=100);
+					height: auto;
+					left: 22px;
+					padding: 5px 12px 7px;
+					text-align: center;
+					text-shadow: 1px 1px 0 #484848;
+					top: 31px;
+					width: 90px;
+					opacity: 1;
+					}
+
+				.highlights .thumbnail a:hover > span {
+					-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=55)";
+					filter: alpha(opacity=55);
+					opacity: .55;
+					}
+
+					.highlights .thumbnail.promo a:hover > span {
+						background-color: #5e5e5e;
+						border-bottom-color: #4d4d4d;
+						border-top-color: #848484;
+						-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+						filter: alpha(opacity=100);
+						opacity: 1;
+						text-shadow: 1px 1px 0 #383838;
+						}
+
+	.topics li {
+		display: none;
+		float: left;
+		}
+
+		.topics li.first {
+			display: block;
+			}
+
+	.topics .loading, #trendingDiscussions .loading {
+		color: #555;
+		margin-left: 0;
+		position: relative;
+			top: 13px;
+		}
+
+		#trendingDiscussions .loading {
+			display: block;
+			margin: 0 auto;
+			top: auto;
+			width: 20%;
+			}
+
+	.topics p {
+		color: #555;
+		margin: 0;
+		padding: 13px 0;
+		}
+
+#home {
+	padding: 5px 0 0;
+	}
+
+	#home h1 {
+		font-size: 185.15%;
+		}
+
+	#home h2 {
+		font-size: 100%;
+		}
+
+#home .mainLinks {
+	font-family: Overpass, "Liberation Sans", "Trebuchet MS", "Bitstream Vera Sans", helvetica, verdana, arial, sans-serif;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	}
+
+#home .mainLinks li {
+	float: left;
+	font-weight: bold;
+	line-height: 18px;
+	margin: 0 0 25px 0;
+	padding: 0;
+	text-align: center;
+	text-transform: uppercase;
+	width: 25%;
+	}
+
+	.mainLinks li a {
+		border-left: 1px solid #e0e0e0;
+		background: url("/webassets/avalon/g/bg-home.png") no-repeat 50% -737px;
+		color: #333;
+		display: block;
+		min-height: 36px;
+		padding: 70px 10% 12px;
+		}
+
+		.mainLinks li:first-child a {
+			border-left: none;
+			}
+
+		.mainLinks li.fourth a {
+			background-position: 50% -1243px;
+			}
+
+			.mainLinks li.fourth a:hover {
+				background-position: 50% -1913px;
+				}
+
+		.mainLinks li.second a {
+			background-position: 50% -904px;
+			}
+
+			.mainLinks li.second a:hover {
+				background-position: 50% -1574px;
+				}
+
+		.mainLinks li.third a {
+			background-position: 50% -1074px;
+			}
+
+			.mainLinks li.third a:hover {
+				background-position: 50% -1744px;
+				}
+
+		.mainLinks li a:hover {
+			background-position: 50% -1407px;
+			text-decoration: none;
+			}

@@ -1,0 +1,83 @@
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        6      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 10.121.122.178:microsoft-ds wl033709.ap.tieto.com:43194 ESTABLISHED 3069/smbd           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42559 ESTABLISHED 2935/9              
+tcp        0      0 10.121.122.178:ssh          ww2002778.ap.tieto.com:1248 ESTABLISHED 5233/sshd: lili [pr 
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42558 ESTABLISHED 2903/8              
+tcp        0      0 10.121.122.178:5901         ww2002778.ap.tieto.com:1298 ESTABLISHED 5342/Xvnc           
+tcp        0      0 10.121.122.178:ssh          wl033709.ap.tieto.com:42557 ESTABLISHED 2871/7              
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tc

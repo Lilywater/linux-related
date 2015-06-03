@@ -1,0 +1,1276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head dir="ltr">
+	<script type="text/javascript">
+		var siteMapState="";
+	</script>
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>gdb/mi Data Manipulation - Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon04" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="https://access.redhat.com/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="https://access.redhat.com/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="https://access.redhat.com/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script><link rel="HOME" title="Red Hat Enterprise Linux 4" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/index.html"><link rel="UP" title="The gdb/mi Interface" <link rel="UP" title="The gdb/mi Interface" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/gdb-mi.html"><link rel="PREVIOUS" title="gdb/mi Breakpoint table commands" <link rel="PREVIOUS" title="gdb/mi Breakpoint table commands" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/gdb-mi-breakpoint-table-commands.html"><link rel="NEXT" title="gdb/mi Program control" <link rel="NEXT" title="gdb/mi Program control" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/gdb-mi-program-control.html"><link rel="STYLESHEET" type="text/css" <link rel="STYLESHEET" type="text/css" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/rhdocs-man.css" />
+		<link rel="stylesheet" type="text/css" href="https://access.redhat.com/chrome_themes/umbra/s/docs.css" />
+</head>
+
+<body dir="ltr" class="sfdc_available ">
+
+	<div id="outer-wrapper" class="wrapo"><div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="gdb-mi-data-manipulation.html#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="https://access.redhat.com/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="https://access.redhat.com/home">
+						<img src="https://access.redhat.com/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="https://access.redhat.com/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="https://access.redhat.com/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="https://access.redhat.com/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="https://access.redhat.com/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="https://access.redhat.com/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="https://access.redhat.com/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+		<div id="main-wrap" class="wrapu">
+			<div id="main-top"></div>
+			<div class="wrapi">
+				<div id="container" class="clearWrap">
+					<div id="content" class="c-mF">
+						<!--googleoff: all--><noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript><!--googleon: all-->		
+						<div id="main" class=""><!--googleoff: all--><div id="breadcrumbs"><a href="https://access.redhat.com/knowledge/">Knowledge</a> &gt; <a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a> &gt; <a href="https://access.redhat.com/knowledge/docs/Red_Hat_Enterprise_Linux/">Red Hat Enterprise Linux</a> &gt; 4</div><!--googleon: all--><div class="NAVHEADER"><table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><th colspan="3" align="center">Red Hat Enterprise Linux 4: Debugging with gdb</th></tr><tr><td width="10%" align="left" valign="bottom"><a href="gdb-mi-breakpoint-table-commands.html" accesskey="P">Prev</a></td><td width="80%" align="center" valign="bottom">Chapter 26. The gdb/mi Interface</td><td width="10%" align="right" valign="bottom"><a href="gdb-mi-program-control.html" accesskey="N">Next</a></td></tr></table><hr align="LEFT" width="100%" /></div><div class="SECT1"><h1 class="SECT1"><a name="GDB-MI-DATA-MANIPULATION"></a>26.9. gdb/mi Data Manipulation</h1><p>This section describes the gdb/mi commands that manipulate data:
+examine memory and registers, evaluate expressions, etc.
+   </p><div class="SECT2"><h2 class="SECT2"><a name="AEN13921"></a>26.9.1. The <tt class="COMMAND">-data-disassemble</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN13927"></a>26.9.1.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -data-disassemble
+    [ -s <tt class="VARNAME">start-addr</tt> -e <tt class="VARNAME">end-addr</tt> ]
+  | [ -f <tt class="VARNAME">filename</tt> -l <tt class="VARNAME">linenum</tt> [ -n <tt class="VARNAME">lines</tt> ] ]
+  -- <tt class="VARNAME">mode</tt></pre></td></tr></table>        </p><p>Where:
+     </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND"><tt class="VARNAME">start-addr</tt></tt></dt><dd><p>is the beginning address (or <tt class="COMMAND">$pc</tt>)
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">end-addr</tt></tt></dt><dd><p>is the end address
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">filename</tt></tt></dt><dd><p>is the name of the file to disassemble
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">linenum</tt></tt></dt><dd><p>is the line number to disassemble around
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">lines</tt></tt></dt><dd><p>is the the number of disassembly lines to be produced.  If it is -1,
+the whole function will be disassembled, in case no <tt class="VARNAME">end-addr</tt> is
+specified.  If <tt class="VARNAME">end-addr</tt> is specified as a non-zero value, and
+<tt class="VARNAME">lines</tt> is lower than the number of disassembly lines between
+<tt class="VARNAME">start-addr</tt> and <tt class="VARNAME">end-addr</tt>, only <tt class="VARNAME">lines</tt> lines are
+displayed; if <tt class="VARNAME">lines</tt> is higher than the number of lines between
+<tt class="VARNAME">start-addr</tt> and <tt class="VARNAME">end-addr</tt>, only the lines up to <tt class="VARNAME">end-addr</tt>
+are displayed.
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">mode</tt></tt></dt><dd><p>is either 0 (meaning only disassembly) or 1 (meaning mixed source and
+disassembly).
+        </p></dd></dl></div></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN13986"></a>26.9.1.2. Result</h3><p>The output for each instruction is composed of four fields:
+     </p><p></p><ul><li style="list-style-type: disc"><p>Address
+       </p></li><li style="list-style-type: disc"><p>Func-name
+       </p></li><li style="list-style-type: disc"><p>Offset
+       </p></li><li style="list-style-type: disc"><p>Instruction
+       </p></li></ul><p>Note that whatever included in the instruction field, is not manipulated
+directely by gdb/mi, that is, it is not possible to adjust its format.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN13999"></a>26.9.1.3. gdb Command</h3><p>There's no direct mapping from this command to the CLI.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14002"></a>26.9.1.4. Example</h3><p>Disassemble from the current value of <tt class="COMMAND">$pc</tt> to <tt class="COMMAND">$pc + 20</tt>:
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-data-disassemble -s $pc -e &quot;$pc + 20&quot; -- 0
+^done,
+asm_insns=[
+{address=&quot;0x000107c0&quot;,func-name=&quot;main&quot;,offset=&quot;4&quot;,
+inst=&quot;mov  2, %o0&quot;},
+{address=&quot;0x000107c4&quot;,func-name=&quot;main&quot;,offset=&quot;8&quot;,
+inst=&quot;sethi  %hi(0x11800), %o2&quot;},
+{address=&quot;0x000107c8&quot;,func-name=&quot;main&quot;,offset=&quot;12&quot;,
+inst=&quot;or  %o2, 0x140, %o1\t! 0x11940 &lt;_lib_version+8&gt;&quot;},
+{address=&quot;0x000107cc&quot;,func-name=&quot;main&quot;,offset=&quot;16&quot;,
+inst=&quot;sethi  %hi(0x11800), %o2&quot;},
+{address=&quot;0x000107d0&quot;,func-name=&quot;main&quot;,offset=&quot;20&quot;,
+inst=&quot;or  %o2, 0x168, %o4\t! 0x11968 &lt;_lib_version+48&gt;&quot;}]
+(gdb)</pre></td></tr></table>                </p><p>Disassemble the whole <tt class="COMMAND">main</tt> function.  Line 32 is part of
+<tt class="COMMAND">main</tt>.
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">-data-disassemble -f basics.c -l 32 -- 0
+^done,asm_insns=[
+{address=&quot;0x000107bc&quot;,func-name=&quot;main&quot;,offset=&quot;0&quot;,
+inst=&quot;save  %sp, -112, %sp&quot;},
+{address=&quot;0x000107c0&quot;,func-name=&quot;main&quot;,offset=&quot;4&quot;,
+inst=&quot;mov   2, %o0&quot;},
+{address=&quot;0x000107c4&quot;,func-name=&quot;main&quot;,offset=&quot;8&quot;,
+inst=&quot;sethi %hi(0x11800), %o2&quot;},
+[…]
+{address=&quot;0x0001081c&quot;,func-name=&quot;main&quot;,offset=&quot;96&quot;,inst=&quot;ret &quot;},
+{address=&quot;0x00010820&quot;,func-name=&quot;main&quot;,offset=&quot;100&quot;,inst=&quot;restore &quot;}]
+(gdb)</pre></td></tr></table>            </p><p>Disassemble 3 instructions from the start of <tt class="COMMAND">main</tt>:
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-data-disassemble -f basics.c -l 32 -n 3 -- 0
+^done,asm_insns=[
+{address=&quot;0x000107bc&quot;,func-name=&quot;main&quot;,offset=&quot;0&quot;,
+inst=&quot;save  %sp, -112, %sp&quot;},
+{address=&quot;0x000107c0&quot;,func-name=&quot;main&quot;,offset=&quot;4&quot;,
+inst=&quot;mov  2, %o0&quot;},
+{address=&quot;0x000107c4&quot;,func-name=&quot;main&quot;,offset=&quot;8&quot;,
+inst=&quot;sethi  %hi(0x11800), %o2&quot;}]
+(gdb)</pre></td></tr></table>                </p><p>Disassemble 3 instructions from the start of <tt class="COMMAND">main</tt> in mixed mode:
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-data-disassemble -f basics.c -l 32 -n 3 -- 1
+^done,asm_insns=[
+src_and_asm_line={line=&quot;31&quot;,
+file=&quot;/kwikemart/marge/ezannoni/flathead-dev/devo/gdb/ \
+  testsuite/gdb.mi/basics.c&quot;,line_asm_insn=[
+{address=&quot;0x000107bc&quot;,func-name=&quot;main&quot;,offset=&quot;0&quot;,
+inst=&quot;save  %sp, -112, %sp&quot;}]},
+src_and_asm_line={line=&quot;32&quot;,
+file=&quot;/kwikemart/marge/ezannoni/flathead-dev/devo/gdb/ \
+  testsuite/gdb.mi/basics.c&quot;,line_asm_insn=[
+{address=&quot;0x000107c0&quot;,func-name=&quot;main&quot;,offset=&quot;4&quot;,
+inst=&quot;mov  2, %o0&quot;},
+{address=&quot;0x000107c4&quot;,func-name=&quot;main&quot;,offset=&quot;8&quot;,
+inst=&quot;sethi  %hi(0x11800), %o2&quot;}]}]
+(gdb)</pre></td></tr></table>                </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14022"></a>26.9.2. The <tt class="COMMAND">-data-evaluate-expression</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14028"></a>26.9.2.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -data-evaluate-expression <tt class="VARNAME">expr</tt></pre></td></tr></table>        </p><p>Evaluate <tt class="VARNAME">expr</tt> as an expression.  The expression could contain an
+inferior function call.  The function call will execute synchronously.
+If the expression contains spaces, it must be enclosed in double quotes.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14035"></a>26.9.2.2. gdb Command</h3><p>The corresponding gdb commands are <tt class="COMMAND">print</tt>, <tt class="COMMAND">output</tt>, and
+<tt class="COMMAND">call</tt>.  In <tt class="COMMAND">gdbtk</tt> only, there's a corresponding
+<tt class="COMMAND">gdb_eval</tt> command.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14043"></a>26.9.2.3. Example</h3><p>In the following example, the numbers that precede the commands are the
+<i class="FIRSTTERM">tokens</i> described in (refer to <a href="gdb-mi-command-syntax.html">Section 26.4 <i>gdb/mi Command Syntax</i></a>.  Notice how gdb/mi returns the same tokens in its
+output.
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">211-data-evaluate-expression A
+211^done,value=&quot;1&quot;
+(gdb)
+311-data-evaluate-expression &amp;A
+311^done,value=&quot;0xefffeb7c&quot;
+(gdb)
+411-data-evaluate-expression A+3
+411^done,value=&quot;4&quot;
+(gdb)
+511-data-evaluate-expression &quot;A + 3&quot;
+511^done,value=&quot;4&quot;
+(gdb)</pre></td></tr></table>                        </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14050"></a>26.9.3. The <tt class="COMMAND">-data-list-changed-registers</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14056"></a>26.9.3.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -data-list-changed-registers</pre></td></tr></table>        </p><p>Display a list of the registers that have changed.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14061"></a>26.9.3.2. gdb Command</h3><p>gdb doesn't have a direct analog for this command; <tt class="COMMAND">gdbtk</tt>
+has the corresponding command <tt class="COMMAND">gdb_changed_register_list</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14066"></a>26.9.3.3. Example</h3><p>On a PPC MBX board:
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-exec-continue
+^running
+
+(gdb)
+*stopped,reason=&quot;breakpoint-hit&quot;,bkptno=&quot;1&quot;,frame={func=&quot;main&quot;,
+args=[],file=&quot;try.c&quot;,line=&quot;5&quot;}
+(gdb)
+-data-list-changed-registers
+^done,changed-registers=[&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,
+&quot;10&quot;,&quot;11&quot;,&quot;13&quot;,&quot;14&quot;,&quot;15&quot;,&quot;16&quot;,&quot;17&quot;,&quot;18&quot;,&quot;19&quot;,&quot;20&quot;,&quot;21&quot;,&quot;22&quot;,&quot;23&quot;,
+&quot;24&quot;,&quot;25&quot;,&quot;26&quot;,&quot;27&quot;,&quot;28&quot;,&quot;30&quot;,&quot;31&quot;,&quot;64&quot;,&quot;65&quot;,&quot;66&quot;,&quot;67&quot;,&quot;69&quot;]
+(gdb)</pre></td></tr></table>                        </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14071"></a>26.9.4. The <tt class="COMMAND">-data-list-register-names</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14077"></a>26.9.4.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -data-list-register-names [ ( <tt class="VARNAME">regno</tt> )+ ]</pre></td></tr></table>        </p><p>Show a list of register names for the current target.  If no arguments
+are given, it shows a list of the names of all the registers.  If
+integer numbers are given as arguments, it will print a list of the
+names of the registers corresponding to the arguments.  To ensure
+consistency between a register name and its number, the output list may
+include empty register names.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14083"></a>26.9.4.2. gdb Command</h3><p>gdb does not have a command which corresponds to
+<tt class="COMMAND">-data-list-register-names</tt>.  In <tt class="COMMAND">gdbtk</tt> there is a
+corresponding command <tt class="COMMAND">gdb_regnames</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14089"></a>26.9.4.3. Example</h3><p>For the PPC MBX board:
+<table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-data-list-register-names
+^done,register-names=[&quot;r0&quot;,&quot;r1&quot;,&quot;r2&quot;,&quot;r3&quot;,&quot;r4&quot;,&quot;r5&quot;,&quot;r6&quot;,&quot;r7&quot;,
+&quot;r8&quot;,&quot;r9&quot;,&quot;r10&quot;,&quot;r11&quot;,&quot;r12&quot;,&quot;r13&quot;,&quot;r14&quot;,&quot;r15&quot;,&quot;r16&quot;,&quot;r17&quot;,&quot;r18&quot;,
+&quot;r19&quot;,&quot;r20&quot;,&quot;r21&quot;,&quot;r22&quot;,&quot;r23&quot;,&quot;r24&quot;,&quot;r25&quot;,&quot;r26&quot;,&quot;r27&quot;,&quot;r28&quot;,&quot;r29&quot;,
+&quot;r30&quot;,&quot;r31&quot;,&quot;f0&quot;,&quot;f1&quot;,&quot;f2&quot;,&quot;f3&quot;,&quot;f4&quot;,&quot;f5&quot;,&quot;f6&quot;,&quot;f7&quot;,&quot;f8&quot;,&quot;f9&quot;,
+&quot;f10&quot;,&quot;f11&quot;,&quot;f12&quot;,&quot;f13&quot;,&quot;f14&quot;,&quot;f15&quot;,&quot;f16&quot;,&quot;f17&quot;,&quot;f18&quot;,&quot;f19&quot;,&quot;f20&quot;,
+&quot;f21&quot;,&quot;f22&quot;,&quot;f23&quot;,&quot;f24&quot;,&quot;f25&quot;,&quot;f26&quot;,&quot;f27&quot;,&quot;f28&quot;,&quot;f29&quot;,&quot;f30&quot;,&quot;f31&quot;,
+&quot;&quot;, &quot;pc&quot;,&quot;ps&quot;,&quot;cr&quot;,&quot;lr&quot;,&quot;ctr&quot;,&quot;xer&quot;]
+(gdb)
+-data-list-register-names 1 2 3
+^done,register-names=[&quot;r1&quot;,&quot;r2&quot;,&quot;r3&quot;]
+(gdb)</pre></td></tr></table>                    </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14093"></a>26.9.5. The <tt class="COMMAND">-data-list-register-values</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14099"></a>26.9.5.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -data-list-register-values <tt class="VARNAME">fmt</tt> [ ( <tt class="VARNAME">regno</tt> )*]</pre></td></tr></table>        </p><p>Display the registers' contents.  <tt class="VARNAME">fmt</tt> is the format according to
+which the registers' contents are to be returned, followed by an optional
+list of numbers specifying the registers to display.  A missing list of
+numbers indicates that the contents of all the registers must be returned.
+     </p><p>Allowed formats for <tt class="VARNAME">fmt</tt> are:
+     </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">x</tt></dt><dd><p>Hexadecimal
+        </p></dd><dt><tt class="COMMAND">o</tt></dt><dd><p>Octal
+        </p></dd><dt><tt class="COMMAND">t</tt></dt><dd><p>Binary
+        </p></dd><dt><tt class="COMMAND">d</tt></dt><dd><p>Decimal
+        </p></dd><dt><tt class="COMMAND">r</tt></dt><dd><p>Raw
+        </p></dd><dt><tt class="COMMAND">N</tt></dt><dd><p>Natural
+        </p></dd></dl></div></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14140"></a>26.9.5.2. gdb Command</h3><p>The corresponding gdb commands are <tt class="COMMAND">info reg</tt>, <tt class="COMMAND">info
+all-reg</tt>, and (in <tt class="COMMAND">gdbtk</tt>) <tt class="COMMAND">gdb_fetch_registers</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14147"></a>26.9.5.3. Example</h3><p>For a PPC MBX board (note: line breaks are for readability only, they
+don't appear in the actual output):
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-data-list-register-values r 64 65
+^done,register-values=[{number=&quot;64&quot;,value=&quot;0xfe00a300&quot;},
+{number=&quot;65&quot;,value=&quot;0x00029002&quot;}]
+(gdb)
+-data-list-register-values x
+^done,register-values=[{number=&quot;0&quot;,value=&quot;0xfe0043c8&quot;},
+{number=&quot;1&quot;,value=&quot;0x3fff88&quot;},{number=&quot;2&quot;,value=&quot;0xfffffffe&quot;},
+{number=&quot;3&quot;,value=&quot;0x0&quot;},{number=&quot;4&quot;,value=&quot;0xa&quot;},
+{number=&quot;5&quot;,value=&quot;0x3fff68&quot;},{number=&quot;6&quot;,value=&quot;0x3fff58&quot;},
+{number=&quot;7&quot;,value=&quot;0xfe011e98&quot;},{number=&quot;8&quot;,value=&quot;0x2&quot;},
+{number=&quot;9&quot;,value=&quot;0xfa202820&quot;},{number=&quot;10&quot;,value=&quot;0xfa202808&quot;},
+{number=&quot;11&quot;,value=&quot;0x1&quot;},{number=&quot;12&quot;,value=&quot;0x0&quot;},
+{number=&quot;13&quot;,value=&quot;0x4544&quot;},{number=&quot;14&quot;,value=&quot;0xffdfffff&quot;},
+{number=&quot;15&quot;,value=&quot;0xffffffff&quot;},{number=&quot;16&quot;,value=&quot;0xfffffeff&quot;},
+{number=&quot;17&quot;,value=&quot;0xefffffed&quot;},{number=&quot;18&quot;,value=&quot;0xfffffffe&quot;},
+{number=&quot;19&quot;,value=&quot;0xffffffff&quot;},{number=&quot;20&quot;,value=&quot;0xffffffff&quot;},
+{number=&quot;21&quot;,value=&quot;0xffffffff&quot;},{number=&quot;22&quot;,value=&quot;0xfffffff7&quot;},
+{number=&quot;23&quot;,value=&quot;0xffffffff&quot;},{number=&quot;24&quot;,value=&quot;0xffffffff&quot;},
+{number=&quot;25&quot;,value=&quot;0xffffffff&quot;},{number=&quot;26&quot;,value=&quot;0xfffffffb&quot;},
+{number=&quot;27&quot;,value=&quot;0xffffffff&quot;},{number=&quot;28&quot;,value=&quot;0xf7bfffff&quot;},
+{number=&quot;29&quot;,value=&quot;0x0&quot;},{number=&quot;30&quot;,value=&quot;0xfe010000&quot;},
+{number=&quot;31&quot;,value=&quot;0x0&quot;},{number=&quot;32&quot;,value=&quot;0x0&quot;},
+{number=&quot;33&quot;,value=&quot;0x0&quot;},{number=&quot;34&quot;,value=&quot;0x0&quot;},
+{number=&quot;35&quot;,value=&quot;0x0&quot;},{number=&quot;36&quot;,value=&quot;0x0&quot;},
+{number=&quot;37&quot;,value=&quot;0x0&quot;},{number=&quot;38&quot;,value=&quot;0x0&quot;},
+{number=&quot;39&quot;,value=&quot;0x0&quot;},{number=&quot;40&quot;,value=&quot;0x0&quot;},
+{number=&quot;41&quot;,value=&quot;0x0&quot;},{number=&quot;42&quot;,value=&quot;0x0&quot;},
+{number=&quot;43&quot;,value=&quot;0x0&quot;},{number=&quot;44&quot;,value=&quot;0x0&quot;},
+{number=&quot;45&quot;,value=&quot;0x0&quot;},{number=&quot;46&quot;,value=&quot;0x0&quot;},
+{number=&quot;47&quot;,value=&quot;0x0&quot;},{number=&quot;48&quot;,value=&quot;0x0&quot;},
+{number=&quot;49&quot;,value=&quot;0x0&quot;},{number=&quot;50&quot;,value=&quot;0x0&quot;},
+{number=&quot;51&quot;,value=&quot;0x0&quot;},{number=&quot;52&quot;,value=&quot;0x0&quot;},
+{number=&quot;53&quot;,value=&quot;0x0&quot;},{number=&quot;54&quot;,value=&quot;0x0&quot;},
+{number=&quot;55&quot;,value=&quot;0x0&quot;},{number=&quot;56&quot;,value=&quot;0x0&quot;},
+{number=&quot;57&quot;,value=&quot;0x0&quot;},{number=&quot;58&quot;,value=&quot;0x0&quot;},
+{number=&quot;59&quot;,value=&quot;0x0&quot;},{number=&quot;60&quot;,value=&quot;0x0&quot;},
+{number=&quot;61&quot;,value=&quot;0x0&quot;},{number=&quot;62&quot;,value=&quot;0x0&quot;},
+{number=&quot;63&quot;,value=&quot;0x0&quot;},{number=&quot;64&quot;,value=&quot;0xfe00a300&quot;},
+{number=&quot;65&quot;,value=&quot;0x29002&quot;},{number=&quot;66&quot;,value=&quot;0x202f04b5&quot;},
+{number=&quot;67&quot;,value=&quot;0xfe0043b0&quot;},{number=&quot;68&quot;,value=&quot;0xfe00b3e4&quot;},
+{number=&quot;69&quot;,value=&quot;0x20002b03&quot;}]
+(gdb)</pre></td></tr></table>                    </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14152"></a>26.9.6. The <tt class="COMMAND">-data-read-memory</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14158"></a>26.9.6.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -data-read-memory [ -o <tt class="VARNAME">byte-offset</tt> ]
+   <tt class="VARNAME">address</tt> <tt class="VARNAME">word-format</tt> <tt class="VARNAME">word-size</tt>
+   <tt class="VARNAME">nr-rows</tt> <tt class="VARNAME">nr-cols</tt> [ <tt class="VARNAME">aschar</tt> ]</pre></td></tr></table>        </p><p>where:
+     </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND"><tt class="VARNAME">address</tt></tt></dt><dd><p>An expression specifying the address of the first memory word to be
+read.  Complex expressions containing embedded white space should be
+quoted using the C convention.
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">word-format</tt></tt></dt><dd><p>The format to be used to print the memory words.  The notation is the
+same as for gdb's <tt class="COMMAND">print</tt> command (refer to <a href="output-formats.html">Section 10.4 <i>Output formats</i></a>).
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">word-size</tt></tt></dt><dd><p>The size of each memory word in bytes.
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">nr-rows</tt></tt></dt><dd><p>The number of rows in the output table.
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">nr-cols</tt></tt></dt><dd><p>The number of columns in the output table.
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">aschar</tt></tt></dt><dd><p>If present, indicates that each row should include an ascii dump.  The
+value of <tt class="VARNAME">aschar</tt> is used as a padding character when a byte is not a
+member of the printable ascii character set (printable ascii
+characters are those whose code is between 32 and 126, inclusively).
+        </p></dd><dt><tt class="COMMAND"><tt class="VARNAME">byte-offset</tt></tt></dt><dd><p>An offset to add to the <tt class="VARNAME">address</tt> before fetching memory.
+        </p></dd></dl></div><p>This command displays memory contents as a table of <tt class="VARNAME">nr-rows</tt> by
+<tt class="VARNAME">nr-cols</tt> words, each word being <tt class="VARNAME">word-size</tt> bytes.  In total,
+<tt class="COMMAND"><tt class="VARNAME">nr-rows</tt> * <tt class="VARNAME">nr-cols</tt> * <tt class="VARNAME">word-size</tt></tt> bytes are read
+(returned as <tt class="COMMAND">total-bytes</tt>).  Should less than the requested number
+of bytes be returned by the target, the missing words are identified
+using <tt class="COMMAND">N/A</tt>.  The number of bytes read from the target is returned
+in <tt class="COMMAND">nr-bytes</tt> and the starting address used to read memory in
+<tt class="COMMAND">addr</tt>.
+     </p><p>The address of the next/previous row or page is available in
+<tt class="COMMAND">next-row</tt> and <tt class="COMMAND">prev-row</tt>, <tt class="COMMAND">next-page</tt> and
+<tt class="COMMAND">prev-page</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14234"></a>26.9.6.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">x</tt>.  <tt class="COMMAND">gdbtk</tt> has
+<tt class="COMMAND">gdb_get_mem</tt> memory read command.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14240"></a>26.9.6.3. Example</h3><p>Read six bytes of memory starting at <tt class="COMMAND">bytes+6</tt> but then offset by
+<tt class="COMMAND">-6</tt> bytes.  Format as three rows of two columns.  One byte per
+word.  Display each word in hex.
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+9-data-read-memory -o -6 -- bytes+6 x 1 3 2
+9^done,addr=&quot;0x00001390&quot;,nr-bytes=&quot;6&quot;,total-bytes=&quot;6&quot;,
+next-row=&quot;0x00001396&quot;,prev-row=&quot;0x0000138e&quot;,next-page=&quot;0x00001396&quot;,
+prev-page=&quot;0x0000138a&quot;,memory=[
+{addr=&quot;0x00001390&quot;,data=[&quot;0x00&quot;,&quot;0x01&quot;]},
+{addr=&quot;0x00001392&quot;,data=[&quot;0x02&quot;,&quot;0x03&quot;]},
+{addr=&quot;0x00001394&quot;,data=[&quot;0x04&quot;,&quot;0x05&quot;]}]
+(gdb)</pre></td></tr></table>                </p><p>Read two bytes of memory starting at address <tt class="COMMAND">shorts + 64</tt> and
+display as a single word formatted in decimal.
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+5-data-read-memory shorts+64 d 2 1 1
+5^done,addr=&quot;0x00001510&quot;,nr-bytes=&quot;2&quot;,total-bytes=&quot;2&quot;,
+next-row=&quot;0x00001512&quot;,prev-row=&quot;0x0000150e&quot;,
+next-page=&quot;0x00001512&quot;,prev-page=&quot;0x0000150e&quot;,memory=[
+{addr=&quot;0x00001510&quot;,data=[&quot;128&quot;]}]
+(gdb)</pre></td></tr></table>                </p><p>Read thirty two bytes of memory starting at <tt class="COMMAND">bytes+16</tt> and format
+as eight rows of four columns.  Include a string encoding with <tt class="COMMAND">x</tt>
+used as the non-printable character.
+     </p><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+4-data-read-memory bytes+16 x 1 8 4 x
+4^done,addr=&quot;0x000013a0&quot;,nr-bytes=&quot;32&quot;,total-bytes=&quot;32&quot;,
+next-row=&quot;0x000013c0&quot;,prev-row=&quot;0x0000139c&quot;,
+next-page=&quot;0x000013c0&quot;,prev-page=&quot;0x00001380&quot;,memory=[
+{addr=&quot;0x000013a0&quot;,data=[&quot;0x10&quot;,&quot;0x11&quot;,&quot;0x12&quot;,&quot;0x13&quot;],ascii=&quot;xxxx&quot;},
+{addr=&quot;0x000013a4&quot;,data=[&quot;0x14&quot;,&quot;0x15&quot;,&quot;0x16&quot;,&quot;0x17&quot;],ascii=&quot;xxxx&quot;},
+{addr=&quot;0x000013a8&quot;,data=[&quot;0x18&quot;,&quot;0x19&quot;,&quot;0x1a&quot;,&quot;0x1b&quot;],ascii=&quot;xxxx&quot;},
+{addr=&quot;0x000013ac&quot;,data=[&quot;0x1c&quot;,&quot;0x1d&quot;,&quot;0x1e&quot;,&quot;0x1f&quot;],ascii=&quot;xxxx&quot;},
+{addr=&quot;0x000013b0&quot;,data=[&quot;0x20&quot;,&quot;0x21&quot;,&quot;0x22&quot;,&quot;0x23&quot;],ascii=&quot; !\&quot;#&quot;},
+{addr=&quot;0x000013b4&quot;,data=[&quot;0x24&quot;,&quot;0x25&quot;,&quot;0x26&quot;,&quot;0x27&quot;],ascii=&quot;$%&amp;'&quot;},
+{addr=&quot;0x000013b8&quot;,data=[&quot;0x28&quot;,&quot;0x29&quot;,&quot;0x2a&quot;,&quot;0x2b&quot;],ascii=&quot;()*+&quot;},
+{addr=&quot;0x000013bc&quot;,data=[&quot;0x2c&quot;,&quot;0x2d&quot;,&quot;0x2e&quot;,&quot;0x2f&quot;],ascii=&quot;,-./&quot;}]
+(gdb)</pre></td></tr></table>                </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14256"></a>26.9.7. The <tt class="COMMAND">-display-delete</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14262"></a>26.9.7.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -display-delete <tt class="VARNAME">number</tt></pre></td></tr></table>        </p><p>Delete the display <tt class="VARNAME">number</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14269"></a>26.9.7.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">delete display</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14273"></a>26.9.7.3. Example</h3><p>N.A.
+     </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14276"></a>26.9.8. The <tt class="COMMAND">-display-disable</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14282"></a>26.9.8.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -display-disable <tt class="VARNAME">number</tt></pre></td></tr></table>        </p><p>Disable display <tt class="VARNAME">number</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14289"></a>26.9.8.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">disable display</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14293"></a>26.9.8.3. Example</h3><p>N.A.
+     </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14296"></a>26.9.9. The <tt class="COMMAND">-display-enable</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14302"></a>26.9.9.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -display-enable <tt class="VARNAME">number</tt></pre></td></tr></table>        </p><p>Enable display <tt class="VARNAME">number</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14309"></a>26.9.9.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">enable display</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14313"></a>26.9.9.3. Example</h3><p>N.A.
+     </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14316"></a>26.9.10. The <tt class="COMMAND">-display-insert</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14322"></a>26.9.10.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -display-insert <tt class="VARNAME">expression</tt></pre></td></tr></table>        </p><p>Display <tt class="VARNAME">expression</tt> every time the program stops.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14329"></a>26.9.10.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">display</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14333"></a>26.9.10.3. Example</h3><p>N.A.
+     </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14336"></a>26.9.11. The <tt class="COMMAND">-display-list</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14342"></a>26.9.11.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -display-list</pre></td></tr></table>        </p><p>List the displays.  Do not show the current values.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14347"></a>26.9.11.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">info display</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14351"></a>26.9.11.3. Example</h3><p>N.A.
+     </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14354"></a>26.9.12. The <tt class="COMMAND">-environment-cd</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14360"></a>26.9.12.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -environment-cd <tt class="VARNAME">pathdir</tt></pre></td></tr></table>        </p><p>Set gdb's working directory.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14366"></a>26.9.12.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">cd</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14370"></a>26.9.12.3. Example</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-environment-cd /kwikemart/marge/ezannoni/flathead-dev/devo/gdb
+^done
+(gdb)</pre></td></tr></table>                </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14374"></a>26.9.13. The <tt class="COMMAND">-environment-directory</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14380"></a>26.9.13.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -environment-directory [ -r ] [ <tt class="VARNAME">pathdir</tt> ]+</pre></td></tr></table>        </p><p>Add directories <tt class="VARNAME">pathdir</tt> to beginning of search path for source files.
+If the <tt class="COMMAND">-r</tt> option is used, the search path is reset to the default
+search path.  If directories <tt class="VARNAME">pathdir</tt> are supplied in addition to the
+<tt class="COMMAND">-r</tt> option, the search path is first reset and then addition
+occurs as normal.
+Multiple directories may be specified, separated by blanks.  Specifying
+multiple directories in a single command
+results in the directories added to the beginning of the
+search path in the same order they were presented in the command.
+If blanks are needed as
+part of a directory name, double-quotes should be used around
+the name.  In the command output, the path will show up separated
+by the system directory-separator character.  The directory-seperator
+character must not be used
+in any directory name.
+If no directories are specified, the current search path is displayed.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14390"></a>26.9.13.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">dir</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14394"></a>26.9.13.3. Example</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-environment-directory /kwikemart/marge/ezannoni/flathead-dev/devo/gdb
+^done,source-path=&quot;/kwikemart/marge/ezannoni/flathead-dev/devo/gdb:$cdir:$cwd&quot;
+(gdb)
+-environment-directory &quot;&quot;
+^done,source-path=&quot;/kwikemart/marge/ezannoni/flathead-dev/devo/gdb:$cdir:$cwd&quot;
+(gdb)
+-environment-directory -r /home/jjohnstn/src/gdb /usr/src
+^done,source-path=&quot;/home/jjohnstn/src/gdb:/usr/src:$cdir:$cwd&quot;
+(gdb)
+-environment-directory -r
+^done,source-path=&quot;$cdir:$cwd&quot;
+(gdb)</pre></td></tr></table>                            </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14398"></a>26.9.14. The <tt class="COMMAND">-environment-path</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14404"></a>26.9.14.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -environment-path [ -r ] [ <tt class="VARNAME">pathdir</tt> ]+</pre></td></tr></table>        </p><p>Add directories <tt class="VARNAME">pathdir</tt> to beginning of search path for object files.
+If the <tt class="COMMAND">-r</tt> option is used, the search path is reset to the original
+search path that existed at gdb start-up.  If directories <tt class="VARNAME">pathdir</tt> are
+supplied in addition to the
+<tt class="COMMAND">-r</tt> option, the search path is first reset and then addition
+occurs as normal.
+Multiple directories may be specified, separated by blanks.  Specifying
+multiple directories in a single command
+results in the directories added to the beginning of the
+search path in the same order they were presented in the command.
+If blanks are needed as
+part of a directory name, double-quotes should be used around
+the name.  In the command output, the path will show up separated
+by the system directory-separator character.  The directory-seperator
+character must not be used
+in any directory name.
+If no directories are specified, the current path is displayed.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14414"></a>26.9.14.2. gdb Command</h3><p>The corresponding gdb command is <tt class="COMMAND">path</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14418"></a>26.9.14.3. Example</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-environment-path
+^done,path=&quot;/usr/bin&quot;
+(gdb)
+-environment-path /kwikemart/marge/ezannoni/flathead-dev/ppc-eabi/gdb /bin
+^done,path=&quot;/kwikemart/marge/ezannoni/flathead-dev/ppc-eabi/gdb:/bin:/usr/bin&quot;
+(gdb)
+-environment-path -r /usr/local/bin
+^done,path=&quot;/usr/local/bin:/usr/bin&quot;
+(gdb)</pre></td></tr></table>                        </p></div></div><div class="SECT2"><h2 class="SECT2"><a name="AEN14422"></a>26.9.15. The <tt class="COMMAND">-environment-pwd</tt>Command</h2><p>    </p><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14428"></a>26.9.15.1. Synopsis</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN"> -environment-pwd</pre></td></tr></table>        </p><p>Show the current working directory.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14433"></a>26.9.15.2. gdb command</h3><p>The corresponding gdb command is <tt class="COMMAND">pwd</tt>.
+     </p></div><div class="SIMPLESECT"><h3 class="SIMPLESECT"><a name="AEN14437"></a>26.9.15.3. Example</h3><p><table class="SCREEN" bgcolor="#DCDCDC" width="100%"><tr><td><pre class="SCREEN">(gdb)
+-environment-pwd
+^done,cwd=&quot;/kwikemart/marge/ezannoni/flathead-dev/devo/gdb&quot;
+(gdb)</pre></td></tr></table>                </p></div></div></div><div class="NAVFOOTER"><hr align="LEFT" width="100%"><table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td width="33%" align="left" valign="top"><a href="gdb-mi-breakpoint-table-commands.html" accesskey="P">Prev</a></td><td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td><td width="33%" align="right" valign="top"><a href="gdb-mi-program-control.html" accesskey="N">Next</a></td></tr><tr><td width="33%" align="left" valign="top">gdb/mi Breakpoint table commands</td><td width="34%" align="center" valign="top"><a href="gdb-mi.html" accesskey="U">Up</a></td><td width="33%" align="right" valign="top">gdb/mi Program control</td></tr></table></hr></div>
+		<script type="text/javascript">
+			ajq(document).ready(function() {
+				ajq(".docnav").clone().appendTo("#main");
+				var floatingtoc = ajq("#floatingtoc");
+				ajq("#floatingtoc").load('index.html .toc:eq(0)', function() {
+					var links = floatingtoc.find('a');
+
+					var docnav = ajq('.docnav');
+					docnav.find('.home').remove();
+
+					var previous = docnav.find('.previous');
+					previous.after('<li><select style="display: none;" class="pageSelect"></select></li>');
+
+					var select = ajq('.pageSelect');
+					var title = ajq('title').html().match(/[A-Z0-9.]*/)[0];
+
+					links.each(function() {
+						var link = ajq(this);
+						if (link.html().indexOf(title) === 0) {
+							select.append('<option selected="selected" value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+						}
+						select.append('<option value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+					});
+					select.fadeIn();
+
+					select.change(function() {
+						var newValue = ajq(this).attr('value');
+						window.location.href = newValue;
+					});
+				});
+			});
+		</script>
+						</div> <!-- end main -->
+					</div> <!-- end content -->
+					<br class="clearboth" />
+				</div> <!-- end container -->
+			</div> <!-- end wrapi -->
+		</div><!-- end main-wrap -->
+		<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="https://access.redhat.com/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="https://access.redhat.com/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="https://access.redhat.com/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="https://access.redhat.com/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="https://access.redhat.com/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="https://access.redhat.com/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="https://access.redhat.com/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="https://access.redhat.com/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="https://access.redhat.com/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+		</div><!-- end footerWrap -->
+	</div></div><!-- end wrapper, outer-wrapper -->
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="https://access.redhat.com/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+</body>
+</html>

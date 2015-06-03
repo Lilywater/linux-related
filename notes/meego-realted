@@ -1,0 +1,124 @@
+meego related
+
+
+madde环境的搭建
+liguo@lili:/usr/lib/madde/linux-i686$ ls
+bin    legal   madlib            run       sysroots  templates   tools
+cache  madbin  postinstall.done  runtimes  targets   toolchains
+
+cache存放从网上下载的安装文件
+madde 提供交叉编因环境： target  sysroot （含有qt在目标机上编译时的库，头文件，以对应文件夹的形式存在）
+                       运行环境：   runtime   （运行环境相当于linux的root filesystem，以一个文件raw等格式存在）
+所以在安装target和runtime时需要匹配。
+
+mad-admin list 
+mad remote -r <highlight>meego-handset-ia32-qemu-1.1.20101031.2201-sda-runtime</highlight> poweron
+这个runtime名称在runtimes文件夹里。
+
+
+
+Qtcreator配置的meego编译环境里实际上是利用：
+$ mad pscreate -l
+TEMPLATE NAME    TYPE     DESCRIPTION
+lib-simple       lib      Simple example for C/C++ library
+python           python   Simple example for Python (Qt) application
+qt-empty         prog     Empty project for Qt application
+qt-lib-simple    lib      Simple example for Qt library
+qt-simple        qtprog   Simple example for Qt application
+simple           prog     Simple example for C/C++ application
+
+$ mad -t meego-handset-ia32-1.1 pscreate -t qt-simple test-rpm-0.0.1
+$ cd test-rpm-0.0.1/
+$ mad -t meego-handset-ia32-1.1 qmake
+$ mad -t meego-handset-ia32-1.1 make
+打包：
+Package Creation: Running command 'rrpmbuild -bb cbook.spec'.
+命令rrpmbuild是在 <link:url>/usr/lib/madde/linux-i686/madbin/rrpmbuild</link:url> 这个文件夹下 make install
+实质是install就是把文件拷贝到相应的目录下，实际只要在Makefile中指定install就可以完成了，在qt中，则在pro文件中设置即可
+TARGET = cbook
+target.path=/usr/local/bin
+INSTALLS +=target
+
+INSTALLS    += desktop
+desktop.path  = <link:url>/usr/share/applications</link:url>
+desktop.files  = ../cbook.desktop
+
+
+INSTALLS    += icon64
+icon64.path  = <link:url>/usr/share/icons/hicolor/64x64/apps</link:url>
+icon64.files  = ../icons/cbook_icon.png
+
+
+
+<bold>愷风的专栏
+<link:url>http://blog.csdn.net/flowingflying/category/526791.aspx?PageNumber=2</link:url></bold>
+
+x windows的方式: ssh -X meego@localhost -p 6666 。这样当我运行一个带界面的程序，在另一个窗口弹出界面程序。
+
+
+
+    sudo rpm -i --force qthello-0.0.1-1.i586.rpm &amp;& sudo sudo chmod a+x <link:url>/usr/local/bin/qthello</link:url> &amp;& source <link:url>/etc/profile</link:url> &amp;& export DISPLAY=:0  &amp;& sudo su -m meego -c 'xhost + ';   <link:url>/usr/local/bin/qthello</link:url> ;echo Ꭰ
+
+　　步骤如下：
+
+1. 打开ssh，例如ssh  root@localhost -p 6666，
+
+2. 此前，在通过QtCreator中，已经将qthello的rpm下载到i㎎中，并已经安装好.
+
+3. 在ssh的命令行中，输入：# export DISPLAY=:0 ，这样，设置好环境，可以通过运行# qthello或者# <link:url>/usr/local/bin/qthello，就可以在模拟器中显示</link:url>。
+
+
+
+ 3  pkill -x test;pkill -x gdbserver;sleep 1; pkill -x -9 test;pkill -x -9 gdbserver;echo Ꭰ
+    4  sudo rpm -i --force test-0.0.1-1.i586.rpm &amp;& sudo sudo chmod a+x <link:url>/usr/local/bin/test</link:url> &amp;& source <link:url>/etc/profile</link:url> &amp;& export DISPLAY=:0 &amp;& sudo su -m meego -c 'xhost +';   gdbserver :13219 <link:url>/usr/local/bin/test</link:url> ;echo Ꭰ
+
+
+gdbserver 和 gdb 在qt中的运用，模拟如下：
+在目标机上：meego@[meego-handset-sdk]::~$ gdbserver 127.0.0.1:13219 <link:url>/usr/local/bin/cbook</link:url> 
+Process <link:url>/usr/local/bin/cbook</link:url> created; pid = 743
+Listening on port 13219
+
+在主机上
+$ gdb qthello
+GNU gdb (GDB) 7.1-ubuntu
+Copyright (C) 2010 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;<link:url>http://gnu.org/licenses/gpl.html</link:url>>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "i486-linux-gnu".
+For bug reporting instructions, please see:
+<<link:url>http://www.gnu.org/software/gdb/bugs/</link:url>>...
+qthello: 没有那个文件或目录.
+(gdb) <highlight>target remote 127.0.0.1:13219</highlight>
+<size:large>这里就连接主机上的程序了。</size:large>
+Remote debugging using 127.0.0.1:13219
+warning: Could not load vsyscall page because no executable was specified
+try using the "file" command first.
+0x4b13d850 in ?? ()
+(gdb) continue 
+
+
+
+svn ci -m "tech point"
+
+vi <link:url>/etc/zypp/repos.d/core.repo</link:url> 
+vi <link:url>/etc/zypp/repos.d/handset.repo</link:url> 
+http_proxy added
+
+ofono configure
+configure: error: libudev &gt;= 143 is required
+zypper install libudev-devel
+
+cat <link:url>/etc/ofono/phonesim.conf</link:url> 
+./list-modems 
+[ /phonesim ]
+    Lockdown = 0
+    Interfaces = 
+    Powered = 0
+    Features = 
+    Online = 0
+
+
+<link:url>root@meego-handset-sdk:~/ofono-0.42/test</link:url># ./enable-modem /phonesim
+<link:url>root@meego-handset-sdk:~/ofono-0.42/test</link:url># ./test-voicecall /phonesim 10086

@@ -1,0 +1,513 @@
+* java run and compilation enviroment
+
+[admin1@TeamCI-136 jtest]$ echo $PATH
+/usr/jdk1.7.0/bin:/
+
+
+[admin1@TeamCI-136 jtest]$ java -version
+java version "1.6.0_31"
+Java(TM) SE Runtime Environment (build 1.6.0_31-b04)
+Java HotSpot(TM) Server VM (build 20.6-b01, mixed mode)
+[admin1@TeamCI-136 jtest]$ javac -version
+javac 1.6.0_31
+[admin1@TeamCI-136 jtest]$
+
+[admin1@TeamCI-136 jtest]$ cat main.java
+import java.io.*;
+
+class HelloWorld
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Hello World!");
+    }
+}
+[admin1@TeamCI-136 jtest]$javac main.java
+this will generate HellowWorld.class
+[admin1@TeamCI-136 jtest]$ ls
+HelloWorld.class  main.java
+[admin1@TeamCI-136 jtest]$ cat main.java
+import java.io.*;
+
+class HelloWorld
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Hello World!");
+    }
+}
+[admin1@TeamCI-136 jtest]$ java -cp . HelloWorld
+Hello World!
+[admin1@TeamCI-136 jtest]$
+
+jdk is used for debugging
+
+
+* java language itself
+** java variavble initialization
+ int[] data = new int[] {0,0,0};
+ // this is equal to int[] data=new int[];
+ // java will initialize them to 0 for you.
+
+ int[] data = new int[] {3,4,5};
+
+** Primitive and object
+*** int VS. Integer
+object: Integer a = new Integer(100);
+primitive: int a = 1000;
+** Arrays in Java
+A java array is guaranteed to be initialized and can't be acessed outside of its range. The range checking comes at the price of haveing a samll amount of memory overhead on each arrays as well as verifying the index at run time.
+
+** garbage collector( You never need to destroy an object)
+there's no destruction function for java class, for java will recollet the memory automatically when the scope is not available for the object.
+but we still nedd to recollect other resources such as a handle of the file...etc.
+finalize function could for this, the will be invoked before the garbage collector.
+
+*** scoping
+You cannot do the following, even though it is legal in C and C++:
+{
+int x = 12;
+{
+Everything Is an Object 45
+int x = 96; // Illegal
+}
+}
+The compiler will announce that the variable x has already been defined
+
+**** scope of objects
+String s = new String("a string");
+} // End of scope
+the reference s vanishes at the end of the scope. However, the String object that s was pointing to is still occupying memory. In this bit of code, there is no way to access the object after the end of the scope, because the only reference to it is out of scope. In later chapters you’ll see how the reference to the object can be passed around and duplicated during the course of a program.
+
+** function parameter passing
+if the type is primitive, the value. if the type is a object which has been created by new, then it's the value of that object's address.
+class Employee
+{
+  public Employee(String n, double s)
+  {
+    name = n;
+    salary =s;
+  }
+ 
+  public void TripleSal()
+ {
+   salary = 3 * salary;
+  }
+ 
+  public static void Swapemploy(Employee e1, Employee e2)
+ {
+     Employee et;
+     et = e1;
+    e1 = e2;
+    e2= et;
+
+  }
+  public static void Tripleemploy(Employee e)
+ {
+   e.TripleSal();
+  }
+  public static void TripleVal(int a)
+ {
+   a = 3 * a;
+  }
+  public static void main(String[] args) 
+  {
+    Employee e =new Employee("Harry",500);
+// java has no pointer, new a object then object is in a heap.
+    System.out.println(e.name + "sal is : " + e. salary);
+    e.TripleSal();
+    System.out.println(e.name + "sal is : " + e. salary);
+    int inta =3;
+    TripleVal(inta);
+// the parameter is a value pass, not reference pass, // this TripleVal has no effect to inta
+
+    System.out.println( "static triple value is : " +inta);
+    Employee e1 =new Employee("Alias",300);
+    Employee e2 =new Employee("Bob",50);
+    Employee et =new Employee("Temp",5);
+
+
+   Tripleemploy(e2);
+    System.out.println( "e2 sal is " + e2.salary); // e2's salary will be trippled for e2 is the address of the object e2.
+
+    Swapemploy(e1,e2);
+    System.out.println(e1.name + "of e1 " + "e2 name is " + e2.name); // no use, e1 and e2 name not swapped.
+   /*because e1 is the address value, but e1 as a parameter it self could not be changed by passing it for a function parameter  */
+
+
+ /*   et = e1;
+    e1 = e2;
+    e2= et;   // this will work, for e1 and e2 mean the address of the object
+    System.out.println(e1.name + "of e1 " + "e2 name is " + e2.name);
+*/
+/*    e1=e2; 
+    System.out.println(e1.name + "of e1 ");
+    e2.name="Nobody";
+    System.out.println(e1.name + "of e1 " + "e2 name is " + e2.name);
+*/
+  }
+ public String name;
+ public double salary;
+}
+
+
+
+
+
+
+** package
+a package may include many classes, which is a java compiled file *.class
+import java.util.*;
+import java.wql.*;
+*** import a class in different package/direcotry
+in this case the class which has been imported shuold be public class:
+./m1/Emp2.java
+===============
+package m2;
+public class Emp2{
+================
+
+./Te.java
+============
+import m1.*;
+import m2.*;
+public class Te
+{
+ public static void main(String[] args)
+  {
+       Emp em = new Emp("Rose Geroge",3000);
+=================
+
+*** static import
+import static java.lang.System.*;
+out.println("Goodle"); //system.out 
+exit(0); // System.exit
+
+*** put a class into a package
+===========
+package com.horstmann.corejava;
+ public class Employee
+{}
+===============
+if no package in the beginning, it will be put into a default package,
+the directory structure will be like this : /com/horstmann/corejava/Employee.class
+
+
+*** -classpath
+java -classpath /..../ *.java
+
+** inheritance (extend a class)
+the father of a subclass called super in java.
+all the extend are very similar to class/object of  C++
+Difference is that, in default, java's function in a class is a "virtual" function like in C++
+in default the inheritance is a "public inheritance" in C++, no "private and protected inheritance"
+
+*** polymorphism
+
+So the same function(same name, return value, parameter) will be overrided by the subclass's automatically.
+on the contrary, if you don't want a function be overrided by the subclass, you could defined it as final;
+This is the example
+====================================
+import java.util.*;
+
+public class ManagerTest
+{
+ public static void main(String[] args)
+ {
+     Manager boss = new Manager("Carl Cracker",9000 );
+    
+     Employee em = new Employee("Rose Geroge",3000);
+     Employee[] staff = new Employee[2];
+     staff[0] = boss;
+     staff[1] = em;
+     for(Employee e: staff)
+     {
+        System.out.println( "e2 sal is " + e.samefunction());
+        System.out.println( "e2 sal is " + e.onefunction());
+        System.out.println( "========== " );
+     }
+  }
+}
+
+
+class Employee
+{
+ public Employee(String n, double s)
+ {
+   name = n;
+   salary = s;
+ }
+ public  double  samefunction()
+// if defined like
+// public final double  samefunction()
+// there'd be  compilation error here
+ {
+   System.out.println( "super's samefunction");
+   return salary;
+  }
+ public double  onefunction()
+ {
+   System.out.println( "super's onefunction");
+   return salary;
+  }
+
+ public String name;
+ public double salary;
+}
+
+
+class Manager extends Employee
+{
+  public Manager(String n, double s)
+  {
+    super(n,s);
+    bonus =0;
+  }
+ public double  samefunction()
+ {
+   System.out.println( "Manager's samefunction");
+   return salary;
+  }
+
+
+ public double bonus;
+}
+======================================
+
+
+the result is :
+-----
+glili@5CG4381FZ2 /cygdrive/d/userdata/glili/Work/jtest
+$ java ManagerTest
+Manager's samefunction
+e2 sal is 9000.0
+super's onefunction
+e2 sal is 9000.0
+==========
+super's samefunction
+e2 sal is 3000.0
+super's onefunction
+e2 sal is 3000.0
+==========
+-----------
+
+*** Class (create object dynamically from a className or an existing object)
+   Class cl= e1.getClass();
+    System.out.println("e1 is a  class " + cl.getName() ); //Employee class
+    try{
+    Employee e3=(Employee)cl.newInstance();                // newInstance will create a new obj using the Class 
+    System.out.println(e3.name + "sal is : " + e3.salary);
+    }
+    catch (Exeption excep)
+    {
+       e2.printStackTrace();
+     }
+     try{
+       String className="Employee";
+       Class cl2= Class.forName(className);              // get the Class name by a String "Employee"
+       System.out.println("classnmae is " + cl2.getName() );
+      }catch(ClassNotFoundException e1234){
+        System.out.println("Excepton!!!!");
+        System.exit(1);
+     }
+
+
+
+*** final keyword
+final could for a class, a function or the variable of the class.
+if for class, means this class could not be extended.
+if for variable, means that the value of these variables couldn't be changed after the construction function.
+if for function, means it couldn't be overrided by the same function in the subclass.
+
+
+** class Object (all class's super class)
+Every class in java is extended from class Object 
+class Employee{}
+means class Employee extends Object
+
+only primitives like int, is not Object, but Integer is an Object.
+So we could use a obj of class Object to refer to any object.
+Object obj= new Employee("Huddson fort",5000);
+it means void * in c++.
+
+*** equals function in Object
+so every subclass could override Object's equals function
+======
+class Employee
+{
+...
+  public boolean equals(Object otherObj)
+  {
+     if (this == otherObject) return true;
+     if (otherObj == null) return false;
+     if(getClass() != otherObj.getClass())// getClass is the type of this class
+       return false;
+     // real work herer
+     Employee other = (Employee) otherObj;
+     return name.equals(other.name) && salary == other.salary ;
+  }
+}
+---------------------------
+
+a subclass 's equal should envoke super class's equal firstly.
+==============
+class Manager extends Emplyee
+{
+...
+  public boolean equals(Object otherObjet)
+  {
+    if(!super.equals(otherObject)) return false;
+    Mangager other=(Manger) otherObj;
+    return bonus == otherObj.bonus;
+    
+  }
+
+}
+
+*** HashCode function in Object
+hash code is from a object, it is the address of this object, same object have the same hashcode.
+
+
+*** toString function in Object
+most of toString will get classnaem[field1="", field2="".....]
+
+** multiple inheritance
+in java no multiple inheritance, you could extend only one class, but you could implements many interfaces.
+*** interfaces
+interface is a java Class without any fields, only function.
+*** clone ( copy constructor) (implements Cloneable)
+if a class has implements  Cloneable wi wil lhave function clone.
+the default clone is just a shallow copy, if there's a object pointer in the fields, you need to implement your own custome one:
+======================================
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+public class Employee implements Cloneable
+{
+   private String name;
+   private double salary;
+   private Date hireDay;
+
+   public Employee(String n, double s)
+   {
+      name = n;
+      salary = s;
+      hireDay = new Date();
+   }
+
+   public Employee clone() throws CloneNotSupportedException
+   {
+      // call Object.clone()
+      Employee cloned = (Employee) super.clone();
+
+      // clone mutable fields your self or there will be cloned.hireDay= hireDay. 
+      cloned.hireDay = (Date) hireDay.clone();
+
+      return cloned;
+   }
+   public void setHireDay(int year, int month, int day)
+   {
+      Date newHireDay = new GregorianCalendar(year, month - 1, day).getTime();
+      
+      // Example of instance field mutation
+      hireDay.setTime(newHireDay.getTime());
+   }
+
+   public void raiseSalary(double byPercent)
+   {
+      double raise = salary * byPercent / 100;
+      salary += raise;
+   }
+
+   public String toString()
+   {
+      return "Employee[name=" + name + ",salary=" + salary + ",hireDay=" + hireDay + "]";
+   }
+
+===================================================================
+
+
+====================
+ class CloneTest
+{
+   public static void main(String[] args)
+   {
+      try
+      {
+         Employee original = new Employee("John Q. Public", 50000);
+         original.setHireDay(2000, 1, 1);
+         Employee copy = original.clone();
+         copy.raiseSalary(10);
+         copy.setHireDay(2002, 12, 31);
+         System.out.println("original=" + original); // for there's a toString function
+         System.out.println("copy=" + copy);
+      }
+      catch (CloneNotSupportedException e)
+      {
+         e.printStackTrace();
+      }
+   }
+}
+==========================
+
+*** Comparable interface
+----------------------------
+public class Employee implements Comparable<Employee>
+{
+   private String name;
+   private double salary;
+
+   public Employee(String n, double s)
+   {
+      name = n;
+      salary = s;
+   }
+
+   public String getName()
+   {
+      return name;
+   }
+
+   public double getSalary()
+   {
+      return salary;
+   }
+
+   public void raiseSalary(double byPercent)
+   {
+      double raise = salary * byPercent / 100;
+      salary += raise;
+   }
+   /**
+    * Compares employees by salary
+    * @param other another Employee object
+    * @return a negative value if this employee has a lower salary than
+    * otherObject, 0 if the salaries are the same, a positive value otherwise
+    */
+   public int compareTo(Employee other)
+   {
+      return Double.compare(salary, other.salary);
+   }
+}
+---------------------
+
+public class EmployeeSortTest
+{
+   public static void main(String[] args)
+   {
+      Employee[] staff = new Employee[3];
+
+      staff[0] = new Employee("Harry Hacker", 35000);
+      staff[1] = new Employee("Carl Cracker", 75000);
+      staff[2] = new Employee("Tony Tester", 38000);
+
+      Arrays.sort(staff); // sort need compareTo function
+
+      // print out information about all Employee objects
+      for (Employee e : staff)
+         System.out.println("name=" + e.getName() + ",salary=" + e.getSalary());
+   }
+}
+~
+
+

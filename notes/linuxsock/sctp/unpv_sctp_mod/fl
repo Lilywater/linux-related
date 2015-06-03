@@ -1,0 +1,13 @@
+./sctp_getnostrm.o:
+./sctpclient01:
+./sctp_strcli.o:
+./sctpserv02:
+./sctpserv01.o:
+./sctpserv01:
+./sctpclient01.o:
+./sctp_wrapper.o:
+./sctpserv_fork:
+./sctpserv_fork.o:
+./sctp_addr_to_associd.o:
+./sctp_strcliecho.o:
+./sctpserv02.o:

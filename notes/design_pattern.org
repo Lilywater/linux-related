@@ -1,0 +1,259 @@
+* 设计模式之-----状态机
+http://www.codeproject.com/Articles/38962/State-Design-Pattern
+在一个事物对于不同的输入（触发条件）会达到不同的输出（状态）。
+假设有不同的状态，每个状态于状态之间存在着转化关系，A->D->B->C , B和C之间可以相互转换。
+注意这里状态A是初始状态，不能够循环后又回到A。
+     A----->D
+           |
+           |
+           \  
+           B<------>C
+
+要抽象出状态之间的转换可以用动作B.toStateA()表示，表示从B到A的动作，这时状态变成A。
+理论上的设计要使每种状态之间都能够相互转换，那么每种状态都要有转换动作toStateB， toStateC， toStateD,toStateA.
+分别到达BCDA这四种状态。但是如果A.stateA()表示什么呢？表示其他状态转换到状态A的动作,这里就是状态A的初始化工作，也就是构造
+函数里面调用。
+，但是设计上必须有。A.stateB, A.stateC, A.stateD
+表示A到B，C，D这三个状态的动作。
+这就是这个设计的雏形。显而易见，这四个状态应该是同一种类。
+public interface IState
+{
+  toStateA();
+  toStateB();
+  toStateC();
+  toStateD();
+};
+public class State  //这个是一个接口类，管理所有的IState，并且 函数和IState 的一致，调用相应状态的动作即可。
+{
+  public IState *_ista;
+  public  State() { _ista = new A(this); }  //A 是初始状态，所以只需要剩下三个函数，因为一旦状态机启动，再也不会到A。
+  public void toStateB() {_ista->toStateB();}
+  public void toStateC() {_ista->toStateC();}
+  public void toStateD() {_ista->toStateD();}
+};//这里State和IState之间是交叉引用的，各自保有对方的指针
+class A:public IState
+{
+  A(State *st) {_state = st; this.toStateA();}
+ private readonly State* _state;
+public:
+  toStateA() { cout << "do something needed to be done when enter into this state A";   }
+######A.toStateA()是个初始化函数，同理，B.toStateB,C.toStateC, D.toStateD,都是初始化
+##函数，为保持函数的一致性，本来初始化工作在构造函数内。 
+ toStateB() {cout << "error,no such state change"; }
+  toStateC() {cout << "error,no such state chagne";}
+ toStateD() { _state._ista= new D(_state);} 
+######每个istate保有state的指针，这个指针又能找到相应的istate，得到状态
+}
+class B:public IState
+{
+  B(State *st) {_state= st; this.toStateB();}
+  private readonly State* _state;
+ public:
+  toStateA() {cout <<"error, can't go to initial state A";}
+  toStateB() {cout << "do some initailization";} 
+  toStateC() {_state->ista= new C(_state);}
+  toStateD() {cout << "error,no such state change.";}
+}
+class C:public IState
+{
+  C(State *st) {_state= st; this.toStateC();}
+  private readonly State* _state;
+ public:
+  toStateA() {cout <<"error, can't go to initial state A";}
+  toStateB()  {_state->ista= new B(_state);}
+  toStateC() {cout << "do some initailization";} 
+  toStateD() {cout <<"error,no such state change";}
+}
+
+class D:public IState
+{
+  D(State *st) {_state= st; this.toStateD();}
+  private readonly State* _state;
+ public:
+  toStateA() {cout << "error, can't go to initial state A";}
+  toStateB()  {_state->ista= new B(_state);}
+  toStateC() {cout <<"error,no such state change";} 
+  toStateD() {cout << "do some initailizatio for D";}
+}
+
+
+* factory pattern  用类名动态生成类对象（工厂模式）
+** 源代码
+CObject.h
+================================
+#define REGISTERCLASS(CLASS) static const bool NoUse_b_##CLASS = \
+CWObject::Register(#CLASS,(CWObject *(*)())&CLASS::createInstance)
+#define CREATEINSTANCE(CLASS) static CLASS *createInstance() { return new CLASS; }
+
+#include <iostream>
+
+#include <string>
+
+#include <map>
+
+class CWObject;
+
+typedef CWObject *(*FactoryFunction)();
+
+class CWObject
+
+{
+
+public:
+
+CWObject();
+
+virtual ~CWObject();
+
+public:
+
+static bool Register(std::string ClassName,FactoryFunction instanceFunction);
+
+static CWObject *getInstance(std::string ClassName);
+
+private:
+
+static std::map<std::string,FactoryFunction> m_FactoryFunctions;
+
+};
+===========================================
+CObject.cpp
+
+#include "CWObjec.h"
+
+std::map<std::string,FactoryFunction> CWObject::m_FactoryFunctions;
+
+CWObject::CWObject()
+{
+}
+CWObject::~CWObject()
+{
+}
+
+bool CWObject::Register(std::string ClassName,FactoryFunction instanceFunction)
+{
+// if(m_FactoryFunctions[ClassName])
+// {
+// return false;
+// }
+m_FactoryFunctions[ClassName] = instanceFunction;
+return true;
+}
+
+CWObject *CWObject::getInstance(std::string ClassName)
+{
+if (m_FactoryFunctions[ClassName]) {
+return m_FactoryFunctions[ClassName]();
+}
+return NULL;
+
+===================================
+CShape.cpp
+#include "CShape.h"
+
+CWShape::CWShape()
+{
+}
+CWShape::~CWShape()
+{
+}
+//CWCircle
+
+REGISTERCLASS(CWCircle);
+
+CWCircle::CWCircle()
+{
+}
+
+CWCircle::~CWCircle()
+{
+}
+
+void CWCircle::Draw()
+{
+std::cout << "Draw -> CWCircle" << std::endl;
+}
+
+//CWTriangle
+
+REGISTERCLASS(CWTriangle);
+
+CWTriangle::CWTriangle()
+{
+}
+
+CWTriangle::~CWTriangle()
+{
+}
+
+void CWTriangle::Draw()
+{
+std::cout << "Draw -> CWTriangle" << std::endl;
+}
+===============================
+CShape.h
+
+#include "CWObjec.h"
+
+class CWShape : public CWObject
+{
+public:
+CWShape();
+virtual ~CWShape();
+public:
+virtual void Draw() = 0;
+};
+class CWCircle : public CWShape
+{
+public:
+CWCircle();
+virtual ~CWCircle();
+public:
+CREATEINSTANCE(CWCircle)
+public:
+virtual void Draw();
+};
+
+class CWTriangle : public CWShape
+{
+public:
+CWTriangle();
+virtual ~CWTriangle();
+public:
+CREATEINSTANCE(CWTriangle);
+public:
+virtual void Draw();
+};
+=================================================
+main.cpp
+
+#include <iostream>
+#include <map>
+#include <string>
+#include "CShape.h"
+void DrawShape(char *className);
+int main()
+{
+DrawShape("CWCircle");
+DrawShape("CWTriangle");
+return 0;
+}
+
+void DrawShape(char *className)
+{
+CWShape *pShape;
+pShape = (CWShape*)CWObject::getInstance(className);
+if (NULL == pShape) {
+std::cout << "can't find the product in the factory" << std::endl;
+}
+else {
+pShape->Draw();
+delete pShape;
+}
+}
+
+** 运行结果
+lily@willow:~/libtest/createbystring$ ./out
+Draw -> CWCircle
+Draw -> CWTriangle
+

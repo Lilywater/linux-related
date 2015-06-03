@@ -1,0 +1,171 @@
+cea:= {
+         sctpPrimitive:= {
+             associationId:= 1
+         },
+         version:= 1,
+         msgLength:= 0,
+         msgType:= answer(0),
+         proxiableMsg:= no(0),
+         errorMsg:= no(0),
+         transmissionType:= initial(0),
+         reserved:= 0,
+         cmdCode:= e_ceCmdCode(257),
+         appId:= 0,
+         hopByHopId:= 3316934155,
+         endToEndId:= 949,
+         ceaMsgAvps:= {
+             resultCode:= {
+                 baseAvpCode:= e_resultCode(268),
+                 vendorField:= omitted(0),
+                 avpSupportType:= mandatoryAVP(1),
+                 endToEndSecurityType:= encryptionNotNeeded(0),
+                 reserved:= 0,
+                 avpLength:= 0,
+                 code:= 2001
+             },
+             originHost:= {
+                 baseAvpCode:= e_originHost(264),
+                 vendorField:= omitted(0),
+                 avpSupportType:= mandatoryAVP(1),
+                 endToEndSecurityType:= encryptionNotNeeded(0),
+                 reserved:= 0,
+                 avpLength:= 0,
+                 fqdn:= "HSS.ttcn3"
+             },
+             originRealm:= {
+                 baseAvpCode:= e_originRealm(296),
+                 vendorField:= omitted(0),
+                 avpSupportType:= mandatoryAVP(1),
+                 endToEndSecurityType:= encryptionNotNeeded(0),
+                 reserved:= 0,
+                 avpLength:= 0,
+                 fqdn:= "test.nsn.com"
+             },
+             hostIpAddrs:= {
+                 [0]:= := {
+                     baseAvpCode:= e_hostIPAddress(257),
+                     vendorField:= omitted(0),
+                     avpSupportType:= mandatoryAVP(1),
+                     endToEndSecurityType:= encryptionNotNeeded(0),
+                     reserved:= 0,
+                     avpLength:= 14,
+                     ipAddress:= {
+                         ipv4:= "10.102.180.197"
+                     }
+                 }
+             },
+             vendorId:= {
+                 baseAvpCode:= e_vendorId(266),
+                 vendorField:= omitted(0),
+                 avpSupportType:= mandatoryAVP(1),
+                 endToEndSecurityType:= encryptionNotNeeded(0),
+                 reserved:= 0,
+                 avpLength:= 0,
+                 peerVendorId:= 10415
+             },
+             productName:= {
+                 baseAvpCode:= e_productName(269),
+                 vendorField:= omitted(0),
+                 avpSupportType:= informationalAVP(0),
+                 endToEndSecurityType:= encryptionNotNeeded(0),
+                 reserved:= 0,
+                 avpLength:= 0,
+                 productName:= "Authentication:= Server"
+             },
+             originStateId:= <<:= omit:= >>,
+             errorMessage:= <<:= omit:= >>,
+             failedAVPs:= <<:= omit:= >>,
+             supportedVendorIds:= <<:= omit:= >>,
+             authAppIds:= {
+                 [0]:= := {
+                     baseAvpCode:= e_authApplicationId(258),
+                     vendorField:= omitted(0),
+                     avpSupportType:= mandatoryAVP(1),
+                     endToEndSecurityType:= encryptionNotNeeded(0),
+                     reserved:= 0,
+                     avpLength:= 12,
+                     authAppId:= 16777251
+                 },
+                 [1]:= := {
+                     baseAvpCode:= e_authApplicationId(258),
+                     vendorField:= omitted(0),
+                     avpSupportType:= mandatoryAVP(1),
+                     endToEndSecurityType:= encryptionNotNeeded(0),
+                     reserved:= 0,
+                     avpLength:= 12,
+                     authAppId:= 16777252
+                 }
+             },
+             inbandSecurityIds:= <<:= omit:= >>,
+             acctAppIds:= <<:= omit:= >>,
+             vendorSpecificAppIds:= {
+                 [0]:= := {
+                     baseAvpCode:= e_vendorSpecificApplicationId(260),
+                     vendorField:= omitted(0),
+                     avpSupportType:= mandatoryAVP(1),
+                     endToEndSecurityType:= encryptionNotNeeded(0),
+                     reserved:= 0,
+                     avpLength:= 32,
+                     grp:= {
+                         vendorIds:= {
+                             [0]:= := {
+                                 baseAvpCode:= e_vendorId(266),
+                                 vendorField:= omitted(0),
+                                 avpSupportType:= mandatoryAVP(1),
+                                 endToEndSecurityType:= encryptionNotNeeded(0),
+                                 reserved:= 0,
+                                 avpLength:= 12,
+                                 peerVendorId:= 10415
+                             }
+                         },
+                         appId:= {
+                             authAppId:= {
+                                 baseAvpCode:= e_authApplicationId(258),
+                                 vendorField:= omitted(0),
+                                 avpSupportType:= mandatoryAVP(1),
+                                 endToEndSecurityType:= encryptionNotNeeded(0),
+                                 reserved:= 0,
+                                 avpLength:= 12,
+                                 authAppId:= 16777251
+                             }
+                         }
+                     }
+                 },
+                 [1]:= := {
+                     baseAvpCode:= e_vendorSpecificApplicationId(260),
+                     vendorField:= omitted(0),
+                     avpSupportType:= mandatoryAVP(1),
+                     endToEndSecurityType:= encryptionNotNeeded(0),
+                     reserved:= 0,
+                     avpLength:= 32,
+                     grp:= {
+                         vendorIds:= {
+                             [0]:= := {
+                                 baseAvpCode:= e_vendorId(266),
+                                 vendorField:= omitted(0),
+                                 avpSupportType:= mandatoryAVP(1),
+                                 endToEndSecurityType:= encryptionNotNeeded(0),
+                                 reserved:= 0,
+                                 avpLength:= 12,
+                                 peerVendorId:= 10415
+                             }
+                         },
+                         appId:= {
+                             authAppId:= {
+                                 baseAvpCode:= e_authApplicationId(258),
+                                 vendorField:= omitted(0),
+                                 avpSupportType:= mandatoryAVP(1),
+                                 endToEndSecurityType:= encryptionNotNeeded(0),
+                                 reserved:= 0,
+                                 avpLength:= 12,
+                                 authAppId:= 16777252
+                             }
+                         }
+                     }
+                 }
+             },
+             firmwareRev:= <<:= omit:= >>,
+             other:= <<:= omit:= >>
+         }
+     },
+,

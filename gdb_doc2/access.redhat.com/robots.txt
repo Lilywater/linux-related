@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /knowledge/searchResults*
+Disallow: /changeLanguage*
+Disallow: /tag/
+Disallow: /login
+Disallow: /login*
+Disallow: /knowledge/user
+Disallow: /knowledge/user/
+Disallow: /knowledge/tags/
+Disallow: /knowledge/taxonomy/
+Disallow: /knowledge/category/
+Disallow: /knowledge/components/
+Disallow: /knowledge/products/
+Disallow: /knowledge/sbr/

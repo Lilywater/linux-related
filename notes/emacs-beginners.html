@@ -1,0 +1,1336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>emacs projects	-*- mode: org; -*-</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="emacs projects	-*- mode: org; -*-"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-07-31 16:59:29 China Standard Time"/>
+<meta name="author" content="Guo Lili"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">emacs projects	-*- mode: org; -*-</h1>
+
+<p>emacs for beginners
+<a href="http://home.ustc.edu.cn/~lixuebai/GNU/Emacs.html">http://home.ustc.edu.cn/~lixuebai/GNU/Emacs.html</a>
+<a href="file:////~/.emacs">emacs 用户配置文件</a>
+</p>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 emacs tutorial 摘要</a>
+<ul>
+<li><a href="#sec-1-1">1.1 基本文本操作</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1 获取帮助</a></li>
+<li><a href="#sec-1-1-2">1.1.2 配置文件.emacs生效</a></li>
+<li><a href="#sec-1-1-3">1.1.3 光标移动</a></li>
+<li><a href="#sec-1-1-4">1.1.4 copy and paste</a></li>
+<li><a href="#sec-1-1-5">1.1.5 保存和回复工作环境</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">1.2 编辑环境操作，对预设变量赋值</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1 取得某个变量的值</a></li>
+<li><a href="#sec-1-2-2">1.2.2 设置某个变量的值</a></li>
+<li><a href="#sec-1-2-3">1.2.3 ~/.emacs 配置文件设置变量值</a></li>
+<li><a href="#sec-1-2-4">1.2.4 取得你喜欢的颜色值</a></li>
+<li><a href="#sec-1-2-5">1.2.5 取得颜色主题</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3 对文件的操作dired模式</a></li>
+<li><a href="#sec-1-4">1.4 自动补全功能</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1 add and config the plugin</a></li>
+<li><a href="#sec-1-4-2">1.4.2 config i-spell-complete-word</a></li>
+<li><a href="#sec-1-4-3">1.4.3 spell checking</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">1.5 字典功能。</a></li>
+<li><a href="#sec-1-6">1.6 shell command mode 与 shell mode的区别</a></li>
+<li><a href="#sec-1-7">1.7 grep, compile,gdb,man</a></li>
+<li><a href="#sec-1-8">1.8 emacs 的寄存器</a></li>
+<li><a href="#sec-1-9">1.9 列块编辑模式</a></li>
+<li><a href="#sec-1-10">1.10 关于org模式</a>
+<ul>
+<li><a href="#sec-1-10-1">1.10.1 org模式的激活</a></li>
+<li><a href="#sec-1-10-2">1.10.2 org模式的颜色customize</a></li>
+<li><a href="#sec-1-10-3">1.10.3 org的常用命令</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-11">1.11 浏览代码</a>
+<ul>
+<li><a href="#sec-1-11-1">1.11.1 ctags 查看源代码</a></li>
+<li><a href="#sec-1-11-2">1.11.2 grep查找</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-12">1.12 gnus模式</a>
+<ul>
+<li><a href="#sec-1-12-1">1.12.1 用gnus收邮件</a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 quik tutirial</a>
+<ul>
+<li><a href="#sec-2-1">2.1 lisp programming---</a></li>
+<li><a href="#sec-2-2">2.2 etags and usage</a></li>
+<li><a href="#sec-2-3">2.3 group buffer: ibuffer</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> emacs tutorial 摘要</h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 基本文本操作</h3>
+<div class="outline-text-3" id="text-1-1">
+
+
+</div>
+
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> 获取帮助</h4>
+<div class="outline-text-4" id="text-1-1-1">
+
+<p>C-h t 调出Tutorial
+C-h c      C-h k  （键盘命令）
+C-h f     查找（命令名）
+C-h a     查找 (关键字)
+C-h m     模式帮助
+寻找快捷键  输入M-x method 就可知道此命令有否绑定的快捷键
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> 配置文件.emacs生效</h4>
+<div class="outline-text-4" id="text-1-1-2">
+
+<p>不退出emacs就让配置文件生效  M-x eval-buffer
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> 光标移动</h4>
+<div class="outline-text-4" id="text-1-1-3">
+
+<p>C-v 向上滚屏；M-v 向下滚屏
+               上一行C-p
+        向后移C-b &mdash;向前移C-f
+                 下一行C-n
+向后移一词（中文一标点）M-b ；向前移一词（中文一标点）M-f
+Meta系命令――语言单位（词，句子，段落等）
+Ctrl系命令――与语言无关基本单位（字符，行等）
+C-a 行首         C-e  行尾
+M-a 句首         M-e 句尾
+数字参数，如C-u 8 C-b 向后移8个字符。
+另外注意C-u 8 C-v表示向上滚8行而非8屏，C-n也是的。
+C-g终止命令（如对一无法响应命令）
+按错&lt;ESC&gt;，应该连按两次&lt;ESC&gt;；而&lt;ESC&gt;&lt;ESC&gt;&lt;ESC&gt;是通用的离开命令。
+C-x 1保留一个窗口（光标所在的那个）
+&lt;backspace&gt;   删除前一个字符
+C-d           删除后一个字符
+M-&lt;backspace&gt; 移除前一个词
+M-d           移除后一个词
+C-k           移除到行尾的字符
+M-d           移除到句尾的字符
+C-@ Mark Set，然后挪动光标到需要的位置，C-w 移除
+C-y 召回(yanking)最近一次的；M-y 召回（不断倒前）
+C-x u或者C-<sub>表示Undo</sub>
+C-x C-f查找文件或者新建文件
+C-x C-s 存储
+C-x C-c 退出
+每个打开的文件都在各自缓冲区中，C-x C-b列出缓冲区，
+切换用C-x C-f查找的方式，或者C-x b回车然后输入buffer名字
+C-x s 保存所有的未存盘的buffer
+C-z 暂时挂起emacs，调回用fg
+C-x 后面接字符扩展，而M-x后面接命令名扩展，如
+字符串替换   M-x reply-string
+恢复文件     M-x recover-file
+自动折行     M-x auto-file-mode
+gnus        M-x gnus
+dired       M-x dired
+gdb         M-x gdb
+日历        M-x calendar
+shell mode  M-x shell
+bbs         M-x ansi-term
+C-s  向前搜索；     
+C-r  向后搜索
+C-q  解除屏幕冻结
+C-x 2 开两个窗口
+C-M-v 向上滚动下一个窗口
+C-M-Shift-v向下滚动下一个窗口
+C-x o 切换光标到下一个窗口
+C-x C-q 改变缓冲区的只读状态
+</p>
+<p>
+<b>C-@        mark a point（then shift and arrow key to select a region)</b>
+</p></div>
+
+</div>
+
+<div id="outline-container-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> copy and paste</h4>
+<div class="outline-text-4" id="text-1-1-4">
+
+<p>C-w 剪切
+   #run the shell command and diplay the output(`shell-commad'
+M-w 复制
+C-y 粘贴
+</p></div>
+
+</div>
+
+<div id="outline-container-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> 保存和回复工作环境</h4>
+<div class="outline-text-4" id="text-1-1-5">
+
+<p>（desktop-save-mode 1）
+M-x desktop-save-mode  #will save the desktop when emacs quit
+M-x desktop-change-dir #will load the desktop file which has been saved
+ M-x desktop-save      #will save the desktop manually with the command 
+ M-x desktop-read      #will read the desktop manually with the command 
+</p>
+<p>
+M-x describe-variable ret
+desktop-save-mode
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 编辑环境操作，对预设变量赋值</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<p>在emacs中，所有的操作都可以通过命令M+x commandname 完成
+M x shell （进入某种模式）
+</p>
+</div>
+
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> 取得某个变量的值</h4>
+<div class="outline-text-4" id="text-1-2-1">
+
+<p>emacs的很多配置是通过改变预设变量的值来实现的
+比如想要查看 fill-column的值，
+M x describe-variable (RET)
+Describe variable:fill-column
+</p></div>
+
+</div>
+
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> 设置某个变量的值</h4>
+<div class="outline-text-4" id="text-1-2-2">
+
+<p>M-x set-variable (RET)
+Set variable:fill-column(RET)
+;;显示行号
+</p></div>
+
+</div>
+
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> ~/.emacs 配置文件设置变量值</h4>
+<div class="outline-text-4" id="text-1-2-3">
+
+<p>;;setq 设置变量的值
+(column-number-mode t)
+(show-paren-mode t)
+;;设置TAB宽度为4
+(setq default-tab-width 4) 
+这里有的是数字，有的是bool设为t表示true的意思，
+</p></div>
+
+</div>
+
+<div id="outline-container-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> 取得你喜欢的颜色值</h4>
+<div class="outline-text-4" id="text-1-2-4">
+
+<p>在emacs的帮助和设置里可以把光标放到你喜欢的face上，用
+M-x describe-face
+Describe face (default org-level-3):（RET）
+来查看相应的字体，颜色名称，然后再用
+M-x customize-face RET default RET
+</p></div>
+
+</div>
+
+<div id="outline-container-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5"><span class="section-number-4">1.2.5</span> 取得颜色主题</h4>
+<div class="outline-text-4" id="text-1-2-5">
+
+<p>sudo apt-get install emacs-goodies-el
+</p>
+<p>
+;;(add-to-list 'load-path "~/.emacs.d/color-theme/")
+   #run the shell command and diplay the output(`shell-commad'
+(require 'color-theme)
+(eval-after-load "color-theme"
+'(progn
+(color-theme-initialize)
+(color-theme-xemacs)))
+来设置相关的颜色。
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 对文件的操作dired模式</h3>
+<div class="outline-text-3" id="text-1-3">
+
+<p>M-x dired
+ invokes Dired, the file manager mode, on a directory of your choice. 
+ C-x C-q (or M-x wdired-change-to-wdired-mode) switches to Editable Dired mode:
+In this mode, changing the filenames in the right-hand column and then typing C-x C-s
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 自动补全功能</h3>
+<div class="outline-text-3" id="text-1-4">
+
+
+</div>
+
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> add and config the plugin</h4>
+<div class="outline-text-4" id="text-1-4-1">
+
+<p>(add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1")
+ (require 'auto-complete-config)
+;(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(add-to-list 'ac-user-dictionary-files "/usr/share/dict/words")
+(ac-config-default)
+</p></div>
+
+</div>
+
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> config i-spell-complete-word</h4>
+<div class="outline-text-4" id="text-1-4-2">
+
+<p>(global-set-key [f9]  'ispell-complete-word)
+</p></div>
+
+</div>
+
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> spell checking</h4>
+<div class="outline-text-4" id="text-1-4-3">
+
+<p>M-x ispell-complete-word   ##will complete
+M-x flyspell-mode    ## will underline the wrong spelled words
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 字典功能。 &nbsp;&nbsp;&nbsp;<span class="tag"><span class="dict">dict</span></span></h3>
+<div class="outline-text-3" id="text-1-5">
+
+<p>aptitude安装dict-xdict, dictd, dictionary-el, 然后在.emacs中写
+(setq dictionary-sever "localhost")
+若想在线<a href="http://www.dict.org">http://www.dict.org</a> 查词，便不用安装dictd
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> shell command mode 与 shell mode的区别</h3>
+<div class="outline-text-3" id="text-1-6">
+
+<p>emacs有两种执行shell指令的方法，一种是进入shell command mode；另一种是 shell mode.两者都可以执行shell指令，起最大的不同之处是，进入shell mode 的状态，执行shell指令的同时，仍可以切换到其他模式处理别的工作，但如果使用shell command mode，则必须等指令完成之后才可以作其他的事情。
+M-!       唤起shell-command mode
+M-x shell 唤起shell-mode
+eshell与shell mode的区别
+test<sup><a class="footref" name="fnr.1" href="#fn.1">1</a></sup>
+eshell是elisp写的shell，有全屏编辑器支持，理论上可作常规shell 做不到的事情，但实际上功能也一般了^_^
+打开文件依然是C-x C-f, eshell还可以ind file
+另外，一些大一点的操作建议不要在eshell中实现，而应该在shell mode中，比如copy大一点的文件。 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> grep, compile,gdb,man</h3>
+<div class="outline-text-3" id="text-1-7">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> emacs 的寄存器</h3>
+<div class="outline-text-3" id="text-1-8">
+
+<p>emacs 有多个寄存器，命名可以用一个character，比如1，c等，但只能一个字符
+M-x list-registers
+copy-rectangle-to-register    C-x r r
+   Copy <b>rectangular</b> region into register REGISTER.
+copy-to-register              C-x r s, C-x r x
+   Copy <b>region</b> into register REGISTER.
+insert-register               C-x r i, C-x r g
+   Insert contents of register REGISTER.  (REGISTER is a character.)
+</p>
+<p>
+Emacs 寄存器
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">C-x r SPC (寄存器名)</td><td class="left">M-x point-to-register    存贮光标位置</td></tr>
+<tr><td class="left">C-x r w (寄存器名)</td><td class="left">M-x window-configuration-to-register     保存当前窗口状态</td></tr>
+<tr><td class="left">C-x r f (寄存器名)</td><td class="left">M-x frame-configuration-to-register      保存所有窗口状态</td></tr>
+<tr><td class="left">C-x r j (寄存器名)</td><td class="left">M-x jump-to-register     光标跳转</td></tr>
+<tr><td class="left">C-x j (寄存器名)</td><td class="left">略……   同上</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> 列块编辑模式</h3>
+<div class="outline-text-3" id="text-1-9">
+
+<p>在emacs下进行列编辑，之前多次用到，但都是现查现用，过了就把快捷键又忘了，今天索性记在这里，省得下次又满世界查快捷键。
+</p>
+<ol>
+<li>选择区域， 和普通的emacs 操作一样用 C-@ 选择高亮一块区域，注意最后光标的停留位置和初始位置之间必须是有列的差值的，简言之，起始光标位置和终止光标位置不在同一列
+</li>
+<li>后续可选操作
+
+<ul>
+<li>在这块区域插入空白的方格， 用C-x r o
+</li>
+<li>删除这块区域用 C-x r d （这种删除掉之后不留空白）
+</li>
+<li>删除区域 C-x r C (删掉之后原位置保留为空)
+</li>
+<li>复制并删除这块区域用 C-x r k
+</li>
+<li>粘贴刚才C-x r k复制的区域用C-x r y
+</li>
+<li>用字符替换选中区域用C-x r t
+</li>
+</ul>
+
+</li>
+</ol>
+
+
+<p>
+ 复杂操作：
+</p>
+<ul>
+<li>C-x r r        copy-rectangle-to-register
+</li>
+<li>将选定的矩形区域复制到某个寄存器
+</li>
+<li>选中去区域后  C-x r r 将选中区域复制到寄存器，在输入这组键后命令栏会等待你输入寄存器号，这时随便输入一个数字即可，不过的记得它，因为待会儿粘贴的时候还得用到这个寄存器号。我刚开始就是被这个寄存器号搞得头晕，半天没弄明白是什么意思，现在理解这不过是对操作的区域做一个编号，待会在操作时比如复制时可以根据这个号码选择之前操作的区域。
+</li>
+<li>C-x r i 插入寄存器的内容，输入此键后再输入寄存器号可将寄存器中的内容插入到当前区域。
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> 关于org模式</h3>
+<div class="outline-text-3" id="text-1-10">
+
+<p>overal key
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">TAB</td><td class="left">#FOLDED -&gt; CHILDREN -&gt; SUBTREE</td></tr>
+<tr><td class="left">Shift-TAB</td><td class="left">OVERVIEW -&gt; CONTENTS -&gt; SHOWALL</td></tr>
+<tr><td class="left">C-u C-u C-u TAB</td><td class="left">showall</td></tr>
+</tbody>
+</table>
+
+
+
+
+</div>
+
+<div id="outline-container-1-10-1" class="outline-4">
+<h4 id="sec-1-10-1"><span class="section-number-4">1.10.1</span> org模式的激活</h4>
+<div class="outline-text-4" id="text-1-10-1">
+
+<ul>
+<li id="sec-1-10-1-1">编辑的文件名为.org后缀的直接进入org模式<br/>
+;; emacs 的load-path变量存有所有插件的变量路径
+;; auto-mode-alist auto-mode-alist      如果设置为 nil，那么将关闭根据文件名扩展自动选择主要模式的功能。
+它的缺省值是一些文件名扩展和相应模式的列表。
+(add-to-list 'load-path "~/org-7.7")
+ (require 'org)
+ (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+ (define-key global-map "\C-cl" 'org-store-link)
+ (define-key global-map "\C-ca" 'org-agenda)
+ (setq org-log-done t)
+</li>
+</ul>
+<ul>
+<li id="sec-1-10-1-2">文件第一行用一下方式也可以标识文件进入org模式n<br/>
+emacs projects  -*- mode: org; -*-
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1-10-2" class="outline-4">
+<h4 id="sec-1-10-2"><span class="section-number-4">1.10.2</span> org模式的颜色customize</h4>
+<div class="outline-text-4" id="text-1-10-2">
+
+<p>M-x customize-group RET org-faces RET
+来定义各级菜单字体的颜色、背景颜色等。当然，Org Mode 的定义有点特殊，对于普通的文字设置，需要通过
+</p>
+<p>
+M-x customize-face RET default RET
+来对 Emacs 全文的普通字体来进行设置。
+</p></div>
+
+</div>
+
+<div id="outline-container-1-10-3" class="outline-4">
+<h4 id="sec-1-10-3"><span class="section-number-4">1.10.3</span> org的常用命令</h4>
+<div class="outline-text-4" id="text-1-10-3">
+
+<ul>
+<li id="sec-1-10-3-1">目录树<br/>
+Emacs建立目录树是很简单的。使用* 3就可以了。一级是一个*，二级是两个*，以此类推。当你导出以后会自动
+的生成目录链接。 在Emacs里面使用Shift+Tab键可以收起所有的目录树，再按Tab可以依次展开。
+Alt+左右方向键是减少/增加当前节点的层级.Alt+Shift+左右方向键 可以将效果作用到子节点上。Alt+上下键可以移动节点。
+</li>
+</ul>
+<ul>
+<li id="sec-1-10-3-2">Tag &nbsp;&nbsp;&nbsp;<span class="tag"><span class="tag">tag</span>&nbsp;<span class="for">for</span>&nbsp;<span class="tag">tag</span></span><br/>
+当目录树的节点越来越多时，查找就不方便了，这时候可以给节点添加Tag。光标到节点上，Ctrl+c两次，
+就会提醒你输入tag添加即可。要查询tag，Ctrl+c \ 就可以了。 files/03.png
+
+</li>
+</ul>
+<ul>
+<li id="sec-1-10-3-3">链接<br/>
+链接格式[[link][]]  后面的中括号内是description可以省略
+按下Ctrl+c Ctrl+l就可以添加一个链接，可以链接任何文件。只要输入绝对路径或相对路径即可。
+ 对于图片来说，如果不给图片添加描述的话，在导出的时候，Emacs会自动显示图片，如果添加了描述则是超链接形式了。
+链接文件的名称，位置都由我来控制，即使我不使用Emacs了，我依然能到目录里面找到需要的文件。
+
+</li>
+</ul>
+<ul>
+<li id="sec-1-10-3-4">脚注<br/>
+Ctrl+c Ctrl+x f会自动给光标处添加一个脚注。我已经在上面添加了几个脚注了。添加完脚注，再按一次Ctrl+c Ctrl+x f就会回到原来添加脚注的地方。
+
+</li>
+</ul>
+<ul>
+<li id="sec-1-10-3-5">表格<br/>
+Emacs添加表格很方便。输入使用|分隔即可。多试试Tab键就知道了。下面看看效果。
+emacs把第一行以|开头的行认做表格
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">Name</td><td class="left">Phone</td><td class="left">Age</td></tr>
+</tbody>
+</table>
+
+1-----------------------------
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">Name</td><td class="left">Phone</td><td class="left">Age</td></tr>
+</tbody>
+</table>
+
+2-----------------------------
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="right" /><col class="right" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Name</th><th scope="col" class="right">Phone</th><th scope="col" class="right">Age</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">Peter</td><td class="right">12339808</td><td class="right">13</td></tr>
+<tr><td class="left">Anna</td><td class="right">689087</td><td class="right">33</td></tr>
+</tbody>
+</table>
+
+3--------------------------------
+
+<p>
+这里从1到2步只需键入tab键就可以了
+2到3步输入文本按tab会自动对齐
+</p>
+</li>
+</ul>
+<ul>
+<li id="sec-1-10-3-6"><span class="todo TODO">TODO</span> Write a letter to Don<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2011-10-13 四</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">DEADLINE: </span> <span class="timestamp">2011-10-15 六</span></span><br/>
+可以做计划列表，名字特定为TODO，全部大写。 
+
+<p>
+ 时间控制
+Ctrl+c Ctrl+s 插入计划时间，Ctrl+c Ctrl+d插入最后时间，Ctrl+c .插入时间戳
+ 多选任务列表 [50%]
+</p>
+<ul>
+<li>[] 就是一个多选按钮了，在这一行按两次Ctrl+c就会选中此项。再按两次取消。在节点上加入[%]就会按照半分比来显示完成情况。[/]按照数量来显示完成情况。自己试试吧。
+</li>
+<li><code>[X]</code> 第二个多选按钮，选中了。
+</li>
+</ul>
+
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> 浏览代码</h3>
+<div class="outline-text-3" id="text-1-11">
+
+
+</div>
+
+<div id="outline-container-1-11-1" class="outline-4">
+<h4 id="sec-1-11-1"><span class="section-number-4">1.11.1</span> ctags 查看源代码</h4>
+<div class="outline-text-4" id="text-1-11-1">
+
+<p>ctags -e -R 
+生成emacs认识的tag表，用-e
+使用快捷键：
+M-x visit-tags-table    指定TAGS文件
+M-.             查找一个tag，比如函数定义类型定义等。
+C-u M-.         查找下一个tag的位置
+C-M-.           输入函数名，查找定义
+M-*             回到上一次运行M-.前的光标位置。
+M-TAB           自动补齐函数名（M可用ESC代替)
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-11-2" class="outline-4">
+<h4 id="sec-1-11-2"><span class="section-number-4">1.11.2</span> grep查找</h4>
+<div class="outline-text-4" id="text-1-11-2">
+
+<p>M-x grep
+例如在一个工程里查找函数名就schedule的函数的定义以及引用，
+grep -n -e schedule -r &ndash;include=*.[hc] .         
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> gnus模式</h3>
+<div class="outline-text-3" id="text-1-12">
+
+<p>emacs23自带gnus模式，
+</p>
+</div>
+
+<div id="outline-container-1-12-1" class="outline-4">
+<h4 id="sec-1-12-1"><span class="section-number-4">1.12.1</span> 用gnus收邮件</h4>
+<div class="outline-text-4" id="text-1-12-1">
+
+<ul>
+<li id="sec-1-12-1-1">显示邮件列表<br/>
+在group buffer里，用L 显示邮件组合：
+nnfolder：mail.misc    （～/Mail/mail/misc）  //misc 是个文件，所有邮件都压缩在里边
+nnml:mail.misc、        （～/Mail/mail/misc)   //misc 是个目录
+如果没有显示可用<sup>进入server</sup> buffer U订阅邮件服务器
+如果不想看新闻组，可以用M-x gnus-no-server
+光标在上边用M-g 可以刷新邮箱
+<ul>
+<li>2、启动:m-x gnus
+</li>
+<li>3、看是否有新邮件:g
+</li>
+<li>4、发邮件:m，增加附件，c-c c-a,写完c-c c-c,转发邮件：c-c,c-f
+</li>
+<li>5、订阅邮件服务器：U，然后输入服务器名称，取消订阅也一样。
+</li>
+<li>保存附件：光标在附件名称上按o
+</li>
+<li>6、去掉服务器:c-k
+</li>
+<li>7、保存有价值的帖子：在.gnus.el文件中加这一句 (setq gnus-use-cache 'passive),然后在有价值的帖子上加*，就保存到本地，按meta+*就取消保存
+</li>
+<li>8、利用gnus订阅rss
+</li>
+<li>在gnus总目录下：G R,然后根据提示输入URL，其中URL的格式是这样的：<a href="http://www.wanglianghome.org/blog/rss.xml">http://www.wanglianghome.org/blog/rss.xml</a> 或者这样：<a href="http://feed.feedsky.com/jaylee">http://feed.feedsky.com/jaylee</a>
+</li>
+<li>9、对邮件进行排序：
+</li>
+<li>默认排序的方式是按照时间排序， 在 summary buffer 中 C-h m ，很容易找到
+</li>
+<li>C-c C-s TAB gnus-summary-sort-by-score
+</li>
+<li>C-c C-s C-d gnus-summary-sort-by-date
+</li>
+<li>C-c C-s C-s gnus-summary-sort-by-subject
+</li>
+<li>C-c C-s C-a gnus-summary-sort-by-author
+</li>
+<li>C-c C-s C-c gnus-summary-sort-by-chars
+</li>
+<li>C-c C-s C-l gnus-summary-sort-by-lines
+</li>
+<li>C-c C-s C-n gnus-summary-sort-by-number
+</li>
+</ul>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-1-12-1-2">查找 <b>所有</b> 邮件内容<br/>
+很多邮件的客户端程序都没有做到这点，其实用grep命令就可以搜索到
+grep -nH "pattern" misc
+找到后查看此邮件的subject，可以在邮件列表中找到这个subject的邮件
+有时因为编码问题grep查找中文会有问题，因为一般是GBK编码，grep
+用utf-8，所以可以用enca转换后查找 enca -x utf-8 &lt;110 |grep 莉莉
+<a href="./chinese-encoding">./chinese-encoding</a>
+<ul>
+<li id="sec-1-12-1-2-1">这基本上是使用gnus查看邮件的主要原因<br/>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li id="sec-1-12-1-3">删除邮件<br/>
+  在buffer区，光标所在处  B-&lt;delete&gt;
+ 用`E'命?，给新闻组里的帖子加上expirable的标签
+(setq nnmail-expiry-wait 3)
+样就把保质期设成3天了。
+
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> quik tutirial</h2>
+<div class="outline-text-2" id="text-2">
+
+<p>C-g   #quit a partical entered command
+C-x C-c  # end emacs session
+</p>
+<p>
+C-x C-b       #list buffer
+C-x b &lt;Buffername&gt;  #swich to buffer by name
+C-x &lt;-    prev buffer
+C-x -&gt;    next buffer
+</p>
+<p> 
+C-x 2  #split the current windown into 2
+C-x o  #select another window
+C-x 0  #del current window  
+</p>
+<p>
+C-x 4 b &lt;BUFNAME&gt;   # open a buffer in another window
+C-x C-o &lt;filename&gt;   # open a fiel in another window
+</p>
+
+<p>
+M-! &lt;shell<sub>comand&gt</sub>;   #run the shell command and diplay the output(`shell-commad'
+</p>
+<p> 
+C-x C-f  #find a file
+C-x C-s #save
+C-/    # undo
+</p>
+
+
+<p>
+<b>C-@        mark a point（then shift and arrow key to select a region)</b>
+C-w 剪切
+   #run the shell command and diplay the output(`shell-commad'
+M-w 复制
+C-y 粘贴
+</p>
+<p>
+C-w ⇒ Cut (really kill)
+M-w ⇒ Copy (really kill-ring-save)
+C-y ⇒ Paste (really yank)
+M-y (after C-y) ⇒ Historic Paste of old cuts/copies “bonus” (really yank-pop, that is to say the kill-ring cometh)
+emacs -nw // running in console
+</p>
+<p>
+In term mode the normal prefix key for Emacs commands is C-c. It works
+pretty much like C-x prefix key elsewhere in Emacs. I prefer using C-x
+in term mode too so I do this in my ~/.emacs file:
+</p>
+<p>
+    (add-hook 'term-mode-hook
+              '(lambda ()
+                 (term-set-escape-char ?\C-x)))
+</p>
+<p>
+how to redefine a key of some command
+C-h k 
+to search the command name
+C-@
+help text
+C-@ runs the command set-mark-command, 
+so in .emacs
+</p>
+<p>
+(global-set-key (kbd "C-c ,") 'set-mark-command) ; Ctrl+c ,
+</p>
+<p> 
+In emacs, you can create any keyboard shortcut to any command. This page shows you how.
+</p>
+<p>
+For example, if you want 【F9】 for calendar, then, place this code (global-set-key (kbd "&lt;f9&gt;") 'calendar) in your emacs init file and restart emacs.
+</p>
+<p>
+If you are experimenting, and don't want to restart emacs every time you try to define a new key, you can place cursor at the end of parenthesis and call eval-last-sexp 【Ctrl+x Ctrl+e】. The new key will be active right away.
+</p>
+
+<p>
+MOving to top or end of the buffer
+M-&lt;
+M-&gt;
+</p>
+<p>
+block /rectangle
+C-x r r R 
+copy the rectagnel into Register R
+</p>
+<p>
+C-x r i R
+Instert the rectagnle in Reg R 
+</p>
+
+<p>
+C-x r k
+kill the rectangle and save it in kill-rect
+</p>
+<p>
+C-x r d
+delete the rectagle only
+</p>
+<p>
+C-x r y
+copy the rectangle stored in kill-rectangle
+</p>
+<p>
+M-x string-insert-rectangle &lt;RET&gt; STRING &lt;RET&gt;
+</p>
+
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> lisp programming&mdash;</h3>
+<div class="outline-text-3" id="text-2-1">
+
+
+
+<p>
+In my .emacs i have the following function that transposes a line
+</p>
+<p>
+(defun move-line (n)
+   "Move the current line up or down by N lines."
+   (interactive "p")
+   (let ((col (current-column))
+         start
+         end)
+     (beginning-of-line)
+     (setq start (point))
+     (end-of-line)
+     (forward-char)
+     (setq end (point))
+     (let ((line-text (delete-and-extract-region start end)))
+       (forward-line n)
+       (insert line-text)
+       ;; restore point to original column in moved line
+       (forward-line -1)
+       (forward-char col))))
+And I bind a key to it like this
+</p>
+<p>
+(global-set-key (kbd "M-&lt;down&gt;") 'move-line)
+;; this is the same as M-x global-set-key &lt;return&gt;
+However, I want to bind M-up to move-line (-1) But I cant seem to be able to do it correctly:
+</p>
+<p>
+;; M&ndash; M-1 M-x global-set-key &lt;return&gt;
+How do I define the above using global-set-key to call move-line -1?
+</p>
+<p>
+emacs elisp
+share|improve this question
+asked Jun 23 '09 at 2:33
+</p>
+<p>
+yrral
+19617
+5               
+Just FYI: there is a transpose-lines function built into emacs. Try shortcut C-x C-t. –  polyglot Jun 23 '09 at 4:05
+add comment
+3 Answers
+activeoldestvotes
+up vote
+13
+down vote
+accepted
+Not minutes after asking the question I figured it out by copy+pasting code. However I have no clue how it works.
+</p>
+<p>
+(global-set-key (kbd "M-&lt;up&gt;") (lambda () (interactive) (move-line -1)))
+
+</p>
+<hr/>
+
+
+
+<p>
+M-x g M-x g
+M-x g linenumber
+</p>
+<p>
+M-x linum-mode   # display linenumber
+M-x  ffap   #vim gf
+M-x compilation-mode ##make the filename line make a link to jump,like lopen
+</p>
+<p>
+M-x grep &lt;RET&gt;
+keyword &lt;filename&gt;
+M-p
+C-&lt;UP&gt;
+Fetch the next earlier old shell command.
+</p>
+
+
+
+<p>
+switch minor mode
+M-x evil-mode ###would toggle this mode on and off
+</p>
+
+<p>
+w3m
+shift-B  #previous page
+Tab      #next link
+Shift-U  #URL prompt
+Shift-H  #help
+Shift-T  #open a new tab
+{ }      #switch between tabs
+g        #open URL
+R        #Reload buffer
+c        #peek current URL
+</p>
+
+
+<p>
+Here is etags2ctags.el.  It converts Emacs TAGS files generated by etags to
+what look like ex/vi tags files generated by ctags.
+I'm not sure how useful this is, but I while ago I decided it was for some
+reason and put it on my list.  I had initially thought of doing it in C; but it
+occurred to me that it would be much easier to do in Emacs lisp, and I was
+surprised at how little code it took.
+</p>
+<p>
+Enjoy!
+</p>
+<p>
+;;; Convert Emacs TAGS files (the output of the `etags' program)
+;;; to ex/vi tags files (like the output of the `ctags' program).
+;;;
+;;; Copyright (C) 1989 Roland McGrath
+;;;
+;;; This program is free software; you can redistribute it and/or modify
+;;; it under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation; either version 1, or (at your option)
+;;; any later version.
+;;;
+;;; This program is distributed in the hope that it will be useful,
+;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;; GNU General Public License for more details.
+;;;
+;;; A copy of the GNU General Public License can be obtained from this
+;;; program's author (send electronic mail to ky&hellip;@cs.odu.edu) or from
+;;; the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
+;;; 02139, USA.
+;;;
+;;; Send bug reports to rol&hellip;@ai.mit.edu.
+</p>
+<p>
+;; To use this, byte-compile this file, and then put the following line
+;; in your .emacs (or site-init.el, etc.):
+;;  (autoload 'etags2ctags-buffer "etags2ctags" "Convert a TAGS buffer." t)
+;;  (autoload 'etags2ctags-file "etags2ctags" "Convert a TAGS file." t)
+</p>
+
+<p>
+(defmacro match-text (arg)
+  "Return the string of text matched by the last regexp searched for.
+ARG, a number, specifies which parenthesized expression in the last regexp.
+The value is nil if ARGth pair didn't match, or there were less than ARG pairs.
+Zero means the entire text matched by the whole regexp."
+  (` (buffer-substring (match-beginning (, arg)) (match-end (, arg)))))
+</p>
+<p>
+(defun etags2ctags-buffer (&amp;optional buffer)
+  "Convert output from `etags' in BUFFER to what looks like output from `ctags'.
+If BUFFER is nil or missing, the current buffer is used."
+  (interactive "bConvert buffer: ")
+  (save-excursion
+    (if buffer
+        (set-buffer buffer))
+    (goto-char (point-min))
+    ;; We will write output into the temporary buffer
+    ;; and then move it to BUFFER all at once.
+    (let ((standard-output (generate-new-buffer " <b>etags2ctags</b>")))
+      (while (not (eobp))
+        (or (looking-at "\f\n")
+            (error "Invalid tags file format"))
+        (forward-line 1)
+        (let ((file (buffer-substring (point)
+                                      (progn (search-forward ",")
+                                             (1- (point)))))
+              (end (let ((len (string-to-int
+                               (buffer-substring (point)
+                                                 (progn (forward-line 1)
+                                                        (point))))))
+                     (+ (point) len))))
+          (while
+              ;; This monster regexp matches an etags tag line.
+              ;;   \1 is the string to match;
+              ;;   \2 is not interesting;
+              ;;   \3 is the symbol;
+              ;;   \4 is the char to start searching at;
+              ;;   \5 is the line to start searching at.
+              (re-search-forward
+               "<sup>\\</sup>(\\(.+[ \t]+\\)?\\([-a-zA-Z0-9_$]+\\)[<sup>-a</sup>-zA-Z0-9_$]*\\)^?\\([0-9]+\\),\\([0-9]+\\)\n"
+                  end t)
+            ;; Turn the matched etags tag line into the ctags tag line:
+            ;;   FILE        SYMBOL        <i><sup>STRING</sup></i>
+            ;; The string is regexp-quoted.
+            (princ (regexp-quote (match-text 3)))
+            (princ "\t")
+            (princ file)
+            (princ "\t/^")
+            (princ (regexp-quote (match-text 1)))
+            (princ "/")
+            (terpri)
+            )))
+      ;; Sort the temporary buffer.
+      (save-excursion
+        (set-buffer standard-output)
+        (sort-lines nil (point-min) (point-max)))
+      ;; Replace the contents of BUFFER with those of the temporary buffer.
+      (undo-boundary)
+      (erase-buffer)
+      (insert-buffer standard-output)
+      (kill-buffer standard-output)
+      )))
+</p>
+<p>
+(defun etags2ctags-file (from to)
+  "Convert the Emacs TAGS file in FROM to a ex/vi tags file in TO.
+See  etags2ctags-buffer ."
+  (interactive "fConvert Emacs TAGS file: \nFConvert %s to ex/vi tags file: ")
+  (let ((buf (generate-new-buffer " <b>etags2ctags</b>")))
+    (save-excursion
+      (set-buffer buf)
+      (insert-file from)
+      (etags2ctags-buffer buf)
+      (write-file to)
+      (kill-buffer buf)
+      )))
+</p></div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> etags and usage</h3>
+<div class="outline-text-3" id="text-2-2">
+
+<p>generate etags:
+</p>
+<p>
+find . -type f -iname "*.[ch]" |etags -
+find . -ypte f -iname "*.[ch]" |xargs etags &ndash;append
+
+</p>
+<hr/>
+<p>
+M-:
+Read a single Lisp expression in the minibuffer, evaluate it, and print the value in the echo area (eval-expression).
+C-x C-e
+Evaluate the Lisp expression before point, and print the value in the echo area (eval-last-sexp).
+C-M-x
+Evaluate the defun containing or after point, and print the value in the echo area (eval-defun).
+M-x eval-region
+Evaluate all the Lisp expressions in the region.
+M-x eval-current-buffer
+Evaluate all the Lisp expressions in the buffer.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> group buffer: ibuffer</h3>
+<div class="outline-text-3" id="text-2-3">
+
+<p>here you can define your buffer groups. You can mark buffers, use filtering and sorting, do search/replace in marked buffers and other useful stuff.
+</p>
+<p>
+For your case just put into the hook (ibuffer-filter-by-filename ".")
+</p>
+<p>
+Here is an example from my .emacs .
+</p>
+<p>
+(require 'ibuffer)
+</p>
+<p>
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+               ("dired" (mode . dired-mode))
+               ("java" (mode . java-mode))
+               ("org" (mode . org-mode))
+               ("sql" (mode . sql-mode))
+               ("xml" (mode . nxml-mode))))))    
+</p>
+<p>
+(setq ibuffer-show-empty-filter-groups nil)
+</p>
+<p>
+(add-hook 'ibuffer-mode-hook 
+ (lambda () 
+  (ibuffer-switch-to-saved-filter-groups "default")
+  (ibuffer-filter-by-filename "."))) ;; to show only dired and files buffers
+EDIT. If you want to filter out temporary buffers (which name begins with *) you can set the following filter (regex)
+</p>
+<p>
+(ibuffer-filter-by-name "<sup>[</sup><sup>*</sup>]")
+It says that the buffer name should start with any character except *.
+</p>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+<p class="footnote"><sup><a class="footnum" name="fn.1" href="#fnr.1">1</a></sup> test for footnots
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2014-07-31 16:59:29 China Standard Time</p>
+<p class="author">Author: Guo Lili</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>

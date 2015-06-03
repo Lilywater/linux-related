@@ -1,0 +1,20 @@
+#!/bin/sh
+#if [ -z "$1" || -z "$2" ]
+if [ -z "$1"  ]
+then
+echo "usage: give the keyword you want to grep"
+exit
+fi
+if [ -z "$2"  ]
+then
+echo "usage: give the path  you want to grep"
+exit
+fi
+
+
+find  "$1" \( -name  generated -o  -name .svn -o -name CVS  \)  -prune -o -not -iregex '.*\.\(o\|a\|log\).*'  -not -iregex '.*tags.*'  -type f -print |xargs grep -nH "$2" --binary-files=without-match 
+ 
+# svn status -v  >/tmp/fl_svn
+#grep -v '^?' fl_svn  >/tmp/fl_svn_cl
+# sed  's/.*[[:space:]]\+\([^[:space:]]\+\)$/\1/' /tmp/fl_svn_cl >.svn/flist
+#grep -nH <pattern> `cat .svn/flist`

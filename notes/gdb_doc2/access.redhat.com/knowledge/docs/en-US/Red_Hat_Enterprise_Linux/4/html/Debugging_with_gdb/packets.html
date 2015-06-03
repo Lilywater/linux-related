@@ -1,0 +1,1137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head dir="ltr">
+	<script type="text/javascript">
+		var siteMapState="";
+	</script>
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Packets - Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon04" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="https://access.redhat.com/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="https://access.redhat.com/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="https://access.redhat.com/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script><link rel="HOME" title="Red Hat Enterprise Linux 4" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/index.html"><link rel="UP" title="gdb Remote Serial Protocol" <link rel="UP" title="gdb Remote Serial Protocol" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/remote-protocol.html"><link rel="PREVIOUS" title="gdb Remote Serial Protocol" <link rel="PREVIOUS" title="gdb Remote Serial Protocol" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/remote-protocol.html"><link rel="NEXT" title="Stop Reply Packets" <link rel="NEXT" title="Stop Reply Packets" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/stop-reply-packets.html"><link rel="STYLESHEET" type="text/css" <link rel="STYLESHEET" type="text/css" href="https://access.redhat.com/knowledge/docs/resources/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Debugging_with_gdb/rhdocs-man.css" />
+		<link rel="stylesheet" type="text/css" href="https://access.redhat.com/chrome_themes/umbra/s/docs.css" />
+</head>
+
+<body dir="ltr" class="sfdc_available ">
+
+	<div id="outer-wrapper" class="wrapo"><div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="packets.html#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="https://access.redhat.com/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="https://access.redhat.com/home">
+						<img src="https://access.redhat.com/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="https://access.redhat.com/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="https://access.redhat.com/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="https://access.redhat.com/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="https://access.redhat.com/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="https://access.redhat.com/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="https://access.redhat.com/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+		<div id="main-wrap" class="wrapu">
+			<div id="main-top"></div>
+			<div class="wrapi">
+				<div id="container" class="clearWrap">
+					<div id="content" class="c-mF">
+						<!--googleoff: all--><noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript><!--googleon: all-->		
+						<div id="main" class=""><!--googleoff: all--><div id="breadcrumbs"><a href="https://access.redhat.com/knowledge/">Knowledge</a> &gt; <a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a> &gt; <a href="https://access.redhat.com/knowledge/docs/Red_Hat_Enterprise_Linux/">Red Hat Enterprise Linux</a> &gt; 4</div><!--googleon: all--><div class="NAVHEADER"><table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><th colspan="3" align="center">Red Hat Enterprise Linux 4: Debugging with gdb</th></tr><tr><td width="10%" align="left" valign="bottom"><a href="remote-protocol.html" accesskey="P">Prev</a></td><td width="80%" align="center" valign="bottom">Appendix D. gdb Remote Serial Protocol</td><td width="10%" align="right" valign="bottom"><a href="stop-reply-packets.html" accesskey="N">Next</a></td></tr></table><hr align="LEFT" width="100%" /></div><div class="SECT1"><h1 class="SECT1"><a name="PACKETS"></a>D.2. Packets</h1><p>The following table provides a complete list of all currently defined
+<tt class="VARNAME">command</tt>s and their corresponding response <tt class="VARNAME">data</tt>.
+   </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">!</tt> -- extended mode</dt><dd><p>Enable extended mode.  In extended mode, the remote server is made
+persistent.  The <tt class="COMMAND">R</tt> packet is used to restart the program being
+debugged.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>The remote target both supports and has enabled extended mode.
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">?</tt> -- last signal</dt><dd><p>Indicate the reason the target halted.  The reply is the same as for
+step and continue.
+      </p><p>Reply:
+(refer to <a href="stop-reply-packets.html">Section D.3 <i>Stop Reply Packets</i></a>, for the reply specifications.
+      </p></dd><dt><tt class="COMMAND">a</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">A</tt><tt class="VARNAME">arglen</tt><tt class="COMMAND">,</tt><tt class="VARNAME">argnum</tt><tt class="COMMAND">,</tt><tt class="VARNAME">arg</tt><tt class="COMMAND">,…</tt> --  set program arguments <i class="EMPHASIS">(reserved)</i></dt><dd><p>Initialized <tt class="COMMAND">argv[]</tt> array passed into program. <tt class="VARNAME">arglen</tt>
+specifies the number of bytes in the hex encoded byte stream <tt class="VARNAME">arg</tt>.
+See <tt class="COMMAND">gdbserver</tt> for more details.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt>, <tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>No other details.</p></dd></dl></div></dd><dt><tt class="COMMAND">b</tt><tt class="VARNAME">baud</tt> -- set baud <i class="EMPHASIS">(deprecated)</i></dt><dd><p>Change the serial line speed to <tt class="VARNAME">baud</tt>.
+      </p><p>JTC: <i class="EMPHASIS">When does the transport layer state change?  When it's
+received, or after the ACK is transmitted.  In either case, there are
+problems if the command or the acknowledgment packet is dropped.</i>
+      </p><p>Stan: <i class="EMPHASIS">If people really wanted to add something like this, and get
+it working for the first time, they ought to modify ser-unix.c to send
+some kind of out-of-band message to a specially-setup stub and have the
+switch happen &quot;in between&quot; packets, so that from remote protocol's point
+of view, nothing actually happened.</i>
+      </p></dd><dt><tt class="COMMAND">B</tt><tt class="VARNAME">addr</tt>,<tt class="VARNAME">mode</tt> -- set breakpoint <i class="EMPHASIS">(deprecated)</i></dt><dd><p>Set (<tt class="VARNAME">mode</tt> is <tt class="COMMAND">S</tt>) or clear (<tt class="VARNAME">mode</tt> is <tt class="COMMAND">C</tt>) a
+breakpoint at <tt class="VARNAME">addr</tt>.
+      </p><p>This packet has been replaced by the <tt class="COMMAND">Z</tt> and <tt class="COMMAND">z</tt> packets.
+      </p></dd><dt><tt class="COMMAND">c</tt><tt class="VARNAME">addr</tt> -- continue</dt><dd><p><tt class="VARNAME">addr</tt> is address to resume.  If <tt class="VARNAME">addr</tt> is omitted, resume at
+current address.
+      </p><p>Reply:
+(refer to <a href="stop-reply-packets.html">Section D.3 <i>Stop Reply Packets</i></a>, for the reply specifications.
+      </p></dd><dt><tt class="COMMAND">C</tt><tt class="VARNAME">sig</tt><tt class="COMMAND">;</tt><tt class="VARNAME">addr</tt> -- continue with signal</dt><dd><p>Continue with signal <tt class="VARNAME">sig</tt> (hex signal number).  If
+<tt class="COMMAND">;</tt><tt class="VARNAME">addr</tt> is omitted, resume at same address.
+      </p><p>Reply:
+(refer to <a href="stop-reply-packets.html">Section D.3 <i>Stop Reply Packets</i></a>, for the reply specifications.
+      </p></dd><dt><tt class="COMMAND">d</tt> -- toggle debug <i class="EMPHASIS">(deprecated)</i></dt><dd><p>Toggle debug flag.
+      </p></dd><dt><tt class="COMMAND">D</tt> -- detach</dt><dd><p>Detach gdb from the remote system.  Sent to the remote target
+before gdb disconnects via the <tt class="COMMAND">detach</tt> command.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">          <tt class="REPLACEABLE"><i>no response</i></tt></tt></dt><dd><p>{No value for `
+        &lt;listitem&gt;GDBN'} does not check for any response after sending this packet.
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">e</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">E</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">f</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">F</tt><tt class="VARNAME">RC</tt><tt class="COMMAND">,</tt><tt class="VARNAME">EE</tt><tt class="COMMAND">,</tt><tt class="VARNAME">CF</tt><tt class="COMMAND">;</tt><tt class="VARNAME">XX</tt> -- Reply to target's F packet.</dt><dd><p>This packet is send by gdb as reply to a <tt class="COMMAND">F</tt> request packet
+sent by the target.  This is part of the File-I/O protocol extension. Refer to <a href="file-i-o-remote-protocol-extension.html">Section D.7 <i>File-I/O remote protocol extension</i></a>, for the specification.
+      </p></dd><dt><tt class="COMMAND">g</tt> -- read registers</dt><dd><p>Read general registers.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND"><tt class="VARNAME">XX…</tt></tt></dt><dd><p>Each byte of register data is described by two hex digits.  The bytes
+with the register are transmitted in target byte order.  The size of
+each register and their position within the <tt class="COMMAND">g</tt> <tt class="VARNAME">packet</tt> are
+determined by the gdb internal macros <tt class="VARNAME">REGISTER_RAW_SIZE</tt>
+and <tt class="VARNAME">REGISTER_NAME</tt> macros.  The specification of several standard
+<tt class="COMMAND">g</tt> packets is specified below.
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error.
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">G</tt><tt class="VARNAME">XX…</tt> -- write regs</dt><dd><p>      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>for success
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">h</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">H</tt><tt class="VARNAME">c</tt><tt class="VARNAME">t…</tt> -- set thread</dt><dd><p>Set thread for subsequent operations (<tt class="COMMAND">m</tt>, <tt class="COMMAND">M</tt>, <tt class="COMMAND">g</tt>,
+<tt class="COMMAND">G</tt>, et.al.).  <tt class="VARNAME">c</tt> depends on the operation to be performed: it
+should be <tt class="COMMAND">c</tt> for step and continue operations, <tt class="COMMAND">g</tt> for other
+operations.  The thread designator <tt class="VARNAME">t…</tt> may be -1, meaning all
+the threads, a thread number, or zero which means pick any thread.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>for success
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">i</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">nnn</tt> -- cycle step <i class="EMPHASIS">(draft)</i></dt><dd><p>Step the remote target by a single clock cycle.  If <tt class="COMMAND">,</tt><tt class="VARNAME">nnn</tt> is
+present, cycle step <tt class="VARNAME">nnn</tt> cycles.  If <tt class="VARNAME">addr</tt> is present, cycle
+step starting at that address.
+      </p></dd><dt><tt class="COMMAND">I</tt> -- signal then cycle step <i class="EMPHASIS">(reserved)</i></dt><dd><p>      </p></dd><dt><tt class="COMMAND">j</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">J</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">k</tt> -- kill request</dt><dd><p>FIXME: <i class="EMPHASIS">There is no description of how to operate when a specific
+thread context has been selected (that is, does 'k' kill only that
+thread?)</i>.
+      </p></dd><dt><tt class="COMMAND">K</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">l</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">L</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">m</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- read memory</dt><dd><p>Read <tt class="VARNAME">length</tt> bytes of memory starting at address <tt class="VARNAME">addr</tt>.
+Neither gdb nor the stub assume that sized memory transfers are
+assumed using word aligned accesses. FIXME: <i class="EMPHASIS">A word aligned memory
+transfer mechanism is needed.</i>
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND"><tt class="VARNAME">XX…</tt></tt></dt><dd><p><tt class="VARNAME">XX…</tt> is mem contents. Can be fewer bytes than requested if able
+to read only part of the data.  Neither gdb nor the stub assume
+that sized memory transfers are assumed using word aligned
+accesses. FIXME: <i class="EMPHASIS">A word aligned memory transfer mechanism is
+needed.</i>
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p><tt class="VARNAME">NN</tt> is errno
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">M</tt><tt class="VARNAME">addr</tt>,<tt class="VARNAME">length</tt><tt class="COMMAND">:</tt><tt class="VARNAME">XX…</tt> -- write mem</dt><dd><p>Write <tt class="VARNAME">length</tt> bytes of memory starting at address <tt class="VARNAME">addr</tt>.
+<tt class="VARNAME">XX…</tt> is the data.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>for success
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error (this includes the case where only part of the data was
+written).
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">n</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">N</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">o</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">O</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">p</tt><tt class="VARNAME">n…</tt> -- read reg <i class="EMPHASIS">(reserved)</i></dt><dd><p>      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND"><tt class="VARNAME">r….</tt></tt></dt><dd><p>The hex encoded value of the register in target byte order.
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">P</tt><tt class="VARNAME">n…</tt><tt class="COMMAND">=</tt><tt class="VARNAME">r…</tt> -- write register</dt><dd><p>Write register <tt class="VARNAME">n…</tt> with value <tt class="VARNAME">r…</tt>, which contains two hex
+digits for each byte in the register (target byte order).
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>for success
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">q</tt><tt class="VARNAME">query</tt> -- general query</dt><dd><p>Request info about <tt class="VARNAME">query</tt>.  In general gdb queries have a
+leading upper case letter.  Custom vendor queries should use a company
+prefix (in lower case) ex: <tt class="COMMAND">qfsf.var</tt>.  <tt class="VARNAME">query</tt> may optionally
+be followed by a <tt class="COMMAND">,</tt> or <tt class="COMMAND">;</tt> separated list.  Stubs must ensure
+that they match the full <tt class="VARNAME">query</tt> name.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND"><tt class="VARNAME">XX…</tt></tt></dt><dd><p>Hex encoded data from query.  The reply can not be empty.
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>error reply
+         </p></dd><dt><tt class="COMMAND"></tt></dt><dd><p>Indicating an unrecognized <tt class="VARNAME">query</tt>.
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">Q</tt><tt class="VARNAME">var</tt><tt class="COMMAND">=</tt><tt class="VARNAME">val</tt> -- general set</dt><dd><p>Set value of <tt class="VARNAME">var</tt> to <tt class="VARNAME">val</tt>.
+      </p><p>Refer to <a href="general-query-packets.html">Section D.4 <i>General Query Packets</i></a>, for a discussion of naming conventions.
+      </p></dd><dt><tt class="COMMAND">r</tt> -- reset <i class="EMPHASIS">(deprecated)</i></dt><dd><p>Reset the entire system.
+      </p></dd><dt><tt class="COMMAND">R</tt><tt class="VARNAME">XX</tt> -- remote restart</dt><dd><p>Restart the program being debugged.  <tt class="VARNAME">XX</tt>, while needed, is ignored.
+This packet is only available in extended mode.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">          <tt class="REPLACEABLE"><i>no reply</i></tt></tt></dt><dd><p>The <tt class="COMMAND">R</tt> packet has no reply.
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">s</tt><tt class="VARNAME">addr</tt> -- step</dt><dd><p><tt class="VARNAME">addr</tt> is address to resume.  If <tt class="VARNAME">addr</tt> is omitted, resume at
+same address.
+      </p><p>Reply:
+(refer to <a href="stop-reply-packets.html">Section D.3 <i>Stop Reply Packets</i></a>, for the reply specifications.
+      </p></dd><dt><tt class="COMMAND">S</tt><tt class="VARNAME">sig</tt><tt class="COMMAND">;</tt><tt class="VARNAME">addr</tt> -- step with signal</dt><dd><p>Like <tt class="COMMAND">C</tt> but step not continue.
+      </p><p>Reply:
+(refer to <a href="stop-reply-packets.html">Section D.3 <i>Stop Reply Packets</i></a>, for the reply specifications.
+      </p></dd><dt><tt class="COMMAND">t</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">:</tt><tt class="VARNAME">PP</tt><tt class="COMMAND">,</tt><tt class="VARNAME">MM</tt> -- search</dt><dd><p>Search backwards starting at address <tt class="VARNAME">addr</tt> for a match with pattern
+<tt class="VARNAME">PP</tt> and mask <tt class="VARNAME">MM</tt>.  <tt class="VARNAME">PP</tt> and <tt class="VARNAME">MM</tt> are 4 bytes.
+<tt class="VARNAME">addr</tt> must be at least 3 digits.
+      </p></dd><dt><tt class="COMMAND">T</tt><tt class="VARNAME">XX</tt> -- thread alive</dt><dd><p>Find out if the thread XX is alive.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>thread is still alive
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>thread is dead
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">u</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">U</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">v</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">V</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">w</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">W</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">x</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">X</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt><tt class="VARNAME">:</tt><tt class="VARNAME">XX…</tt> -- write mem (binary)</dt><dd><p><tt class="VARNAME">addr</tt> is address, <tt class="VARNAME">length</tt> is number of bytes, <tt class="VARNAME">XX…</tt>
+is binary data.  The characters <tt class="COMMAND">$</tt>, <tt class="COMMAND">#</tt>, and <tt class="COMMAND">0x7d</tt> are
+escaped using <tt class="COMMAND">0x7d</tt>.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>for success
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">y</tt> -- reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">Y</tt> reserved</dt><dd><p>Reserved for future use.
+      </p></dd><dt><tt class="COMMAND">z</tt><tt class="VARNAME">type</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- remove breakpoint or watchpoint <i class="EMPHASIS">(draft)</i>, <tt class="COMMAND">Z</tt><tt class="VARNAME">type</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- insert breakpoint or watchpoint <i class="EMPHASIS">(draft)</i></dt><dd><p>Insert (<tt class="COMMAND">Z</tt>) or remove (<tt class="COMMAND">z</tt>) a <tt class="VARNAME">type</tt> breakpoint or
+watchpoint starting at address <tt class="VARNAME">address</tt> and covering the next
+<tt class="VARNAME">length</tt> bytes.
+      </p><p>Each breakpoint and watchpoint packet <tt class="VARNAME">type</tt> is documented
+separately.
+      </p><p><i class="EMPHASIS">Implementation notes: A remote target shall return an empty string
+for an unrecognized breakpoint or watchpoint packet <tt class="VARNAME">type</tt>.  A
+remote target shall support either both or neither of a given
+<tt class="COMMAND">Z</tt><tt class="VARNAME">type</tt>… and <tt class="COMMAND">z</tt><tt class="VARNAME">type</tt>… packet pair.  To
+avoid potential problems with duplicate packets, the operations should
+be implemented in an idempotent way.</i>
+      </p></dd><dt><tt class="COMMAND">z</tt><tt class="COMMAND">0</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- remove memory breakpoint <i class="EMPHASIS">(draft)</i>, <tt class="COMMAND">Z</tt><tt class="COMMAND">0</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- insert memory breakpoint <i class="EMPHASIS">(draft)</i></dt><dd><p>Insert (<tt class="COMMAND">Z0</tt>) or remove (<tt class="COMMAND">z0</tt>) a memory breakpoint at address
+<tt class="COMMAND">addr</tt> of size <tt class="COMMAND">length</tt>.
+      </p><p>A memory breakpoint is implemented by replacing the instruction at
+<tt class="VARNAME">addr</tt> with a software breakpoint or trap instruction.  The
+<tt class="COMMAND">length</tt> is used by targets that indicates the size of the
+breakpoint (in bytes) that should be inserted (e.g., the arm and
+mips can insert either a 2 or 4 byte breakpoint).
+      </p><p><i class="EMPHASIS">Implementation note: It is possible for a target to copy or move
+code that contains memory breakpoints (e.g., when implementing
+overlays).  The behavior of this packet, in the presence of such a
+target, is not defined.</i>
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>success
+         </p></dd><dt><tt class="COMMAND"></tt></dt><dd><p>not supported
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">z</tt><tt class="COMMAND">1</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- remove hardware breakpoint <i class="EMPHASIS">(draft)</i>, <tt class="COMMAND">Z</tt><tt class="COMMAND">1</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- insert hardware breakpoint <i class="EMPHASIS">(draft)</i></dt><dd><p>Insert (<tt class="COMMAND">Z1</tt>) or remove (<tt class="COMMAND">z1</tt>) a hardware breakpoint at
+address <tt class="COMMAND">addr</tt> of size <tt class="COMMAND">length</tt>.
+      </p><p>A hardware breakpoint is implemented using a mechanism that is not
+dependant on being able to modify the target's memory.
+      </p><p><i class="EMPHASIS">Implementation note: A hardware breakpoint is not affected by code
+movement.</i>
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>success
+         </p></dd><dt><tt class="COMMAND"></tt></dt><dd><p>not supported
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">z</tt><tt class="COMMAND">2</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- remove write watchpoint <i class="EMPHASIS">(draft)</i>, <tt class="COMMAND">Z</tt><tt class="COMMAND">2</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- insert write watchpoint <i class="EMPHASIS">(draft)</i></dt><dd><p>Insert (<tt class="COMMAND">Z2</tt>) or remove (<tt class="COMMAND">z2</tt>) a write watchpoint.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>success
+         </p></dd><dt><tt class="COMMAND"></tt></dt><dd><p>not supported
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">z</tt><tt class="COMMAND">3</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- remove read watchpoint <i class="EMPHASIS">(draft)</i>, <tt class="COMMAND">Z</tt><tt class="COMMAND">3</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- insert read watchpoint <i class="EMPHASIS">(draft)</i></dt><dd><p>Insert (<tt class="COMMAND">Z3</tt>) or remove (<tt class="COMMAND">z3</tt>) a read watchpoint.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>success
+         </p></dd><dt><tt class="COMMAND"></tt></dt><dd><p>not supported
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd><dt><tt class="COMMAND">z</tt><tt class="COMMAND">4</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- remove access watchpoint <i class="EMPHASIS">(draft)</i>, <tt class="COMMAND">Z</tt><tt class="COMMAND">4</tt><tt class="COMMAND">,</tt><tt class="VARNAME">addr</tt><tt class="COMMAND">,</tt><tt class="VARNAME">length</tt> -- insert access watchpoint <i class="EMPHASIS">(draft)</i></dt><dd><p>Insert (<tt class="COMMAND">Z4</tt>) or remove (<tt class="COMMAND">z4</tt>) an access watchpoint.
+      </p><p>Reply:
+      </p><p></p><div class="VARIABLELIST"><dl><dt><tt class="COMMAND">OK</tt></dt><dd><p>success
+         </p></dd><dt><tt class="COMMAND"></tt></dt><dd><p>not supported
+         </p></dd><dt><tt class="COMMAND">E<tt class="VARNAME">NN</tt></tt></dt><dd><p>for an error
+         </p></dd></dl></div></dd></dl></div></div><div class="NAVFOOTER"><hr align="LEFT" width="100%"><table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td width="33%" align="left" valign="top"><a href="remote-protocol.html" accesskey="P">Prev</a></td><td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td><td width="33%" align="right" valign="top"><a href="stop-reply-packets.html" accesskey="N">Next</a></td></tr><tr><td width="33%" align="left" valign="top">gdb Remote Serial Protocol</td><td width="34%" align="center" valign="top"><a href="remote-protocol.html" accesskey="U">Up</a></td><td width="33%" align="right" valign="top">Stop Reply Packets</td></tr></table></hr></div>
+		<script type="text/javascript">
+			ajq(document).ready(function() {
+				ajq(".docnav").clone().appendTo("#main");
+				var floatingtoc = ajq("#floatingtoc");
+				ajq("#floatingtoc").load('index.html .toc:eq(0)', function() {
+					var links = floatingtoc.find('a');
+
+					var docnav = ajq('.docnav');
+					docnav.find('.home').remove();
+
+					var previous = docnav.find('.previous');
+					previous.after('<li><select style="display: none;" class="pageSelect"></select></li>');
+
+					var select = ajq('.pageSelect');
+					var title = ajq('title').html().match(/[A-Z0-9.]*/)[0];
+
+					links.each(function() {
+						var link = ajq(this);
+						if (link.html().indexOf(title) === 0) {
+							select.append('<option selected="selected" value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+						}
+						select.append('<option value="'+ link.attr('href') +'">'+ link.html() +'</option>')
+					});
+					select.fadeIn();
+
+					select.change(function() {
+						var newValue = ajq(this).attr('value');
+						window.location.href = newValue;
+					});
+				});
+			});
+		</script>
+						</div> <!-- end main -->
+					</div> <!-- end content -->
+					<br class="clearboth" />
+				</div> <!-- end container -->
+			</div> <!-- end wrapi -->
+		</div><!-- end main-wrap -->
+		<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="https://access.redhat.com/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="https://access.redhat.com/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="https://access.redhat.com/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="https://access.redhat.com/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="https://access.redhat.com/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="https://access.redhat.com/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="https://access.redhat.com/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="https://access.redhat.com/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="https://access.redhat.com/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+		</div><!-- end footerWrap -->
+	</div></div><!-- end wrapper, outer-wrapper -->
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="https://access.redhat.com/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+</body>
+</html>

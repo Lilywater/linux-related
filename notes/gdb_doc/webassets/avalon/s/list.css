@@ -1,0 +1,365 @@
+/* list pages with filters on the right */
+.clear {
+	clear: left;
+	}
+
+#content {
+	overflow: visible;
+	word-wrap: break-word;
+	}
+
+	#content .section {
+		margin: 0;
+		padding: 0;
+		}
+
+.element-invisible {
+	display: none;
+	}
+
+#filter-options-toggle {
+	border-top: 1px solid #D2D2D3;
+	margin: 1em 15px 0 0;
+	padding-top: 1em;
+	}
+
+	#filter-options-toggle span {
+		background: url(/webassets/avalon/g/i_arrow-down-bl.png) no-repeat 4px 50%;
+		color: #06C;
+		cursor: pointer;
+		float: left;
+		font-size: 0.923em;
+		padding-left: 18px;
+		}
+
+		#filter-options-toggle span.less {
+			background-image: url(/webassets/avalon/g/i_arrow-up-bl.png);
+			}
+
+h1.title {
+	padding-top: 0;
+	}
+
+.item-list .pager {
+	clear: both;
+	padding: 0;
+	text-align: center;
+	}
+
+	.item-list .pager li.pager-ellipsis {
+		display: none;
+		}
+
+	.item-list .pager li {
+		background-image: none;
+		display: inline-block;
+		*display: inline;
+		font-size: 107.69%;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		}
+
+	.list-page-view #doc ul.pager {
+		border-top: 1px solid #D2D2D3;
+		list-style: none;
+		margin: 1.5em 0;
+		padding-top: 1.5em;
+		}
+
+		.list-page-view #doc ul.pager li {
+			padding-left: 0;
+			margin: 0 2px;
+			}
+			.item-list .pager li.pager-current {
+				padding-left: 7px;
+				}
+			.item-list .pager li.pager-current a, .item-list .pager li.pager-item a {
+				border: 1px solid #CCC;
+				display: inline-block;
+				margin: 0;
+				padding: 3px 7px;
+				}
+
+				.list-page-view #doc ul.pager li.pager-current a {
+					border-color: #999;
+					color: #222;
+					font-weight: normal;
+					padding: 3px 7px;
+					}
+
+.list-page-view #doc .display-count {
+	color: #666;
+	float: left;
+	line-height: 26px;
+	margin-bottom: 2em;
+	}
+
+.list-page-view #doc .region {
+	border-top: 1px solid #D2D2D3;
+	padding-top: 1.5em;
+	}
+
+.list-page-view #doc .section {
+	padding-top: 14px;
+	}
+
+.list-page-view #doc .view-content .item-list, .list-page-view #doc .view-empty {
+	clear: left;
+	}
+
+	.list-page-view #doc .view-content .item-list .comment-count, .list-page-view #doc .view-content .item-list .date-updated {
+		float: left;
+		margin-right: 2em;
+		}
+		.list-page-view #doc .view-content .item-list .comment-count {
+			padding-left: 18px;
+			position: relative;
+			}
+
+	.list-page-view #doc .view-content .item-list h3 {
+		font-size: 1em;
+		line-height: 1.5em;
+		padding: 0;
+		}
+
+	.list-page-view #doc .view-content .item-list [class^="icon-"], .list-page-view #doc .view-content .item-list [class^="icon-"]:before {
+		float: left;
+		font-size: 16px;
+		position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.list-page-view #doc .view-content .item-list .icon-comment, .list-page-view #doc .view-content .item-list  .icon-comment:before {
+			font-size: 12px;
+			}
+		
+
+	.list-page-view #doc .view-content .item-list ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		}
+
+		.list-page-view #doc .view-content .item-list ul li {
+			margin: 0 0 2em;
+			padding: 0 0 0 24px;
+			position: relative;
+			*zoom: 1;
+			}
+
+.list-page-view #doc .view-filters {
+	color: #666;
+	float: right;
+	}
+
+	.list-page-view #doc .view-filters form {
+		position: relative;
+		}
+
+.list-page-view #doc .views-exposed-form .form-item div {
+	text-align: left;
+	}
+
+.list-page-view #doc .views-exposed-form label {
+	display: inline-block;
+	*display: inline;
+	line-height: 26px;
+	margin: 0 10px 0 0;
+	position: relative;
+	vertical-align: top;
+	}
+
+.list-page-view #main-content {
+	padding-top: 1em;
+	}
+
+#main .chzn-container .chzn-results {
+	margin: 0 4px 4px 0;
+	}
+
+#main ul.chzn-choices {
+	margin: 0;
+	}
+
+#main .chzn-container-multi .chzn-results {
+	margin: 1px 0 0;
+	}
+
+.region-sidebar-second {
+	float: none;
+	margin-left: 0;
+	margin-right: 0;
+	width: auto;
+	}
+
+#resultsSortPicker {
+	width: 200px;
+	}
+
+#sidebar {
+	float: right;
+	margin: 14px 0 0;
+	width: 290px;
+	}
+
+	#sidebar .block, .sidebar .block {
+		margin: 0 0 15px;
+		min-height: 59px;
+		padding: 13px 0 15px 15px;
+		}
+
+		#sidebar .block .form-item {
+			margin: 0;
+			}
+
+		#sidebar + #doc {
+			margin-right: 310px;
+			}
+
+	#sidebar .list-filter-options {
+		background: white;
+		background: rgba(255, 255, 255, .3);
+		border: 1px solid #CCC;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		}
+
+		#sidebar .list-filter-options #edit-title,
+		.internal-list-view #doc #edit-title,
+		.solutions-list-page #doc #edit-title,
+		.videos-list-page #doc #edit-title,
+		.searchField #keywordInput {
+			background: #fff url(/webassets/avalon/g/i_mag-glass.png) no-repeat 8px 50%;
+			background: url(/webassets/avalon/g/i_mag-glass.png) no-repeat 8px 50%,-moz-linear-gradient(top,#EEE 0%,white 50%);
+			background: url(/webassets/avalon/g/i_mag-glass.png) no-repeat 8px 50%,-webkit-gradient(linear,left top,left bottom,color-stop(0%,#EEE),color-stop(50%,white));
+			background: url(/webassets/avalon/g/i_mag-glass.png) no-repeat 8px 50%,-webkit-linear-gradient(top,#EEE 0%,white 50%);
+			background: url(/webassets/avalon/g/i_mag-glass.png) no-repeat 8px 50%,-o-linear-gradient(top,#EEE 0%,white 50%);
+			background: url(/webassets/avalon/g/i_mag-glass.png) no-repeat 8px 50%,linear-gradient(to bottom,#EEE 0%,white 50%);
+			border: 1px solid #AAA;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
+			height: 26px;
+			line-height: 26px;
+			padding: 0 24px 0 28px;
+			width: 200px;
+			}
+
+			#doc .searchField #keywordInput {
+				width: 80%;
+				}
+
+		#sidebar .list-filter-options .form-item-title {
+			position: relative;
+			}
+
+		#sidebar .list-filter-options h2 {
+			color: #333;
+			font: bold 14px/40px Overpass,"Liberation Sans","Lucida Grande","Trebuchet MS","Bitstream Vera Sans",helvetica,verdana,arial,sans-serif;
+			margin: 0 0 1em;
+			padding: 0;
+			}
+
+		#sidebar .list-filter-options label {
+			font-size: 0.846em;
+			}
+
+.solutions-list-page #main-content {
+	background: url(/webassets/avalon/g/w_solution.png) no-repeat 100% 1em;
+	*zoom: 1;
+	}
+
+.teaser {
+	margin-bottom: 4px;
+	}
+
+.teaser-meta {
+	color: #777;
+	font-style: normal;
+	font-size: 91.67%;
+	line-height: 17px;
+	white-space: normal;
+	}
+	.teaser-meta a {
+		color: #777;
+		}
+	
+	.teaser-meta [class^="icon-"],
+	.teaser-meta [class*=" icon-"],
+	.teaser-meta [class*=" icon-"]:before,
+	.teaser-meta [class*=" icon-"]:before,
+	.comment-count [class^="icon-"],
+	.comment-count [class*=" icon-"],
+	.comment-count [class^=" icon-"]:before,
+	.comment-count [class*=" icon-"]:before { vertical-align: middle; } /* fix alignment issues */
+
+.views-exposed-form .views-exposed-widget {
+	line-height: 1;
+	padding: 0 15px 0 0;
+	}
+
+	.list-page-view #doc .views-exposed-form label, .list-page-view #doc .views-exposed-form .views-exposed-widget, .list-page-view #doc .views-exposed-form .form-item {
+		display: inline;
+		float: none;
+		}
+
+	#sidebar .list-filter-options .views-exposed-widget {
+		float: none;
+		margin-bottom: .75em;
+		}
+
+	#sidebar .list-filter-options .views-submit-button {
+		text-align: right;
+		}
+
+.views-exposed-widgets {
+	margin-bottom: 15px;
+	}
+
+	.list-page-view #doc .views-exposed-widgets {
+		margin: 0 0 15px;
+		text-align: right;
+		}
+		
+		
+/* Videos */
+.videos-list-page #main-content { 
+	background: url(/webassets/avalon/g/w_video.png) no-repeat 100% 1em;
+	*zoom: 1;
+	}
+.videos-list-page #doc .view-content .item-list ul li {
+	min-height: 79px;
+	padding-left: 150px;
+	}
+.list-page-view #doc .view-content .item-list h3 .icon-unlock,
+.list-page-view #doc .view-content .item-list h3 .icon-unlock:before {
+	float: none;
+	font-size: 12px;
+	position: static;
+		left: auto;
+		top: auto;
+	}
+.list-page-view #doc .view-content .item-list h3 .icon-unlock:before {
+	margin-left: .5em;
+	color: #a8a8a8;
+	}
+.videos-list-page #doc .view-content .item-list .icon-video,
+.videos-list-page #doc .view-content .item-list .icon-video:before {
+	display: none;
+	}
+.item-list .field-name-field-thumbnail-img {
+	position: absolute;
+		left: 0;
+		top: 0;
+	}
+.teaser-meta .fivestar-average-stars {
+	float: left;
+	}
+.item-list .views-field-field-kcs-product-select {
+	clear: left;
+	}
+	
+	

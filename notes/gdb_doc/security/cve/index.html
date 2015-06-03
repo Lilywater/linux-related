@@ -1,0 +1,3316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    
+  <title>access.redhat.com | CVE Database</title>
+
+
+<script type="text/javascript">
+  var siteMapState="security";
+  
+    var analyticsPageName="security|cve|index|2013";      
+  
+</script>
+
+    
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon04" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="https://access.redhat.com/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="https://access.redhat.com/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="https://access.redhat.com/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "https://access.redhat.com", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="https://access.redhat.com/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script>
+	
+    <link href="/security/cve/stylesheets/customer_center.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/security/cve/stylesheets/csp.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/security/cve/stylesheets/dataTable.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/security/cve/stylesheets/cve.css?1346984537" media="screen" rel="stylesheet" type="text/css" />
+
+  <script src="/security/cve/javascripts/jquery.dataTables.min.js?1346984537" type="text/javascript"></script>
+<script src="/security/cve/javascripts/jquery.dataTables.getHiddenColumns.js?1346984537" type="text/javascript"></script>
+<script src="/security/cve/javascripts/jquery.dataTables.getFilteredNodes.js?1346984537" type="text/javascript"></script>
+<script src="/security/cve/javascripts/jquery.dataTables.getColumnData.js?1346984537" type="text/javascript"></script>
+
+
+    <script type="text/javascript" charset="utf-8">
+      function customizeSkin(assetUrl) {
+        // JQuery function to correct the avalon skinned relative links
+        jQuery("[src^='/webassets']").each(function() {
+          this.src = this.src.replace(/http.*\/webassets/, "http://" + assetUrl + "/webassets");
+        });
+
+        
+        // Fix the main title
+        jQuery('#portalHome').html("Home text");
+        
+        
+        // Set the default page title
+        jQuery('title').text("Title Text");
+
+        
+      }
+    </script>
+  </head>
+  <body>
+    <noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript>
+    
+    
+	<div id="outer-wrapper" class="wrapo">
+		<div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="https://access.redhat.com/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="https://access.redhat.com/home">
+						<img src="https://access.redhat.com/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="https://access.redhat.com/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="https://access.redhat.com/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="https://access.redhat.com/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="https://access.redhat.com/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="https://access.redhat.com/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="https://access.redhat.com/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+			<div id="main-wrap" class="wrapu">
+				<div id="main-top"></div>
+				
+    
+    
+    <div class="wrapi">
+      <div id="container" class="clearWrap">
+        <!-- Add avalonskin/_custom_body_pre.erb to your applications views to add functionality here -->
+
+        <script type="text/javascript" charset="utf-8">
+  jQuery(document).ready(function() {
+      window.cves_table = jQuery('#cves_table').dataTable( {
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "bAutoWidth": false,
+        "aoColumns": [
+            { "sWidth": "11%" },
+            { "sWidth": "70%" },
+            { "sWidth": "9%" },
+            { "sWidth": "10%" }
+        ],
+        "oLanguage": {
+            "sSearch": "Filter: ",
+            "sZeroRecords": "<div class='no_records'><p>No matching CVEs found. This may be for one of the following reasons:</p><ul><li>The CVE does not affect Red Hat</li><li>The CVE exists and is public but was discovered in a different year. Ensure that you are viewing CVEs named CVE-YYYY-XXXX, where YYYY is the year you are interested in.</li><li>We have assigned the CVE name but the issue is not yet public, or our advisory is not yet ready. In some cases, a name may be used before the corresponding information has been added to the Red Hat website. This may happen when a security problem is new.</li></ul><p>If you think the CVE name does apply to Red Hat or would like more information, please contact the <a class='internal' href='https://access.redhat.com/security/team/contact/'>Security Response Team.</a></p><p>In addition, the MITRE CVE dictionary may <a href='http://cve.mitre.org/cve/cve.html' class='outgoing'>provide information about your CVE.</a></p></div>"
+        }
+    }).show();
+  } );
+</script>
+
+<div id="content">
+
+<div>
+  
+
+  <p class="subsection">CVE Database</p>
+  <div id="breadcrumbs">
+    <a class="internal" href="/security/">Security</a> &gt; CVE Database
+  </div>
+  <h1>Red Hat vulnerabilities by CVE name</h1>
+  <p>The Common Vulnerabilities and Exposures (CVE) project, maintained by <a href="http://cve.mitre.org/" class="outgoing">The MITRE Corporation,</a> is a list of standardized names for vulnerabilities and security exposures.</p>
+  
+  <!--div id="sideNav" class="clearWrap"><div class="roundBox clearWrap">
+    <div class="roundBoxContent"-->
+
+<div class="year_menu">
+      <!--ul>
+        <li class="sideSection">CVE index by year</li-->
+        <ul>
+
+
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2013" class="internal current">2013</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2012" class="internal">2012</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2011" class="internal">2011</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2010" class="internal">2010</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2009" class="internal">2009</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2008" class="internal">2008</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2007" class="internal">2007</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2006" class="internal">2006</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2005" class="internal">2005</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2004" class="internal">2004</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2003" class="internal">2003</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2002" class="internal">2002</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2001" class="internal">2001</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=2000" class="internal">2000</a></li>
+          
+            <li><a href="http://access.redhat.com/security/cve/?year=1999" class="internal">1999</a></li>
+          
+
+      </ul><!--/ul-->
+</div><!--/div></div-->
+
+
+  <table id="cves_table" class="display">
+  <thead>
+    <tr>
+      <th class="cve">CVE</th>
+      <th class="synopsis">Synopsis</th>
+      <th class="impact">Impact</th>
+      <th class="public_date">Public Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0151" class="internal">CVE-2013-0151</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-22</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0152" class="internal">CVE-2013-0152</a></td>
+      <td class="synopsis">
+Memory leak in Xen 4.2 and unstable allows local HVM guests to cause a denial of service (host memory consumption) by performing nested virtualization in a way that triggers errors that are not properly handled.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-22</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0153" class="internal">CVE-2013-0153</a></td>
+      <td class="synopsis">
+The AMD IOMMU support in Xen 4.2.x, 4.1.x, 3.3, and other versions, when using AMD-Vi for PCI passthrough, uses the same interrupt remapping table for the host and all guests, which allows guests to cause a denial of service by injecting an interrupt into other guests.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0154" class="internal">CVE-2013-0154</a></td>
+      <td class="synopsis">
+The get_page_type function in xen/arch/x86/mm.c in Xen 4.2, when debugging is enabled, allows local PV or HVM guest administrators to cause a denial of service (assertion failure and hypervisor crash) via unspecified vectors related to a hypercall.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0155" class="internal">CVE-2013-0155</a></td>
+      <td class="synopsis">
+Ruby on Rails 3.0.x before 3.0.19, 3.1.x before 3.1.10, and 3.2.x before 3.2.11 does not properly consider differences in parameter handling between the Active Record component and the JSON implementation, which allows remote attackers to bypass intended database-query restrictions and perform NULL checks or trigger missing WHERE clauses via a crafted request, as demonstrated by certain "[nil]" values, a related issue to CVE-2012-2660 and CVE-2012-2694.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0156" class="internal">CVE-2013-0156</a></td>
+      <td class="synopsis">
+active_support/core_ext/hash/conversions.rb in Ruby on Rails before 2.3.15, 3.0.x before 3.0.19, 3.1.x before 3.1.10, and 3.2.x before 3.2.11 does not properly restrict casts of string values, which allows remote attackers to conduct object-injection attacks and execute arbitrary code, or cause a denial of service (memory and CPU consumption) involving nested XML entity references, by leveraging Action Pack support for (1) YAML type conversion or (2) Symbol type conversion.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0157" class="internal">CVE-2013-0157</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0158" class="internal">CVE-2013-0158</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0159" class="internal">CVE-2013-0159</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0160" class="internal">CVE-2013-0160</a></td>
+      <td class="synopsis">
+The Linux kernel through 3.7.9 allows local users to obtain sensitive information about keystroke timing by using the inotify API on the /dev/ptmx device.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0164" class="internal">CVE-2013-0164</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-31</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0166" class="internal">CVE-2013-0166</a></td>
+      <td class="synopsis">
+OpenSSL before 0.9.8y, 1.0.0 before 1.0.0k, and 1.0.1 before 1.0.1d does not properly perform signature verification for OCSP responses, which allows remote attackers to cause a denial of service (NULL pointer dereference and application crash) via an invalid key.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0168" class="internal">CVE-2013-0168</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0169" class="internal">CVE-2013-0169</a></td>
+      <td class="synopsis">
+The TLS protocol 1.1 and 1.2 and the DTLS protocol 1.0 and 1.2, as used in OpenSSL, OpenJDK, PolarSSL, and other products, do not properly consider timing side-channel attacks on a MAC check requirement during the processing of malformed CBC padding, which allows remote attackers to conduct distinguishing attacks and plaintext-recovery attacks via statistical analysis of timing data for crafted packets, aka the "Lucky Thirteen" issue.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0170" class="internal">CVE-2013-0170</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the virNetMessageFree function in rpc/virnetserverclient.c libvirt 1.0.x before 1.0.2, 0.10.2 before 0.10.2.3, 0.9.11 before 0.9.11.9, and 0.9.6 before 0.9.6.4 allows remote attackers to cause a denial of service (crash) and possibly execute arbitrary code by triggering certain errors during an RPC connection, which causes a message to be freed without being removed from the message queue.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-28</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0172" class="internal">CVE-2013-0172</a></td>
+      <td class="synopsis">
+Samba 4.0.x before 4.0.1, in certain Active Directory domain-controller configurations, does not properly interpret Access Control Entries that are based on an objectClass, which allows remote authenticated users to bypass intended restrictions on modifying LDAP directory objects by leveraging (1) objectClass access by a user, (2) objectClass access by a group, or (3) write access to an attribute.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0175" class="internal">CVE-2013-0175</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-10</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0176" class="internal">CVE-2013-0176</a></td>
+      <td class="synopsis">
+The publickey_from_privatekey function in libssh before 0.5.4, when no algorithm is matched during negotiations, allows remote attackers to cause a denial of service (NULL pointer dereference and crash) via a "Client: Diffie-Hellman Key Exchange Init" packet.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-22</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0178" class="internal">CVE-2013-0178</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-14</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0179" class="internal">CVE-2013-0179</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0183" class="internal">CVE-2013-0183</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0184" class="internal">CVE-2013-0184</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2012-05-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0189" class="internal">CVE-2013-0189</a></td>
+      <td class="synopsis">
+cachemgr.cgi in Squid 3.1.x and 3.2.x, possibly 3.1.22, 3.2.4, and other versions, allows remote attackers to cause a denial of service (resource consumption) via a crafted request.  NOTE: this issue is due to an incorrect fix for CVE-2012-5643, possibly involving an incorrect order of arguments or incorrect comparison.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0190" class="internal">CVE-2013-0190</a></td>
+      <td class="synopsis">
+The xen_failsafe_callback function in Xen for the Linux kernel 2.6.23 and other versions, when running a 32-bit PVOPS guest, allows local users to cause a denial of service (guest crash) by triggering an iret fault, leading to use of an incorrect stack pointer and stack corruption.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-16</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0197" class="internal">CVE-2013-0197</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0198" class="internal">CVE-2013-0198</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-11</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0199" class="internal">CVE-2013-0199</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-23</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0208" class="internal">CVE-2013-0208</a></td>
+      <td class="synopsis">
+The boot-from-volume feature in OpenStack Compute (Nova) Folsom and Essex, when using nova-volumes, allows remote authenticated users to boot from other users' volumes via a volume id in the block_device_mapping parameter.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0212" class="internal">CVE-2013-0212</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0213" class="internal">CVE-2013-0213</a></td>
+      <td class="synopsis">
+The Samba Web Administration Tool (SWAT) in Samba 3.x before 3.5.21, 3.6.x before 3.6.12, and 4.x before 4.0.2 allows remote attackers to conduct clickjacking attacks via a (1) FRAME or (2) IFRAME element.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-30</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0214" class="internal">CVE-2013-0214</a></td>
+      <td class="synopsis">
+Cross-site request forgery (CSRF) vulnerability in the Samba Web Administration Tool (SWAT) in Samba 3.x before 3.5.21, 3.6.x before 3.6.12, and 4.x before 4.0.2 allows remote attackers to hijack the authentication of arbitrary users by leveraging knowledge of a password and composing requests that perform SWAT actions.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-30</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0215" class="internal">CVE-2013-0215</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0216" class="internal">CVE-2013-0216</a></td>
+      <td class="synopsis">
+The Xen netback functionality in the Linux kernel before 3.7.8 allows guest OS users to cause a denial of service (loop) by triggering ring pointer corruption.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0217" class="internal">CVE-2013-0217</a></td>
+      <td class="synopsis">
+Memory leak in drivers/net/xen-netback/netback.c in the Xen netback functionality in the Linux kernel before 3.7.8 allows guest OS users to cause a denial of service (memory consumption) by triggering certain error conditions.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0218" class="internal">CVE-2013-0218</a></td>
+      <td class="synopsis">
+The GUI installer in JBoss Enterprise Application Platform (EAP) and Enterprise Web Platform (EWP) 5.2.0 and possibly 5.1.2 uses world-readable permissions for the auto-install XML file, which allows local users to obtain the administrator password and the sucker password by reading this file.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-30</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0219" class="internal">CVE-2013-0219</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-23</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0220" class="internal">CVE-2013-0220</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-23</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0221" class="internal">CVE-2013-0221</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0222" class="internal">CVE-2013-0222</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2012-12-31</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0223" class="internal">CVE-2013-0223</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0228" class="internal">CVE-2013-0228</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0231" class="internal">CVE-2013-0231</a></td>
+      <td class="synopsis">
+The pciback_enable_msi function in the PCI backend driver (drivers/xen/pciback/conf_space_capability_msi.c) in Xen for the Linux kernel 2.6.18 and 3.8 allows guest OS users with PCI device access to cause a denial of service via a large number of kernel log messages. NOTE: some of these details are obtained from third party information.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0232" class="internal">CVE-2013-0232</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-22</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0235" class="internal">CVE-2013-0235</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-24</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0236" class="internal">CVE-2013-0236</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-24</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0237" class="internal">CVE-2013-0237</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-24</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0238" class="internal">CVE-2013-0238</a></td>
+      <td class="synopsis">
+The try_parse_v4_netmask function in hostmask.c in IRCD-Hybrid before 8.0.6 does not properly validate masks, which allows remote attackers to cause a denial of service (crash) via a mask that causes a negative number to be parsed.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-28</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0239" class="internal">CVE-2013-0239</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-02-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0240" class="internal">CVE-2013-0240</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0241" class="internal">CVE-2013-0241</a></td>
+      <td class="synopsis">
+The QXL display driver in QXL Virtual GPU 0.1.0 allows local users to cause a denial of service (guest crash or hang) via a SPICE connection that prevents other threads from obtaining the qemu_mutex mutex.  NOTE: some of these details are obtained from third party information.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2011-08-03</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0242" class="internal">CVE-2013-0242</a></td>
+      <td class="synopsis">
+Buffer overflow in the extend_buffers function in the regular expression matcher (posix/regexec.c) in glibc, possibly 2.17 and earlier, allows context-dependent attackers to cause a denial of service (memory corruption and crash) via crafted multibyte characters.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0244" class="internal">CVE-2013-0244</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-16</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0245" class="internal">CVE-2013-0245</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-16</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0246" class="internal">CVE-2013-0246</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-16</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0247" class="internal">CVE-2013-0247</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0249" class="internal">CVE-2013-0249</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-06</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0250" class="internal">CVE-2013-0250</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-18</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0252" class="internal">CVE-2013-0252</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0254" class="internal">CVE-2013-0254</a></td>
+      <td class="synopsis">
+The QSharedMemory class in Qt 5.0.0, 4.8.x before 4.8.5, 4.7.x before 4.7.6, and other versions including 4.4.0 uses weak permissions (world-readable and world-writable) for shared memory segments, which allows local users to read sensitive information or modify critical program data, as demonstrated by reading a pixmap being sent to an X server.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-05</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0255" class="internal">CVE-2013-0255</a></td>
+      <td class="synopsis">
+PostgreSQL 9.2.x before 9.2.3, 9.1.x before 9.1.8, 9.0.x before 9.0.12, 8.4.x before 8.4.16, and 8.3.x before 8.3.23 does not properly declare the enum_recv function in backend/utils/adt/enum.c, which causes it to be invoked with incorrect arguments and allows remote authenticated users to cause a denial of service (server crash) or read sensitive process memory via a crafted SQL command, which triggers an array index error and an out-of-bounds read.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0256" class="internal">CVE-2013-0256</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-06</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0261" class="internal">CVE-2013-0261</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-31</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0262" class="internal">CVE-2013-0262</a></td>
+      <td class="synopsis">
+rack/file.rb (Rack::File) in Rack 1.5.x before 1.5.2 and 1.4.x before 1.4.5 allows attackers to access arbitrary files outside the intended root directory via a crafted PATH_INFO environment variable, probably a directory traversal vulnerability that is remotely exploitable, aka "symlink path traversals."
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0263" class="internal">CVE-2013-0263</a></td>
+      <td class="synopsis">
+Rack::Session::Cookie in Rack 1.5.x before 1.5.2, 1.4.x before 1.4.5, 1.3.x before 1.3.10, 1.2.x before 1.2.8, and 1.1.x before 1.1.6 allows remote attackers to guess the session cookie, gain privileges, and execute arbitrary code via a timing attack involving am HMAC comparison function that does not run in constant time.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0264" class="internal">CVE-2013-0264</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-06</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0266" class="internal">CVE-2013-0266</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-11</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0268" class="internal">CVE-2013-0268</a></td>
+      <td class="synopsis">
+The msr_open function in arch/x86/kernel/msr.c in the Linux kernel before 3.7.6 allows local users to bypass intended capability restrictions by executing a crafted application as root, as demonstrated by msr32.c.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-24</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0269" class="internal">CVE-2013-0269</a></td>
+      <td class="synopsis">
+The JSON gem 1.7.x before 1.7.7, 1.6.x before 1.6.8, and 1.5.x before 1.5.5 allows remote attackers to cause a denial of service (resource consumption) or bypass the mass assignment protection mechanism via a crafted JSON document that triggers the creation of arbitrary Ruby symbols or certain internal objects, as demonstrated by conducting a SQL injection attack against Ruby on Rails, aka "Unsafe Object Creation Vulnerability."
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-11</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0270" class="internal">CVE-2013-0270</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0271" class="internal">CVE-2013-0271</a></td>
+      <td class="synopsis">
+The MXit protocol plugin in libpurple in Pidgin before 2.10.7 might allow remote attackers to create or overwrite files via a crafted (1) mxit or (2) mxit/imagestrips pathname.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0272" class="internal">CVE-2013-0272</a></td>
+      <td class="synopsis">
+Buffer overflow in http.c in the MXit protocol plugin in libpurple in Pidgin before 2.10.7 allows remote servers to execute arbitrary code via a long HTTP header.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0273" class="internal">CVE-2013-0273</a></td>
+      <td class="synopsis">
+sametime.c in the Sametime protocol plugin in libpurple in Pidgin before 2.10.7 does not properly terminate long user IDs, which allows remote servers to cause a denial of service (application crash) via a crafted packet.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0274" class="internal">CVE-2013-0274</a></td>
+      <td class="synopsis">
+upnp.c in libpurple in Pidgin before 2.10.7 does not properly terminate long strings in UPnP responses, which allows remote attackers to cause a denial of service (application crash) by leveraging access to the local network.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0275" class="internal">CVE-2013-0275</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-18</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0276" class="internal">CVE-2013-0276</a></td>
+      <td class="synopsis">
+ActiveRecord in Ruby on Rails 3.2.x before 3.2.12, 3.1.x before 3.1.11, and 2.3.x before 2.3.17 allows remote attackers to bypass the attr_protected protection mechanism and modify protected model attributes via a crafted request.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-11</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0277" class="internal">CVE-2013-0277</a></td>
+      <td class="synopsis">
+Active Record in Ruby on Rails 3.x before 3.1.0 and 2.3.x before 2.3.17 allows remote attackers to cause a denial of service or execute arbitrary code via crafted serialized attributes that cause the +serialize+ helper to deserialize arbitrary YAML.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-11</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0281" class="internal">CVE-2013-0281</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-14</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0282" class="internal">CVE-2013-0282</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0288" class="internal">CVE-2013-0288</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-18</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0290" class="internal">CVE-2013-0290</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0292" class="internal">CVE-2013-0292</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-02-14</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0296" class="internal">CVE-2013-0296</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0309" class="internal">CVE-2013-0309</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0310" class="internal">CVE-2013-0310</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0311" class="internal">CVE-2013-0311</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0333" class="internal">CVE-2013-0333</a></td>
+      <td class="synopsis">
+lib/active_support/json/backends/yaml.rb in Ruby on Rails 2.3.x before 2.3.16 and 3.0.x before 3.0.20 does not properly convert JSON data to YAML data for processing by a YAML parser, which allows remote attackers to execute arbitrary code, conduct SQL injection attacks, or bypass authentication via crafted data that triggers unsafe decoding, a different vulnerability than CVE-2013-0156.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-28</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0351" class="internal">CVE-2013-0351</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment, a different vulnerability than other CVEs listed in the February 2013 CPU.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0367" class="internal">CVE-2013-0367</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.5.28 and earlier allows remote authenticated users to affect availability via unknown vectors related to Server Partition.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0368" class="internal">CVE-2013-0368</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.5.28 and earlier allows remote authenticated users to affect availability via unknown vectors related to InnoDB.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0371" class="internal">CVE-2013-0371</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.5.28 and earlier allows remote authenticated users to affect availability, related to MyISAM.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0375" class="internal">CVE-2013-0375</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.1.66 and earlier, and 5.1.28 and earlier, allows remote authenticated users to affect confidentiality and integrity via unknown vectors related to Server Replication.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0383" class="internal">CVE-2013-0383</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.1.66 and earlier, and 5.5.28 and earlier, allows remote attackers to affect availability via unknown vectors related to Server Locking.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0384" class="internal">CVE-2013-0384</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.1.66 and earlier, and 5.5.28 and earlier, allows remote authenticated users to affect availability via unknown vectors related to Information Schema.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0385" class="internal">CVE-2013-0385</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.1.66 and earlier, and 5.5.28 and earlier, allows local users to affect confidentiality and integrity via unknown vectors related to Server Replication.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0386" class="internal">CVE-2013-0386</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.5.28 and earlier allows remote authenticated users to affect availability via unknown vectors related to Stored Procedure.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0389" class="internal">CVE-2013-0389</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Server component in Oracle MySQL 5.1.66 and earlier, and 5.5.28 and earlier, allows remote authenticated users to affect availability via unknown vectors related to Server Optimizer.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0409" class="internal">CVE-2013-0409</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and 5.0 through Update 38 allows remote attackers to affect confidentiality via vectors related to JMX.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0419" class="internal">CVE-2013-0419</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment, a different vulnerability than other CVEs listed in the February 2013 CPU.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0422" class="internal">CVE-2013-0422</a></td>
+      <td class="synopsis">
+Multiple vulnerabilities in Oracle Java 7 before Update 11 allow remote attackers to execute arbitrary code by (1) using the public getMBeanInstantiator method in the JmxMBeanServer class to obtain a reference to a private MBeanInstantiator object, then retrieving arbitrary Class references using the findClass method, and (2) using the Reflection API with recursion in a way that bypasses a security check by the java.lang.invoke.MethodHandles.Lookup.checkSecurityManager method due to the inability of the sun.reflect.Reflection.getCallerClass method to skip frames related to the new reflection API, as exploited in the wild in January 2013, as demonstrated by Blackhole and Nuclear Pack, and a different vulnerability than CVE-2012-4681 and CVE-2012-3174. NOTE: some parties have mapped the recursive Reflection API issue to CVE-2012-3174, but CVE-2012-3174 is for a different vulnerability whose details are not public as of 20130114.  CVE-2013-0422 covers both the JMX/MBean and Reflection API issues.  NOTE: it was originally reported that Java 6 was also vulnerable, but the reporter has retracted this claim, stating that Java 6 is not exploitable because the relevant code is called in a way that does not bypass security checks.  NOTE: as of 20130114, a reliable third party has claimed that the findClass/MBeanInstantiator vector was not fixed in Oracle Java 7 Update 11.  If there is still a vulnerable condition, then a separate CVE identifier might be created for the unfixed issue.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-10</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0423" class="internal">CVE-2013-0423</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment, a different vulnerability than other CVEs listed in the February 2013 CPU.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0424" class="internal">CVE-2013-0424</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect integrity via vectors related to RMI.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0425" class="internal">CVE-2013-0425</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2013-0428 and CVE-2013-0426.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0426" class="internal">CVE-2013-0426</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2013-0425 and CVE-2013-0428.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0427" class="internal">CVE-2013-0427</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and 5.0 through Update 38 allows remote attackers to affect integrity via unknown vectors related to Libraries.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0428" class="internal">CVE-2013-0428</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Libraries, a different vulnerability than CVE-2013-0425 and CVE-2013-0426.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0429" class="internal">CVE-2013-0429</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and 5.0 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to CORBA.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0430" class="internal">CVE-2013-0430</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38, allows local users to affect confidentiality, integrity, and availability via unknown vectors related to the installation process of the client.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0431" class="internal">CVE-2013-0431</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 allows user-assisted remote attackers to bypass the Java security sandbox via unspecified vectors related to JMX, aka "Issue 52," a different vulnerability than CVE-2013-1490.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-27</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0432" class="internal">CVE-2013-0432</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality and integrity via vectors related to AWT.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0433" class="internal">CVE-2013-0433</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and 5.0 through Update 38 allows remote attackers to affect integrity via unknown vectors related to Networking.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0434" class="internal">CVE-2013-0434</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality via vectors related to JAXP.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0435" class="internal">CVE-2013-0435</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect confidentiality via vectors related to JAX-WS.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0437" class="internal">CVE-2013-0437</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and JavaFX 2.2.4 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to 2D.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0438" class="internal">CVE-2013-0438</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect confidentiality via unknown vectors related to Deployment.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0440" class="internal">CVE-2013-0440</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect availability via vectors related to JSSE.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0441" class="internal">CVE-2013-0441</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via vectors related to CORBA, a different vulnerability than CVE-2013-1476 and CVE-2013-1475.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0442" class="internal">CVE-2013-0442</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via vectors related to AWT.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0443" class="internal">CVE-2013-0443</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality and integrity via vectors related to JSSE.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0444" class="internal">CVE-2013-0444</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Beans.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0445" class="internal">CVE-2013-0445</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and 5.0 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to AWT.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0446" class="internal">CVE-2013-0446</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Deployment, a different vulnerability than other CVEs listed in the February 2013 CPU.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0448" class="internal">CVE-2013-0448</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 allows remote attackers to affect integrity via unknown vectors related to Libraries.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0449" class="internal">CVE-2013-0449</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 allows remote attackers to affect confidentiality via unknown vectors related to Deployment.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0450" class="internal">CVE-2013-0450</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and 5.0 through Update 38 allows remote attackers to affect confidentiality, integrity, and availability via vectors related to JMX.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0601" class="internal">CVE-2013-0601</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2012-1530, CVE-2013-0605, CVE-2013-0616, CVE-2013-0619, CVE-2013-0620, and CVE-2013-0623.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0602" class="internal">CVE-2013-0602</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0603" class="internal">CVE-2013-0603</a></td>
+      <td class="synopsis">
+Heap-based buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0604.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0604" class="internal">CVE-2013-0604</a></td>
+      <td class="synopsis">
+Heap-based buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0603.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0605" class="internal">CVE-2013-0605</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2012-1530, CVE-2013-0601, CVE-2013-0616, CVE-2013-0619, CVE-2013-0620, and CVE-2013-0623.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0606" class="internal">CVE-2013-0606</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0612, CVE-2013-0615, CVE-2013-0617, and CVE-2013-0621.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0607" class="internal">CVE-2013-0607</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code via unspecified vectors, related to a "logic error," a different vulnerability than CVE-2013-0608, CVE-2013-0611, CVE-2013-0614, and CVE-2013-0618.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0608" class="internal">CVE-2013-0608</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code via unspecified vectors, related to a "logic error," a different vulnerability than CVE-2013-0607, CVE-2013-0611, CVE-2013-0614, and CVE-2013-0618.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0609" class="internal">CVE-2013-0609</a></td>
+      <td class="synopsis">
+Integer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0613.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0610" class="internal">CVE-2013-0610</a></td>
+      <td class="synopsis">
+Stack-based buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0626.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0611" class="internal">CVE-2013-0611</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code via unspecified vectors, related to a "logic error," a different vulnerability than CVE-2013-0607, CVE-2013-0608, CVE-2013-0614, and CVE-2013-0618.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0612" class="internal">CVE-2013-0612</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0606, CVE-2013-0615, CVE-2013-0617, and CVE-2013-0621.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0613" class="internal">CVE-2013-0613</a></td>
+      <td class="synopsis">
+Integer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0609.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0614" class="internal">CVE-2013-0614</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code via unspecified vectors, related to a "logic error," a different vulnerability than CVE-2013-0607, CVE-2013-0608, CVE-2013-0611, and CVE-2013-0618.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0615" class="internal">CVE-2013-0615</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0606, CVE-2013-0612, CVE-2013-0617, and CVE-2013-0621.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0616" class="internal">CVE-2013-0616</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2012-1530, CVE-2013-0601, CVE-2013-0605, CVE-2013-0619, CVE-2013-0620, and CVE-2013-0623.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0617" class="internal">CVE-2013-0617</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0606, CVE-2013-0612, CVE-2013-0615, and CVE-2013-0621.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0618" class="internal">CVE-2013-0618</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code via unspecified vectors, related to a "logic error," a different vulnerability than CVE-2013-0607, CVE-2013-0608, CVE-2013-0611, and CVE-2013-0614.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0619" class="internal">CVE-2013-0619</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2012-1530, CVE-2013-0601, CVE-2013-0605, CVE-2013-0616, CVE-2013-0620, and CVE-2013-0623.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0620" class="internal">CVE-2013-0620</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2012-1530, CVE-2013-0601, CVE-2013-0605, CVE-2013-0616, CVE-2013-0619, and CVE-2013-0623.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0621" class="internal">CVE-2013-0621</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0606, CVE-2013-0612, CVE-2013-0615, and CVE-2013-0617.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0622" class="internal">CVE-2013-0622</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to bypass intended access restrictions via unspecified vectors, a different vulnerability than CVE-2013-0624.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0623" class="internal">CVE-2013-0623</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2012-1530, CVE-2013-0601, CVE-2013-0605, CVE-2013-0616, CVE-2013-0619, and CVE-2013-0620.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0624" class="internal">CVE-2013-0624</a></td>
+      <td class="synopsis">
+Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allow attackers to bypass intended access restrictions via unspecified vectors, a different vulnerability than CVE-2013-0622.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0626" class="internal">CVE-2013-0626</a></td>
+      <td class="synopsis">
+Stack-based buffer overflow in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0610.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0627" class="internal">CVE-2013-0627</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in Adobe Reader and Acrobat 9.x before 9.5.3, 10.x before 10.1.5, and 11.x before 11.0.1 allows local users to gain privileges via unknown vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0630" class="internal">CVE-2013-0630</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.50 and 11.x before 11.5.502.146 on Windows and Mac OS X, before 10.3.183.50 and 11.x before 11.2.202.261 on Linux, before 11.1.111.31 on Android 2.x and 3.x, and before 11.1.115.36 on Android 4.x; Adobe AIR before 3.5.0.1060; and Adobe AIR SDK before 3.5.0.1060 allows attackers to execute arbitrary code via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0633" class="internal">CVE-2013-0633</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.51 and 11.x before 11.5.502.149 on Windows and Mac OS X, before 10.3.183.51 and 11.x before 11.2.202.262 on Linux, before 11.1.111.32 on Android 2.x and 3.x, and before 11.1.115.37 on Android 4.x allows remote attackers to execute arbitrary code via crafted SWF content, as exploited in the wild in February 2013.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0634" class="internal">CVE-2013-0634</a></td>
+      <td class="synopsis">
+Adobe Flash Player before 10.3.183.51 and 11.x before 11.5.502.149 on Windows and Mac OS X, before 10.3.183.51 and 11.x before 11.2.202.262 on Linux, before 11.1.111.32 on Android 2.x and 3.x, and before 11.1.115.37 on Android 4.x allows remote attackers to execute arbitrary code or cause a denial of service (memory corruption) via crafted SWF content, as exploited in the wild in February 2013.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0637" class="internal">CVE-2013-0637</a></td>
+      <td class="synopsis">
+Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allow attackers to obtain sensitive information via unspecified vectors.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0638" class="internal">CVE-2013-0638</a></td>
+      <td class="synopsis">
+Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2013-0647.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0639" class="internal">CVE-2013-0639</a></td>
+      <td class="synopsis">
+Integer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0640" class="internal">CVE-2013-0640</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in Adobe Reader and Acrobat 9.x through 9.5.3, 10.x through 10.1.5, and 11.x through 11.0.1 allows remote attackers to execute arbitrary code via a crafted PDF document, as exploited in the wild in February 2013, a different vulnerability than CVE-2013-0641.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0641" class="internal">CVE-2013-0641</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in Adobe Reader and Acrobat 9.x through 9.5.3, 10.x through 10.1.5, and 11.x through 11.0.1 allows remote attackers to execute arbitrary code via a crafted PDF document, as exploited in the wild in February 2013, a different vulnerability than CVE-2013-0640.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-13</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0642" class="internal">CVE-2013-0642</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0644" class="internal">CVE-2013-0644</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0649 and CVE-2013-1374.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0645" class="internal">CVE-2013-0645</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0647" class="internal">CVE-2013-0647</a></td>
+      <td class="synopsis">
+Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allow attackers to execute arbitrary code or cause a denial of service (memory corruption) via unspecified vectors, a different vulnerability than CVE-2013-0638.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0649" class="internal">CVE-2013-0649</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0644 and CVE-2013-1374.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0722" class="internal">CVE-2013-0722</a></td>
+      <td class="synopsis">
+Stack-based buffer overflow in the scan_load_hosts function in ec_scan.c in Ettercap 0.7.5.1 and earlier might allow local users to gain privileges via a Trojan horse hosts list containing a long line.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-07</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0743" class="internal">CVE-2013-0743</a></td>
+      <td class="synopsis">
+** REJECT **  DO NOT USE THIS CANDIDATE NUMBER.  ConsultIDs: none.  Reason: This candidate was withdrawn by its CNA at the suggestion of the CVE project team.  The candidate had been associated with a correct report of a security problem, but not a problem that is categorized as a vulnerability within CVE.  Compromised or unauthorized SSL certificates are not within CVE's scope.  Notes: none.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-03</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0744" class="internal">CVE-2013-0744</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the TableBackgroundPainter::TableBackgroundData::Destroy function in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code or cause a denial of service (heap memory corruption) via an HTML document with a table containing many columns and column groups.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0745" class="internal">CVE-2013-0745</a></td>
+      <td class="synopsis">
+The AutoWrapperChanger class in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 does not properly interact with garbage collection, which allows remote attackers to execute arbitrary code via a crafted HTML document referencing JavaScript objects.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0746" class="internal">CVE-2013-0746</a></td>
+      <td class="synopsis">
+Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 do not properly implement quickstubs that use the jsval data type for their return values, which allows remote attackers to execute arbitrary code or cause a denial of service (compartment mismatch and application crash) via crafted JavaScript code that is not properly handled during garbage collection.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0747" class="internal">CVE-2013-0747</a></td>
+      <td class="synopsis">
+The gPluginHandler.handleEvent function in the plugin handler in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 does not properly enforce the Same Origin Policy, which allows remote attackers to conduct clickjacking attacks via crafted JavaScript code that listens for a mutation event.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0748" class="internal">CVE-2013-0748</a></td>
+      <td class="synopsis">
+The XBL.__proto__.toString implementation in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 makes it easier for remote attackers to bypass the ASLR protection mechanism by calling the toString function of an XBL object.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0749" class="internal">CVE-2013-0749</a></td>
+      <td class="synopsis">
+Multiple unspecified vulnerabilities in the browser engine in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.1, and SeaMonkey before 2.15 allow remote attackers to cause a denial of service (memory corruption and application crash) or possibly execute arbitrary code via unknown vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0750" class="internal">CVE-2013-0750</a></td>
+      <td class="synopsis">
+Integer overflow in the JavaScript implementation in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via a crafted string concatenation, leading to improper memory allocation and a heap-based buffer overflow.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0752" class="internal">CVE-2013-0752</a></td>
+      <td class="synopsis">
+Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 allow remote attackers to execute arbitrary code or cause a denial of service (memory corruption) via a crafted XBL file with multiple bindings that have SVG content.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0753" class="internal">CVE-2013-0753</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the serializeToStream implementation in the XMLSerializer component in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via crafted web content.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0754" class="internal">CVE-2013-0754</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the ListenerManager implementation in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via vectors involving the triggering of garbage collection after memory allocation for listener objects.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0755" class="internal">CVE-2013-0755</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the mozVibrate implementation in the Vibrate library in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via vectors related to the domDoc pointer.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0756" class="internal">CVE-2013-0756</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the obj_toSource function in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via a crafted web page referencing JavaScript Proxy objects that are not properly handled during garbage collection.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0757" class="internal">CVE-2013-0757</a></td>
+      <td class="synopsis">
+The Chrome Object Wrapper (COW) implementation in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 does not prevent modifications to the prototype of an object, which allows remote attackers to execute arbitrary JavaScript code with chrome privileges by referencing Object.prototype.__proto__ in a crafted HTML document.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0758" class="internal">CVE-2013-0758</a></td>
+      <td class="synopsis">
+Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 allow remote attackers to execute arbitrary JavaScript code with chrome privileges by leveraging improper interaction between plugin objects and SVG elements.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0759" class="internal">CVE-2013-0759</a></td>
+      <td class="synopsis">
+Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.2, and SeaMonkey before 2.15 allow remote attackers to spoof the address bar via vectors involving authentication information in the userinfo field of a URL, in conjunction with a 204 (aka No Content) HTTP status code.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0760" class="internal">CVE-2013-0760</a></td>
+      <td class="synopsis">
+Buffer overflow in the CharDistributionAnalysis::HandleOneChar function in Mozilla Firefox before 18.0, Thunderbird before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via a crafted document.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0761" class="internal">CVE-2013-0761</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the mozilla::TrackUnionStream::EndTrack implementation in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.1, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code or cause a denial of service (heap memory corruption) via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0762" class="internal">CVE-2013-0762</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the imgRequest::OnStopFrame function in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.1, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code or cause a denial of service (heap memory corruption) via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0763" class="internal">CVE-2013-0763</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.1, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code or cause a denial of service (heap memory corruption) via vectors related to Mesa drivers and a resized WebGL canvas.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0764" class="internal">CVE-2013-0764</a></td>
+      <td class="synopsis">
+The nsSOCKSSocketInfo::ConnectToProxy function in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 does not ensure thread safety for SSL sessions, which allows remote attackers to execute arbitrary code via crafted data, as demonstrated by e-mail message data.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0765" class="internal">CVE-2013-0765</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0766" class="internal">CVE-2013-0766</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in the ~nsHTMLEditRules implementation in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.1, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code or cause a denial of service (heap memory corruption) via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0767" class="internal">CVE-2013-0767</a></td>
+      <td class="synopsis">
+The nsSVGPathElement::GetPathLengthScale function in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.1, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code or cause a denial of service (out-of-bounds read) via unspecified vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0768" class="internal">CVE-2013-0768</a></td>
+      <td class="synopsis">
+Stack-based buffer overflow in the Canvas implementation in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.2, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.2, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via an HTML document that specifies invalid width and height values.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0769" class="internal">CVE-2013-0769</a></td>
+      <td class="synopsis">
+Multiple unspecified vulnerabilities in the browser engine in Mozilla Firefox before 18.0, Firefox ESR 10.x before 10.0.12 and 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 10.x before 10.0.12 and 17.x before 17.0.1, and SeaMonkey before 2.15 allow remote attackers to cause a denial of service (memory corruption and application crash) or possibly execute arbitrary code via unknown vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0770" class="internal">CVE-2013-0770</a></td>
+      <td class="synopsis">
+Multiple unspecified vulnerabilities in the browser engine in Mozilla Firefox before 18.0, Thunderbird before 17.0.2, and SeaMonkey before 2.15 allow remote attackers to cause a denial of service (memory corruption and application crash) or possibly execute arbitrary code via unknown vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0771" class="internal">CVE-2013-0771</a></td>
+      <td class="synopsis">
+Heap-based buffer overflow in the gfxTextRun::ShrinkToLigatureBoundaries function in Mozilla Firefox before 18.0, Firefox ESR 17.x before 17.0.1, Thunderbird before 17.0.2, Thunderbird ESR 17.x before 17.0.1, and SeaMonkey before 2.15 allows remote attackers to execute arbitrary code via a crafted document.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-08</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0772" class="internal">CVE-2013-0772</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0773" class="internal">CVE-2013-0773</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0774" class="internal">CVE-2013-0774</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0775" class="internal">CVE-2013-0775</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0776" class="internal">CVE-2013-0776</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0777" class="internal">CVE-2013-0777</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0778" class="internal">CVE-2013-0778</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0779" class="internal">CVE-2013-0779</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0780" class="internal">CVE-2013-0780</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0781" class="internal">CVE-2013-0781</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0782" class="internal">CVE-2013-0782</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0783" class="internal">CVE-2013-0783</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0784" class="internal">CVE-2013-0784</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-19</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0836" class="internal">CVE-2013-0836</a></td>
+      <td class="synopsis">
+Google V8 before 3.14.5.3, as used in Google Chrome before 24.0.1312.52, does not properly implement garbage collection, which allows remote attackers to cause a denial of service (application crash) or possibly have unspecified other impact via crafted JavaScript code.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-10</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-0871" class="internal">CVE-2013-0871</a></td>
+      <td class="synopsis">
+Race condition in the ptrace functionality in the Linux kernel before 3.7.5 allows local users to gain privileges via a PTRACE_SETREGS ptrace system call in a crafted application, as demonstrated by ptrace_death.
+    </td>
+      <td class="impact">Important</td>
+      <td class="public_date">2013-02-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1364" class="internal">CVE-2013-1364</a></td>
+      <td class="synopsis">
+** RESERVED ** This candidate has been reserved by an organization or individual that will use it when announcing a new security problem.  When the candidate has been publicized, the details for this candidate will be provided.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2012-12-20</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1365" class="internal">CVE-2013-1365</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1366" class="internal">CVE-2013-1366</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1367" class="internal">CVE-2013-1367</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1368" class="internal">CVE-2013-1368</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1369, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1369" class="internal">CVE-2013-1369</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1370, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1370" class="internal">CVE-2013-1370</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1372, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1372" class="internal">CVE-2013-1372</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, and CVE-2013-1373.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1373" class="internal">CVE-2013-1373</a></td>
+      <td class="synopsis">
+Buffer overflow in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0642, CVE-2013-0645, CVE-2013-1365, CVE-2013-1366, CVE-2013-1367, CVE-2013-1368, CVE-2013-1369, CVE-2013-1370, and CVE-2013-1372.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1374" class="internal">CVE-2013-1374</a></td>
+      <td class="synopsis">
+Use-after-free vulnerability in Adobe Flash Player before 10.3.183.63 and 11.x before 11.6.602.168 on Windows, before 10.3.183.61 and 11.x before 11.6.602.167 on Mac OS X, before 10.3.183.61 and 11.x before 11.2.202.270 on Linux, before 11.1.111.43 on Android 2.x and 3.x, and before 11.1.115.47 on Android 4.x; Adobe AIR before 3.6.0.597; and Adobe AIR SDK before 3.6.0.599 allows attackers to execute arbitrary code via unspecified vectors, a different vulnerability than CVE-2013-0644 and CVE-2013-0649.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-12</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1473" class="internal">CVE-2013-1473</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11 and 6 through Update 38 allows remote attackers to affect integrity via unknown vectors related to Deployment.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1475" class="internal">CVE-2013-1475</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via vectors related to CORBA.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1476" class="internal">CVE-2013-1476</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via vectors related to CORBA, a different vulnerability than CVE-2013-0441 and CVE-2013-1475.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1478" class="internal">CVE-2013-1478</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to 2D.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1479" class="internal">CVE-2013-1479</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, and JavaFX 2.2.4 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1480" class="internal">CVE-2013-1480</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 through Update 11, 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via vectors related to AWT.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1481" class="internal">CVE-2013-1481</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 6 through Update 38, 5.0 through Update 38, and 1.4.2_40 and earlier allows remote attackers to affect confidentiality, integrity, and availability via unknown vectors related to Sound.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-02-01</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1489" class="internal">CVE-2013-1489</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in the Java Runtime Environment (JRE) component in Oracle Java SE 7 Update 10 and Update 11, when running on Windows using Internet Explorer, Firefox, Opera, and Google Chrome, allows remote attackers to bypass the "Very High" security level of the Java Control Panel and execute unsigned Java code without prompting the user via unknown vectors, aka "Issue 53" and the "Java Security Slider" vulnerability.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-27</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1490" class="internal">CVE-2013-1490</a></td>
+      <td class="synopsis">
+Unspecified vulnerability in Oracle Java SE 7 Update 11 (JRE 1.7.0_11-b21) allows user-assisted remote attackers to bypass the Java security sandbox via unspecified vectors, aka "Issue 51," a different vulnerability than CVE-2013-0431.  NOTE: as of 20130130, this vulnerability does not contain any independently-verifiable details, and there is no vendor acknowledgement. A CVE identifier is being assigned because this vulnerability has received significant public attention, and the original researcher has an established history of releasing vulnerability reports that have been fixed by vendors.  NOTE: this issue also exists in SE 6, but it cannot be exploited without a separate vulnerability.
+    </td>
+      <td class="impact">Critical</td>
+      <td class="public_date">2013-01-27</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1572" class="internal">CVE-2013-1572</a></td>
+      <td class="synopsis">
+The dissect_oampdu_event_notification function in epan/dissectors/packet-slowprotocols.c in the IEEE 802.3 Slow Protocols dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly handle certain short lengths, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1573" class="internal">CVE-2013-1573</a></td>
+      <td class="synopsis">
+The csnStreamDissector function in epan/dissectors/packet-csn1.c in the CSN.1 dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly handle a large number of padding bits, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1574" class="internal">CVE-2013-1574</a></td>
+      <td class="synopsis">
+The dissect_bthci_eir_ad_data function in epan/dissectors/packet-bthci_cmd.c in the Bluetooth HCI dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 uses an incorrect data type for a counter variable, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1575" class="internal">CVE-2013-1575</a></td>
+      <td class="synopsis">
+The dissect_r3_cmd_alarmconfigure function in epan/dissectors/packet-assa_r3.c in the R3 dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly handle a certain alarm length, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1576" class="internal">CVE-2013-1576</a></td>
+      <td class="synopsis">
+The dissect_sdp_media_attribute function in epan/dissectors/packet-sdp.c in the SDP dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly process crypto-suite parameters, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1577" class="internal">CVE-2013-1577</a></td>
+      <td class="synopsis">
+The dissect_sip_p_charging_func_addresses function in epan/dissectors/packet-sip.c in the SIP dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly handle offset data associated with a quoted string, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1578" class="internal">CVE-2013-1578</a></td>
+      <td class="synopsis">
+The dissect_pw_eth_heuristic function in epan/dissectors/packet-pw-eth.c in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly handle apparent Ethernet address values at the beginning of MPLS data, which allows remote attackers to cause a denial of service (loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1579" class="internal">CVE-2013-1579</a></td>
+      <td class="synopsis">
+The rtps_util_add_bitmap function in epan/dissectors/packet-rtps.c in the RTPS dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly implement certain nested loops for processing bitmap data, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1580" class="internal">CVE-2013-1580</a></td>
+      <td class="synopsis">
+The dissect_cmstatus_tlv function in plugins/docsis/packet-cmstatus.c in the DOCSIS CM-STATUS dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 uses an incorrect data type for a position variable, which allows remote attackers to cause a denial of service (infinite loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1581" class="internal">CVE-2013-1581</a></td>
+      <td class="synopsis">
+The dissect_pft_fec_detailed function in epan/dissectors/packet-dcp-etsi.c in the DCP-ETSI dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly handle fragment gaps, which allows remote attackers to cause a denial of service (loop) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1582" class="internal">CVE-2013-1582</a></td>
+      <td class="synopsis">
+The dissect_clnp function in epan/dissectors/packet-clnp.c in the CLNP dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly manage an offset variable, which allows remote attackers to cause a denial of service (infinite loop or application crash) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1583" class="internal">CVE-2013-1583</a></td>
+      <td class="synopsis">
+The dissect_version_4_primary_header function in epan/dissectors/packet-dtn.c in the DTN dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 accesses an inappropriate pointer, which allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1584" class="internal">CVE-2013-1584</a></td>
+      <td class="synopsis">
+The dissect_version_5_and_6_primary_header function in epan/dissectors/packet-dtn.c in the DTN dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 accesses an inappropriate pointer, which allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1585" class="internal">CVE-2013-1585</a></td>
+      <td class="synopsis">
+epan/tvbuff.c in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly validate certain length values for the MS-MMC dissector, which allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1586" class="internal">CVE-2013-1586</a></td>
+      <td class="synopsis">
+The fragment_set_tot_len function in epan/reassemble.c in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 does not properly determine the length of a reassembled packet for the DTLS dissector, which allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1587" class="internal">CVE-2013-1587</a></td>
+      <td class="synopsis">
+The dissect_rohc_ir_packet function in epan/dissectors/packet-rohc.c in the ROHC dissector in Wireshark 1.8.x before 1.8.5 does not properly handle unknown profiles, which allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1588" class="internal">CVE-2013-1588</a></td>
+      <td class="synopsis">
+Multiple buffer overflows in the dissect_pft_fec_detailed function in the DCP-ETSI dissector in epan/dissectors/packet-dcp-etsi.c in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 allow remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1589" class="internal">CVE-2013-1589</a></td>
+      <td class="synopsis">
+Double free vulnerability in epan/proto.c in the dissection engine in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1590" class="internal">CVE-2013-1590</a></td>
+      <td class="synopsis">
+Buffer overflow in the NTLMSSP dissector in Wireshark 1.6.x before 1.6.13 and 1.8.x before 1.8.5 allows remote attackers to cause a denial of service (application crash) via a malformed packet.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-01-29</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1591" class="internal">CVE-2013-1591</a></td>
+      <td class="synopsis">
+Stack-based buffer overflow in libpixman, as used in Pale Moon before 15.4, has unspecified impact and attack vectors.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2012-09-15</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1619" class="internal">CVE-2013-1619</a></td>
+      <td class="synopsis">
+The TLS implementation in GnuTLS before 2.12.23, 3.0.x before 3.0.28, and 3.1.x before 3.1.7 does not properly consider timing side-channel attacks on a noncompliant MAC check operation during the processing of malformed CBC padding, which allows remote attackers to conduct distinguishing attacks and plaintext-recovery attacks via statistical analysis of timing data for crafted packets, a related issue to CVE-2013-0169.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1620" class="internal">CVE-2013-1620</a></td>
+      <td class="synopsis">
+The TLS implementation in Mozilla Network Security Services (NSS) does not properly consider timing side-channel attacks on a noncompliant MAC check operation during the processing of malformed CBC padding, which allows remote attackers to conduct distinguishing attacks and plaintext-recovery attacks via statistical analysis of timing data for crafted packets, a related issue to CVE-2013-0169.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1621" class="internal">CVE-2013-1621</a></td>
+      <td class="synopsis">
+Array index error in the SSL module in PolarSSL before 1.2.5 might allow remote attackers to cause a denial of service via vectors involving a crafted padding-length value during validation of CBC padding in a TLS session, a different vulnerability than CVE-2013-0169.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1622" class="internal">CVE-2013-1622</a></td>
+      <td class="synopsis">
+** REJECT **  DO NOT USE THIS CANDIDATE NUMBER.  ConsultIDs: none.  Reason: This candidate is not a security issue.  Further investigation showed that, because of RFC noncompliance, no version or configuration of the product had the vulnerability previously associated with this ID. Notes: none.
+    </td>
+      <td class="impact">Low</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1623" class="internal">CVE-2013-1623</a></td>
+      <td class="synopsis">
+The TLS and DTLS implementations in wolfSSL CyaSSL before 2.5.0 do not properly consider timing side-channel attacks on a noncompliant MAC check operation during the processing of malformed CBC padding, which allows remote attackers to conduct distinguishing attacks and plaintext-recovery attacks via statistical analysis of timing data for crafted packets, a related issue to CVE-2013-0169.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+    <tr>
+      <td class="cve"><a href="/security/cve/CVE-2013-1624" class="internal">CVE-2013-1624</a></td>
+      <td class="synopsis">
+The TLS implementation in the Bouncy Castle Java library before 1.48 and C# library before 1.8 does not properly consider timing side-channel attacks on a noncompliant MAC check operation during the processing of malformed CBC padding, which allows remote attackers to conduct distinguishing attacks and plaintext-recovery attacks via statistical analysis of timing data for crafted packets, a related issue to CVE-2013-0169.
+    </td>
+      <td class="impact">Moderate</td>
+      <td class="public_date">2013-02-04</td>
+    </tr>
+  
+  </tbody>
+</table>
+
+
+  <div class="disclaimer">
+  <p>This page is generated automatically and has not been checked for errors or omissions.</p>
+  <p>For clarification or corrections please contact the <a href="https://access.redhat.com/security/team/contact/" class="internal">Red Hat Security Response Team.</a></p>
+</div>
+
+</div> <!-- main -->
+</div> <!-- content -->
+
+        <!-- Add avalonskin/_custom_body_post.erb to your applications views to add functionality here -->
+
+      </div>
+    </div>
+    
+    
+			</div>
+			<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="https://access.redhat.com/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="https://access.redhat.com/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="https://access.redhat.com/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="https://access.redhat.com/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="https://access.redhat.com/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="https://access.redhat.com/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="https://access.redhat.com/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="https://access.redhat.com/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="https://access.redhat.com/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+			</div>
+			<!-- end footerWrap -->
+		</div>
+	</div>
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="https://access.redhat.com/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("" != "") {
+		if ("" == "") {
+			var analyticsPageName="other|";
+		} else {
+			var analyticsPageName="|";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="https://access.redhat.com/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+	
+    
+  </body>
+</html>

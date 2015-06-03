@@ -1,0 +1,1253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head dir="ltr">
+	<script type="text/javascript">
+		var siteMapState="knowledge";
+	</script>
+
+	<!-- _preInclude -->
+	<!-- title -->
+	<title>Red Hat Identity Management and Infrastructure - Red Hat Customer Portal</title>
+	<!-- /title -->
+	<!-- /_preInclude -->
+
+	<!-- metaInclude -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="avalon-host-info" content="avalon04" />
+	<meta name="avalon-version" content="1.6.13.1" />
+	<meta name="google-site-verification" content="nP0a2DWUcOxjRgDDACHEbDptiGIGBrChbghrC0ZzcK0" />
+	<!-- /metaInclude -->
+
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/global.css?version=1.6.13.1" />
+	<link rel="stylesheet" type="text/css" media="print" href="/chrome_themes/umbra/s/print.css?version=1.6.13.1" />
+
+	<!-- cssInclude -->
+	<link rel="shortcut icon" href="/webassets/avalon/g/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/jquery-ui/cp/jquery-ui-1.8.7.custom.css?version=1.6.13.1" />
+		<!-- These 4 link(s) were added from the ContentProxy.Include --><link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/header-graphics.css" /><link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/boxes-columns.css" /><link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/product-page.css" /><link rel="stylesheet" type="text/css" media="screen, print" href="/webassets/avalon/s/bootstrap-pieces.css" />
+	<!-- /cssInclude -->
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte8.css?version=1.6.13.1" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="screen, print" href="/chrome_themes/umbra/s/ielte7.css?version=1.6.13.1" /><![endif]-->
+
+	<!-- jsInclude -->
+	<script type="text/javascript">
+		var avalon = { host: "", kbaseContext: "/kb", cspContext: "/jbossnetwork", customerCenterContext: "/wapps", lang: "en", version: "1.6.13.1", decorationWhitelist: ["https://access.redhat.com", "https://rhn.redhat.com", "docs.redhat.com"] };
+		var avalonHost = avalon.host; // deprecate this?
+	</script>
+
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-1.7.2.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery-ui-1.8.20.custom.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/bootstrap.min.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/idle-timer-1.0.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/jquery.blockUI.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/lib/autoresize.jquery.js?version=1.6.13.1"></script>
+	<script type="text/javascript" src="/webassets/avalon/j/outage/outageJson_en.js?version=1.6.13.1"></script>
+	<!--[if lte IE 7]><script type="text/javascript" src="/webassets/avalon/j/lib/icon.font.ie7.js?version=1.6.13.1"></script><![endif]-->
+	<!-- /jsInclude -->
+
+	<script type="text/javascript" src="/chrome_themes/umbra/j/base.js?version=1.6.13.1"></script>
+</head>
+
+<body dir="ltr" class="sfdc_available ">
+
+	<div id="outer-wrapper" class="wrapo"><div id="wrapper" class="wrapo">
+<!--googleoff: all-->
+<a id="skipnav" class="nodisplay" href="#navPrimary">Skip to navigation</a>
+
+<div class="wrapi" id="header-wrap">
+	<div id="header">
+		<div id="brand">
+			<a id="rhLogo" title="Go to redhat.com" href="http://www.redhat.com/">
+				<img alt="Red Hat logo" src="/chrome_themes/umbra/g/logo_redhat.png" />
+			</a>
+			<a id="portalHome" title="Go to Customer Portal Home" href="/home">
+						<img src="/chrome_themes/umbra/g/logo-customerPortal.png" alt="Customer Portal" />
+			</a>
+		</div> <!-- /brand -->
+		<div id="utility">
+			<div id="utility-links">
+				
+				<div id="accountLinksLoggedOut" class="account-links">
+					<ul>
+						<li class="first">
+							<a id="accountRegister" href="https://www.redhat.com/wapps/ugc/register.html">Register</a>
+							<span>or</span>
+							<a id="accountLogin" href="/login">Log In</a>
+						</li>
+						<li>
+							<a id="siteHelpLoggedOut" href="/help/">Help</a>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedOut -->
+				<div id="accountLinksLoggedIn" class="account-links">
+					<ul>
+						<li id="accountUser" class="first">
+							<a id="accountUserName" href="https://www.redhat.com/wapps/ugc/protected/account.html">Your account</a>
+							<ul id="accountUserNameMenu">
+								<li class="first accountInfo">
+									<h5 id="userFullName">Your account</h5>
+									<p class="accountNumber"><span class="label">Account Number</span> <span class="value"></span></p>
+								</li>
+								
+								<li class="profilePage"><a href="/user/">Profile</a></li>
+								<li class="accountSettings"><a id="accountSettings" href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Settings</a></li>
+								
+								
+								<li class="siteHelp"><a id="siteHelp" href="/help/">Help</a></li>
+								
+								
+								
+								<li class="logout"><a id="accountLogout" href="https://www.redhat.com/wapps/sso/logout.html?redirect=https://access.redhat.com/logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div> <!-- /accountLinksLoggedIn -->
+			</div> <!-- /utility-links -->
+			<div id="globalSearchBlock">
+				<div class="nodisplay" id="searchLabel">Search
+				</div>
+				<form id="topSearchForm" name="topSearchForm" method="get" action="/search/results/" enctype="application/x-www-form-urlencoded"> 
+					<div id="searchWrapSelect"> 
+						<div id="searchSelect"> 
+							<span class="label nodisplay">Search Customer Portal
+							</span><select id="col" name="col" size="1" style="display: none;">	<option value="avalon_portal" selected="selected">Search Customer Portal</option>
+	<option value="redhat_kbase">Search Knowledgebase</option>
+</select>
+							<div id="searchLocationBox" class="js-searchDrop" style="display: none;"> 
+								<dl> 
+									<dt>Search Location</dt>
+										<dd class="selected" id="searchDropRedhat"><div>Search Customer Portal</div></dd> 
+										<dd id="searchDropRedhat_kbase"><div>Search Knowledgebase</div></dd>
+								</dl> 
+							</div> 
+						</div><!-- /searchSelect --> 
+					</div><!-- /searchWrapSelect --> 
+					<div id="searchWrapField"> 
+						<input type="hidden" name="topSearchForm" value="topSearchForm" />
+						<input type="hidden" name="language" value="en" />
+						<div id="search-field">
+							<label for="topSearchInput">Search</label>
+							<input id="topSearchInput" name="quickSearch" class="searchField" type="text" value="Search" />
+						</div>
+						<div id="search-button">
+							<input id="searchButton" src="/chrome_themes/umbra/g/b_search-wht.png" alt="Search" name="searchButton" value="Search" class="magGlass" type="image" />
+						</div>
+					</div><!-- /searchWrapField -->
+				</form>
+			</div> <!-- /globalSearchBlock -->
+		</div> <!--  /utility --><div class="clearWrap" id="navWrap">
+<div id="navPrimary">
+<ul>
+<li class="" id="navhome">
+<a id="navHomeLink" href="https://access.redhat.com/home"><span>Home</span></a>
+</li>
+<li id="navknowledge" class="">
+<a id="knowledge" href="https://access.redhat.com/knowledge/" name="knowledge">Knowledge</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="navsolutions">
+<a href="https://access.redhat.com/knowledge/solutions">Solutions</a>
+</li>
+<li class="navarticles">
+<a href="https://access.redhat.com/knowledge/articles">Articles</a>
+</li>
+<li class="navproductdocumentation">
+<a href="https://access.redhat.com/knowledge/docs/">Product Documentation</a>
+</li>
+<li class="navreferencearchitectures">
+<a href="https://access.redhat.com/knowledge/refarch/">Reference Architectures</a>
+</li>
+<li class="navvideos">
+<a href="https://access.redhat.com/knowledge/videos/">Videos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Products</dt>
+<dd>
+<ul>
+<li class="navidmproduct">
+<a href="https://access.redhat.com/products/Identity_Management/">Red Hat Identity Management &amp; Infrastructure</a>
+</li>
+<li class="navstorageproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Storage/">Red Hat Storage</a>
+</li>
+<li class="navrhevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Virtualization/">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/Red_Hat_Enterprise_Linux/Developer/">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="navdevproduct">
+<a href="https://access.redhat.com/products/JBoss/">JBoss Enterprise Middleware</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Additional Resources</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navwebinars">
+<a href="https://www.redhat.com/webinars/">Webinars</a>
+</li>
+<li class="navsuccessstories">
+<a href="http://customers.redhat.com/">Success Stories</a>
+</li>
+<li class="navtraining">
+<a href="https://www.redhat.com/training/">Training</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navcommunity" class="">
+<a id="community" href="https://access.redhat.com/groups/groups-dashboard" name="community">Groups</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>My Groups</dt>
+<dd>
+<ul>
+<li class="communitydashboard">
+<a href="https://access.redhat.com/groups/groups-dashboard">Dashboard</a>
+</li>
+<li class="communityProfile">
+<a href="https://access.redhat.com/user">Profile</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Featured Groups</dt>
+<dd>
+<ul>
+<li class="communityredhat">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux">Red Hat Enterprise Linux</a>
+</li>
+<li class="rhel7ideas">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-7-ideas">Red Hat Enterprise Linux 7 Ideas</a>
+</li>
+<li class="rhelDev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-linux-developer-program">Red Hat Enterprise Linux Developer Program</a>
+</li>
+<li class="communityrhev">
+<a href="https://access.redhat.com/groups/red-hat-enterprise-virtualization">Red Hat Enterprise Virtualization</a>
+</li>
+<li class="communityrhs">
+<a href="https://access.redhat.com/groups/red-hat-storage">Red Hat Storage</a>
+</li>
+<li class="communityjboss">
+<a href="https://access.redhat.com/groups/jboss-enterprise-middleware">JBoss Enterprise Middleware</a>
+</li>
+<li class="communitysatellite">
+<a href="https://access.redhat.com/groups/red-hat-network-satellite">Red Hat Network Satellite</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Other Groups</dt>
+<dd>
+<ul>
+<li class="communitygettingstarted">
+<a href="https://access.redhat.com/groups/getting-started-red-hat-products">Getting Started with Red Hat</a>
+</li>
+<li class="communitysitesuggestions">
+<a href="https://access.redhat.com/groups/red-hat-customer-portal">Red Hat Customer Portal</a>
+</li>
+</ul>
+</dd>
+<dt>References</dt>
+<dd>
+<ul>
+<li class="groupsFaq">
+<a href="https://access.redhat.com/groups/groups/groups-faq">Groups FAQ</a>
+</li>
+<li class="groupsRules">
+<a href="https://access.redhat.com/groups/groups/rules-engagement">Rules of Engagement</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsupportCases" class="">
+<a id="supportCases" href="https://access.redhat.com/support/" name="supportCases">Support</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Support Cases</dt>
+<dd>
+<ul>
+<li class="navcasescreate">
+<a href="https://access.redhat.com/support/cases/new">Open a New Support Case</a>
+</li>
+<li class="navcasescreatebeta">
+<a href="https://access.redhat.com/support/beta/cases/new">With Recommendations </a>
+</li>
+<li class="navcasesview">
+<a href="https://access.redhat.com/support/cases/list">View Support Cases</a>
+</li>
+<li class="navcasesviewbeta">
+<a href="https://access.redhat.com/support/beta/cases">With Recommendations </a>
+</li>
+<li class="navphonenumbersandhours">
+<a href="https://access.redhat.com/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a>
+</li>
+<li class="navsupportpolicygeneralsev">
+<a href="https://access.redhat.com/support/policy/severity/">Severity Definitions</a>
+</li>
+<li class="navsupportremote">
+<a href="https://remotesupport.redhat.com/">Remote Access Support</a>
+</li>
+</ul>
+</dd>
+<dt>Supported Environments</dt>
+<dd>
+<ul>
+<li class="navcertifiedhardware2">
+<a href="http://hardware.redhat.com/">Certified Hardware</a>
+</li>
+<li class="navjboss">
+<a href="https://access.redhat.com/support/configurations/jboss/">JBoss Supported Configurations</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Product Life Cycles</dt>
+<dd>
+<ul>
+<li class="navproductupdatepolicies">
+<a href="https://access.redhat.com/support/policy/update_policies.html">Life Cycle &amp; Update Policies</a>
+</li>
+</ul>
+</dd>
+<dt>Support Programs</dt>
+<dd>
+<ul>
+<li class="navproductionsupport">
+<a href="https://access.redhat.com/support/offerings/production/">Production Support</a>
+</li>
+<li class="navdevelopersubscriptions">
+<a href="https://access.redhat.com/support/offerings/developer/">Development Support</a>
+</li>
+<li class="navopenshift">
+<a href="https://access.redhat.com/support/offerings/openshift/">OpenShift Online Support</a>
+</li>
+<li class="navtechnicalaccountmanagement">
+<a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a>
+</li>
+<li class="navhardwarecertification">
+<a href="https://access.redhat.com/support/offerings/hwcert/">Hardware Certification</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Help &amp; Assistance</dt>
+<dd>
+<ul>
+<li class="navgettingstarted">
+<a href="https://access.redhat.com/support/start/">Getting Started</a>
+</li>
+<li class="navcontactingredhat">
+<a href="https://access.redhat.com/support/contact/">Contacting Red Hat</a>
+</li>
+<li class="navmanagementescalation">
+<a href="https://access.redhat.com/support/policy/mgt_escalation.html">Management Escalation</a>
+</li>
+<li class="navsupportfaq">
+<a href="https://access.redhat.com/support/policy/support_process.html">Support FAQs</a>
+</li>
+</ul>
+</dd>
+<dt>Site Help</dt>
+<dd>
+<ul>
+<li class="navportalfaq">
+<a href="https://access.redhat.com/kb/docs/DOC-33845">Portal FAQs</a>
+</li>
+<li class="navloginassistance">
+<a href="https://access.redhat.com/site/help/LoginAssistance.html">Login Assistance</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navdownloads" class="">
+<a id="downloads" href="https://access.redhat.com/downloads/" name="downloads">Downloads</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Red Hat Enterprise Linux</dt>
+<dd>
+<ul>
+<li class="navrhnchannels">
+<a href="https://rhn.redhat.com/rhn/software/channels/All.do">Channels</a>
+</li>
+<li class="navrhnsoftware">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do">Downloads</a>
+</li>
+<li class="navrhnevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+<li class="navrhnpackages">
+<a href="https://rhn.redhat.com/rhn/channels/software/Search.do">Packages</a>
+</li>
+<li class="">
+<a href="https://rhn.redhat.com/rhn/errata/RelevantErrata.do">Errata</a>
+</li>
+<li class="navcode">
+<a href="https://access.redhat.com/knowledge/sources/">Source</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>JBoss Enterprise Middleware</dt>
+<dd>
+<ul>
+<li class="navjbossenterprisemiddleware">
+<a href="https://access.redhat.com/jbossnetwork/restricted/listSoftware.html">Downloads</a>
+</li>
+<li class="navjbossevaluationsdemos">
+<a href="https://access.redhat.com/downloads#eval">Evaluations &amp; Demos</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Red Hat Storage</dt>
+<dd>
+<ul>
+<li class="navstoragedownloads">
+<a href="https://rhn.redhat.com/rhn/software/downloads/SupportedISOs.do?filter_string=red%20hat%20storage">Downloads</a>
+</li>
+</ul>
+</dd>
+<dt>Additional Downloads</dt>
+<dd>
+<ul>
+<li class="navfontsdownloads">
+<a href="https://access.redhat.com/downloads/other">Fonts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsecurity" class="returnLeft">
+<a id="security" href="https://access.redhat.com/security/" name="security">Security</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Security Updates</dt>
+<dd>
+<ul>
+<li class="navactiveproducts">
+<a href="https://access.redhat.com/security/updates/active/">Active Products</a>
+</li>
+<li class="navendoflifeproducts">
+<a href="https://access.redhat.com/security/updates/eol/">End-of-Life Products</a>
+</li>
+<li class="navnotificationsadvisory">
+<a href="https://access.redhat.com/security/updates/advisory/">Notifications &amp; Advisories</a>
+</li>
+</ul>
+</dd>
+<dt>Resources</dt>
+<dd>
+<ul>
+<li class="navcvedatabase">
+<a href="https://access.redhat.com/security/cve">CVE Database</a>
+</li>
+<li class="navsecuritymeasurement">
+<a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a>
+</li>
+<li class="navredhatgpgkeys">
+<a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Policies &amp; Definitions</dt>
+<dd>
+<ul>
+<li class="navseverityratings">
+<a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a>
+</li>
+<li class="navbackportingpolicy">
+<a href="https://access.redhat.com/security/updates/backporting/">Backporting Policy</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Security Team</dt>
+<dd>
+<ul>
+<li class="navsecurityblog">
+<a href="http://securityblog.redhat.com/">Security Blog</a>
+</li>
+<li class="navsecurityresponseteam">
+<a href="https://access.redhat.com/security/team/">Security Response Team</a>
+</li>
+<li class="navsecuritycontacts">
+<a href="https://access.redhat.com/security/team/contact/">Security Contacts</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+<li id="navsubscription" class="returnLeft">
+<a id="subscription" href="https://access.redhat.com/management/" name="subscription">Subscriptions</a>
+<div class="filler"></div>
+<div class="mega">
+<div class="top">
+<div class="cap"></div>
+</div>
+<div class="body">
+<div class="cap">
+<div class="col first">
+<dl>
+<dt>Subscriptions</dt>
+<dd>
+<ul>
+<li class="navsubscriptionsoverview">
+<a href="https://access.redhat.com/management/">Overview</a>
+</li>
+<li class="navsubscriptionsactivesubscriptions">
+<a href="https://access.redhat.com/wapps/support/protected/subscriptions.html">Active Subscriptions</a>
+</li>
+<li class="navsubscriptionsrenewals">
+<a href="https://access.redhat.com/wapps/support/protected/renewals.html">Renewals</a>
+</li>
+<li class="navsubscriptionsorderhistory">
+<a href="https://www.redhat.com/wapps/orderhistory/">Web Store Order History</a>
+</li>
+<li class="navsubscriptionsactivation">
+<a href="https://access.redhat.com/subscriptions/activate">Subscription Activation</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col">
+<dl>
+<dt>Subscription Management</dt>
+<dd>
+<ul>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/consumers/">Units</a>
+</li>
+<li class="navrhsmconsumers">
+<a href="https://access.redhat.com/management/distributors/">Subscription Management Applications</a>
+</li>
+</ul>
+</dd>
+<dt>RHN Classic</dt>
+<dd>
+<ul>
+<li class="navrhsmclassicentitlements">
+<a href="https://rhn.redhat.com/rhn/systems/SystemEntitlements.do">Entitlements</a>
+</li>
+<li class="navrhsmclassicsystems">
+<a href="https://rhn.redhat.com/rhn/systems/SystemList.do">Registered Systems</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="col last">
+<dl>
+<dt>Organization</dt>
+<dd>
+<ul>
+<li class="navorganization">
+<a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html">Users &amp; Permissions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+<div class="bottom">
+<div class="cap"></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<!--[if IE 6]><div id="ie6"><p>Support for Internet Explorer 6 has ended. <a href="/site/help/browsers/">View our browser support policy</a></p></div><![endif]-->
+	</div> <!-- /header -->
+</div> <!-- /wrapi -->
+<!--googleon: all-->
+		<div id="main-wrap" class="wrapu">
+			<div id="main-top"></div>
+			<div class="wrapi">
+				<div id="container" class="clearWrap">
+					<div id="content" class="c-mF">
+						<!--googleoff: all--><noscript><div id="noJavaScript" class="alertError">Note: Our personalized web services require that your browser be enabled for JavaScript and cookies</div></noscript><!--googleon: all-->		
+						<div id="main" class=""><div class="assistive">
+	<h1>Red Hat Identity Management and Infrastructure</h1>
+</div>
+
+<div id="idm-page" class="clearWrap product-page">
+	    
+    <div id="idm-graphic" class="product-graphic dandelion-banner"><div class="graphic-inner"><div class="graphic-inner2">
+		<h1><span>Red Hat<sup>&reg;</sup> </span>Identity Management and Infrastructure</h1>
+	</div></div></div>     
+	
+	<ul class="ui-tabs-nav">
+		<li><a href="#overview">Overview &amp; Getting Started</a></li>
+		<li><a href="#knowledge">Knowledge &amp; Helpful Resources</a></li>
+		<li><a href="#downloads">Downloads</a></li>
+		<li><a href="#support">Help &amp; Support</a></li>
+	</ul>
+
+
+<!-- ######################################## CONTENT - OVERVIEW ######################################## -->
+
+
+	<div id="overview">
+	
+	<div class="column first-column wide-margin two-thirds-column">
+		<p>Red Hat provides a portfolio of standards-based identity management offerings to manage individual identities and their authentication, authorization, and privileges/permissions to increase the security of your system and help to ensure that the right people have access to the right information when they need it.</p>
+		<span class="img-right"><img src="/webassets/avalon/g/idm.png"/></span>
+		<p>The Red Hat identity Management portfolio consists of three distinct solutions that use related technologies but are combined and optimized to solve different use cases. These three solutions, one feature set in Red Hat Enterprise Linux and two Red Hat Enterprise Linux add-on products, are described below:</p>
+		<p><strong>Identity Management in Red Hat Enterprise Linux</strong> is a feature set specifically designed and integrated into Red Hat Enterprise Linux 6.2 and later to simplify identity management. This feature set is available free with your Red Hat Enterprise Linux subscription. It allows you to expand your use of Linux while at the same time reducing costs, administrative load, and rising compliance levels by implementing central authentication, identity look-up service, and fine-grained access control.</p>
+
+		<p><strong>Red Hat® Directory Server</strong> is an LDAP-compliant server product that centralizes user identity and application information. It provides an operating-system independent, network-based registry for storing application settings, user profiles, group data, policies, and access-control information. It is very flexible and can support custom schema.</p>
+
+		<p><strong>Red Hat® Certificate System</strong> provides a powerful security framework to manage user identities and ensure communication privacy. Handling the major functions of the identity life cycle, Red Hat Certificate System simplifies enterprise-wide deployment and adoption of a public key infrastructure (PKI).</p>
+
+
+	<h2>Identity Management in Red Hat Enterprise Linux</h2>
+
+	<p>Identity Management in Red Hat Enterprise Linux provides a centralized and clear way to manage identities for users, machines, and services within large Linux/Unix enterprise environments. Identity Management also provides a way to define access-control policies to govern those identities. In addition, in mixed Windows/Linux environments, Identity Management in Red Hat Enterprise Linux inter-operates with Microsoft Active Directory for easier identity management administration.</p>
+
+	<p>Because Identity Management is integrated with Red Hat Enterprise Linux, it is an easy and cost-effective way to introduce identity and policy management wherever you need it. It is a free feature set included with your Red Hat Enterprise Linux subscription.</p>
+
+	<p>Features include:</p>
+	<ul>
+		<li>Integrated, native user, host, and service and authentication and access control</li>
+		<li>Consistent and manageable identity management</li>                     
+		<li>Standards-based, trusted technologies</li>
+		<li>Easy and clear ways to implement, maintain, and understand authentication and access-control policies</li>
+		<li>Flexible access-control rules based on sudo rules, host-based rules, and other criteria</li>
+		<li>Consistent and universal password policies for users</li>
+		<li>Integration with established Linux/Unix services like NFS, automount, NIS, NTP, Kerberos, and DNS into a single management domain</li>
+		<li>Up to 20 servers and replicas and an unlimited number of clients in a single domain</li>
+	</ul>
+
+
+	<h2>Red Hat Directory Server</h2>
+
+	<p>Red Hat Directory Server is an LDAP-compliant server that centralizes application settings, user profiles, group data, policies, and access-control information in a network-based registry. Red Hat Directory Server simplifies user management by eliminating data redundancy and automating data maintenance. It also improves security, enabling administrators to store policies and access-control information in the directory for a single authentication source across enterprise or extranet applications.</p>
+
+	<p>Features include:</p>
+	<ul>
+		<li>Centralized management of people and their profiles, thus reducing administrative costs</li>
+		<li>Central repository for user profiles and preferences, enabling personalization of applications and systems</li>
+		<li>Twenty-way, multi-master replication of data across the enterprise, providing a centralized, consistent data source available to enterprise applications</li>
+		<li>Single sign-on access</li>
+		<li>Scalability for massive numbers of users by containing the information control required for developing extranet applications</li>
+		</ul>
+
+	<h2>Red Hat Certificate System</h2>
+
+	<p>The Red Hat Certificate System is an enterprise-class open source Certificate Authority (CA). It is a full-featured system that supports all aspects of certificate life-cycle management, including key archival, Online Certificate Status Protocol (OCSP), and smart-card management. A certificate has a long life cycle, beginning with the initial request and ending when it's revoked or expired. There are different operations for validating a request, issuing and revoking the certificate, and checking its status; it is also possible to use smart cards or to recover lost keys. Red Hat Certificate System combines these functions to centralize control for your public key infrastructure&mdash;validating requests, issuing certificates, storing keys, processing OCSP requests, and managing tokens.</p>
+
+	<p>Features include:</p>
+	<ul>
+    		<li>Certificate issuance, revocation, and retrieval</li>
+    		<li>Certificate Revocation List (CRL) generation and publishing</li>
+    		<li>Certificate profiles</li>
+    		<li>Simple Certificate Enrollment Protocol (SCEP)</li>
+    		<li>Local Registration Authority (LRA) for organizational authentication and policies</li>
+    		<li>Encryption key archival and recovery</li>
+    		<li>Smart-card life cycle management</li>
+    		<li>Token profiles</li>
+    		<li>Token enrollment, on-hold, key recovery, and format</li>
+     		<li>Face-to-face enrollment with the security officer workstation interface</li>
+	</ul>
+		
+
+	</div> 
+	 
+	<div class="column second-column wide-margin one-third-column sidebar"> 
+		<h2 class="old-school">Start Here</h2> 
+		<div class="indent">
+			<ul>
+				<li><a href="https://access.redhat.com/wapps/activate">Activate a New Subscription</a></li>
+			</ul>
+		</div>
+	
+		<h2 class="old-school">Engage the Community</h2> 
+		<div class="indent">
+      		<h3>Customer Portal Groups</h3>
+			<ul>
+				<li><a href="/groups/groups-dashboard">Red Hat Groups</a></li>
+			</ul>
+		</div>
+		
+		<div class="indent">
+      		<h3>Local Groups</h3>
+			<ul>
+				<li><a href="http://redhat.meetup.com/">Find a Local Meetup Group</a></li>
+	
+			</ul>
+		</div>
+	
+		<h2 class="old-school">Training &amp; Certifications</h2> 
+		<div class="indent">
+			<ul>
+				<li><a href="https://www.redhat.com/courses/rh145_red_hat_directory_server_administration/">Red Hat Directory Server Administration (RH145)</a></li>
+				<li><a href="http://www.redhat.com/training/courses/rh424/">Red Hat Enterprise Directory Services and Authentication with Exam (RH424)</a></li>
+				<li><a href="http://www.redhat.com/training/certifications/rhce/">Red Hat Certified Engineer (RHCE)</a></li>
+				<li><a href="http://www.redhat.com/training/">More Information</a></li>
+ 			</ul>
+		</div>
+	</div>
+
+
+</div>
+
+
+<!-- ######################################## CONTENT - KNOWLEDGE ######################################## -->
+
+
+	<div id="knowledge">          
+	
+	
+		<div class="column first-column wide-margin two-thirds-column">
+		
+		
+			<h2>Recommended Videos</h2>
+			
+				<!--  Recommended Videos Content -->
+				<ul class="recommended-videos videos">
+
+				     <li>
+						<div class="video_thumbnail"><a href="/knowledge/videos/214503" class="imagecache imagecache-video_thumbnail imagecache-linked imagecache-video_thumbnail_linked"><img src="/webassets/avalon/g/videos/rhel_ldap_introduction_karanrai_tn.jpg" alt="Introduction to LDAP--Part 1 thumbnail" title=""  class="imagecache imagecache-video_thumbnail" width="140" height="79" /></a></div>
+						<h3><a href="/knowledge/videos/214503"><div class="description">Introduction to LDAP&mdash;Part 1</a></h3>
+				        <p>Senior Technical Support Engineer Karan Rai gives an overview of Lightweight Directory Access Protocol (LDAP). Topics covered include how LDAP stores data, examples of LDAP databases, a breakdown of common terms associated with LDAP, and how LDAP Data Interchange Format (LDIF) works.</p>
+				     </li>
+
+				     <li>
+						<div class="video_thumbnail"><a href="/knowledge/videos/214513" class="imagecache imagecache-video_thumbnail imagecache-linked imagecache-video_thumbnail_linked"><img src="/webassets/avalon/g/videos/rhel_ldap_introduction_karanrai_tn.jpg" alt="Configuring OpenLDAP--Part 2 thumbnail" title=""  class="imagecache imagecache-video_thumbnail" width="140" height="79" /></a></div>
+						<h3><a href="/knowledge/videos/214513"><div class="description">Configuring OpenLDAP&mdash;Part 2</a></h3>
+				        <p>In the second part of his LDAP video series, Senior Technical Support Engineer Karan Rai discusses how to configure an LDAP server using OpenLDAP, as well as use of OpenLDAP tools like ldapadd, ldapdelete, ldapsearch, and ldapmodify..</p>
+				     </li>
+
+				     <li class="clear">
+						<div class="video_thumbnail"><a href="/knowledge/videos/214853" class="imagecache imagecache-video_thumbnail imagecache-linked imagecache-video_thumbnail_linked"><img src="/webassets/avalon/g/videos/rhel_ldap_introduction_karanrai_tn.jpg" alt="Using LDAP to Automount Home Directories with Autofs Maps--Part 3 thumbnail" title=""  class="imagecache imagecache-video_thumbnail" width="140" height="79" /></a></div>
+						<h3><a href="/knowledge/videos/214853"><div class="description">Using LDAP to Automount Home Directories with Autofs Maps&mdash;Part 3</a></h3>
+				        <p>In part three of Karan Rai's LDAP video series, he demonstrates how to automount users' home directories using the autofs service. Demonstrated is how to modify the auto.master and auto.home files to automount directories for all LDAP users.</p>
+				     </li>
+
+				</ul>	
+				
+			<div class="box-column full-column first-box"><div class="box-column-inner">
+				<h2>Plan &amp; Deploy</h2>
+					<ul class="withIcons">
+						<li class="withIcon iconSpecDocument"><a href="/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Deployment_Guide/index.html">Red Hat Directory Server 9.0.1 Deployment Guide</a></li>
+						<li class="withIcon iconSpecDocument"><a href="/knowledge/docs/en-US/Red_Hat_Directory_Server/9.0/html/Installation_Guide/index.html">Red Hat Directory Server 9.0 Installation Guide</a></li>
+						<li class="withIcon iconSpecDocument"><a href="/knowledge/docs/en-US/Red_Hat_Certificate_System/8.1/html/Deploy_and_Install_Guide/index.html">Red Hat Certificate System 8.1 Deployment, Planning, and Installation</a></li>
+						<li class="withIcon iconSpecDocument"><a href="/knowledge/docs/en-US/Red_Hat_Certificate_System_Common_Criteria_Certification/8.1/html/Deploy_and_Install_Guide/index.html">Red Hat Certificate System Common Criteria Certification 8.1 Deployment, Planning, and Installation</a></li>
+					</ul>
+
+				</div></div>
+			
+		</div> 
+		 
+	<div class="column second-column wide-margin one-third-column sidebar"> 
+			<h2 class="old-school">Product Documentation</h2> 
+			<div class="indent">
+				<ul>
+		
+					<li><a href="/knowledge/docs/Red_Hat_Directory_Server/">Red Hat Directory Server</a></li>
+					<li><a href="/knowledge/docs/Red_Hat_Certificate_System/">Red Hat Certificate System</a></li>
+					<li><a href="/knowledge/docs/Red_Hat_Certificate_System_Common_Criteria_Certification/">Red Hat Certificate System Common Criteria Certification</a></li>
+				</ul>
+			</div>
+		
+		<h2 class="old-school">Engage the Community</h2> 
+		<div class="indent">
+	      	<h3>Customer Portal Groups</h3>
+			<ul>
+				<li><a href="/groups/groups-dashboard">Red Hat Groups</a></li>
+			</ul>
+		</div>
+		
+		<div class="indent">
+	      	<h3>Local Groups</h3>
+			<ul>
+				<li><a href="http://redhat.meetup.com/">Find a Local Meetup Group</a></li>
+	
+			</ul>
+		</div>
+	
+		<h2 class="old-school">Training &amp; Certifications</h2> 
+		<div class="indent">
+			<ul>
+				<li><a href="https://www.redhat.com/courses/rh145_red_hat_directory_server_administration/">Red Hat Directory Server Administration (RH145)</a></li>
+				<li><a href="http://www.redhat.com/training/courses/rh424/">Red Hat Enterprise Directory Services and Authentication with Exam (RH424)</a></li>
+				<li><a href="http://www.redhat.com/training/certifications/rhce/">Red Hat Certified Engineer (RHCE)</a></li>
+				<li><a href="http://www.redhat.com/training/">More Information</a></li>
+ 			</ul>
+		</div>
+		</div>
+	
+	
+	</div>
+
+
+<!-- ######################################## CONTENT - DOWNLOADS ######################################## -->
+          
+
+	<div id="downloads">
+	
+		<div class="column first-column wide-margin two-thirds-column">
+
+				
+			<div class="first-box box-column full-column"><div class="box-column-inner">
+				<h2>Want to give Identity Management a try?</h2>
+				<p><a href="https://rhn.redhat.com/rhn/software/channels/All.do" class="btn btn-large btn-warning"><i class="icon-download icon-white"></i>  Download an evaluation</a></p>
+			</div></div>
+			<div class="first-box box-column full-column"><div class="box-column-inner">
+				<h2>Ready to buy a subscription?</h2>
+				<p><a href="/support/contact/Sales.html" class="btn btn-large btn-info">Contact a regional sales team <i class="icon-arrow-right icon-white"></i></a></p>
+			</div></div>
+		
+			
+		</div>
+		
+		<div class="column second-column wide-margin one-third-column sidebar">
+				<h2 class="old-school">Help &amp; Assistance</h2> 
+				<div class="indent">
+					<ul>
+						<li><a href="/support/start/">Getting Started</a></li>
+						<li><a href="/support/contact/">Contacting Red Hat</a></li>
+						<li><a href="/support/policy/mgt_escalation.html">Management Escalation</a></li>
+						<li><a href="/support/policy/support_process.html">Support FAQs</a></li>
+					</ul>
+				</div>
+			
+				<h2 class="old-school">Product Support Policies</h2> 
+				<div class="indent">
+					<ul>
+						<li><a href="/support/policy/updates/directory/">Red Hat Directory Server Support Policy</a></li>
+						<li><a href="/support/policy/updates/certificate/">Red Hat Certificate System Support Policy</a></li>
+					</ul>
+				</div>
+			
+				<h2 class="old-school">Support Cases</h2> 
+				<div class="indent">
+					<ul>
+						<li><a href="/support/cases/new">Open a New Support Case</a></li>
+						<li><a href="/support/cases/list">View Support Cases</a></li>
+						<li><a href="/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a></li>
+					</ul>
+				</div>
+			</div>
+	
+		
+	
+	</div>
+
+<!-- ######################################## CONTENT - SUPPORT ######################################## -->
+
+
+	<div id="support">
+	
+	       
+			<div class="column first-column wide-margin two-thirds-column">
+			
+				<h2>Top Solutions for Identity Management</h2>
+				<ul class="withIcons">
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/43646">How do I authenticate RHEL6 to Windows 2008 R2 system using LDAP and kerberos?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/62794">How do I configure RHEL6 machine as an LDAP Client?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/220963">When my first Identity Management server goes down, why can users no longer login although I have an IdM replica in placa system in place?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/98043">How to configure DNS SRV records for an IPA / IdM replica?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/articles/136933">IdM/IPA replica install error - Replica has a different generation ID than the local data - scenario with network connections problems</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/140953">How to add a service account in IdM/IPA with a password that does not expire?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/136993">IdM/IPA replica install error - Replica has a different generation ID than the local data - scenario with multiple replica install and un-install</a></li>
+				</ul>
+		
+				<h2>Top Solutions for Red Hat Certificate System</h2> 
+				<ul class="withIcons">
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/44890">How to customize Red Hat Certificate System root Certificate Authority signing cert validity dates and extensions?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/35739">Support for RFC 4262- X509v3 Certificate Extension for Secure/Multipurpose Internet Mail Extension(S/MIME) Capabilities in Red Hat Certificate Server</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/45787">How to Migrate the Openldap Database from RHEL3 to RHEL5 and RHEL6</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/articles/133053">How to reset the Red Hat Certificate System admin password</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/articles/9623">How to publish or store digital certificates and CRLs in a Directory server?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/75693">Red Hat Certificate System CA subsystem start exception on PassThroughRequestFilter after upgrading from 8.0 to 8.1</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/117223">IPA Frequently Asked Questions</a></li>
+				</ul>
+
+				<h2>Top Solutions for Red Hat Directory Server</h2> 
+				<ul class="withIcons">
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/29908">How to authenticate Red Hat Enterprise Linux 5 against Windows 2008 Active Directory using LDAP and Kerberos method</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/67432">How to join Red Hat Enterprise Linux 6 to Microsoft Windows Active Directory 2003 domain using Kerberos and samba/winbind method</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/38106">Where can I download PassSync.msi for Red Hat Directory Server/ IPA Server?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/63204">What should be the best practice for password policies in RHDS replication scenerio?</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/44439">How do I use the rfc2307bis schema in Red Hat Directory Server 8.1 or 8.2</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/41668">Posix Attributes and LDAP replication, uidNumber, gidNumber, HomeDirectory not synced from Active Directory to Red Hat Directory Server</a></li>
+					<li class="withIcon iconSpecDocument"><a href="https://access.redhat.com/knowledge/solutions/162833">Is it possible to set up replication between RHDS8 and RHDS9?</a></li>
+				</ul>
+				
+			</div> 
+	 
+	<div class="column second-column wide-margin one-third-column sidebar"> 
+				<h2 class="old-school">Help &amp; Assistance</h2> 
+				<div class="indent">
+					<ul>
+						<li><a href="/support/start/">Getting Started</a></li>
+						<li><a href="/support/contact/">Contacting Red Hat</a></li>				                <li><a href="/support/policy/mgt_escalation.html">Management Escalation</a></li>
+						<li><a href="/support/policy/support_process.html">Support FAQs</a></li>
+					</ul>
+				</div>
+			
+				<h2 class="old-school">Product Support Policies</h2> 
+				<div class="indent">
+					<ul>
+						<li><a href="/support/policy/updates/directory/">Red Hat Directory Server Support Policy</a></li>
+						<li><a href="/support/policy/updates/certificate/">Red Hat Certificate System Support Policy</a></li> 
+					</ul>
+				</div>
+			
+				<h2 class="old-school">Support Cases</h2> 
+				<div class="indent">
+					<ul>
+						<li><a href="/support/cases/new">Open a New Support Case</a></li>
+						<li><a href="/support/cases/list">View Support Cases</a></li>
+						<li><a href="/support/contact/technicalSupport.html">Phone Numbers &amp; Hours</a></li>
+
+		
+					</ul>
+				</div>
+			</div>
+	
+	</div>
+
+</div>
+
+<script>
+	(function($) {
+		$(document).ready(function() {
+			$('#idm-page').tabs();
+		});
+	})(ajq);
+</script>
+						</div> <!-- end main -->
+					</div> <!-- end content -->
+					<br class="clearboth" />
+				</div> <!-- end container -->
+			</div> <!-- end wrapi -->
+		</div><!-- end main-wrap -->
+		<div id="footerWrap" class="wrapu">
+	<!--googleoff: all-->
+	<!-- end footer -->
+	<div id="footer" class="clearWrap"><div class="wrapi">
+		<ul id="social-links">
+			<li id="twitter"><a href="http://www.twitter.com/RedHatSupport" title="@RedHatSupport on Twitter">@RedHatSupport</a></li>
+			<li id="facebook"><a href="https://www.facebook.com/RedHatSupport" title="Red Hat Support on Facebook">Red Hat Support</a></li>
+			<li id="googleplus"><a href="https://plus.google.com/100456039940694908045/posts" title="Red Hat Support on Google+">Red Hat Support</a></li>
+		</ul><div class="footerLinks first">
+<dl>
+<dt>Frequent Actions</dt>
+<dd>
+<ul>
+<li>
+<a id="searchKbase" href="https://access.redhat.com/search/quick" name="searchKbase">Search Knowledge</a>
+</li>
+<li>
+<a id="createCase" href="https://access.redhat.com/support/cases/list" name="createCase">View Support Cases</a>
+</li>
+<li>
+<a id="downloadSoftware" href="https://access.redhat.com/downloads/" name="downloadSoftware">Download Software</a>
+</li>
+<li>
+<a id="manageSubscriptions" href="https://access.redhat.com/wapps/support/protected/subscriptions.html" name="manageSubscriptions">Manage Subscriptions</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Support</dt>
+<dd>
+<ul>
+<li>
+<a id="loginProblems" href="https://access.redhat.com/site/help/LoginAssistance.html" name="loginProblems">Login Problems</a>
+</li>
+<li>
+<a id="phoneNumbersAndHours" href="https://access.redhat.com/support/contact/technicalSupport.html" name="phoneNumbersAndHours">Phone Numbers &amp; Hours</a>
+</li>
+<li>
+<a id="contactUs" href="https://access.redhat.com/support/contact/" name="contactUs">Contact Us</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Site Info</dt>
+<dd>
+<ul>
+<li>
+<a id="browserSupportPolicy" href="https://access.redhat.com/site/help/browsers/" name="browserSupportPolicy">Browser Support Policy</a>
+</li>
+<li>
+<a id="" href="https://access.redhat.com/siteindex" name="">Site Index</a>
+</li>
+<li>
+<a id="recognition" href="https://access.redhat.com/site/recognition/" name="recognition">Awards &amp; Recognition</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><div class="footerLinks">
+<dl>
+<dt>Legal</dt>
+<dd>
+<ul>
+<li>
+<a id="termsOfUse" href="https://access.redhat.com/site/help/terms_conditions.html" name="termsOfUse">Terms of Use</a>
+</li>
+<li>
+<a id="privacyPolicy" href="https://www.redhat.com/legal/privacy_statement.html" name="privacyPolicy">Privacy Policy</a>
+</li>
+<li>
+<a id="aboutRedHat" href="https://www.redhat.com/about/" name="aboutRedHat">About Red Hat</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+	</div></div>
+
+	<div id="bottomBar"><div class="wrapi">
+		<div id="editions">
+			<ul>
+					<li><a id="en" href="/changeLanguage?language=en">English</a>
+					</li>
+					<li><a id="es" href="/changeLanguage?language=es">espa&ntilde;ol</a>
+					</li>
+					<li><a id="de" href="/changeLanguage?language=de">Deutsch</a>
+					</li>
+					<li><a id="it" href="/changeLanguage?language=it">italiano</a>
+					</li>
+					<li><a id="ko" href="/changeLanguage?language=ko">&#54620;&#44397;&#50612;</a>
+					</li>
+					<li><a id="fr" href="/changeLanguage?language=fr">fran&ccedil;ais</a>
+					</li>
+					<li><a id="ja" href="/changeLanguage?language=ja">&#26085;&#26412;&#35486;</a>
+					</li>
+					<li><a id="pt" href="/changeLanguage?language=pt">portugu&ecirc;s</a>
+					</li>
+					<li><a id="zh_CN" href="/changeLanguage?language=zh_CN">&#20013;&#25991; (&#20013;&#22269;)</a>
+					</li>
+			</ul>
+		</div>
+		<!-- end editions -->
+		<p id="copyright">Copyright &copy; 2013 Red Hat, Inc.
+		</p>
+	</div></div>
+	<!-- end bottomBar -->
+	<!--googleon: all-->
+		</div><!-- end footerWrap -->
+	</div></div><!-- end wrapper, outer-wrapper -->
+<!--googleoff: all--><!-- SiteCatalyst code version: H.1 Copyright 1997-2009 Omniture, Inc. More info available at http://www.omniture.com -->
+<script type="text/javascript" language="JavaScript" src="/webassets/avalon/j/lib/s_code_v2.js?version=1.6.13.1"></script>
+<script type="text/javascript" language="JavaScript">
+
+try {
+	var hostname = "https://access.redhat.com";
+	hostname = hostname.replace('https://', '');
+	if (hostname !== 'access.redhat.com' && hostname.indexOf('qa.red') === -1 && hostname.indexOf('stage.red') === -1 && hostname.indexOf('fte.dev') === -1) {
+		s.dynamicAccountList = 'redhatcustomerportaldev=' + hostname + ';' + s.dynamicAccountList;
+	}
+} catch (err) {
+}
+
+s.server="";
+s.channel="customer portal";
+s.pageType="";
+s.prop1="";
+s.prop14=minorSection;
+s.campaign="";
+s.eVar1="";
+s.eVar2="";
+s.eVar3="";
+s.eVar23=window.location.href;
+s.eVar27=minorSection;
+s.eVar35="customer portal";
+s.events="";
+s.products="";
+s.state="";
+s.zip="";
+s.purchaseID="";
+
+if (typeof(analyticsPageName) == 'undefined') {
+	if ("products-Identity_Management-index.html" != "") {
+		if ("knowledge" == "") {
+			var analyticsPageName="other|products-Identity_Management-index.html";
+		} else {
+			var analyticsPageName="knowledge|products-Identity_Management-index.html";
+		}
+	}
+}
+
+if (typeof(analyticsPageName) != 'undefined') {
+	s.pageName="avalon|"+analyticsPageName;
+} else if (typeof(Drupal) != 'undefined') {
+	s.pageName="avalon|"+Drupal.settings.omniturePageName;
+} else {
+	s.pageName="avalon|other|"+window.location.pathname;
+}
+
+// replace trailing slash US9487:
+s.pageName = s.pageName.replace(/\/$/, "");
+
+cookie = getCookie('rh_user');
+
+if (cookie != null && cookie != '') {
+	crumbs = cookie.split('|');
+	if (crumbs.length > 1) {
+		s.eVar37=crumbs[0];
+	}
+}
+if (typeof(analyticsPageCharSet) != 'undefined') {
+	s.charSet=analyticsPageCharSet;
+}
+if (typeof portal_s !== 'undefined') {
+	for (var key in portal_s) {
+		s[key] = portal_s[key];
+	}
+}
+
+var minorSection = siteMapState.split("/")[0];
+
+if (typeof(omniturePageType) != 'undefined') {
+	s.pageName = "";
+	s.pageType = omniturePageType;
+}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+</script><script type="text/javascript" src="/webassets/avalon/j/lib/rh_omni_footer.js?version=1.6.13.1"></script>
+<script language="JavaScript" type="text/javascript">
+if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+</script><noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="https://smtrcs.redhat.com/b/ss/redhatcustomerportal,redhatglobal/1/H.2--NS/0" height="1" width="1" border="0" alt="Omniture" /></a></noscript><!--/DO NOT REMOVE/-->
+<!-- End SiteCatalyst code version: H.1 -->
+<!--googleon: all-->
+</body>
+</html>

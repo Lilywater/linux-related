@@ -1,0 +1,7 @@
+#!/bin/bash
+svn st |grep -v ^? |grep -v -e  "MakefileCutTime" -e "Makefile" -e "TestControl" -e "run.sh" > /tmp/flist
+for i in `cat /tmp/flist |awk '{print $2}'`
+ do
+ mv "$i" "${i}.bak" 
+ svn revert  "$i"
+done

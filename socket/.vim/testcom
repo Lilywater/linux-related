@@ -1,0 +1,10 @@
+///*1 one line comment but with /*
+//*2 this is the same with above /*3
+this is //this "//" is not working */
+that /*in*/ this /*out*/ end /* all in one line */
+/*4
+tres
+/*
+this partcially added
+*/
+

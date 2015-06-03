@@ -1,0 +1,153 @@
+man man  使用技巧
+
+man [tobemaned]
+eg. man sleep
+
+The table below shows the section numbers of the manual followed by the
+       types of pages they contain.
+
+       1   Executable programs or shell commands
+       2   System calls (functions provided by the kernel)
+       3   Library calls (functions within program libraries)
+       4   Special files (usually found in /dev)
+       5   File formats and conventions eg /etc/passwd
+       6   Games
+       7   Miscellaneous  (including  macro  packages and conven‐
+           tions), e.g. man(7), groff(7)
+       8   System administration commands (usually only for root)
+       9   Kernel routines [Non standard]
+
+man sleep
+--------------------------------------------------------
+SLEEP(1)                         User Commands                        SLEEP(1)
+
+NAME
+       sleep - delay for a specified amount of time
+-------------------------------------------------------------
+
+man  -a sleep
+---------------
+SLEEP(3)                   Linux Programmer's Manual                  SLEEP(3)
+
+NAME
+       sleep - Sleep for the specified number of seconds
+
+SYNOPSIS
+       #include <unistd.h>
+
+       unsigned int sleep(unsigned int seconds);
+--------------------------------------------------------------
+
+
+
+man -k sleep  //make a list
+------------------------------
+clock_nanosleep (2)  - high-resolution sleep with specifiable clock
+nanosleep (2)        - high-resolution sleep
+rtcwake (8)          - enter a system sleep state until specified wakeup time
+sleep (1)            - delay for a specified amount of time
+sleep (3)            - Sleep for the specified number of seconds
+usleep (3)           - suspend execution for microsecond intervals
+---------------------------------------
+
+zxx@zxx-desktop:/usr/include/X11$ man -f sleep
+----------------------------------------------------
+sleep (3)            - Sleep for the specified number of seconds
+sleep (1)            - delay for a specified amount of time
+-----------------------------------------------------
+
+man 3 sleep 
+
+
+man --regex ".*map.*window"
+---------------------------------------------------
+--Man-- 下一页: XMapWindow(3) [ 查看 (return) | 跳过 (Ctrl-D) | 退出 (Ctrl-C) ]
+
+--Man-- 下一页: XUnmapWindow(3) [ 查看 (return) | 跳过 (Ctrl-D) | 退出 (Ctrl-C) ]
+
+--Man-- 下一页: XGetWMColormapWindows(3) [ 查看 (return) | 跳过 (Ctrl-D) | 退出 (Ctrl-C) ]
+--Man-- 下一页: XtSetWMColormapWindows(3) [ 查看 (return) | 跳过 (Ctrl-D) | 退出 (Ctrl-C) ]
+---------------------------------------------------------------------
+
+zxx@gll-bac:/usr/share/man$ man -k ".*map.*window"
+-----------------------------------------------------
+atobm (1)            - bitmap editor and converter utilities for the X Window System
+bitmap (1)           - bitmap editor and converter utilities for the X Window System
+bmtoa (1)            - bitmap editor and converter utilities for the X Window System
+XGetWMColormapWindows (3) - set or read a window's WM_COLORMAP_WINDOWS property
+XMapRaised (3)       - map windows
+XMapSubwindows (3)   - map windows
+XMapWindow (3)       - map windows
+XSetWMColormapWindows (3) - set or read a window's WM_COLORMAP_WINDOWS property
+XtSetWMColormapWindows (3) - Set the value of the WM_COLORMAP_WINDOWS property
+XUnmapSubwindows (3) - unmap windows
+XUnmapWindow (3)     - unmap windows
+--------------------------------------------------------------------
+
+//find x11 programing
+
+zxx@gll-bac:/usr/share/man$ man -a  -w XMapWindow
+/usr/share/man/man3/XMapWindow.3.gz
+zxx@gll-bac:/usr/share/man$ man -a  -w XUnMapWindow
+/usr/share/man/man3/XUnmapWindow.3.gz
+
+zxx@gll-bac:/usr/share/man/man3$ ls |grep XQuery
+DMXQueryExtension.3.gz
+DMXQueryVersion.3.gz
+XQueryBestCursor.3.gz
+XQueryBestSize.3.gz
+XQueryBestStipple.3.gz
+XQueryBestTile.3.gz
+XQueryColor.3.gz
+XQueryColors.3.gz
+XQueryDeviceState.3.gz
+XQueryExtension.3.gz
+XQueryFont.3.gz
+XQueryKeymap.3.gz
+XQueryPointer.3.gz
+XQueryTextExtents16.3.gz
+XQueryTextExtents.3.gz
+XQueryTree.3.gz
+
+
+处理mandoc成文本
+man ls | col -b > man.txt 
+man -t sleep |ps2pdf - ~/doc.pdf
+
+一个应用程序将会有很多window
+lily@ubuntu:~/x11-utils-7.6+1/xwininfo$ xwininfo -root -all |grep -i firefox
+     0x4004566 "Firefox": ("Popup" "Firefox")  219x138+412+340  +412+340
+     0x4000b9b "Firefox": ("Popup" "Firefox")  200x200+0+0  +0+0
+     0x40008ca "Firefox": ()  10x10+-100+-100  +-100+-100
+     0x400029e "Firefox": ("Popup" "Firefox")  237x267+40+78  +40+78
+     0x40001c0 "Firefox": ("Popup" "Firefox")  200x200+0+0  +0+0
+     0x40000b3 "Firefox": ("firefox-bin" "Firefox-bin")  200x200+0+0  +0+0
+     0x40000aa "Firefox": ("firefox-bin" "Firefox-bin")  200x200+0+0  +0+0
+     0x40000a9 "Firefox": ()  10x10+-100+-100  +-100+-100
+     0x40000a8 "Firefox": ()  10x10+-100+-100  +-100+-100
+     0x40000a7 "Firefox": ()  10x10+-100+-100  +-100+-100
+     0x4000077 (has no name): ("Toplevel" "Firefox")  200x200+0+0  +0+0
+     0x4000001 "Firefox": ("firefox-bin" "Firefox-bin")  10x10+10+10  +10+10
+        0x400009c "bufexplorer.zip - Buffer Explorer / Browser : vim online - Mozilla Firefox": ("Navigator" "Firefox")  429x440+1+29  +-42+88
+---------------------------------------------------------------
+在这里可用的window id 是   0x400009c  这里主要是看尺寸得到最大的尺寸就是 429*440
+
+在有window manager的系统里wmctrl -l会列出所有应用的window id，但是如果没有窗口管理器就必须用
+xwininfo -root -all 适用于没有窗口管理器的情况，需要分析出application window
+wmctrl 是通过  
+    if ((client_list = (Window *)get_property(disp, DefaultRootWindow(disp), 
+                    XA_WINDOW, "_NET_CLIENT_LIST", size)) == NULL) {
+        if ((client_list = (Window *)get_property(disp, DefaultRootWindow(disp), 
+                        XA_CARDINAL, "_WIN_CLIENT_LIST", size)) == NULL) {
+得到client window list的。这里返回的直接是application的根window。
+
+xwininfo 也可以用鼠标取得某个application的window id，原理是通过WM_STATE,通过遍历root的children和descendants来查看有WM_STATE,PROPEty 的window来取得id
+ atom_wm_state = Get_Atom(dpy, "WM_STATE");
+ Window_Has_Property(dpy, children[i], atom_wm_state)
+ xlsclients -l 也是通过查看有WM_STATE,PROPEty 的window来取得id的，这在window不是active状态得到的值是错误的。
+（http://tronche.com/gui/x/icccm/sec-4.html#s-4.1.3.1）
+ 4.1.3.1. WM_STATE Property
+The window manager will place a WM_STATE property (of type WM_STATE) on each top-level client window that is not in the Withdrawn state. Top-level windows in the Withdrawn state may or may not have the WM_STATE property. Once the top-level window has been withdrawn, the client may re-use it for another purpose. Clients that do so should remove the WM_STATE property if it is still present. 
+Some clients (such as xprop) will ask the user to click over a window on which the program is to operate. Typically, the intent is for this to be a top-level window. To find a top-level window, clients should search the window hierarchy beneath the selected location for a window with the WM_STATE property. This search must be recursive in order to cover all window manager reparenting possibilities. If no window with a WM_STATE property is found, it is recommended that programs use a mapped child-of-root window if one is present beneath the selected location. 
+
+

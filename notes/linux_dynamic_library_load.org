@@ -1,0 +1,1281 @@
+
+http://hi.baidu.com/maliang1897/blog/item/7ebb5e29244546f698250a39.html
+http://hi.baidu.com/watsy/blog/item/56c5b399edb2551b6f068ccc.html
+http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
+* How to know which dynamic library is needed for a program running
+** ldd是静态的对可执行程序执行列出动态链接库
+ldd列出不了被嵌套调用的so文件,比如ProgA 调用 了libaryA， 但是如果libraryA 又调用了libraryAA， 则ldd不会显示出来
+
+** pmap是动态的对可执行程序的pid进行操作（pmap列出的是最全面的）
+当PRogA running时，调用pmap
+
+ly@willow:~/UI$ pmap `pidof whell_so`
+7576:   ./whell_so
+001c2000      4K r-x--  /home/lily/libtest/libmyhello.so
+001c3000      4K r----  /home/lily/libtest/libmyhello.so
+001c4000      4K rw---  /home/lily/libtest/libmyhello.so
+00454000      4K r-x--    [ anon ]
+007fe000    112K r-x--  /lib/i386-linux-gnu/ld-2.13.so
+0081a000      4K r----  /lib/i386-linux-gnu/ld-2.13.so
+0081b000      4K rw---  /lib/i386-linux-gnu/ld-2.13.so
+00a2b000   1384K r-x--  /lib/i386-linux-gnu/libc-2.13.so
+00b85000      4K -----  /lib/i386-linux-gnu/libc-2.13.so
+00b86000      8K r----  /lib/i386-linux-gnu/libc-2.13.so
+00b88000      4K rw---  /lib/i386-linux-gnu/libc-2.13.so
+00b89000     12K rw---    [ anon ]
+08048000      4K r-x--  /home/lily/libtest/whell_so
+08049000      4K r----  /home/lily/libtest/whell_so
+0804a000      4K rw---  /home/lily/libtest/whell_so
+b78bb000      8K rw---    [ anon ]
+b78cd000     12K rw---    [ anon ]
+bfc29000    132K rw---    [ stack ]
+ total     1712K
+-------------------------
+这里whell_so 是动态链接生成的可执行程序，用pmap可以看到
+001c2000      4K r-x--  /home/lily/libtest/libmyhello.so
+用到了动态态链接库libmyhello.so
+
+======================
+whell is  static linking libmyhello.a
+
+lily@willow:~/libtest$ pmap `pidof whell `
+7490:   ./whell
+00110000   1384K r-x--  /lib/i386-linux-gnu/libc-2.13.so
+0026a000      4K -----  /lib/i386-linux-gnu/libc-2.13.so
+0026b000      8K r----  /lib/i386-linux-gnu/libc-2.13.so
+0026d000      4K rw---  /lib/i386-linux-gnu/libc-2.13.so
+0026e000     12K rw---    [ anon ]
+00487000      4K r-x--    [ anon ]
+00af9000    112K r-x--  /lib/i386-linux-gnu/ld-2.13.so
+00b15000      4K r----  /lib/i386-linux-gnu/ld-2.13.so
+00b16000      4K rw---  /lib/i386-linux-gnu/ld-2.13.so
+08048000      4K r-x--  /home/lily/libtest/whell
+08049000      4K r----  /home/lily/libtest/whell
+0804a000      4K rw---  /home/lily/libtest/whell
+b76f5000      4K rw---    [ anon ]
+b7706000     12K rw---    [ anon ]
+bfc08000    132K rw---    [ stack ]
+ total     1696K
+ lily@willow:~/libtest$
+-------------------------------------------------
+这里不会显示静态链接库libmyhello.a，因为这个库已经在应用程序里了，不需要再在内存里load了。
+
+* create staic and dynamic library 
+** 生成并使用静态库
+*** 先编译出.o 文件。
+程序1: hello.h
+#ifndef HELLO_H
+#define HELLO_H
+
+void hello(const char *name);
+
+#endif //HELLO_H
+程序2: hello.c
+#include
+
+void hello(const char *name)
+{
+printf("Hello %s!\n", name);
+}
+程序3: main.c
+#include "hello.h"
+int main()
+{
+int i=0;
+scanf("%d", &i);
+hello("everyone");
+return 0;
+}
+第2步：将hello.c编译成.o文件；
+无论静态库，还是动态库，都是由.o文件创建的。因此，我们必须将源程序hello.c通过gcc先编译成.o文件。 
+在系统提示符下键入以下命令得到hello.o文件。 
+# gcc -c hello.c 
+# ls 
+hello.c hello.h hello.o main.c 
+ 
+*** 创建静态库 
+第3步：由.o文件创建静态库；
+# ar cr libmyhello.a hello.o 
+# ls 
+hello.c hello.h hello.o libmyhello.a main.c 
+# 
+ 
+*** 在程序中使用静态库；
+# gcc -o hello main.c -L. -l myhello 
+# ./hello 
+Hello everyone! 
+# rm libmyhello.a 
+rm: remove regular file `libmyhello.a'? y 
+# ./hello 
+Hello everyone! 
+# 
+程序照常运行，静态库中的公用函数已经连接到目标文件中了。
+
+*** 编译时动态库搜寻路径
+gcc -L <path to look for lib>
+
+** 创建动态库
+*** 生成.o
+# gcc -c hello.c 
+# ls 
+hello.c hello.h hello.o main.c 
+
+*** 用gcc来创建动态库
+**** -shared选项
+# gcc -shared -fPCI -o libmyhello.so hello.o 
+# ls 
+hello.c hello.h hello.o libmyhello.so main.c 
+#
+**** -soname 
+# ld  -shared -o libmyhello.so.2.1.2 -soname libmyhello.so.2 hello.o
+// sometimes gcc -soname not working, using ld instead 
+$gcc -shared -Wl,-soname,libhello.so.1 -o libhello.so.1.0 hello.o 
+传gcc -shared 参数使其生成是动态库而不是普通执行程序。 -Wl 表示后面的参数也就是-soname,
+libhello.so.1直接传给连接器ld进行处理。实际上，每一个库都有一个soname，当连接器发现它正在查找的程序库中有这样一个名称，连接器便会将soname嵌入
+连结中的二进制文件内，而不是它正在运行的实际文件名，在程序执行期间，程序会查找拥有 soname名字的文件，而不是库的文件名，换句话说，soname是库的区分标志。 这样做的目的主要是允许系统中多
+个版本的库文件共存，习惯上在命名库文件的时候通常与soname相同。libxxxx.so.major.minor 其中，xxxx是库的名字，major是主版本号，minor 是次版本号.
+# ld  -shared -o libmyhello.so.2.1.2 -soname libmyhello.so.2 hello.o
+[guolili@cougar lib]$ readelf -d libmyhello.so.2.1.2|grep -i soname
+ 0x0000000e (SONAME)                     Library soname: [libmyhello.so.2]
+# here we can see soname is using. but no reslut if this library generated without soname option.
+
+**** -l option to set the library name 
+gcc/ld  main.o -l:libmyhello.so.2.1.2 -o app
+-l namespec
+--library=namespec
+Add the archive or object file specified by namespec to the list of files to link. This option may be used any number of times. If namespec is of the form :filename, ld will search the library path for a file called filename, otherwise it will search the library path for a file called libnamespec.a.
+#
+*** 使用动态库；
+# gcc -o hello main.c -L. -l myhello 
+# ./hello 
+./hello: error while loading shared libraries: libmyhello.so: cannot open shared object
+file: No such file or directory 
+# 
+找不到动态库文件libmyhello.so。程序在运行时，会在/usr/lib和/lib等目录中查找需要的动态库文件。若找到，则载入动态库，
+否则将提示类似上述错误而终止程序运行。我们将文件libmyhello.so复制到目录/usr/lib中，再试试。 
+# mv libmyhello.so /usr/lib 
+# ./hello 
+see [[sec:one]] 
+
+** 编译时链接库是静态还是动态
+
+*** 默认链接的是动态库.so
+使用静态库和使用动态库编译成目标程序使用的gcc命令完全一样，那当静态库和动态库同名时，gcc命令会使用哪个库文件呢？
+
+# gcc -c hello.c 
+# ar cr libmyhello.a hello.o 
+# gcc -shared -fPCI -o libmyhello.so hello.o 
+# ls 
+hello.c hello.h hello.o libmyhello.a libmyhello.so main.c 
+# 
+ 
+# gcc -o hello main.c -L. -lmyhello 
+# ./hello 
+./hello: error while loading shared libraries: libmyhello.so: cannot open shared object
+file: No such file or directory 
+# 
+======================================
+默认是动态链接库
+
+*** 编译选项指定链接静态库和动态库
+连接时要注意，假设libhello.o 和libhello.a都在缺省的库搜索路径下/usr/lib下，如果在其它位置要加上-L参数。 
+$gcc testlib.o -o testlib -WI,-Bstatic -lhello 
+##这个特别的"-WI，-Bstatic"参数，实际上是传给了连接器ld。指示它与静态库连接，如果系统中只有静态库当然就不需要这个参数了。
+如果要和多个库相连接，而每个库的连接方式不一样，比如上面的程序既要和libhello进行静态连接，又要和libbye进行动态连接，其命令应为： 
+$gcc testlib.o -o testlib -WI,-Bstatic -lhello -WI,-Bdynamic -lbye 
+
+** 查看库中的符号
+有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是静态的也可以是动态的。nm列出的符号有很多
+常见的有三种： 
+一种是在库中被调用，但并没有在库中定义(表明需要其他库支持)，用U表示； 
+一种是库中定义的函数，用T表示，这是最常见的； 
+另外一种是所谓的“弱 态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W示。 
+例如，假设开发者希望知道上文提到的hello库中是否定义了 printf(): 
+$nm libhello.so |grep printf U 
+其中printf U表示符号printf被引用，但是并没有在函数内定义，由此可以推断，要正常使用hello库，必须有其它库支持
+，再使用ldd命令查看hello
+依赖于哪些库： 
+$ldd hello 
+libc.so.6=>/lib/libc.so.6(0x400la000) /lib/ld-linux.so.2=>/lib/ld-linux.so.2
+(0x40000000) 
+从上面的结果可以继续查看printf最终在哪里被定义，有兴趣可以go on 
+
+*** 如何知道程序链接的库是静态的还是动态的
+lily@willow:~/libtest$ nm whell_so |grep hello
+         U hello
+## whell_so 是动态链接含hello函数的库， whell则是静态链接
+ly@willow:~/libtest$ nm whell |grep hello
+0804842c T hello
+
+对于定义的函数，whell中T表示
+whell_so U表示未定以，在动态链接库里定义的
+
+
+################ldd 和nm对strip了的库文件没用
+
+* 动态库的路径问题    <<sec:one>>
+gcc -L <path to look for lib
+** 让执行程序运行时找到动态库
+ Making the library available at runtime
+
+$ ./test
+./test: error while loading shared libraries: libfoo.so: cannot open shared object file: No such file or directory
+Oh no! The loader can’t find the shared library.3 We didn’t install it in a standard location, so we need to give the loader a little help. We have a couple of options: we can use the environment variable LD_LIBRARY_PATH for this, or rpath. Let’s take a look first at LD_LIBRARY_PATH:
+
+*** Using LD_LIBRARY_PATH
+
+$ echo $LD_LIBRARY_PATH
+There’s nothing in there. Let’s fix that by prepending our working directory to the existing LD_LIBRARY_PATH:
+
+$ LD_LIBRARY_PATH=/home/username/foo:$LD_LIBRARY_PATH
+$ ./test
+./test: error while loading shared libraries: libfoo.so: cannot open shared object file: No such file or directory
+What happened? Our directory is in LD_LIBRARY_PATH, but we didn’t export it. In Linux, if you don’t export the changes to an environment variable, they won’t be inherited by the child processes. The loader and our test program didn’t inherit the changes we made. Thankfully, the fix is easy:
+
+$ export LD_LIBRARY_PATH=/home/username/foo:$LD_LIBRARY_PATH
+$ ./test
+This is a shared library test...
+Hello, I'm a shared library
+Good, it worked! LD_LIBRARY_PATH is great for quick tests and for systems on which you don’t have admin privileges. As a downside, however, exporting the LD_LIBRARY_PATH variable means it may cause problems with other programs you run that also rely on LD_LIBRARY_PATH if you don’t reset it to its previous state when you’re done.
+
+*** Using rpath
+
+Now let’s try rpath (first we’ll clear LD_LIBRARY_PATH to ensure it’s rpath that’s finding our library). Rpath, or the run path, is a way of embedding the location of shared libraries in the executable itself, instead of relying on default locations or environment variables. We do this during the linking stage. Notice the lengthy “-Wl,-rpath=/home/username/foo” option. The -Wl portion sends comma-separated options to the linker, so we tell it to send the -rpath option to the linker with our working directory.
+
+$ unset LD_LIBRARY_PATH
+$ gcc -L/home/username/foo -Wl,-rpath=/home/username/foo -Wall -o test main.c -lfoo
+$ ./test
+This is a shared library test...
+Hello, I'm a shared library
+Excellent, it worked. The rpath method is great because each program gets to list its shared library locations independently, so there are no issues with different programs looking in the wrong paths like there were for LD_LIBRARY_PATH.
+
+rpath vs. LD_LIBRARY_PATH
+
+There are a few downsides to rpath, however. First, it requires that shared libraries be installed in a fixed location so that all users of your program will have access to those libraries in those locations. That means less flexibility in system configuration. Second, if that library refers to a NFS mount or other network drive, you may experience undesirable delays–or worse–on program startup.
+
+Using ldconfig to modify ld.so
+
+What if we want to install our library so everybody on the system can use it? For that, you will need admin privileges. You will need this for two reasons: first, to put the library in a standard location, probably /usr/lib or /usr/local/lib, which normal users don’t have write access to. Second, you will need to modify the ld.so config file and cache. As root, do the following:
+
+$ cp /home/username/foo/libfoo.so /usr/lib
+$ chmod 0755 /usr/lib/libfoo.so
+Now the file is in a standard location, with correct permissions, readable by everybody. We need to tell the loader it’s available for use, so let’s update the cache:
+
+*** default using ldconfig(the cache generated by ldconfig, not by LD_LIBRARY_PATH,)
+ldconfig will generate a cache to describe which library used in which path
+
+$ ldconfig
+That should create a link to our shared library and update the cache so it’s available for immediate use. Let’s double check:
+$ cp libfoo.so /usr/lib
+###cp libary files to /usr/lib, the default dir which gcc/ld linking and ldconfig search for libaries
+$ ldconfig -p | grep foo
+libfoo.so (libc6) => /usr/lib/libfoo.so
+## it get libfoo.so library located in /usr/lib/libfoo.so
+
+Now our library is installed. Before we test it, we have to clean up a few things:
+Clear our LD_LIBRARY_PATH once more, just in case:
+$ unset LD_LIBRARY_PATH
+Re-link our executable. Notice we don’t need the -L option since our library is stored in a default location and we aren’t using the rpath option:
+
+$ gcc -Wall -o test main.c -lfoo
+##why compile it again, for after that test will remember which library it will use
+##and gcc will look for the library default in /usr/lib or /lib 
+Let’s make sure we’re using the /usr/lib instance of our library using ldd:
+
+$ ldd test | grep foo
+libfoo.so => /usr/lib/libfoo.so (0x00a42000)
+
+Good, now let’s run it:
+
+$ ./test
+This is a shared library test...
+Hello, I'm a shared library
+That about wraps it up. We’ve covered how to build a shared library, how to link with it, and how to resolve the most common loader issues with shared libraries–as well as the positives and negatives of different approaches.
+
+
+another methould is to 
+在LD_LIBRARY_PATH环境变量中加上库所在路径。 
+ 修改/etc/ld.so.conf文件，把库所在的路径加到文件末尾，并执行ldconfig刷新目
+
+** versions of dynamic libraries
+*** use vesrions name for dynamic lib
+# ld  -shared -o libmyhello.so.2.1.2 -soname libmyhello.so.2 hello.o
+[guolili@cougar lib]$ readelf -d libmyhello.so.2.1.2|grep -i soname
+ 0x0000000e (SONAME)                     Library soname: [libmyhello.so.2]
+# here we can see soname is using. but no reslut if this library generated without soname option.
+
+[guolili@cougar lib]$ sudo cp libmyhello.so.2.1.2 /usr/lib/
+[guolili@cougar lib]$ ls -l /usr/lib/libmyhello.so*
+-rwxr-xr-x  1 root root 2032 Jul 30 17:26 /usr/lib/libmyhello.so.2.1.2
+[guolili@cougar lib]$ sudo ldconfig
+[guolili@cougar lib]$ ls -l /usr/lib/libmyhello.so*  
+#ldconfig add a new libmyhello.so.2 file to link to real one
+lrwxrwxrwx  1 root root   19 Jul 30 17:26 /usr/lib/libmyhello.so.2 -> libmyhello.so.2.1.2
+-rwxr-xr-x  1 root root 2032 Jul 30 17:26 /usr/lib/libmyhello.so.2.1.2
+
+[guolili@cougar lib]$ ldconfig -p |grep hello
+        libmyhello.so.2 (ELF) => /usr/lib/libmyhello.so.2
+#print caches
+
+[guolili@cougar lib]$ gcc -o app main.c  -lmyhello
+/usr/bin/ld: cannot find -lmyhello
+collect2: ld returned 1 exit status
+# no libmyhello.so file in /usr/lib, create a soft link of so.2
+guolili@cougar lib]$ sudo ln -s /usr/lib/libmyhello.so.2 /usr/lib/libmyhello.so
+[guolili@cougar lib]$ ls -l /usr/lib/libmyhello.so*
+lrwxrwxrwx  1 root root   24 Jul 30 17:32 /usr/lib/libmyhello.so -> /usr/lib/libmyhello.so.2 // we create soft link by ln -s
+lrwxrwxrwx  1 root root   19 Jul 30 17:26 /usr/lib/libmyhello.so.2 -> libmyhello.so.2.1.2// ldconfig create a link 
+-rwxr-xr-x  1 root root 2032 Jul 30 17:26 /usr/lib/libmyhello.so.2.1.2
+# use libmyhello.so, but actually is libmyhello.so.2.1.2
+[guolili@cougar lib]$ gcc -o app app.c  -lmyhello
+
+#both readelf -d and ldd could read a elf file use which dynamical library
+[guolili@cougar lib]$ readelf -d app |grep hello
+ 0x00000001 (NEEDED)                     Shared library: [libmyhello.so.2]
+[guolili@cougar lib]$ ldd app 
+     linux-gate.so.1 =>  (0xb78fd000)
+        libmyhello.so.2 => /usr/lib/libmyhello.so.2 (0xb78e1000)
+# if no soname library linked  -lmyhello ld generated app
+# libmyhello.so => /usr/lib/libmyhello.so (0xb78e1000)
+        libc.so.6 => /lib/tls/libc.so.6 (0x002b2000)
+        /lib/ld-linux.so.2 (0x00299000)
+
+
+./app run successfully
+*-----------------------------------*
+
+
+
+*** use LD_LIBRARY_PATH to cheat some app
+if an app use so.3 version's libary, but we only has so.4 version libary
+$ ./test
+./test: error while loading shared libraries: libfoo.so.3: cannot open shared object file: No such file or directory
+Oh no! The loader can’t find the shared librar
+$ln -s libfoo.so.3 /usr/libfoo.so.4 
+##create a cheating lib of 3
+$export LD_LIBRARY_PATH = /mypath_of_cheat_lib
+$./test
+will run OK
+
+#ldconfig can't be cheated for it will look for soname in library, and create a link using that soname. so if we have
+#soname like libfoo.so.4.1, ldconfig will create a libfoo.so.4 to link to it.
+#when we run test, it use libfoo.so.3, so it failed
+
+
+*** soname usage
+soname is used to indicate what binary api compatibility your library support.
+
+Let's assume you have a library with libnuke.so.1.2 name and you develop a new libnuke library :
+
+if your new library is a fix from previous without api change, you should just keep same soname, increase the version of filename. ie file will be libnuke.so.1.2.1 but soname will still be libnuke.so.1.2.
+
+if you have a new library that only added new function but didn't break functionality and is still compatible with previous you would like to use same soname than previous plus a new suffix like .1. ie file and soname will be libnuke.so.1.2.1. Any program linked with libnuke.1.2 will still work with that one. New programs linked with libnuke.1.2.1 will only work with that one ( until new subversion come like libnuke.1.2.1.1 ).
+
+if your new library is not compatible with any libnuke : libnuke.so.2
+
+if your new library is compatible with bare old version : libnuke.so.1.3 [ ie still compatible with libnuke.so.1 ]
+
+I think that not providing a soname is a bad practice since renaming of file will change its behavior.
+
+
+* linux 动态链接库加载
+
+http://bbs.chinaunix.net/thread-1996818-1-1.html
+LINUX动态链接库高级应用(etc/ld.so.conf)共享动态链接库
+
+3.1 动态链接库配置文件
+为了让动态链接库为系统所使用,需要维护动态链接库的配置文件--/etc/ld.so.conf.此文件内,存放着可被LINUX共享的动态链接库所在 目录的名字(系统目录/lib,/usr/lib除外),各个目录名间以空白字符(空格,换行等)或冒号或逗号分隔.一般的LINUX发行版中,此文件均 含一个共享目录/usr/X11R6/lib,为X window窗口系统的动态链接库所在的目录.
+
+# cat /etc/ld.so.conf 
+/usr/X11R6/lib 
+/usr/zzz/lib 
+#
+由上可以看出,该动态库配置文件中,增加了一个/usr/zzz/lib目录.这是我自己新建的共享库目录,下面存放我新开发的可供系统共享的动态链接库.
+=================
+zxx@ubu-walnut:~$ cat /etc/ld.so.conf
+include /etc/ld.so.conf.d/*.conf
+
+zxx@ubu-walnut:~$ ls /etc/ld.so.conf.d
+GL.conf  firefox.conf  i686-linux-gnu.conf  libasound2.conf  libc.conf
+zxx@ubu-walnut:~$ cat /etc/ld.so.conf.d/libc.conf
+# libc default configuration
+/usr/local/lib
+zxx@ubu-walnut:~$ cat /etc/ld.so.conf.d/firefox.conf
+/usr/lib/firefox-5.0
+=============================
+
+firefox.conf 是自己添加的，要生效需要佣
+sudo ldconfig -v
+
+3.2 动态链接库管理命令
+为了让动态链接库为系统所共享,还需运行动态链接库的管理命令--ldconfig.此执行程序存放在/sbin目录下.
+ldconfig命令的用途,主要是在默认搜寻目录(/lib和/usr/lib)以及动态库配置文件/etc/ld.so.conf内所列的目录下,搜索出可共享的动态链接库(格式如前介绍,lib*.so*),进而创建出动态装入程序(ld.so)所需的连接和缓存文件.缓存文件默认为 /etc/ld.so.cache,此文件保存已排好序的动态链接库名字列表.
+ldconfig通常在系统启动时运行,而当用户安装了一个新的动态链接库时,就需要手工运行这个命令.
+
+ldconfig [-v|--verbose] [-n] [-N] [-X] [-f CONF] [-C CACHE] [-r ROOT] [-l] [-p|--print-cache] [-c FORMAT] [--format=FORMAT] [-V] [-?|--help|--usage] path...
+
+ldconfig可用的选项说明如下:
+(1) -v或--verbose : 用此选项时,ldconfig将显示正在扫描的目录及搜索到的动态链接库,还有它所创建的连接的名字.
+(2) -n : 用此选项时,ldconfig仅扫描命令行指定的目录,不扫描默认目录(/lib,/usr/lib),也不扫描配置文件/etc/ld.so.conf所列的目录.
+(3) -N : 此选项指示ldconfig不重建缓存文件(/etc/ld.so.cache).若未用-X选项,ldconfig照常更新文件的连接.
+(4) -X : 此选项指示ldconfig不更新文件的连接.若未用-N选项,则缓存文件正常更新.
+(5) -f CONF : 此选项指定动态链接库的配置文件为CONF,系统默认为/etc/ld.so.conf.
+(6) -C CACHE : 此选项指定生成的缓存文件为CACHE,系统默认的是/etc/ld.so.cache,此文件存放已排好序的可共享的动态链接库的列表.
+(7) -r ROOT : 此选项改变应用程序的根目录为ROOT(是调用chroot函数实现的).选择此项时,系统默认的配置文件/etc/ld.so.conf,实际对应的为 ROOT/etc/ld.so.conf.如用-r /usr/zzz时,打开配置文件/etc/ld.so.conf时,实际打开的是/usr/zzz/etc/ld.so.conf文件.用此选项,可以 大大增加动态链接库管理的灵活性.
+( -l : 通常情况下,ldconfig搜索动态链接库时将自动建立动态链接库的连接.选择此项时,将进入专家模式,需要手工设置连接.一般用户不用此项.
+(9) -p或--print-cache : 此选项指示ldconfig打印出当前缓存文件所保存的所有共享库的名字.
+(10) -c FORMAT 或 --format=FORMAT : 此选项用于指定缓存文件所使用的格式,共有三种ld(老格式),new(新格式)和compat(兼容格式,此为默认格式).
+(11) -V : 此选项打印出ldconfig的版本信息,而后退出.
+(12) -? 或 --help 或 --usage : 这三个选项作用相同,都是让ldconfig打印出其帮助信息,而后退出.
+
+
+举三个例子:
+例1:# ldconfig -p 
+793 libs found in cache `/etc/ld.so.cache'''' 
+libzvt.so.2 (libc6) => /usr/lib/libzvt.so.2 
+libzvt.so (libc6) => /usr/lib/libzvt.so 
+libz.so.1.1.3 (libc6) => /usr/lib/libz.so.1.1.3 
+libz.so.1 (libc6) => /lib/libz.so.1 
+...... 
+#
+注: 有时候用户想知道系统中有哪些动态链接库,或者想知道系统中有没有某个动态链接库,这时,可用-p选项让ldconfig输出缓存文件中的动态链接库列 表,从而查询得到.例子中,ldconfig命令的输出结果第1行表明在缓存文件/etc/ld.so.cache中找到793个共享库,第2行开始便是 一系列共享库的名字及其全名(绝对路径).因为实际输出结果太多,为节省篇幅,以......表示省略的部分.
+
+例2:# ldconfig -v 
+/lib: 
+liby.so.1 -> liby.so.1 
+libnss_wins.so -> libnss_wins.so 
+...... 
+/usr/lib: 
+libjscript.so.2 -> libjscript.so.2.0.0 
+libkspell.so.2 -> libkspell.so.2.0.0 
+...... 
+/usr/X11R6/lib: 
+libmej-0.8.10.so -> libmej-0.8.10.so 
+libXaw3d.so.7 -> libXaw3d.so.7.0 
+...... 
+#
+注: ldconfig命令在运行正常的情况下,默认不输出什么东西.本例中用了-v选项,以使ldconfig在运行时输出正在扫描的目录及搜索到的共享库, 用户可以清楚地看到运行的结果.执行结束后,ldconfig将刷新缓存文件/etc/ld.so.cache.
+
+
+例3# ldconfig /usr/zhsoft/lib 
+#
+注: 当用户在某个目录下面创建或拷贝了一个动态链接库,若想使其被系统共享,可以执行一下"ldconfig 目录名"这个命令.此命令的功能在于让ldconfig将指定目录下的动态链接库被系统共享起来,意即:在缓存文件/etc/ld.so.cache中追 加进指定目录下的共享库.本例让系统共享了/usr/zhsoft/lib目录下的动态链接库.需要说明的是,如果此目录不在/lib,/usr/lib 及/etc/ld.so.conf文件所列的目录里面,则再度运行ldconfig时,此目录下的动态链接库可能不被系统共享了.
+
+3.3 动态链接库如何共享 
+
+了解了以上知识,我们可以采用以下三种方法来共享动态链接库注:均须在超级用户状态下操作,以我的动态链接库libmy.so共享过程为例)
+(1)拷贝动态链接库到系统共享目录下,或在系统共享目录下为该动态链接库建立个连接(硬连接或符号连接均可,常用符号连接).这里说的系统共享目录,指 的是LINUX动态链接库存放的目录,它包含/lib,/usr/lib以及/etc/ld.so.conf文件内所列的一系列目录.
+# cp libmy.so /lib 
+# ldconfig 
+#
+
+或:
+# ln -s `pwd`/libmy.so /lib 
+# ldconfig 
+#
+
+
+(2)将动态链接库所在目录名追加到动态链接库配置文件/etc/ld.so.conf中.
+# pwd >> /etc/ld.so.conf 
+# ldconfig 
+#
+
+(3)利用动态链接库管理命令ldconfig,强制其搜索指定目录,并更新缓存文件,便于动态装入.
+# ldconfig `pwd` 
+#
+需要说明的是,这种操作方法虽然有效,但效果是暂时的,供程序测试还可以,一旦再度运行ldconfig,则缓存文件内容可能改变,所需的动态链接库可能 不被系统共享了.与之相比较,前两种方法是可靠的方法,值得业已定型的动态链接库共享时采用.前两种方法还有一个特点,即最后一条命令都是 ldconfig,也即均需要更新一下缓存文件,以确保动态链接库的共享生效.
+
+
+
+四、含有动态函数的程序的编译
+4.1 防止编译因未指定动态链接库而出错
+当一个程序使用动态函数时,编译该程序时就必须指定含所用动态函数的动态链接库,否则编译将会出错退出.如本文示例程序ady.c的编译(未明确引用动态链接库libmy.so):
+# cc -o ady ady.c 
+/tmp/ccL4FsJp.o: In function `main'''': 
+/tmp/ccL4FsJp.o(.text+0x43): undefined reference to `gettime'''' 
+collect2: ld returned 1 exit status 
+#
+注: 因为ady.c所含的动态函数getdate,gettime不在系统函数库中,所以连接时出错.
+
+4.2 编译时引用动态链接库的几种方式
+(1)当所用的动态链接库在系统目录(/lib,/usr/lib)下时,可用编译选项-l来引用.即:
+# cc -lmy -o ady ady.c 
+#
+注:编译时用-l选项引用动态链接库时,库名须使用其缩写形式.本例的my,表示引用libmy.so库.若引用光标库libncurses.so,须用-lncurses.注意,-l选项与参数之间不能有空格,否则会出错.
+
+(2)当所用的动态链接库在系统目录(/lib,/usr/lib)以外的目录时,须用编译选项-L来指定动态链接库所在的目录(供编译器查找用),同时用-l选项指定缩写的动态链接库名.即:
+# cc -L/usr/zzz/lib -lmy -o ady ady.c 
+#
+
+(3)直接引用所需的动态链接库.即:
+# cc -o ady ady.c libmy.so 
+#
+或
+# cc -o ady ady.c /lib/libmy.so 
+#
+等等.其中,动态链接库的库名可以采用相对路径形式(文件名不以/开头),也可采用绝对路径形式(文件名以/开头).
+
+
+
+五、动态链接程序的运行与检查
+5.1 运行
+编译连接好含动态函数的程序后,就可以运行它了.动态链接程序因为共享了系统中的动态链接库,所以其空间占用很小.但这并不意味功能的减少,它的执行与静态连接的程序执行,效果完全相同.在命令提示符下键入程序名及相关参数后回车即可,如下例:
+$ ady 
+动态链接库高级应用示范 
+当前日期: 2002-03-11 
+当前时间: 19:39:06 
+$
+
+
+5.2 检查
+检查什么?检查动态链接程序究竟需要哪些共享库,系统中是否已有这些库,没有的话,用户好想办法把这些库装上.
+怎么检查呢?这里,告诉你一个实用程序--ldd,这个程序就是专门用来检查动态链接程序依赖哪些共享库的.
+
+ldd命令行用法如下:
+ldd [--version] [-v|--verbose] [-d|--data-relocs] [-r|--function-relocs] [--help] FILE...
+各选项说明如下:
+(1) --version : 此选项用于打印出ldd的版本号.
+(2) -v 或 --verbose : 此选项指示ldd输出关于所依赖的动态链接库的尽可能详细的信息.
+(3) -d 或 --data-relocs : 此选项执行重定位,并且显示不存在的函数.
+(4) -r 或 --function-relocs : 此选项执行数据对象与函数的重定位,同时报告不存在的对象.
+(5) --help : 此选项用于打印出ldd的帮助信息.
+注: 上述选项中,常用-v(或--verbose)选项.
+
+ldd的命令行参数为FILE...,即一个或多个文件名(动态链接程序或动态链接库).
+例1$ ldd ady 
+libmy.so => ./libmy.so (0x40026000) 
+libc.so.6 => /lib/libc.so.6 (0x40028000) 
+/lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x40000000) 
+$
+
+注: 每行=>前面的,为动态链接程序所需的动态链接库的名字,而=>后面的,则是运行时系统实际调用的动态链接库的名字,所需的动态链接库在系统 中不存在时,=>后面将显示"not found",括号所括的数字为虚拟的执行地址.本例列出ady所需的三个动态链接库,其中libmy.so为自己新建的动态链接库,而 libc.so.6与/lib/ld-linux.so.2均为系统的动态链接库,前一个为基本C库,后一个动态装入库(用于动态链接库的装入及运行).
+
+例2:
+$ ldd -v ady 
+libmy.so => ./libmy.so (0x40026000) 
+libc.so.6 => /lib/libc.so.6 (0x40028000) 
+/lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x40000000)
+
+Version information: 
+./ady: 
+libc.so.6 (GLIBC_2.1.3) => /lib/libc.so.6 
+libc.so.6 (GLIBC_2.0) => /lib/libc.so.6 
+./libmy.so: 
+libc.so.6 (GLIBC_2.1.3) => /lib/libc.so.6 
+libc.so.6 (GLIBC_2.0) => /lib/libc.so.6 
+/lib/libc.so.6: 
+ld-linux.so.2 (GLIBC_2.1.1) => /lib/ld-linux.so.2 
+ld-linux.so.2 (GLIBC_2.2.3) => /lib/ld-linux.so.2 
+ld-linux.so.2 (GLIBC_2.1) => /lib/ld-linux.so.2 
+ld-linux.so.2 (GLIBC_2.2) => /lib/ld-linux.so.2 
+ld-linux.so.2 (GLIBC_2.0) => /lib/ld-linux.so.2 
+$
+
+动态库的动态加载，用ldopen函数
+注:本例用-v选项以显示尽可能多的信息,所以例中除列出ady所需要的动态链接库外,还列出了程序所需动态链接库版本方面的信息.
+__________________________________
+问题，如果有重名的动态链接库会怎么样
+man ld.so
+
+ld.so loads the shared libraries needed by a program, prepares the pro‐
+       gram to run, and then runs it.  Unless  explicitly  specified  via  the
+       -static  option to ld during compilation, all Linux programs are incom‐
+       plete and require further linking at run time.
+       The necessary shared libraries needed by the program are  searched  for
+       in the following order
+       o      Using      the      environment     variable     LD_LIBRARY_PATH
+              (LD_AOUT_LIBRARY_PATH for a.out programs).  Except if  the  exe‐
+              cutable is a setuid/setgid binary, in which case it is ignored.
+       o      From  the  cache file /etc/ld.so.cache which contains a compiled
+              list of candidate libraries previously found  in  the  augmented
+              library path.
+       o      In the default path /lib, and then /usr/lib.
+
+
+比如编译时用的一个库abc，它的路径是在/usr/lib/libabc.so下面。 gcc -labc test.c -o test
+而运行时候zxx@gll-bac:~/ldtest$ !echo
+echo $LD_LIBRARY_PATH
+/home/zxx/ldtest/mylib/
+在此目录下也右libabc.so的库
+那么运行时调用的就是/home/zxx/ldtest/mylib/这个目录下的库了。
+若果这两个库不一样，这样就很可能跟编程者的初衷相违背。
+
+
+-----------
+#include <stdio.h>
+#include <dlfcn.h>
+#include <string.h>
+
+#define MAX_STRING      80
+
+
+void invoke_method( char *lib, char *method, float argument )
+{
+  void *dl_handle;
+  float (*func)(float);
+  char *error;
+
+  /* Open the shared object */
+  dl_handle = dlopen( lib, RTLD_LAZY );
+  if (!dl_handle) {
+    printf( "!!! %s\n", dlerror() );
+    return;
+  }
+
+  /* Resolve the symbol (method) from the object */
+  func = dlsym( dl_handle, method );
+  error = dlerror();
+  if (error != NULL) {
+    printf( "!!! %s\n", error );
+    return;
+  }
+
+  /* Call the resolved method and print the result */
+  printf("  %f\n", (*func)(argument) );
+
+  /* Close the object */
+  dlclose( dl_handle );
+
+  return;
+}
+
+
+int main( int argc, char *argv[] )
+{
+  char line[MAX_STRING+1];
+  char lib[MAX_STRING+1];
+  char method[MAX_STRING+1];
+  float argument;
+
+  while (1) {
+
+    printf("> ");
+
+    line[0]=0;
+    fgets( line, MAX_STRING, stdin);
+
+    if (!strncmp(line, "bye", 3)) break;
+
+    sscanf( line, "%s %s %f", lib, method, &argument);
+
+    invoke_method( lib, method, argument );
+
+  }
+
+}
+---------------
+zxx@gll-bac:~/ldtest$ /lib/ld-linux.so.2 ./dl
+> libm.so expf 0.0
+  1.000000
+> bye
+
+zxx@gll-bac:~/ldtest$ ./dl 
+> libm.so cosf 0.0
+  1.000000
+
+zxx@gll-bac:~/ldtest$ readelf -r dl
+
+Relocation section '.rel.dyn' at offset 0x520 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+08049a3c  00001806 R_386_GLOB_DAT    00000000   __gmon_start__
+08049a78  00001405 R_386_COPY        08049a78   stdin
+
+Relocation section '.rel.plt' at offset 0x530 contains 8 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+08049a4c  00000207 R_386_JUMP_SLOT   00000000   dlsym
+08049a50  00000607 R_386_JUMP_SLOT   00000000   fgets
+08049a54  00000b07 R_386_JUMP_SLOT   00000000   dlerror
+08049a58  00000c07 R_386_JUMP_SLOT   00000000   __libc_start_main
+08049a5c  00000e07 R_386_JUMP_SLOT   00000000   printf
+08049a60  00001007 R_386_JUMP_SLOT   00000000   dlclose
+08049a64  00001107 R_386_JUMP_SLOT   00000000   sscanf
+08049a68  00001907 R_386_JUMP_SLOT   00000000   dlopen
+
+zxx@gll-bac:~/ldtest$ objdump -f dl
+
+dl:     file format elf32-i386
+architecture: i386, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x080487b0
+
+man dlopen
+--------------------------------------------------------------
+If this program were in a file named "foo.c", you would build the  program
+       with the following command:
+
+           gcc -rdynamic -o foo foo.c -ldl
+
+       Libraries  exporting  _init() and _fini() will want to be compiled as fol‐
+       lows, using bar.c as the example name:
+
+           gcc -shared -nostartfiles -o bar bar.c
+--------------------------------------------------------------------------
+如果不同的库中有相同的函数名，那程序到底调用哪一个？
+http://stallman.blogbus.com/logs/16652277.html
+Linux动态库符号错乱2008-03-08
+    今天加班，解决了本周一直困扰我的动态库符号错乱问题，这个问题存在于部分linux系统，在windows上运行正常，可能是由于linux对符号的resolve使用的是相对地址，而windows使用的是绝对地址，下面简单的描述一下，备忘。
+
+主程序M
+        动态库A   【符号class_,function_】
+        动态库B   【符号class_,function_】
+        动态库C
+       。。。。。。。。。。。。。。。。。
+        动态库Z
+
+当M使用ACE_DLL 的open函数动态加载库的时候， 对符号的resolve有三种常用方式：RTLD_LAZY、RTLD_NOW、RTLD_GLOBAL
+    1、RTLD_LAZY 延迟resolve（使用时resolve）
+    2、RTLD_NOW立即resolve
+    3、RTLD_GLOBAL先加载的库中的符号对后加载的库是可见的。
+
+默认使用RTLD_LAZY方式，如果按照先A后B的顺序对动态库进行加载，程序使用A库中的class_或function_符号时，程序运行正常；如果程序使用B库中的符号class_或function_，符号resolve出错，使用了A库中的同名符号，最后CoreDump；如果单独加载库A或B，程序运行正常。
+使用RTLD_NOW方式open库之后程序再无异常。
+出了问题才知道，linux的库相当复杂，有必要花时间研究一下。
+
+
+
+
+
+
+* linux 静态库和动态库
+http://hi.baidu.com/maliang1897/blog/item/7ebb5e29244546f698250a39.html
+基本概念：
+库有动态与静态两种，动态通常用.so为后缀，静态用.a为后缀。
+怎样得到一个应用程序所需要的所有的动态链接库，用pmap
+用pmap还是ldd？
+ldd是静态的对可执行程序执行列出动态链接库
+pmap是动态的对可执行程序的pid进行操作（pmap列出的是最全面的。so）
+ldd列出不了被嵌套调用的so文件
+
+ly@willow:~/UI$ pmap `pidof whell_so`
+7576:   ./whell_so
+001c2000      4K r-x--  /home/lily/libtest/libmyhello.so
+001c3000      4K r----  /home/lily/libtest/libmyhello.so
+001c4000      4K rw---  /home/lily/libtest/libmyhello.so
+00454000      4K r-x--    [ anon ]
+007fe000    112K r-x--  /lib/i386-linux-gnu/ld-2.13.so
+0081a000      4K r----  /lib/i386-linux-gnu/ld-2.13.so
+0081b000      4K rw---  /lib/i386-linux-gnu/ld-2.13.so
+00a2b000   1384K r-x--  /lib/i386-linux-gnu/libc-2.13.so
+00b85000      4K -----  /lib/i386-linux-gnu/libc-2.13.so
+00b86000      8K r----  /lib/i386-linux-gnu/libc-2.13.so
+00b88000      4K rw---  /lib/i386-linux-gnu/libc-2.13.so
+00b89000     12K rw---    [ anon ]
+08048000      4K r-x--  /home/lily/libtest/whell_so
+08049000      4K r----  /home/lily/libtest/whell_so
+0804a000      4K rw---  /home/lily/libtest/whell_so
+b78bb000      8K rw---    [ anon ]
+b78cd000     12K rw---    [ anon ]
+bfc29000    132K rw---    [ stack ]
+ total     1712K
+-------------------------
+这里whell_so 是动态链接生成的可执行程序，用pmap可以看到
+001c2000      4K r-x--  /home/lily/libtest/libmyhello.so
+用到了动态态链接库libmyhello.so
+
+======================
+whell is  static linking libmyhello.a
+
+lily@willow:~/libtest$ pmap `pidof whell `
+7490:   ./whell
+00110000   1384K r-x--  /lib/i386-linux-gnu/libc-2.13.so
+0026a000      4K -----  /lib/i386-linux-gnu/libc-2.13.so
+0026b000      8K r----  /lib/i386-linux-gnu/libc-2.13.so
+0026d000      4K rw---  /lib/i386-linux-gnu/libc-2.13.so
+0026e000     12K rw---    [ anon ]
+00487000      4K r-x--    [ anon ]
+00af9000    112K r-x--  /lib/i386-linux-gnu/ld-2.13.so
+00b15000      4K r----  /lib/i386-linux-gnu/ld-2.13.so
+00b16000      4K rw---  /lib/i386-linux-gnu/ld-2.13.so
+08048000      4K r-x--  /home/lily/libtest/whell
+08049000      4K r----  /home/lily/libtest/whell
+0804a000      4K rw---  /home/lily/libtest/whell
+b76f5000      4K rw---    [ anon ]
+b7706000     12K rw---    [ anon ]
+bfc08000    132K rw---    [ stack ]
+ total     1696K
+ lily@willow:~/libtest$
+-------------------------------------------------
+这里不会显示静态链接库libmyhello.a，因为这个库已经在应用程序里了，不需要再在内存里load了。
+** get symbol name from the elf_exe file
+lily@willow:~/libtest$ nm whell_so |grep hello
+         U hello
+ly@willow:~/libtest$ nm whell |grep hello
+0804842c T hello
+对于库里定义的函数，whell中T表示 定义的
+whell_so U表示未定以，在动态链接库里定义的
+
+程序1: hello.h
+#ifndef HELLO_H
+#define HELLO_H
+
+void hello(const char *name);
+
+#endif //HELLO_H
+程序2: hello.c
+#include
+
+void hello(const char *name)
+{
+printf("Hello %s!\n", name);
+}
+程序3: main.c
+#include "hello.h"
+
+int main()
+{
+int i=0;
+scanf("%d", &i);
+hello("everyone");
+return 0;
+}
+第2步：将hello.c编译成.o文件；
+无论静态库，还是动态库，都是由.o文件创建的。因此，我们必须将源程序hello.c通过gcc先编译成.o文
+
+件。 
+在系统提示符下键入以下命令得到hello.o文件。 
+# gcc -c hello.c 
+# 
+(注1：本文不介绍各命令使用和其参数功能，若希望详细了解它们，请参考其他文档。) 
+(注2：首字符"#"是系统提示符，不需要键入，下文相同。) 
+我们运行ls命令看看是否生存了hello.o文件。 
+# ls 
+hello.c hello.h hello.o main.c 
+# 
+(注3：首字符不是"#"为系统运行结果，下文相同。) 
+在ls命令结果中，我们看到了hello.o文件，本步操作完成。 
+下面我们先来看看如何创建静态库，以及使用它。 
+第3步：由.o文件创建静态库；
+静态库文件名的命名规范是以lib为前缀，紧接着跟静态库名，扩展名为.a。例如：我们将创建的静态库
+
+名为myhello，则静态库文件名就是libmyhello.a。在创建和使用静态库时，需要注意这点。创建静态库
+
+用ar命令。 
+在系统提示符下键入以下命令将创建静态库文件libmyhello.a。 
+# ar cr libmyhello.a hello.o 
+# 
+我们同样运行ls命令查看结果： 
+# ls 
+hello.c hello.h hello.o libmyhello.a main.c 
+# 
+ls命令结果中有libmyhello.a。 
+第4步：在程序中使用静态库；
+静态库制作完了，如何使用它内部的函数呢？只需要在使用到这些公用函数的源程序中包含这些公用函数
+
+的原型声明，然后在用gcc命令生成目标文件时指明静态库名，gcc将会从静态库中将公用函数连接到目标
+
+文件中。注意，gcc会在静态库名前加上前缀lib，然后追加扩展名.a得到的静态库文件名来查找静态库文
+
+件。
+在程序3:main.c中，我们包含了静态库的头文件hello.h，然后在主程序main中直接调用公用函数hello。
+
+下面先生成目标程序hello，然后运行hello程序看看结果如何。 
+# gcc -o hello main.c -L. -l myhello 
+# ./hello 
+Hello everyone! 
+# 
+我们删除静态库文件试试公用函数hello是否真的连接到目标文件 hello中了。 
+# rm libmyhello.a 
+rm: remove regular file `libmyhello.a'? y 
+# ./hello 
+Hello everyone! 
+# 
+程序照常运行，静态库中的公用函数已经连接到目标文件中了。
+
+我们继续看看如何在Linux中创建动态库。我们还是从.o文件开始。 
+第5步：由.o文件创建动态库文件；
+动态库文件名命名规范和静态库文件名命名规范类似，也是在动态库名增加前缀lib，但其文件扩展名
+
+为.so。例如：我们将创建的动态库名为myhello，则动态库文件名就是libmyhello.so。用gcc来创建动态
+
+库。 
+在系统提示符下键入以下命令得到动态库文件libmyhello.so。 
+# gcc -shared -fPCI -o libmyhello.so hello.o 
+# 
+我们照样使用ls命令看看动态库文件是否生成。 
+# ls 
+hello.c hello.h hello.o libmyhello.so main.c 
+# 
+第6步：在程序中使用动态库；
+在程序中使用动态库和使用静态库完全一样，也是在使用到这些公用函数的源程序中包含这些公用函数的
+
+原型声明，然后在用gcc命令生成目标文件时指明动态库名进行编译。我们先运行gcc命令生成目标文件，
+
+再运行它看看结果。 
+# gcc -o hello main.c -L. -l myhello 
+# ./hello 
+./hello: error while loading shared libraries: libmyhello.so: cannot open shared object
+
+file: No such file or directory 
+# 
+哦！出错了。快看看错误提示，原来是找不到动态库文件libmyhello.so。程序在运行时，会在/usr/lib
+
+和/lib等目录中查找需要的动态库文件。若找到，则载入动态库，否则将提示类似上述错误而终止程序运
+
+行。我们将文件libmyhello.so复制到目录/usr/lib中，再试试。 
+# mv libmyhello.so /usr/lib 
+# ./hello 
+./hello: error while loading shared libraries: /usr/lib/libhello.so: cannot restore segment
+
+prot after reloc: Permission denied
+由于SELinux引起，
+# chcon -t texrel_shlib_t /usr/lib/libhello.so
+# ./hello
+Hello everyone! 
+# 
+成功了。这也进一步说明了动态库在程序运行时是需要的。 
+
+====================================
+** which libary gcc will use when there are same name .a and .so library
+我们回过头看看，发现使用静态库和使用动态库编译成目标程序使用的gcc命令完全一样，那当静态库和动态库同名时，gcc命令会使用哪个库文件呢？抱着对问题必究到底的心情，来试试看。 
+先删除 除.c和.h外的 所有文件，恢复成我们刚刚编辑完举例程序状态。 
+# rm -f hello hello.o /usr/lib/libmyhello.so 
+# ls 
+hello.c hello.h main.c 
+# 
+在来创建静态库文件libmyhello.a和动态库文件libmyhello.so。 
+# gcc -c hello.c 
+# ar cr libmyhello.a hello.o 
+# gcc -shared -fPCI -o libmyhello.so hello.o 
+# ls 
+hello.c hello.h hello.o libmyhello.a libmyhello.so main.c 
+# 
+通过上述最后一条ls命令，可以发现静态库文件libmyhello.a和动态库文件libmyhello.so都已经生成，
+
+并都在当前目录中。然后，我们运行gcc命令来使用函数库myhello生成目标文件hello，并运行程序
+
+hello。 
+# gcc -o hello main.c -L. -lmyhello 
+# ./hello 
+./hello: error while loading shared libraries: libmyhello.so: cannot open shared object
+
+file: No such file or directory 
+# 
+从程序hello运行的结果中很容易知道，当静态库和动态库同名时， gcc命令将优先使用动态库。
+
+基本概念：
+库有动态与静态两种，动态通常用.so为后缀，静态用.a为后缀。
+例如：libhello.so libhello.a 为了在同一系统中使用不同版本的库，可以在库文件名后加上版本号为
+
+后缀,例如： libhello.so.1.0,由于程序连接默认以.so为文件后缀名。所以为了使用这些库，通常使用
+
+建立符号连接的方式。 
+ln -s libhello.so.1.0 libhello.so.1 
+ln -s libhello.so.1 libhello.so
+
+======================================
+
+例如：libhello.so libhello.a 为了在同一系统中使用不同版本的库，可以在库文件名后加上版本号为
+后缀,例如： libhello.so.1.0,由于程序连接默认以.so为文件后缀名。所以为了使用这些库，通常使用
+建立符号连接的方式。 
+ln -s libhello.so.1.0 libhello.so.1 
+ln -s libhello.so.1 libhello.so
+
+1、使用库：
+当要使用静态的程序库时，连接器会找出程序所需的函数，然后将它们拷贝到执行文件，由于这种拷贝是
+
+完整的，所以一旦连接成功，静态程序库也就不再需要了。然 而，对动态库而言，就不是这样。动态库
+
+会在执行程序内留下一个标记指明当程序执行时，首先必须载入这个库。由于动态库节省空间，linux下
+
+进行连接的缺省操作是首先连接动态库，也就是说，如果同时存在静态和动态库，不特别指定的话，将与
+
+动态库相连接。 现在假设有一个叫hello的程序开发包，它提供一个静态库libhello.a 一个动态库
+
+libhello.so,一个头文件hello.h,头文件中提供sayhello()这个函数 /* hello.h */ void sayhello();
+
+另外还有一些说明文档。 
+这一个典型的程序开发包结构 与动态库连接， linux默认的就是与动态库连接，下面这段程序testlib.c
+
+使用hello库中的sayhello()函数 
+/*testlib.c*/ 
+#include 
+#include 
+int main() 
+{ 
+   sayhello(); 
+      return 0; 
+} 
+使用如下命令进行编译 $gcc -c testlib.c -o testlib.o 
+用如下命令连接： $gcc testlib.o -lhello -o testlib 
+连接时要注意，假设libhello.o 和libhello.a都在缺省的库搜索路径下/usr/lib下，如果在其它位置要
+
+加上-L参数 与与静态库连接麻烦一些，主要是参数问题。还是上面的例子： 
+$gcc testlib.o -o testlib -WI,-Bstatic -lhello 
+注：这个特别的"-WI，-Bstatic"参数，实际上是传给了连接器ld。指示它与静态库连接，如果系统中只
+
+有静态库当然就不需要这个参数了。如果要和多个库相连接，而每个库的连接方式不一样，比如上面的程序既要和libhello进行静态连接，又要和libbye进行动态连接，其命令应为： 
+$gcc testlib.o -o testlib -WI,-Bstatic -lhello -WI,-Bdynamic -lbye 
+
+** 动态库的路径问题 为了让执行程序顺利找到动态库，有三种方法：
+(1)把库拷贝到/usr/lib和/lib目录下。 
+(2)在LD_LIBRARY_PATH环境变量中加上库所在路径。 
+例如动态库libhello.so在/home/ting/lib目录下，以bash为例，使用命令： 
+$export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ting/lib 
+(3) 修改/etc/ld.so.conf文件，把库所在的路径加到文件末尾，并执行ldconfig刷新。这样，加入的目
+
+录下的所有库文件都可见。 
+3、查看库中的符号
+*** lookup symbol in the library
+有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是
+
+静态的也可以是动态的。nm列出的符号有很多，常见的有三种： 
+一种是在库中被调用，但并没有在库中定义(表明需要其他库支持)，用U表示； 
+一种是库中定义的函数，用T表示，这是最常见的； 
+另外一种是所谓的“弱 态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表
+
+示。 
+例如，假设开发者希望知道上文提到的hello库中是否定义了 printf(): 
+$nm libhello.so |grep printf U 
+其中printf U表示符号printf被引用，但是并没有在函数内定义，由此可以推断，要正常使用hello库，
+
+必须有其它库支持，再使用ldd命令查看hello依赖于哪些库： 
+$ldd hello libc.so.6=>/lib/libc.so.6(0x400la000) /lib/ld-linux.so.2=>/lib/ld-linux.so.2
+
+(0x40000000) 
+从上面的结果可以继续查看printf最终在哪里被定义，有兴趣可以go on 
+4、生成库 
+第一步要把源代码编绎成目标代码。
+以下面的代码为例，生成上面用到的hello库： 
+/* hello.c */ 
+#include   
+void sayhello() 
+{ 
+printf("hello,world "); 
+} 
+用gcc编绎该文件，在编绎时可以使用任何全法的编绎参数，例如-g加入调试代码等： gcc -c hello.c
+
+-o hello.o 
+(1)连接成静态库 连接成静态库使用ar命令，其实ar是archive的意思 
+$ar cqs libhello.a hello.o 
+(2)连接成动态库 生成动态库用gcc来完成，由于可能存在多个版本，因此通常指定版本号： 
+$gcc -shared -Wl,-soname,libhello.so.1 -o libhello.so.1.0 hello.o 
+另外再建立两个符号连接： 
+$ln -s libhello.so.1.0 libhello.so.1 
+$ln -s libhello.so.1 libhello.so 
+这样一个libhello的动态连接库就生成了。最重要的是传gcc -shared 参数使其生成是动态库而不是普通
+
+执行程序。 -Wl 表示后面的参数也就是-soname,libhello.so.1直接传给连接器ld进行处理。实际上，每
+
+一个库都有一个soname，当连接器发现它正在查找的程序库中有这样一个名称，连接器便会将soname嵌入
+
+连结中的二进制文件内，而不是它正在运行的实际文件名，在程序执行期间，程序会查找拥有 soname名
+
+字的文件，而不是库的文件名，换句话说，soname是库的区分标志。 这样做的目的主要是允许系统中多
+个版本的库文件共存，习惯上在命名库文件的时候通常与soname相同。libxxxx.so.major.minor 其中，
+xxxx是库的名字，major是主版本号，minor 是次版本号.
+
+
+** the order of library linking if library has dependecy relation
+---------
+//cshell.c
+#include "hello.h" 
+void hell()
+{
+   hello("heaven!!\n");
+}
+___________
+//hello.c
+#include <stdio.h>
+
+void hello(const char *name)
+{
+        printf("Hello %s!\n", name);
+}
+___-----------
+//hello.h
+#ifndef HELLO_H
+#define HELLO_H
+
+void hello(const char *name);
+void hell();
+#endif //HELLO_H
+
+---------------
+//main.c
+
+#include "hello.h"
+int main()
+{
+        int i=0;
+        hell();
+        return 0;
+}
+
+---------------
+the lib mychell called the function defined in lib myhello
+gcc -c chell.c
+ar cr mychell.a chell.o
+
+gcc -c hello.c
+ar cr myhello.a hello.o
+
+[liguo@walnut lib_test]$  gcc  main.c -L. -lmychell -lmyhello  -o hello
+[liguo@walnut lib_test]$ ./hello
+Hello heaven!!
+!
+[liguo@walnut lib_test]$  gcc  main.c -L.  -lmyhello -lmychell  -o hello
+./libmychell.a(chell.o)(.text+0xe): In function `hell':
+: undefined reference to `hello'
+collect2: ld returned 1 exit status
+[liguo@walnut lib_test]$ nm libmyhello.a
+
+hello.o:
+00000000 T hello
+         U printf
+[liguo@walnut lib_test]$
+the order is important here, the order is from the end of the library to begin process,
+so if the libraries have dependency, must put the one being depended after the one dependit.
+
+** symbol name in elf file
+a symbol name in the static libary that elf using, but it not necessarily in the elf
+file for if the elf file didn't use that symbol name.
+a static library file is created by command ar which has nothing to do with the compilation tools sucn as g++,
+link .
+ar is just a achive file, it just put all files together, but for a exe file which created by g++, 
+It will only get the useful symbol(which function has been used in th .o file) from the static linking library
+That's the difference between ar and g++ linking.
+For example, if in a libL.a file
+nm libL.a|grep functionname
+T functionname
+g++ -o exe *.o libL.a 
+nm exe |grep functionname
+1. no result at all, that's because no *.o file called this functionname
+-----------------
+
+------------------
+2. there's some *.o file calling this functionname
+-----------------
+T functionname
+-----------------
+
+So g++ linking process won't put all staff together just like ar.
+Another feature is :
+nm GtpCodecT3.o |grep GtpDe
+   U GtpDe                       //this means GtpCodecT3.o called function GtpDe but not defined it
+nm GtpCust.o |grep GtpDe
+000005a9f  T GtpDe                 //this mean GtpCust.o defined this function
+ar cru libLb.a GtpCodecT3.o GtpCust.o
+--------------
+   U GtpDe                       //this means GtpCodecT3.o called function GtpDe but not defined it
+000005a9f T  GtpDe                 //this mean GtpCust.o defined this function
+--------------------
+g++ -o exe *.o libLb.a
+nm exe |grep GtpDe
+---------------
+000005a9f T  GtpDe   //if *.o called this function GtpDe, no U any more
+--------------
+So ar and g++ linking process is very different.
+but if using g++ -c option means only get o file not exe, if some function which been called but not defined, this is OK, 
+In linking process, all function which has been called should be defined, not must in exe file, it could be so
+file, but it must be found.
+for U must be 
+nm exe
+U syslog@@GLIBC_2.0
+@@ means in which dynamically libarary
+
+
+======================
+
+* linux program invoking a function defined in two different libraries
+for ex:
+libA:   hello();
+libB:   hello();
+gcc -o main main.c -L. -l A -l B
+this main will call A's hello.
+
+gcc -o main main.c -L. -l B -l A
+this main will call B's hello.
+* linking two shared libraries with some of the same symbols
+I am trying to link with two different shared libraries. Both libraries define some symbols that share a name but have different implementations. I can't seem to find a way to make each library use its own implementation over the other.
+
+For example, both libraries define a global function bar() that each calls internally. Library one calls it from foo1() and library two calls it from foo2().
+
+Lib1.so:
+
+T bar
+T foo1()     // calls bar()
+
+Lib2.so:
+
+T bar
+T foo2()     // calls bar()
+
+
+If I link my application against Lib1.so and then Lib2.so the bar implementation from Lib1.so is called even when calling foo2(). If on the other hand, I link my application against Lib2.so and then Lib1.so, then bar is always called from Lib2.so.
+
+** real example
+link order in compilation stage:
+liguo@localhost lib]$ gcc -o hello main.c -L ./ -lmyhellow  -lmyhello
+[liguo@localhost lib]$ ./hello
+this is in the hellow2 bar
+Hello nouse !
+this is in the hellow2 bar
+Hellow2 hawk !
+[liguo@localhost lib]$ ldd hello
+libmyhellow.so (0x00ed5000)
+libmyhello.so (0x00111000)
+libc.so.6 => /lib/tls/libc.so.6 (0x00785000)
+ /lib/ld-linux.so.2 (0x0076c000)
+
+
+link order in runtime
+[liguo@localhost lib]$ gdb hello
+GNU gdb Red Hat Linux (6.3.0.0-1.96rh)
+Copyright 2004 Free Software Foundation, Inc.
+(gdb) b main
+Breakpoint 1 at 0x80484c4
+(gdb) r
+Starting program: /home/liguo/lib/hello
+Error while mapping shared library sections:
+libmyhellow.so: Success.
+Error while mapping shared library sections:
+libmyhello.so: Success.
+
+
+
+** Is there a way to make a library always prefer its own implementation above any other library?
+c unix gcc shared-libraries dynamic-linking
+There are several ways to solve this:
+    Pass -Bsymbolic or -Bsymbolic-functions to the linker. This has a global effect: every reference to a global symbol (of function type for -Bsymbolic-functions) that can be resolved to a symbol in the library is resolved to that symbol. With this you lose the ability to interpose internal library calls to those symbols using LD_PRELOAD. The symbols are still exported, so they can be referenced from outside the library.
+
+        Use a version script to mark symbols as local to the library, e.g. use something like: {local: bar;}; and pass --version-script=versionfile to the linker. The symbols are not exported.
+
+    Mark symbols with an approppiate visibility (GCC info page for visibility), which will be either hidden, internal, or protected. protected visibility symbols are exported as .protected, hidden symbols are not exported, and internal symbols are not exported and you compromise not to call them from outside the library, even indirectly through function pointers.
+
+    You can check which symbols are exported with objdump -T.
+    
+    You will have to create two 'wrapper' shared libs, one for each of your existing libs. Each one should be built with a --dynamic-list that lists only a few non-conflicting symbols that define an API. You will also need -Bsymbolic to avoid any global combination.
+
+It might be less stressful to access the resulting libs via dlopen with suitable options, as well.
+  	 
+ 	
+Thanks so much! Just the -Bsymbolic option (passed to the linker using the -Wl option) for both shared library linkings solved the problem for me. –  drewag Jun 30 '11 at 18:21 
+=============
+=======
+
+
+
+I have a gcc-compiled application linked against dynamic libraries. Is there a way to impose the order in which libraries are loaded? (In my case one library constructor uses resources set up by other library constructor).
+
+
+gcc isn't in-charge of loading the libraries, either ld.so does it automatically when your program loads, or you do it manually as @jldupont suggests.
+
+And ld.so might deliberately randomise the order to prevent return-to-stdlib attacks.
+
+So either:
+
+    Load the libraries yourself.
+        Or remove the dependencies between the library load scripts.
+    Make the libraries contain the dependencies themselves (might work, might not) That is when you get to the point of linking each shared library, make sure it includes -l<dependentlib> in the link command. You can test this by creating a trival program that links only with that shared library - if it builds and runs, then the library contains all necessary dependent libs. This might help if ld.so loads the libraries in dependency order - which I think it has to do.
+
+    	
+How do I "make the libraries contain the dependencies themselves" ? –  jackhab Dec 7 '09 at 13:19
+   	 
+ 	
+@Jack - edited my answer - basically when linking the library make sure all dependent libs are linked in. –  Douglas Leeder Dec 7 '09 at 13:42
+
+You can use dlopen and load the libraries yourself: this way, you can have a finer grain control over the loading/unloading process. See here.
+
+Of course, this isn't a "gcc" based solution and it requires reworking your application... Maybe you could explain the "problem" you are facing in a bit more details?
+
+You can disregard my solution if it doesn't fit your needs. Cheers!
