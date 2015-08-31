@@ -687,13 +687,100 @@ It says that the buffer name should start with any character except *.
 no wrap line enable
 To enable it globally, there is a global-visual-line-mode which you would enable with M-x global-visual-line-mode.
 
-To enable it as a file variable, it¡¯d be  -*- mode:blah ; mode:visual-line -*-.
+To enable it as a file variable, it??d be  -*- mode:blah ; mode:visual-line -*-.
 
-If you don¡¯t want to use the visual-line-mode command because you don¡¯t want the behaviors changed (i.e., you want it to leave your C-a, C-e pure), the variable to set is ¡®word-wrap¡¯: i.e., M-: (setq word-wrap t), or placing it as a file variable -*- mode:blah ; word-wrap:t -*- in your first line.
+If you don??t want to use the visual-line-mode command because you don??t want the behaviors changed (i.e., you want it to leave your C-a, C-e pure), the variable to set is ??word-wrap??: i.e., M-: (setq word-wrap t), or placing it as a file variable -*- mode:blah ; word-wrap:t -*- in your first line.
 
-Usage of the word-wrap feature is really dependent on whether or not you like to horizontally scroll or not (with ¡®truncate-lines¡¯). I don¡¯t, since I¡¯m 
+Usage of the word-wrap feature is really dependent on whether or not you like to horizontally scroll or not (with ??truncate-lines??). I don??t, since I??m 
 
 
+
+** debug php using genben in emacs
+URL    https://blogs.oracle.com/opal/entry/quick_debugging_of_php_scripts
+
+
+ Quick Debugging of PHP Scripts in Emacs with Geben and Xdebug
+By cj on Jan 23, 2013
+
+When you want to test a PHP code snippet quickly, it's handy to do it within your day-to-day environment. For me, this environment is Emacs. The geben package for Emacs provides an interface to the DBGp protocol, such as used by Derick Rethans's standard Xdebug extension for PHP.
+
+With the combination of geben and Xdebug, I can quickly and efficiently step through execution of local files, examining code flow and data values.
+
+Working steps to install and use the debugger on command line PHP scripts are shown below. They are standard enough that they can be customized to your actual environment.
+
+You probably already have Xdebug installed, since it is the common debugger and profiler used by most IDEs. Installing geben in Emacs is straight forward.
+
+1. Download PHP 5.4 from http://php.net/downloads.php
+
+2. Install PHP with:
+
+$ tar -jxf php-5.4.11.tar.bz2
+$ cd php-5.4.11
+$ ./configure --prefix=/home/cjones/php54
+$ make install
+$ cp php.ini-development /home/cjones/php54/lib/php.ini
+
+3. Download the source code for the Xdebug Debugger extension for PHP from http://xdebug.org/download.php
+
+4. Install Xdebug into PHP with:
+
+$ cd /home/cjones
+$ tar -zxf xdebug-2.2.1.tgz
+$ cd xdebug-2.2.1
+$ export PATH=/home/cjones/php54/bin:$PATH
+$ phpize
+$ ./configure --enable-xdebug --with-php-config=/home/cjones/php54/bin/php-config
+$ make install
+
+More information is shown in http://xdebug.org/docs/install
+
+5. Edit /home/cjones/php54/lib/php.ini and enable Xdebug by adding these lines:
+
+zend_extension=/home/cjones/php54/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
+xdebug.remote_enable=on
+xdebug.remote_host=127.0.0.1
+
+6. Install geben manually or use the Emacs 24 package repository (M-x package-list-packages)
+
+To manually install geben, download it from http://code.google.com/p/geben-on-emacs/downloads/list and install it with:
+
+$ cd /home/cjones
+$ tar -zxf geben-0.26.tar.gz
+
+8. Add the following to the Emacs initialization file /home/cjones/.emacs. When testing this blog post, my .emacs file only contained this code:
+
+(setq load-path (cons "/home/cjones/geben-0.26" load-path))
+
+(autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
+
+;; Debug a simple PHP script.
+;; Change the session key my-php-54 to any session key text you like
+(defun my-php-debug ()
+  "Run current PHP script for debugging with geben"
+  (interactive)
+  (call-interactively 'geben)
+  (shell-command
+    (concat "XDEBUG_CONFIG='idekey=my-php-54' /home/cjones/php54/bin/php "
+    (buffer-file-name) " &"))
+  )
+
+(global-set-key [f5] 'my-php-debug)
+
+Experienced Emacs users will most likely use local-set-key in a php-mode hook to set a key mapping.
+
+9. Start Emacs and load a PHP file:
+
+$ emacs my.php
+
+10. Press F5 to start the debugger. The script will open in geben mode and can be stepped through with the space bar.
+
+Geben mode commands can be shown with '?'. They include 'v' for showing variables, 'c' for run-to-cursor, and 'g' for completing the program.
+
+Geben can also be used for scripts called via a browser. Start the geben listener in Emacs with M-x geben and load a script in the browser, passing an Xdebug URL parameter setting the session name. This initiates the debug session in Emacs. E.g. Load http://localhost/my.php?XDEBUG_SESSION_START=my-php-54
+
+11. When you are finished debugging, stop the debug server listener inside Emacs:
+
+M-x geben-end
 
 
 

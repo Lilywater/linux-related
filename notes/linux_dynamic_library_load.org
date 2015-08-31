@@ -1201,7 +1201,8 @@ T bar
 T foo2()     // calls bar()
 
 
-If I link my application against Lib1.so and then Lib2.so the bar implementation from Lib1.so is called even when calling foo2(). If on the other hand, I link my application against Lib2.so and then Lib1.so, then bar is always called from Lib2.so.
+If I link my application against Lib1.so and then Lib2.so the bar implementation from Lib1.so is called even when calling foo2(). If on the other hand, I
+link my application against Lib2.so and then Lib1.so, then bar is always called from Lib2.so.
 
 ** real example
 link order in compilation stage:
@@ -1233,18 +1234,21 @@ libmyhello.so: Success.
 
 
 
-** Is there a way to make a library always prefer its own implementation above any other library?
+** Is there a way to make a library always prefer its own implementat   ion above any other library?
 c unix gcc shared-libraries dynamic-linking
 There are several ways to solve this:
-    Pass -Bsymbolic or -Bsymbolic-functions to the linker. This has a global effect: every reference to a global symbol (of function type for -Bsymbolic-functions) that can be resolved to a symbol in the library is resolved to that symbol. With this you lose the ability to interpose internal library calls to those symbols using LD_PRELOAD. The symbols are still exported, so they can be referenced from outside the library.
+    Pass -Bsymbolic or -Bsymbolic-functions to the linker. This has a global effect: every reference to a global symbol (of function type for -Bsymbolic-functions) that can be 
+    resolved to a symbol in the library is resolved to that symbol. With this you lose the ability to interpose internal library calls to those symbols using LD_PRELOAD.
+    The symbols are still exported, so they can be referenced from outside the library.
 
-        Use a version script to mark symbols as local to the library, e.g. use something like: {local: bar;}; and pass --version-script=versionfile to the linker. The symbols are not exported.
-
-    Mark symbols with an approppiate visibility (GCC info page for visibility), which will be either hidden, internal, or protected. protected visibility symbols are exported as .protected, hidden symbols are not exported, and internal symbols are not exported and you compromise not to call them from outside the library, even indirectly through function pointers.
+    Use a version script to mark symbols as local to the library, e.g. use something like: {local: bar;}; and pass --version-script=versionfile to the linker.
+    The symbols are not exported.  Mark symbols with an approppiate visibility (GCC info page for visibility), which will be either hidden, internal, or protected. protected 
+    visibility symbols are exported as .protected, hidden symbols are not exported, and internal symbols are not exported and you compromise not to call them from outside the library, 
+    even indirectly through function pointers.
 
     You can check which symbols are exported with objdump -T.
-    
-    You will have to create two 'wrapper' shared libs, one for each of your existing libs. Each one should be built with a --dynamic-list that lists only a few non-conflicting symbols that define an API. You will also need -Bsymbolic to avoid any global combination.
+    You will have to create two 'wrapper' shared libs, one for each of your existing libs. Each one should be built with a --dynamic-list that lists only a
+    few non-conflicting symbols that define an API. You will also need -Bsymbolic to avoid any global combination.
 
 It might be less stressful to access the resulting libs via dlopen with suitable options, as well.
   	 

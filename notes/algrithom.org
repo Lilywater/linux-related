@@ -553,3 +553,45 @@ FIFO
  
 
 .
+*  list structure.
+struct node{
+ void * data;
+ Node * next;
+}Node;
+
+** basic list operation
+every list has a "head" so that through it, you could walk all the nodes in the list.
+*** add to a list
+Node* addtolist(Node * head, Node * tobeadd)  // maybe return a new head which is different from the one in the first arg
+ //add tobeadd to right after head , if head==NULL, then head will be tobeadd node.
+{
+    Node *Hh = head; 
+    if(Hh)
+    {
+      tobeadd->next = Hh->next; 
+      Hh->next = tobeadd;
+    }
+    else
+    {
+        tobeadd->next = NULL;
+        Hh= tobeadd;
+    }
+    return Hh;
+}
+
+
+Node* removelist(Node *head, Node *tobermv)  //maybe return a new head if tobermv is the 
+only node, head==tobermv
+{
+    if(head == tobermv)
+    {
+      head=NULL;
+    }
+    else
+    {
+      pre     
+    
+    } 
+}
+}
+

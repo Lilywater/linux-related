@@ -1,0 +1,126 @@
+* Check source code (valgrind vs. pc-lint)
+** valgrind is a dynamical tool  checking source code
+
+** splint/c-lint is a statical tool checking  source code
+in linux 
+[]$ splint test.c
+
+some kind of memory leck
+=========================
+eg.
+void * func()
+{
+   if(n = malloc() ==NULL)
+     return NULL;
+   if(n->t = malloc() == NULL)
+      retrun NULL
+}
+============================
+
+
+* gcov-- this test the coverage of source code.
+** compile option
+-fprifile-arcs -ftest-coverage
+   g++ $(OBJECTS) -fprofile-arcs -ftest-coverage    -o $@
+
+** usage
+./program   ### execute the program when compiled with the compile option
+gcov *.c   ### show the coverage of the file
+[admin1@TeamCI-136 cleancodeContest]$ gcov hash.c
+File '/usr/include/sys/sysmacros.h'
+Lines executed:0.00% of 6
+/usr/include/sys/sysmacros.h:creating 'sysmacros.h.gcov'
+
+File 'hash.c'
+Lines executed:82.35% of 85
+hash.c:creating 'hash.c.gcov'
+
+[admin1@TeamCI-136 cleancodeContest]$vim hash.c.gcov
+        -:   60:
+        -:   61:/* Create a key-value pair. */
+    61441:   62:hash_entry_t *ht_newpair(const void *key, void *value, size_t key_size ) {
+        -:   63:    hash_entry_t *newpair;
+        -:   64:
+    61441:   65:    if( ( newpair =(hash_entry_t *) malloc( sizeof( hash_entry_t ) ) ) == NULL ) {
+    #####:   66:        return NULL;
+        -:   67:    }
+
+-------------------------------------------------------
+line 66 hasn't been executed.
+
+
+
+* gprof
+http://www.thegeekstuff.com/2012/08/gprof-tutorial/
+** Profiling enabled while compilation
+In this first step, we need to make sure that the profiling is enabled when the compilation of the code is done. This is made possible by adding the ¡®-pg¡¯ option in the compilation step.
+
+    -pg : Generate extra code to write profile information suitable for the analysis program gprof. You must use this option when compiling the source files you want data about, and you must also use it when linking.
+
+    So, lets compile our code with ¡®-pg¡¯ option :
+$ gcc -Wall -pg test_gprof.c test_gprof_new.c -o test_gprof
+    
+**  Execute the code
+
+In the second step, the binary file produced as a result of step-1 (above) is executed so that profiling information can be generated.
+
+$ ls
+test_gprof  test_gprof.c  test_gprof_new.c
+
+$ ./test_gprof 
+
+ Inside main()
+
+ Inside new_func1()
+
+ Inside func2 
+
+So we see that when the binary was executed, a new file ¡®gmon.out¡¯ is generated in the current working directory.
+
+** Run the gprof tool
+
+In this step, the gprof tool is run with the executable name and the above generated ¡®gmon.out¡¯ as argument. This produces an analysis file which contains all the desired profiling information.
+
+$  gprof test_gprof gmon.out > analysis.txt
+
+Note that one can explicitly specify the output file (like in example above) or the information is produced on stdout.
+
+$ ls
+analysis.txt  gmon.out  test_gprof  test_gprof.c  test_gprof_new.c
+
+So we see that a file named ¡®analysis.txt¡¯ was generated.
+
+On a related note, you should also understand how to debug your C program using gdb.
+Comprehending the profiling information
+
+As produced above, all the profiling information is now present in ¡®analysis.txt¡¯. Lets have a look at this text file :
+=================================================-
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+%    cumulative self          self   total
+time seconds    seconds calls s/call s/call name
+33.86 15.52     15.52    1    15.52  15.52  func2
+33.82 31.02     15.50    1    15.50  15.50  new_func1
+33.29 46.27     15.26    1    15.26  30.75  func1
+0.07  46.30     0.03                        main
+
+% the percentage of the total running time of the
+==================================================
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+### so slef seconds = self/call * calls
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+       function is profiled, else blank.
+
+

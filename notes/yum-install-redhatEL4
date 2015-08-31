@@ -1130,3 +1130,21 @@ b := match(tt , a_4IntsWithOneTwo ); // b evaluates to false, the length of*/
  log(b);
 }
 
+================
+about ttcn codec
+How a message been decoded, it's not up to the port, it depend on the templateyou fill in receive(MSGTEMPLATE) function or the messagtype in receive(MSGTYPE:?)
+all up to the message type, and this message type should register the encode/decode function in the library, so they can be invoked.
+port just allow some kind message defined in the port to be in/out
+
+
+
+
+alt step and default alt step
+default alt step would be put behind the alt step
+but this kind of clause will be tranfer into alt step even you don't explicitly writting like that:
+
+timer t
+t.start();
+t.timeout;  // this will be tranfered to alt step
+pt.receive();  // this will be transfeted to alt step also
+

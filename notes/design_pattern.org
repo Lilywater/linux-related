@@ -3,12 +3,14 @@ http://www.codeproject.com/Articles/38962/State-Design-Pattern
 在一个事物对于不同的输入（触发条件）会达到不同的输出（状态）。
 假设有不同的状态，每个状态于状态之间存在着转化关系，A->D->B->C , B和C之间可以相互转换。
 注意这里状态A是初始状态，不能够循环后又回到A。
+      evnt1
      A----->D
-           |
+           |event2
            |
            \  
            B<------>C
-
+              evnet3
+** C++ implementation
 要抽象出状态之间的转换可以用动作B.toStateA()表示，表示从B到A的动作，这时状态变成A。
 理论上的设计要使每种状态之间都能够相互转换，那么每种状态都要有转换动作toStateB， toStateC， toStateD,toStateA.
 分别到达BCDA这四种状态。但是如果A.stateA()表示什么呢？表示其他状态转换到状态A的动作,这里就是状态A的初始化工作，也就是构造
@@ -76,8 +78,385 @@ class D:public IState
   toStateD() {cout << "do some initailizatio for D";}
 }
 
+** Java implementation
+FSM
+          evnt1   evn4
+ START----->D-------->A
+           |           |
+           |evnt2      |
+           \          \/
+           B<------>END
+              evnet3
+
+abstract a general FSM engine,it will be created in START state,
+then FSM is polling for the events coming, if some event coming meet this graph, then the state will be jump to D if evnt1 was triggered.
+So FSM need two functional area, one is transition(which define this graph by an array of such (fromStateid, toStateid, evntid ) [only ids] 
+other one is STATE(the object of STATE by id), State could be created by its id dynamically.
+
+public class FSMEngine
+{
+  private final FSMTransitionDefinition transitions;
+  private final FSMStateFactory stateFactory;
+  private State startState;
+  private State currentState;
+   
+  public FSMEngine(FSMTransitionDefinition transitions, FSMStateFactory stateFactory)
+    {
+        this.transitions = transitions;
+        this.stateFactory = stateFactory;
+    }
+  private State stateById(int stateId)
+  {
+      return stateFactory.getStateById(stateId);
+  }
+
+  private void transitionToState(State nextState)
+  {
+     currentState = nextState;
+     currentState.run();
+  }
+ 
+  public void start()
+  {
+    startState=stateById(transitions.getStartStateId());  // stateFactorty could return a instance of the State by stateid
+    transitionToState(startState);
+  }
+ public void sendEvent(int eventId, Object eventArgs)   // public action called by other class, sendEvent to this FSMEngine.
+  {
+     Transition transition = transitions.fetchTransition(currentState, eventId, eventArgs, this);
+     transitionToState( stateFactory.getStateById(trans.to));
+  }
+}
+
+*** transitions
+// support one state to multiple state, state D could to A or B, so need ArrayList to store multiple transition.
+class TransitionMatcher
+{
+   ArrayList<Transition> transitions = new ArrayList<Transition>();
+   public TransitionMatcher()
+   {
+   }
+   public void addTransition(Transition transition)
+   {
+      transitions.add(transition);
+   }
+   public List<Transition> getTransitions()
+   {
+    return transitions;
+   }
+    public Transition matchTransition( State currentState, int eventId, Object eventArgs, FSMEngine engine )
+    {
+        for( Transition transition : transitions )
+        {
+            if( transition.accept( currentState, eventId, eventArgs, engine ) )
+            {
+                return transition;
+            }
+        }
+        return null;
+    }
+
+}
+public class FSMTransitionDefinition
+{
+    private HashMap<Integer, TransitionMatcher> transitionsMap = new HashMap<Integer,TransitionMatcher>();
+    private ArrayList<Transition> transitions = new ArrayList<Transition>(32);
+    private int startStateId = 0;   //here startStateId is 0, which is defined later accordingly
+    
+    public void setStartStateId(int id)
+    {
+        this.startStateId = id;
+    }
+    public int getStartStateId()
+    {
+       return startStateId;
+    }
+    public void defineTransition( int fromStateId, int eventId, int toStateId )
+    {
+        Transition transition = new Transition();
+        transition.from = fromStateId;
+        transition.to = toStateId;
+        transition.eventId = eventId;
+        //        transitions.add( transition );
+
+        TransitionMatcher trMatcher = transitionsMap.get( fromStateId );
+        if( null == trMatcher )
+        {
+            trMatcher = new TransitionMatcher();
+            transitionsMap.put( fromStateId, trMatcher );
+        }
+        trMatcher.addTransition( transition );
+
+    }
+    public Transition fetchTransition(State currentState, int eventId, Object eventArgs, FSMEngine engine)
+    {
+      TransitionMatcher trMatcher = transitionsMap.get(currentState.getId());
+      if(null != trMatcher)
+      {
+         return trMatcher.matchTransition(currentState, eventId, eventArgs, engine);
+      }
+      return null;
+
+    }    
+    class Transition
+    {
+        public int from = State.Null;
+        public int to = State.Null;
+        public int eventId;
+        public boolean accept( State fromState, int eventId, Object eventArgs, FSMEngine engine )
+        {
+            if( this.eventId == eventId )
+            {
+               return true;
+            }
+            return false;
+        }
+    }
+}
+
+***  Factory dynamically create a class by name or id in java
+Enumerate class is a good choice here.
+public class MyStateFactory extends FSMStateFactory {
+    public State getStateById( int stateId )
+    {
+        switch( stateId )
+        {
+            case 0:
+                return new Start();
+
+            case 1:
+                return new Error();
+
+            case 2:
+                return new End();
+            
+            case 3:
+                return new StateA();
+
+       }
+        return null;
+    }
+
+}
+
+public enum MyStates {
+        Start( 0 ), Error(1), End(2), StateA( 3 );
+    private final int id;
+    MyStates(int id)
+    {
+        this.id = id;
+    }
+    public int getId()
+    {
+        return this.id;
+    }
+}
+
+public abstract class State
+{
+  private final int id = -1;
+  public static final int Null = -1;
+  public int getId()
+  {
+     return id;
+   }
+  public abstract void run() throws Exception;
+}
+
+public class Start extends State {
+    public void run() throws Exception {
+        System.out.println("Start");
+        }
+    public int getId()
+    {
+        return MyStates.Start.getId();
+    }
+}
+
+public class End extends State {
+    public void run() throws Exception {
+        System.out.println("End");
+        }
+    public int getId()
+    {
+        return MyStates.End.getId();
+    }
+}
+
+
+*** Test code
+
+import com.nsn.mme.fsm.FSMEngine;
+import com.nsn.mme.fsm.FSMStateFactory;
+import com.nsn.mme.fsm.FSMTransitionDefinition;
+
+public class MyProcedure {
+    protected static FSMTransitionDefinition fsmTransition = null;
+    private FSMEngine fsm;    // create the FSM engine
+    static
+    {
+        fsmTransition = new FSMTransitionDefinition();
+        defineTransitions();
+    }
+    
+    public MyProcedure() {
+        MyStateFactory factory = new MyStateFactory();
+        fsm = new FSMEngine( fsmTransition, new FSMStateFactory( factory ) );
+        fsm.start();
+    }
+
+    private static void defineTransitions() {
+        fsmTransition.defineTransition(MyStates.Start.getId(), MyEvents.EventA.getId(), MyStates.StateA.getId());
+        fsmTransition.defineTransition(MyStates.StateA.getId(), MyEvents.EventB.getId(), MyStates.StateB.getId());
+        fsmTransition.defineTransition(MyStates.StateB.getId(), MyEvents.EventC.getId(), MyStates.StateC.getId());
+        fsmTransition.defineTransition(MyStates.StateB.getId(), MyEvents.EventD.getId(), MyStates.StateD.getId());
+        fsmTransition.defineTransition(MyStates.StateD.getId(), MyEvents.EventF.getId(), MyStates.End.getId());
+    }
+    public void raiseEvent(MyEvents event, Object eventArgs) {
+        fsm.sendEvent(event.getId(), eventArgs);
+    }
+    
+}
+
 
 * factory pattern  用类名动态生成类对象（工厂模式）
+** java implementation
+
+CarType.java will hold the types of car and will provide car types to all other classes
+package designPatterns.creational.factory;
+ 
+public enum CarType {
+    SMALL, SEDAN, LUXURY
+}
+
+Car.java is parent class of all car instances and it will also contain the common logic applicable in car making of all types.
+package designPatterns.creational.factory;
+ 
+public abstract class Car {
+ 
+    public Car(CarType model) {
+        this.model = model;
+        arrangeParts();
+    }
+ 
+    private void arrangeParts() {
+        // Do one time processing here
+    }
+ 
+    // Do subclass level processing in this method
+    protected abstract void construct();
+ 
+    private CarType model = null;
+ 
+    public CarType getModel() {
+        return model;
+    }
+ 
+    public void setModel(CarType model) {
+        this.model = model;
+    }
+}
+
+LuxuryCar.java is concrete implementation of car type LUXURY
+package designPatterns.creational.factory;
+ 
+public class LuxuryCar extends Car {
+ 
+    LuxuryCar() {
+        super(CarType.LUXURY);
+        construct();
+    }
+ 
+    @Override
+    protected void construct() {
+        System.out.println("Building luxury car");
+        // add accessories
+    }
+}
+
+SmallCar.java is concrete implementation of car type SMALL
+package designPatterns.creational.factory;
+ 
+public class SmallCar extends Car {
+ 
+    SmallCar() {
+        super(CarType.SMALL);
+        construct();
+    }
+ 
+    @Override
+    protected void construct() {
+        System.out.println("Building small car");
+        // add accessories
+    }
+}
+
+SedanCar.java is concrete implementation of car type SEDAN
+package designPatterns.creational.factory;
+ 
+public class SedanCar extends Car {
+ 
+    SedanCar() {
+        super(CarType.SEDAN);
+        construct();
+    }
+ 
+    @Override
+    protected void construct() {
+        System.out.println("Building sedan car");
+        // add accessories
+    }
+}
+
+CarFactory.java is our main class implemented using factory pattern. It instantiates a car instance only after determining its type.
+package designPatterns.creational.factory;
+ 
+public class CarFactory {
+    public static Car buildCar(CarType model) {
+        Car car = null;
+        switch (model) {
+        case SMALL:
+            car = new SmallCar();
+            break;
+ 
+        case SEDAN:
+            car = new SedanCar();
+            break;
+ 
+        case LUXURY:
+            car = new LuxuryCar();
+            break;
+ 
+        default:
+            // throw some exception
+            break;
+        }
+        return car;
+    }
+}
+
+In TestFactoryPattern.java, we will test our factory code. Lets run this class.
+package designPatterns.creational.factory;
+ 
+public class TestFactoryPattern {
+    public static void main(String[] args) {
+        System.out.println(CarFactory.buildCar(CarType.SMALL));
+        System.out.println(CarFactory.buildCar(CarType.SEDAN));
+        System.out.println(CarFactory.buildCar(CarType.LUXURY));
+    }
+}
+ 
+Output:
+ 
+Building small car
+designPatterns.creational.factory.SmallCar@7c230be4
+Building sedan car
+designPatterns.creational.factory.SedanCar@60e1e567
+Building luxury car
+designPatterns.creational.factory.LuxuryCar@e9bfee2
+
+As you can see, factory is able to return any type of car instance it is requested for. It will help us in making any kind of changes in car making process without even touching the composing classes i.e. classes using CarFactory.
+
 ** 源代码
 CObject.h
 ================================

@@ -1,4 +1,6 @@
 * vi HELP
+** make cumstom
+:set makeprg=xxx to change the command that is executed.
 vim命令非常繁多复杂，如果不知道可以查阅:help
 如果是某个命令不清除可佣 :help substitute      :help switchbuf
 如果是命令简写，可佣 :help :s        :help :substitute，

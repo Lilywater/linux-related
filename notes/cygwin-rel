@@ -62,3 +62,11 @@ php-Structures_Graph
 # 以下省略
 ......
 
+
+
+#####中文乱码问题
+文本编辑状态下，在界面上右键，选择 options 选项里面 Text 的设置，
+
+　　Local 一栏选择 C （或者选 Default 的话系统也会自动默认为 C）， Character set 一栏选择 GBK。如图所示：
+
+

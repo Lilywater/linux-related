@@ -1,43 +1,4 @@
 * C 基本
-** memory alignment
-Here is a structure with members of various types, totaling 8 bytes before compilation:
-
-struct MixedData
-{
-    char Data1;
-    short Data2;
-    int Data3;
-    char Data4;
-};
-After compilation the data structure will be supplemented with padding bytes to ensure a proper alignment for each of its members:
-
-struct MixedData  /* After compilation in 32-bit x86 machine */
-{
-    char Data1; /* 1 byte */
-    char Padding1[1]; /* 1 byte for the following 'short' to be aligned on a 2 byte boundary 
-assuming that the address where structure begins is an even number */
-    short Data2; /* 2 bytes */
-    int Data3;  /* 4 bytes - largest structure member */
-    char Data4; /* 1 byte */
-    char Padding2[3]; /* 3 bytes to make total size of the structure 12 bytes */
-};
-The compiled size of the structure is now 12 bytes. It is important to note that 
-
-
-modify the default alignment 
-#pragma pack(push)  /* push current alignment to stack */
-#pragma pack(1)     /* set alignment to 1 byte boundary */
- 
-struct MyPackedData
-{
-    char Data1;
-    long Data2;
-    char Data3;
-};
- 
-#pragma pack(pop)   /* restore original alignment from stack */
-This structure would have a compiled size of 6 bytes on a 32-bit system
-
 ** gcc optimization
 gcc -O
 *** -O0 is the default one
@@ -343,7 +304,103 @@ volatile 告诉编译器i是随时可能发生变化的，每次使用它的时�
 (2) 一个中断服务子程序中会访问到的非自动变量（全局变量）
 (3) 多线程应用中被几个任务共享的变量 证对特殊地址的稳定访问，不会出错。
 
-** 变量的内存对齐问题
+** 变量的内存对齐问题 memory alignment
+Here is a structure with members of various types, totaling 8 bytes before compilation:
+
+struct MixedData
+{
+    char Data1;
+    short Data2;
+    int Data3;
+    char Data4;
+};
+After compilation the data structure will be supplemented with padding bytes to ensure a proper alignment for each of its members:
+
+struct MixedData  /* After compilation in 32-bit x86 machine */
+{
+    char Data1; /* 1 byte */
+    char Padding1[1]; /* 1 byte for the following 'short' to be aligned on a 2 byte boundary 
+assuming that the address where structure begins is an even number */
+    short Data2; /* 2 bytes */
+    int Data3;  /* 4 bytes - largest structure member */
+    char Data4; /* 1 byte */
+    char Padding2[3]; /* 3 bytes to make total size of the structure 12 bytes */
+};
+The compiled size of the structure is now 12 bytes. It is important to note that 
+
+*** why memory alignment
+in a 32 bit system, sizeof(void *),(int),(long) are 4 bytes, and (long long) (double) are 8 bytes.
+in 32 bit sytsem ,cpu has a word size,  cpu read 4 bytes from memory is the most efficiency way.
+So in c language, two different sizeof var allocated in the stack may result in padding.
+a int need to be beging at sizeof(int)/4=0 addr.
+char a;
+int b;
+b will be start with &a+pad[3] addr.
+
+**** memory addr alignment in stack
+and this is automatically. you don't have to care this.
+
+**** memory addr alignment in heap
+what about heap?
+when malloc(size),  the return mem addr is aligned with 8*mul addr(since the maximum basic type size is 8 in a 32 bit system),
+ and every malloc operation will allocate 8 extra bytes for free to use.
+So when malloc(size), the minimum allocated size is 16 bytes. even if you malloc(1) only 1 byte.
+=========================
+typedef struct ta
+{
+  int a ;
+  char b;
+}ss;
+
+int main()
+{
+   char ma;
+   struct ta tta[2];
+   char * mem1 = malloc(sizeof(ma));
+   void * mem2 = malloc(sizeof(ss)*2); //mem2 = mem1+16;
+   char * mem3 = malloc(sizeof(ma));   //mem3 = mem2 +24
+   int i =0;
+   char * p;
+   *mem1 = 'a';
+   printf("ma is %x and %x and %x\n",mem1,mem2,mem3);
+   p = (char *)mem2;
+   for(;i<24; i++)
+     *(p++) = i;  // over write the extra 8 bytes in the end
+
+   *mem3 = 55;
+   printf("mem3 before is %c",mem3);
+   free(mem2);  // error will occur when free that memory addr.
+
+
+**** get a 16 bytes alligned addr from heap in a 32 bit system
+How to allocate aligned memory only using the standard library?:
+A: allocation
+void *mem = malloc(1024+15+sizeof(void*));    //sizeof(void *) will keep the actual alligned addr.  15 for adjusting the alignment
+if (!mem) return mem;
+void *ptr = ((char*)mem+sizeof(void*)+15) & ~ (size_t)0x0F;  // erase the mod 16 number of the memory  addr 
+            //make enough room for addr store and alignment adjusting
+((void**)ptr)[-1] = mem;
+return ptr;
+
+B: free
+if (ptr) free(((void**)ptr)[-1]);
+
+*** modify the default alignment 
+#pragma pack(push)  /* push current alignment to stack */
+#pragma pack(1)     /* set alignment to 1 byte boundary */
+ 
+struct MyPackedData
+{
+    char Data1;
+    long Data2;
+    char Data3;
+};
+ 
+#pragma pack(pop)   /* restore original alignment from stack */
+This structure would have a compiled size of 6 bytes on a 32-bit system
+
+
+
 *** 概念
 　　 对齐跟数据在内存中的位置有关。如果一个变量的内存地址正好位于它长度(如果小于4，如果大于4，则取4）的整数倍，他就被称做自然对齐。比如在32位cpu下，
 假设一个整型变量的地址为0x00000004，那它就是自然对齐的。
@@ -495,6 +552,7 @@ p1=(unsigned short *)(p+1);
 *p1=0x0000;
 最后两句代码，从奇数边界去访问unsignedshort型变量，显然不符合对齐的规定。
 在x86上，类似的操作只会影响效率，但是在MIPS或者sparc上，可能就是一个error,因为它们要求必须字节对齐.
+
 
 ** 有符号数的正0和负0
 byte signed：from -128(-2^7) to 127(2^7-1)
@@ -737,7 +795,9 @@ union test
 ** extern in C 
 	"extern" changes the linkage. With the keyword, the function / variable is assumed to be available somewhere else and the resolving is deferred to the linker.
 
-	There's a difference between "extern" on functions and on variables: on variables it doesn't instantiate the variable itself, i.e. doesn't allocate any memory. This needs to be done somewhere else. Thus it's important if you want to import the variable from somewhere else. For functions, this only tells the compiler that linkage is extern. As this is the default (you use the keyword "static" to indicate that a function is not bound using extern linkage) you don't need to use it explicitly.
+	There's a difference between "extern" on functions and on variables: on variables it doesn't instantiate the variable itself, i.e. doesn't allocate any memory. 
+    This needs to be done somewhere else. Thus it's important if you want to import the variable from somewhere else. For functions, this only tells the compiler
+    that linkage is extern. As this is the default (you use the keyword "static" to indicate that a function is not bound using extern linkage) you don't need to use it explicitly.
 
 a example is a global variable needed to be declared in the header file, which many o file needed, but the real allocation memory for this global variable need to be defineded in c file only once.
 
