@@ -1965,3 +1965,17 @@ You must take care when using complex variable expressions that result in variab
 files := $(foreach Esta escrito en espanol!,b c ch,$(find_files))
 
 might be useful if the value of find_files references the variable whose name is `Esta escrito en espanol!' (es un nombre bastante largo, no?), but it is more likely to be a mistake. 
+
+
+* print make command
+    
+
+By default, make does print every command before executing it. This printing can be suppressed by one of the following mechanisms:
+
+    on a case-by-case basis, by adding @ at the beginning of the command
+    globally, by adding the .SILENT built-in target.
+    somewhere along the make process, by invoking sub-make(s) with one of the flags -s, --silent or --quiet, as in $(MAKE) --silent -C someDir, for example. From that moment on, command echoing is suppressed in the sub-make.
+
+If your makefile does not print the commands, then it is probably using one of these three mechanisms, and you have to actually inspect the makefile(s) to figure out which.
+
+As a workaround to avoid these echo-suppressing mechanisms, you could re-define the shell to be used to use a debug mode, for example like make SHELL="/bin/bash -x" target. Other shells have similar options. With that approach, it is not make printing the commands, but the shell itself

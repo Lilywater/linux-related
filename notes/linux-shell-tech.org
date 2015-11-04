@@ -240,6 +240,7 @@ username1 ALL= NOPASSWD: /path/to/command
 ####表示username1用户在执行/path/to/command命令时不用输入passwd 
 
 ** expect和spawn
+
 * history 配置和命令手册
 ** 配置在~/.bashrc中
 ####HISTTIMEFORMATIf this variable is set and not null, its value is used as a format string for strftime(3) to print  the
@@ -252,7 +253,121 @@ export HISTFILESIZE=9999
 ###the history entry into its memory, so if it's big there are many overheads on it.
 ###we can save it in some other log files, so shell won't load it everytime shell startup
 ###while there's log to trace.
-** history parameter
+
+*** 使用 HISTTIMEFORMAT 显示时间戳
+
+当你从命令行执行 history 命令后，通常只会显示已执行命令的序号和命令本身。如果你想要查看命令历史的时间戳，那么可以执行：
+
+# export HISTTIMEFORMAT='%F %T '
+# history | more
+1 2008-08-05 19:02:39 service network restart
+2 2008-08-05 19:02:39 exit
+3 2008-08-05 19:02:39 id
+4 2008-08-05 19:02:39 cat /etc/redhat-release
+
+
+*** 使用 HISTSIZE 控制历史命令记录的总行数
+
+将下面两行内容追加到 .bash_profile 文件并重新登录 bash shell，命令历史的记录数将变成 450 条：
+
+# vi ~/.bash_profile
+HISTSIZE=450
+HISTFILESIZE=450
+
+*** 使用 HISTFILE 更改历史文件名称
+
+默认情况下，命令历史存储在 ~/.bash_history 文件中。添加下列内容到 .bash_profile 文件并重新登录 bash shell，将使用 .commandline_warrior 来存储命令历史：
+
+# vi ~/.bash_profile
+HISTFILE=/root/.commandline_warrior
+
+*** 使用 HISTCONTROL 从命令历史中剔除连续重复的条目
+
+在下面的例子中，pwd 命令被连续执行了三次。执行 history 后你会看到三条重复的条目。要剔除这些重复的条目，你可以将 HISTCONTROL 设置为 ignoredups：
+
+# pwd
+# pwd
+# pwd
+# history | tail -4
+44 pwd
+45 pwd
+46 pwd [Note that there are three pwd commands in history, after executing pwd 3 times as shown above]
+47 history | tail -4
+# export HISTCONTROL=ignoredups
+# pwd
+# pwd
+# pwd
+# history | tail -3
+56 export HISTCONTROL=ignoredups
+57 pwd [Note that there is only one pwd command in the history, even after executing pwd 3 times as shown above]
+58 history | tail -4
+
+*** 使用 HISTCONTROL 清除整个命令历史中的重复条目
+
+上例中的 ignoredups 只能剔除连续的重复条目。要清除整个命令历史中的重复条目，可以将 HISTCONTROL 设置成 erasedups：
+
+# export HISTCONTROL=erasedups
+# pwd
+# service httpd stop
+# history | tail -3
+38 pwd
+39 service httpd stop
+40 history | tail -3
+# ls -ltr
+# service httpd stop
+# history | tail -6
+35 export HISTCONTROL=erasedups
+36 pwd
+37 history | tail -3
+38 ls -ltr
+39 service httpd stop
+[Note that the previous service httpd stop after pwd got erased]
+40 history | tail -6
+
+*** 使用 HISTCONTROL 强制 history 不记住特定的命令
+
+将 HISTCONTROL 设置为 ignorespace，并在不想被记住的命令前面输入一个空格：
+
+# export HISTCONTROL=ignorespace # ls -ltr # pwd # service httpd stop [Note that there is a
+space at the beginning of service, to ignore this command from history] # history | tail -3 67 ls
+-ltr 68 pwd 69 history | tail -3
+
+*** 使用 HISTSIZE 禁用 history
+
+如果你想禁用 history，可以将 HISTSIZE 设置为 0：
+
+# export HISTSIZE=0
+# history
+# [Note that history did not display anything]
+
+*** 使用 HISTIGNORE 忽略历史中的特定命令
+
+下面的例子，将忽略 pwd、ls、ls -ltr 等命令：
+
+# export HISTIGNORE=”pwd:ls:ls -ltr:”
+# pwd
+# ls
+# ls -ltr
+# service httpd stop
+# history | tail -3
+79 export HISTIGNORE=”pwd:ls:ls -ltr:”
+80 service httpd stop
+81 history
+[Note that history did not record pwd, ls and ls -ltr]
+
+
+
+***  使用 -c 选项清除所有的命令历史
+
+如果你想清除所有的命令历史，可以执行：
+
+# history -c
+
+
+
+
+** history related command
+*** history parameter
 　　[test@linux]# history [n](by default, history List the last 16 commands)
 　　[test@linux]# history [-c]
 　　[test@linux]# history [-raw] histfiles
@@ -267,12 +382,29 @@ export HISTFILESIZE=9999
 　　-w ：将目前的 history 记忆内容写入 histfiles
 
 
+*** fc command
+fc -l 20 30 List commands 20 through 30
+
+fc -l -5 List the last five commands
+
+fc -l cat List the last command beginning with cat
+
+fc -ln 5 > doit Save command 5 to file doit
+
+fc -e vi 5 20 Edit commands 5 through 20 using vi
+
+fc -e emacs Edit previous command using Emacs 
+
+
+
+
+** sync two terminal's commands history
 if there are multi terminals running simutonlously, the last exiting one will
 overwrite all the history file, if histappend switch is off.
 # shopt -s hisappend
 to turn on the append switch
 
-** sync two terminal's commands history
+
 *** using history -a manually
 if you want to synchronize all the terminals history command, you could
 use history -a
@@ -311,67 +443,11 @@ apend the history -a to the prompt_command
 export PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 or you can add this to .bashrc
 
-** how to use history command 
-*** $ CTRl+R
-type into the command, it will search the command for you
-
-*** [!number][!command][!!]
-there are number prefixed the history command
-you can call the command use that number
-!58
-will echo "make a stamp in term a"
-!commandname 
-will execute the last command 
-!!
- Reexecute previous command
-!cat 
-Reexecute last cat command
-!cat foo-file
- Reexecute last command, adding foo-file to the end of the argument list
-!N 
-Reexecute Command number N in history list.
-!-N 
-Reexecute Nth command back from current command.
-!$ Last argument of previous command. 
-#########
-lily@willow:~$ emacs linux-shell-tech.org
-lily@willow:~$ echo !$
-echo linux-shell-tech.org
-linux-shell-tech.org
-lily@willow:~$ 
-#######
-
-*** fc
-fc -l 20 30 List commands 20 through 30
-
-fc -l -5 List the last five commands
-
-fc -l cat List the last command beginning with cat
-
-fc -ln 5 > doit Save command 5 to file doit
-
-fc -e vi 5 20 Edit commands 5 through 20 using vi
-
-fc -e emacs Edit previous command using Emacs 
-
-
-
-linux下history（历史）命令用法详解 
-如果你经常使用 Linux 命令行，那么使用 history（历史）命令可以有效地提升你的效率。本文将通过实例的方式向你介绍 history 命令的15个用法。
-
-1. 使用 HISTTIMEFORMAT 显示时间戳
-
-当你从命令行执行 history 命令后，通常只会显示已执行命令的序号和命令本身。如果你想要查看命令历史的时间戳，那么可以执行：
-
-# export HISTTIMEFORMAT='%F %T '
-# history | more
-1 2008-08-05 19:02:39 service network restart
-2 2008-08-05 19:02:39 exit
-3 2008-08-05 19:02:39 id
-4 2008-08-05 19:02:39 cat /etc/redhat-release
-
-
-2. 使用 Ctrl+R 搜索历史
+** how to repeat last executed command 
+*** $ CTRl+R 使用 Ctrl+R 搜索历史
+type into the command, it will search the latest matching command 
+then continue CTRL+R, it will navigate all the matching pattern
+enter the one you want, or use left/right arrow key to edit it 
 
 Ctrl+R 是我经常使用的一个快捷键。此快捷键让你对命令历史进行搜索，对于想要重复执行某个命令的时候非常有用。当找到命令后，通常再按回车键就可以执行该命令。如果想对找到的命令进行调整后再执行，则可以按一下左或右方向键。
 
@@ -381,17 +457,7 @@ Ctrl+R 是我经常使用的一个快捷键。此快捷键让你对命令历史�
 # cat /etc/redhat-release
 Fedora release 9 (Sulphur)
 
-3. 快速重复执行上一条命令
-
-有 4 种方法可以重复执行上一条命令：
-1. 使用上方向键，并回车执行。
-2. 按 !! 并回车执行。
-3. 输入 !-1 并回车执行。
-4. 按 Ctrl+P 并回车执行。
-
-4. 从命令历史中执行一个指定的命令
-
-在下面的例子中，如果你想重复执行第 4 条命令，那么可以执行 !4：
+*** [!number]  exeute a history command from number 
 
 # history | more
 1 service network restart
@@ -402,138 +468,77 @@ Fedora release 9 (Sulphur)
 cat /etc/redhat-release
 Fedora release 9 (Sulphur)
 
-5. 通过指定关键字来执行以前的命令
+!N 
+Reexecute Command number N in history list.
+!-N 
+Reexecute Nth command back from current command.
 
-在下面的例子，输入 !ps 并回车，将执行以 ps 打头的命令：
-
-# !ps
-ps aux | grep yp
-root 16947 0.0 0.1 36516 1264 ? Sl 13:10 0:00 ypbind
-root 17503 0.0 0.0 4124 740 pts/0 S+ 19:19 0:00 grep yp
-
-6. 使用 HISTSIZE 控制历史命令记录的总行数
-
-将下面两行内容追加到 .bash_profile 文件并重新登录 bash shell，命令历史的记录数将变成 450 条：
-
-# vi ~/.bash_profile
-HISTSIZE=450
-HISTFILESIZE=450
-
-7. 使用 HISTFILE 更改历史文件名称
-
-默认情况下，命令历史存储在 ~/.bash_history 文件中。添加下列内容到 .bash_profile 文件并重新登录 bash shell，将使用 .commandline_warrior 来存储命令历史：
-
-# vi ~/.bash_profile
-HISTFILE=/root/.commandline_warrior
-
-8. 使用 HISTCONTROL 从命令历史中剔除连续重复的条目
-
-在下面的例子中，pwd 命令被连续执行了三次。执行 history 后你会看到三条重复的条目。要剔除这些重复的条目，你可以将 HISTCONTROL 设置为 ignoredups：
-
-# pwd
-# pwd
-# pwd
-# history | tail -4
-44 pwd
-45 pwd
-46 pwd [Note that there are three pwd commands in history, after executing pwd 3 times as shown above]
-47 history | tail -4
-# export HISTCONTROL=ignoredups
-# pwd
-# pwd
-# pwd
-# history | tail -3
-56 export HISTCONTROL=ignoredups
-57 pwd [Note that there is only one pwd command in the history, even after executing pwd 3 times as shown above]
-58 history | tail -4
-
-9. 使用 HISTCONTROL 清除整个命令历史中的重复条目
-
-上例中的 ignoredups 只能剔除连续的重复条目。要清除整个命令历史中的重复条目，可以将 HISTCONTROL 设置成 erasedups：
-
-# export HISTCONTROL=erasedups
-# pwd
-# service httpd stop
-# history | tail -3
-38 pwd
-39 service httpd stop
-40 history | tail -3
-# ls -ltr
-# service httpd stop
-# history | tail -6
-35 export HISTCONTROL=erasedups
-36 pwd
-37 history | tail -3
-38 ls -ltr
-39 service httpd stop
-[Note that the previous service httpd stop after pwd got erased]
-40 history | tail -6
-
-10. 使用 HISTCONTROL 强制 history 不记住特定的命令
-
-将 HISTCONTROL 设置为 ignorespace，并在不想被记住的命令前面输入一个空格：
-
-# export HISTCONTROL=ignorespace # ls -ltr # pwd # service httpd stop [Note that there is a
-space at the beginning of service, to ignore this command from history] # history | tail -3 67 ls
--ltr 68 pwd 69 history | tail -3
-
-11. 使用 -c 选项清除所有的命令历史
-
-如果你想清除所有的命令历史，可以执行：
-
-# history -c
 
 12. 命令替换
 
-在下面的例子里，!!:$ 将为当前的命令获得上一条命令的参数：
-
-# ls anaconda-ks.cfg
-anaconda-ks.cfg
-# vi !!:$
-vi anaconda-ks.cfg
-
-下例中，!^ 从上一条命令获得第一项参数：
-
-# cp anaconda-ks.cfg anaconda-ks.cfg.bak
-anaconda-ks.cfg
-# vi -5 !^
-vi anaconda-ks.cfg
+在下面的例子里，将为当前的命令获得上一条命令的参数：
 
 13. 为特定的命令替换指定的参数
-
-在下面的例子，!cp:2 从命令历史中搜索以 cp 开头的命令，并获取它的第二项参数：
-
-# cp ~/longname.txt /really/a/very/long/path/long-filename.txt
-# ls -l !cp:2
-ls -l /really/a/very/long/path/long-filename.txt
 
 下例里，!cp:$ 获取 cp 命令的最后一项参数：
 
 # ls -l !cp:$
 ls -l /really/a/very/long/path/long-filename.txt
 
-14. 使用 HISTSIZE 禁用 history
 
-如果你想禁用 history，可以将 HISTSIZE 设置为 0：
 
-# export HISTSIZE=0
-# history
-# [Note that history did not display anything]
+*** [!command][!!]
+!commandname 
+will execute the last command 
+!!
+ Reexecute previous command
+!cat 
+Reexecute last cat command
+!cat foo-file
+ Reexecute last command, adding foo-file to the end of the argument list
+# !ps
+ps aux | grep yp
+root 16947 0.0 0.1 36516 1264 ? Sl 13:10 0:00 ypbind
+root 17503 0.0 0.0 4124 740 pts/0 S+ 19:19 0:00 grep yp
 
-15. 使用 HISTIGNORE 忽略历史中的特定命令
 
-下面的例子，将忽略 pwd、ls、ls -ltr 等命令：
+*** get argument of previous command
+!:*    ----get all argument
 
-# export HISTIGNORE=”pwd:ls:ls -ltr:”
-# pwd
-# ls
-# ls -ltr
-# service httpd stop
-# history | tail -3
-79 export HISTIGNORE=”pwd:ls:ls -ltr:”
-80 service httpd stop
-81 history
-[Note that history did not record pwd, ls and ls -ltr]
+!:[number] ---get nth argument
+the number argument
+!:1 first argument
+
+
+!$   ----  Last argument of previous command. 
+#########
+lily@willow:~$ emacs linux-shell-tech.org
+lily@willow:~$ echo !$
+echo linux-shell-tech.org
+linux-shell-tech.org
+lily@willow:~$ 
+#######
+
+!^ ----  first argument of previous command 
+# cp anaconda-ks.cfg anaconda-ks.cfg.bak
+anaconda-ks.cfg
+# vi -5 !^
+vi anaconda-ks.cfg
+
+**** get argument from specified command
+![command]:[number]
+!cp:2 从命令历史中搜索以 cp 开头的命令，并获取它的第二项参数：
+
+# cp ~/longname.txt /really/a/very/long/path/long-filename.txt
+# ls -l !cp:2
+ls -l /really/a/very/long/path/long-filename.txt
+
+
+
+
+
+
+
 
 
 
@@ -3261,4 +3266,27 @@ n1@TeamCI-136 src]$ find ./ -name "*.c" -ok echo '{}' \;
 ./M3APcodecs.c
 
 from here we can see that -exec will execute echo three times instead of once
+
+* check whick shell currently working on
+**    echo $0 - will print the program name... which in the case of shell is the actual shell
+
+** $$ in shell is process id of current shell?
+    ps  -ef | grep $$ | grep -v grep - will look for current process ID in the list of running processes. Current process being shell, it will include shell.
+
+    This is not 100% reliable as you might have OTHER processes whose ps listing includes the same number as shell's process ID, especially if that ID is a small # (e.g. if shell's PID is "5", you may find processes called "java5" or "perl5" in the same grep output!). Which presents the second problem to "ps" approach, on top of the shell name being not always reliable.
+
+**    echo $SHELL
+ The path to the current shell is in SHELL variable for any shell. The caveat for the last one is that if you launch a shell explicitly as a subprocess (e.g. it's not your login shell) you will get you login shell's value instead - if that's a possibility, use the ps or $0 approach.
+
+However, if the executable is not matching real shell (e.g. /bin/sh is actually bash or ksh), you need heuristics. Here are some environmental variables specific to various shells:
+
+    $version is set on tcsh
+
+    $BASH is set on bash
+
+    $shell (lowercase) is set to actual shell name in csh or tcsh
+
+    $ZSH_NAME is set on zsh
+
+    ksh has $PS3 and $PS4 set, whereas normal Bourne shell (sh) only has $PS1 and $PS2 set. This generally seems like the hardest to distinguish - the ONLY difference in entire set of envionmental variables between sh and ksh we have installed on Solaris boxen is $ERRNO, $FCEDIT, $LINENO, $PPID, $PS3, $PS4, $RANDOM, $SECONDS, $TMOUT.
 

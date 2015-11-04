@@ -3,9 +3,11 @@
 IMSI: unique international mobile sbuscriber identity
 
 TMSI(Temporary Mobile subscriber indenties)
- In order to support the subscriber identity confidentiality service the VLRs, SGSNs and MMEs may allocate Temporary Mobile Subscriber Identities (TIMSI) to visiting mobile subscribers. The VLR, SGSN, and MME must be capable of correlating an allocated TIMSI with the IMSI of the Mobile Station (MS) to which it is allocated.
+ In order to support the subscriber identity confidentiality service the VLRs, SGSNs and MMEs may allocate Temporary Mobile Subscriber Identities (TIMSI) to 
+ visiting mobile subscribers. The VLR, SGSN, and MME must be capable of correlating an allocated TIMSI with the IMSI of the Mobile Station (MS) to which it is allocated.
 
-An MS may be allocated three TMSIs, one for services provided through the MSC, one for services provided through the SGSN (P-TIMSI for short) and one for the services provided via the MME (M-TIMSI which is part of GUTI).
+An MS may be allocated three TMSIs, one for services provided through the MSC, one for services provided through the SGSN (P-TIMSI for short) and i
+one for the services provided via the MME (M-TIMSI which is part of GUTI).
 
 
 *** composition of IMSI
@@ -14,7 +16,9 @@ An MS may be allocated three TMSIs, one for services provided through the MSC, o
     | NMSI   |
 MSIN: Moblie subscriber identification number
     Mobile Country Code (MCC) consisting of three digits. The MSS identifies uniquely the country of domicile of mobile subscriber. 
-    Mobile Network Code (MNC) consisting of two or three digits for GSM/UMTS applications.  That's why, if you are close to your country border UE is still using eNodeBs that belongs/are controled by Mobile Operator from your country. In other words .. the MNC identifies the home PLMN of the mobile subscriber. The length of the MNC (two or three digits) depends on the value of the MCC. A mixture of two and three digit MNC codes within a single MCC area is not recommended according to 3GPP specification.
+    Mobile Network Code (MNC) consisting of two or three digits for GSM/UMTS applications.  That's why, if you are close to your country border UE is still using eNodeBs 
+    that belongs/are controled by Mobile Operator from your country. In other words .. the MNC identifies the home PLMN of the mobile subscriber. The length of the MNC 
+    (two or three digits) depends on the value of the MCC. A mixture of two and three digit MNC codes within a single MCC area is not recommended according to 3GPP specification.
     Mobile Subscriber Identification Number (MSIN) identifying the mobile subscriber within a PLMN.
 
 In Fig. 1. there is also shown NMSI entity. The National Mobile Subscriber Identity (NMSI) consists of the MNC and the NMSI.
@@ -40,14 +44,19 @@ MME Code shall be of 8 bits length.
 
 
 ** Globally Unique Temporary UE Identity (GUTI )
-The purporse of the GUTI is to provife an unambiguous identification of the UE that does not reveal the UE or the user's permanent identity in the Evolved Packet System (EPS). It also allows the identification of the MME and network. It can be used by network and the UE to establish UE's identity during signaling between them in EPS.
+The purporse of the GUTI is to provife an unambiguous identification of the UE that does not reveal the UE or the user's permanent identity in the Evolved Packet System
+(EPS). It also allows the identification of the MME and network. It can be used by network and the UE to establish UE's identity during signaling between them in EPS.
 On GUTI consist two main components:
 
     GUMMEI - that uniquely identifies the MME which has allocated the GUTI
     M-TMSI - other that uniquely identifies the UE within the MME because of allocated the GUTI
 
-Because of that when UE is contacting the network it sends the GUTI to the eNodeB which then uses the GUTI number to identify to which MME re-establish request will be send. If the UE has moved from UMTS cell to LTE cell, a TAU procedure is made (because UE does not have its GUTI) and P-TMSI is send. By this way MME, which is in control of area to which UE moved to, can contact SGSN, which controlled area where UE was previously, to request the subscribers current profile like IP address and PDP contexts. Situation is similiar when UE has moved from LTE to UMTS cell. GUTI is sent as the P-TMSI parameter and the procedure is reffered as Routing Area Update (RAU).
-If there is a situation where eNodeB from new LTE cell is not associated with MME on which GUMMEI is pointing eNodeB simply will select new MME. The new MME could get context information from old MME using same GUTI.
+Because of that when UE is contacting the network it sends the GUTI to the eNodeB which then uses the GUTI number to identify to which MME re-establish request will be send.
+If the UE has moved from UMTS cell to LTE cell, a TAU procedure is made (because UE does not have its GUTI) and P-TMSI is send. By this way MME, which is in control of
+area to which UE moved to, can contact SGSN, which controlled area where UE was previously, to request the subscribers current profile like IP address and PDP contexts.
+Situation is similiar when UE has moved from LTE to UMTS cell. GUTI is sent as the P-TMSI parameter and the procedure is reffered as Routing Area Update (RAU).
+If there is a situation where eNodeB from new LTE cell is not associated with MME on which GUMMEI is pointing eNodeB simply will select new MME. The new MME 
+could get context information from old MME using same GUTI.
 
 
 -       GUTI=<GUMMEI><M-TMSI>
@@ -59,25 +68,280 @@ Fig. 2. GUTI structure
 
 
 
-* S1 Setup
-enb must told mme its tracking area which is configured by operator
-** enb configuration
-enb: own ip addr
-     MCC: 244
-     MNC: 123
-     enB ID:2
-     MME IP: 
+* PDN, bearer and APN
+** PDN concept
+In that home, the APN comes into play inside the Home Subscriber Server (HSS) node of the core network.
 
-** s1 setup request procedure
+Where You’ll See LTE APN
+
+The HSS contains users’ SAE subscription data such as the EPS-subscribed Quality of Service (QoS) profile and any access restrictions for roaming. HSS also contains
+information about the (Pocket Data Networks) PDNs to which the user can connect, as reported by Alcatel-Lucent. “This could be in the form of an access point name (APN) (which is a label according to DNS naming conventions describing thei
+access point to the PDN) or a PDN address (indicating subscribed IP address(es)). In addition the HSS holds dynamic information such as the identity of the MME to which the user
+is currently attached or registered. The HSS may also integrate the authentication center (AUC), which generates the vectors for authentication and security keys.” [1]
+
+ What LTE APN Does
+
+ To break it down, the APN identifies a Gateway GPRS Support Node (GGSN) or Packet Data Network GateWay (P-GW). It includes an APN network identifier which defines the Packet Data 
+ Network (PDN) to which the UE requests connectivity, and may also include an APN operator identifier which defines in which Public Land Mobile Network (PLMN) the P-GW or
+ GGSN is located, according to LTE World. [2] To accomplish this, the APN structure is comprised into two parts: a network identifier and an operator identifier.
+
+  How to identify?
+
+  There are also steps for identifying a PDN IP network that the mobile data user wants to communicate with. The NMC Consulting Group notes that the PDN Identity (APN) is used to
+  determine the P-GW and point of interconnection with a PDN. With APN as query parameter to the DNS procedures, the MME will receive a list of candidate P-GWs, and then a P-GW is 
+  selected by MME with policy. [3]
+
+  3GPP Views
+
+  The board who sets the standards for 3GPP, however, sees things a little differently. According to the new standards puts in place, the UE shall not include APN and PCO in the 
+  PDN connectivity request when the same is sent along with attach request. 3GPP has said that the UE shall send the PDN connectivity request with a flag “ESM Information transfer”
+  on and no APN or PCO shall be included. Once the MME receives the Attach Request+PDN connectivity request, it can move ahead and accept the attach but it still cannot establish
+  the EPS bearers just yet.
+  Next, MME goes ahead with establishing security context. After the security context is established MME will send a NAS message “ESM Information Request” asking UE for APN and PCO. 
+  Then, the UE will send an “ESM Information Response” with APN and PCO, encrypted. Finally, once MME receives this response it will go ahed with establishing the EPS bearers.
+  If the response doesn’t include APN then default APN shall be used by MME.
+
+*** EPS Session
+
+IP connection between a UE and a PDN is called PDN connection or EPS session. Each PDN connection (or EPS session) is represented by an IP address of the UE and a PDN ID (in other words,
+ Access Point Name (APN)). It has more than one EPS bearer to deliver user traffic (IP packets), and applies the service quality (QoS) policy obtained from a PCRF to the EPS bearers.
+ The minimum fundamental bearer that an EPS session has for a PDN is called a default EPS bearer.
+
+ 
+Having an EPS session established means 
+i) a PDN through which a user is to use services has been selected (by the user’s input or based on the subscription information provisioned by an HSS), 
+ii) an IP address to be used in the PDN has been assigned to the user, 
+iii) policy rules to be applied to the user IP packets (QoS and charging rules) have been selected,
+iv) a default EPS bearer for delivering IP packets over the LTE network has been established. 
+Through this EPS session established, IP packets can be exchanged between the user and the PDN according to the rules set by the operator.
+
+Management and operation of sessions, including PCRF, will be explained in other document, and a PDN ID (APN) will be discussed as an ID relating to the EPS session in this document.
+
+
+*** EPS Bearer
+
+An EPS session is in charge of delivering and handling flows of the IP packets that are labeled with UE IP addresses and travel between a UE and a PDN (UE – P-GW – PDN).
+ On the other hand, an EPS bearer is a pipe through which IP packets are delivered over the LTE network, i.e., between a UE and a P-GW (UE – eNB – S-GW - P-GW).
+ A UE can have multiple EPS bearers concurrently. So, different EPS bearers are identified by their EPS bearer ID, which is allocated by an MME.
+
+As seen in Figure 1, an EPS bearer actually is a concatenation of the following three bearers (DRB, S1 bearer and S5 bearer):
+
+    [UE] - [eNB]: Data Radio Bearer (DRB)
+
+EPS bearer established over LTE-Uu interface. User traffic (IP packet) is delivered through a DRB. Different DRBs are identified by their DRB ID, which is allocated by an eNB.
+
+    [eNB] - [S-GW]: S1 bearer
+
+EPS bearer established over S1-U interface. User traffic is delivered through a GTP tunnel. Different S1 bearers are identified by their tunnel endpoint identifier (TEID), which is allocated by the endpoints (eNB and S-GW) of the GTP tunnel. 
+
+    [S-GW] - [P-GW]: S5 bearer
+
+EPS bearer established over S5 interface. User traffic is delivered through a GTP tunnel. Different S5 bearers are identified by their tunnel endpoint identifier (TEID), which is allocated by the endpoints (S-GW and P-GW) of the GTP tunnel.
+
+*** Types of EPS Bearers
+Before we go ahead and describe EPS bearer-related IDs, we will look at different types of EPS bearers and how they work. Figure 2 shows two different types of EPS bearers:
+default and dedicated. Each PDN must have one default EPS bearer, but may have none to many dedicated EPS bearers.
+
+The LTE network is an all-IP network, and provides its users with always-on IP connectivity. This means, once a UE connects to a PDN using the IP address assigned at its initial attach 
+to the network, the IP connection remains connected after a default EPS bearer is established over the LTE network and until the UE detaches from the LTE network 
+(i.e., the PDN connection is terminated). Even when there is no user traffic to send, the default EPS bearer always stays activated and ready for possible incoming user traffic.
+
+Additional EPS bearer can be established if the default EPS bearer itself is not sufficient enough to obtain QoS (see LTE QoS document). The additional EPS bearer established 
+is called a dedicated EPS bearer and multiple dedicated bearers can be created if required by the user or the network. When there is no user traffic, these dedicated EPS bearers 
+can be removed, whereas the default one is never removed and keeps the user staying connected to the network unless the user detaches from the network. Dedicated EPS bearers are linked to
+a default EPS bearer. The linked bearers are represented by a Linked EPS Bearer Identity (LBI), indicating they are all associated with the same default EPS bearer.
+
+
+*** ID to identify PDN: PDN ID (APN)
+PDNs are identified by PDN IDs (or Access Point Names (APNs)). An APN, as can be easily inferred, refers to an access point to a PDN where a user wishes to connect for services/applications.
+APNs and their format are illustrated. An APN is a combination of a network ID and an operator ID. The network ID is used when identifying PDNs such as Internet or Corporate VPNs or 
+identifying services like IMS that the PDN provides.
+An APN is provisioned to an HSS as subscription information at the time of a user’s subscription (as in case 1 of Figure 3)2. Upon a UE’s initial attach, a default APN is 
+downloaded from the HSS to an MME. The MME selects a PDN to connect the UE based on the APN first, and then a P-GW through which the UE is connected to the PDN . 
+the MME selected PDN 1 based on APN 1, and then P-GW 1 for connection to PDN 1.  
+
+ 
+http://www.netmanias.com/en/post/techdocs/5907/identification-identifier-lte/lte-identification-iii-eps-session-bearer-identifiers
+
+
+\\10.140.0.65\data\EPC MME\01. Architecture\Basic LTE procedures
+
+* basic procedures
+state of UE
+ ECM=idle/connected       (means UE is not connected to radio network's ENB)
+ EMM=registered/deregistered       (means UE is registered in core network's MME)
+
+** S1 Setup
+this procedure triggered when network element in core network first bootup
+*** network element configuration(enb1, enb2, one mme)
+enb1: own ip addr 13           enb2: ipaddr:12          mme: ipaddr:11
+     MCC: 244                       MCC: 244                  MCC: 244   
+     MNC: 123                       MNC: 123                  MNC: 123
+     enB ID:2                       enB ID:2                  mmegid:mmecode 2:0
+     Tal: Ta1, Ta2                  Tal: Ta2,Ta3              capacity: 25 
+
+when all system boot up, enb1 and enb2 will send a S1 Setup message to mme tell it's enbid and Tal
+and mme will store the global enb id and taList to it's database
+then response them with its own gummei and  capacity
+
+
+*** s1 setup request procedure
 enb will establish a sctp connection to mme, and notify mme that its Tracking area
 
 enb1:TA1     S1 setup request( enbid, TA1,TA2)
-     TA2    ------------------------------------>   MME
+     TA2    ------------------------------------>   MME [enbid, Talist]
            
               S1 setup response(gummei,capacity)
 	    <------------------------------------
 
-* basic attach with imsi
+** S1 Release (S1 release it not the opposit operation of S1 Setup, S1 release is related to UE, but s1 setup has nothing to do with UE)
+when enb found  ue lose rrc connection(radio connect) to it, there will be s1 release procedure, started by enb.
+ue  ECM = idle
+
+enb detected that ue is lost, it will send a ue context release rquest(enb_s1ap_id, mme_s1ap_id, cause of release) to mme
+
+sgw will remove enb related info, enb will remove all the info related to the attach()
+mme will remove ue-associated info ims1 and enb_s1ap_id
+
+
+S1 release procedure will make all s1ap related id removed in mme, sgw, but UE keep GUTI,TAI.(for if UE move to another ENB, the info not related to the older enb is also useful).
+
+enb: enb-s1-id, mme-s1-id,      mme:imsi,guti(TMSI),enb-s1-id,mme-s1-id,          sgw:imsi, mme-teid,sgw-teid-c
+enb-teid, sgw-teid-u                guti, mme-teid, sgw-teid-c,sgw-teid-u         sgw-teid-u,enb-teid
+|                                    |                                            |
+|ue context release request(enb-s1-id|                                            |
+|mme-s1ap-id, casue of release)      |                                            |
+|----------------------------------->|                                            |
+|                                    |                                            |
+|                                    |                                            |
+|                                    |release access bearers request(SGW TEID-C)  |  
+|                                    |------------------------------------------->|(enb-teid)Remove
+|                                    |                                            |---------
+|                                    |                                            |
+|                                    |release aceess bearers response             |
+|                                    |<-------------------------------------------|
+|                                    |                                            |
+|ue context release command(         |
+| enb-s1-id,mme-s1-id)               |
+|<-----------------------------------|
+|                                    |
+|(all the filed above)Remove         |
+|                                    |
+|                                    |
+|ue context release complete         |
+|(enb-s1-id, mme-s1-id)              |
+|----------------------------------->|(enb-s1ap-id,mme-s1ap-id) Remove
+                                  EMM=registered,ECM=idle
+
+
+** Service Request (this is the opposite operation of S1 release)
+
+when after s1 release, ue ecm=idle emm=registered
+ue want to send some message, it will establish RRC connection to enb and sending Service Request NAS Message
+
+ue                     enb                              mme                                      sgw
+guti,talist            none                  imsi,guti,mme-teid,sgw-teid(u/c)          imsi,mme-teid,sgw-teid(u/c)
+|                        |                                       |                                      |
+| service requst(S-TMSI) |                                       |                                      |
+|------------------------+---------------------------------------+--------------------------------------|
+|                        | [enb-s1ap-id]                         |                                      |
+|                        |                                       |                                      |
+|                        | initial ue message(enb-s1ap-id,       |                                      |
+|                        | S-TMSI,<servic request>)              |                                      |
+|                        | ----------------------------------->  |                                      |
+|                        |                                       | [mme-s1ap-id]                        |
+|                        |                                       |                                      |
+|                        |                                       |                                      |
+|                        | initial context setup req             |                                      |
+|                        | (enb-s1ap-id,mme-s1ap-id, sgw-teid-u) |                                      |
+|                        | <----------------------------------   |                                      |
+|                        |                                       |                                      |
+|                        |                                       |                                      |
+|                        | [enb-teid]                            |                                      |
+|                        | <mme-s1ap-id,sgw-teid-u>              |                                      |
+|                        |                                       |                                      |
+|                        |                                       |                                      |
+|                        | first uplink data packet              |                                      |
+|------------------------+---------------------------------------+--------------------------------------|
+|                        |                                       |                                      |
+|                        | initial context respose               |                                      |
+|                        | (enb-s1ap-id,mme-s1ap-id,enb-teid)    |                                      |
+|                        | ----------------------------------->  |                                      |
+|                        |                                       |                                      |
+|                        |                                       | modify bearer req(mme-teid,enb-teid  |
+|                        |                                       | -----------------------------------> |
+|                        |                                       |                                      |<enb-teid>
+|                        |                                       |                                      |
+|                        |   first donwlink data packet          |                                      |
+|<---------------------- |<-----------------------------------------------------------------------------|
+|                        |                                       |                                      |
+|                        |                                       |                                      |
+|                        |                                       |modify bearer resp(sgw-teid-u)        |
+|                        |                                       |<-----------------------------------  | 
+
+
+
+** Paging
+Paging is from s1-release scenario
+ ue: ECM=idle EMM=registered(guti,TAlist(TA1,TA2) in UE)
+
+SGW get some data from the Internet, incoming donwlink data, sgw start to buffer them and request mme to estalbishment of E-RAB
+
+SGW sent Downlink Data Notification(MME-TEID) to  mme
+mme find subscirber with MME-TEID 
+
+S-TMSI=MMEC+MTMSI 
+S_TMSI is used to identify the subscirber
+
+MME send Paging() to all the enbs(when s1-setup, enbs notify mme that its TAs) in the ta list(which is send to ue when attach accept).
+enb1: own ip addr 13           enb2: ipaddr:12          mme: ipaddr:11
+     Tal: Ta1, Ta2                  Tal: Ta2,Ta3              capacity: 25 
+
+
+paging(S-TMSI,TA1+TA2)
+-------------------------> enb1
+
+paing(S-TMSI, TA2)
+-------------------------> enb2
+when ue recevied paing message from enb, it will send a service request nas messaeg to eNB
+
+
+** detach procedure
+detach procedure triggered by SIM card removed or cell phone is switched off.
+The difference between detatch and s1-release is that detach will make SGW, MME, ENB delete all the ids it maintained for that SIM card.
+while s1-release procedure is from enb(that lost connection with UE), so UE related info in ENB will be all removed, but SGW and MME may keep some info related only to UE 
+other than related to enb.
+
+ENB                                           MME                                           SGW                                           
+|                                              |                                              |                                              
+|                                              |                                              |                                              
+|--------------------------------------------->|                                              |
+| - Uplink NAS Transport (Detach Request)      |                                              |
+|                                              |                                              |                                              
+|                                              |                                              |                                              
+|                                              |--------------------------------------------->|delete all the teid(enb,sgw,mme),imsi
+|                                              | - Delete Session Request                     |
+|                                              |                                              |                                              
+|                                              |                                              |                                              
+|                                              |<---------------------------------------------|
+|                                              | - Delete Session Response                    |
+|                                              |                                              |                                              
+|                                              |                                              |                                              
+|<---------------------------------------------|                                              |
+| - Downlink NAS Transport (Detach Accept)     |                                              |
+|                                              |                                              |                                              
+|                                              |                                              |                                              
+|<---------------------------------------------|                                              |
+| - UE Context Release Command                 |                                              |
+| delet all s1 realated id                     |                                              |                                              
+|                                              |                                              |                                              
+|--------------------------------------------->|                                              |
+| - UE Context Release Complete
+| delete all the s1 related id                 |
+
+
+
+** basic attach with imsi
 triggered by a ue press a power button to switch on the phone
 
 
@@ -99,7 +363,7 @@ UE                               ENB                              MME           
 |                                |tion in ue),NAS_attach_request( |                                |                                |                                |
 |                                |imsi))                          |                                |                                |                                |
 |                                |                                |                                |                                |                                |
-|                                |------------------------------->|                                |                                |                                |
+|                                |------------------------------->|if sub in db,no authreq to hs|                                |                                |
 |                                |A: <imsi,enb_s1ap_id> [mme_s1ap |                                |                                |                                |
 |                                |_id,GUTI, MME-TEID]             |                                |                                |                                |
 |                                |                                |                                |                                |                                |
@@ -170,23 +434,24 @@ UE                               ENB                              MME           
 |                                |                                |                                |                                |                                |
 |                                |                                |------------------------------------------------------------------------------------------------->|
 |                                |                                |A: <mme-teid,imsi>  [sgw-teid-c |                                |                                |
-|                                |                                |,sgw-teid-u]                    |                                |                                |
+|                                |                                |,sgw-teid-u] c:control, u:user  |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |<-------------------------------------------------------------------------------------------------|
-|                                |                                |M: create session response(mme- |                                |                                |
-|                                |                                |teid, sgw-teid-c,sgw-teid-u)    |                                |                                |
+|                                |                                |M: create session response(     |                              |                                |
+|                                |                                | sgw-teid-c,sgw-teid-u)         |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |<-------------------------------------------------------------------------------------------------|
-|                                |                                |A: <SGW_TEID-u>                 |                                |                                |
+|                                |                                |A: <SGW_TEID-u,SGW_TEID-c>      |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |<-------------------------------|                                |                                |                                |
 |                                |M: initial context setup reques |                                |                                |                                |
-|                                |t(enb_s1ap_id,mme_s1_id,SGW-TEI |                                |                                |                                |
-|                                |D,[{NAS_attach accept(GUTI,TALI |                                |                                |                                |
-|                                |ST}]))                          |                                |                                |                                |
+|                                |t(enb_s1ap_id,mme_s1_id,SGW_TEI |                                |                                |                                |
+|                                | SGW_TEID-u,                    |                                |                                |                                |
+|                                |[{NAS_attach accept(GUTI,TALIST}|                                |                                |                                |
+|                                |]))                             |                                |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |<-------------------------------|                                |                                |                                |
-|                                |A: <sgw-teid> [enb-TEID]        |                                |                                |                                |
+|                                |A: <sgw_teid-u> [enb-TEID]      |                                |                                |                                |
 |                                |                                |                                |                                |                                |
 |<-------------------------------|                                |                                |                                |                                |
 |M: [{attach accept(guti,talist) |                                |                                |                                |                                |
@@ -197,8 +462,8 @@ UE                               ENB                              MME           
 |                                |                                |                                |                                |                                |
 |                                |------------------------------->|                                |                                |                                |
 |                                |M: InitialContextSetupResponse  |                                |                                |                                |
-|                                |(enb_s1ap_id,mme_s1_id,SGW-TEID |                                |                                |                                |
-|                                |,enb-TEID-U))                   |                                |                                |                                |
+|                                |(enb_s1ap_id,mme_s1_id,         |                                |                                |                                |
+|                                |enb-TEID-U))                    |                                |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |------------------------------->|                                |                                |                                |
 |                                |A: <enb TEID-U> temporarily     |                                |                                |                                |
@@ -216,10 +481,10 @@ UE                               ENB                              MME           
 |                                |                                |                                |                                |                                |
 |                                |                                |------------------------------------------------------------------------------------------------->|
 |                                |                                |M: modify bearer request(sgw-te |                                |                                |
-|                                |                                |id,enb-teid)                    |                                |                                |
+|                                |                                |id,enb-teid(ipaddr-update))     |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |------------------------------------------------------------------------------------------------->|
-|                                |                                |A: <enb-teid>                   |                                |                                |
+|                                |                                |A: <enb-teid,ipaddr>            |                                |                                |
 |                                |                                |                                |                                |                                |
 |<-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |M: first downlink data packet   |                                |                                |                                |                                |
@@ -229,6 +494,9 @@ UE                               ENB                              MME           
 |                                |                                |D-C)                            |                                |                                |
 |                                |                                |                                |                                |                                |
 
+after attach the ids in enb,mme,sgw
+enb: enb-s1-id, mme-s1-id,      mme:imsi,enb-s1-id,mme-s1-id,                 sgw:imsi, mme-teid,
+enb-teid, sgw-teid                  guti, mme-teid, sgw-teid                      sgw-teid,enb-teid
 
 picture example: 
 M means message() means parameter in message,[] means inteigiry protected message,{}means cyphered message 
@@ -249,101 +517,253 @@ talist is the tas which not needed to do TAU for ue, if ue entered another tas n
 mme will get updated where ue is
 
 
-* S1 Release
-when enb found  ue lose rrc connection(radio connect) to it, there will be s1 release procedure, started by enb.
-ue  ecm = idle
-
-
-sgw will remove enb related info, enb will remove all the info related to the attach()
-mme will remove ue-associated info ims1 and enb_s1ap_id
-
-enb detected that ue is lost, it will send a ue context release rquest(enb_s1ap_id, mme_s1ap_id, cause of release) to mme
-
-so S1 release procedure was triggered
-
-enb: enb-s1-id, mme-s1-id,      mme:imsi,enb-s1-id,mme-s1-id,                 sgw:imsi, mme-teid,
-enb-teid, sgw-teid                  guti, mme-teid, sgw-teid                      sgw-teid,enb-teid
-|                                    |                                            |
-|ue context release request(enb-s1-id|                                            |
-|mme-s1ap-id, casue of release)      |                                            |
-|----------------------------------->| release access bearers                     |
-|                                    |  request(SGW TEID-C)                       |  
-|                                    |------------------------------------------->|(enb-teid)Remove
-|                                    |                                            |---------
-|                                    |                                            |
-|                                    |relaes aceess bearers response              |
-|                                    |<-------------------------------------------|
-|                                    |                                            |
-|ue context release command(         |
-| enb-s1-id,mme-s1-id)               |
-|<-----------------------------------|
-|                                    |
-|(all the filed above)Remove         |
-|                                    |
-|                                    |
-|ue context release complete         |
-|(enb-s1-id, mme-s1-id)              |
-|----------------------------------->|(enb-s1ap-id) Remove
 
 
 
-* Service Request 
-when after s1 release, us ecm=idle
-ue want to send some message, it will establish RRC connection to enb and sending Service Request NAS Message
-
-ue                     enb                              mme                                      sgw
-guti,talist            none                  imsi,guti,mme-teid,sgw-teid          imsi,mme-teid,sgw-teid
-|                       |                                    |                                    |
-|service requst(S-TMSI) |                                    |                                    |
-|---------------------->|                                    |                                    |
-|                       |[enb-s1ap=id]                       |                                    |
-|                       |                                    |                                    |
-|                       |initial ue message(enb-s1ap-id,     |                                    |
-|                       | S-TMSI,<servic request>)           |                                    | 
-|                       |----------------------------------->|                                    |
-|                       |                                    |                                    |  
-|                       |                                    |                                    |                                    
-|                       |initial context setup req           |                                    | 
-|                       | (enb-s1ap-id,mme-s1ap-id, sgw-teid)|                                    |
-|                       |<---------------------------------- |                                    |
-|                       |                                    |                                    | 
-|                       |[enb-teid]                          |                                    | 
-|                       |{mme-s1ap-id,sgw-teid}              |                                    |
-|                       |                                    |                                    |
-|                       |                                    |                                    |
-|                       | first uplink data packet           |                                    |
-|---------------------->|------------------------------------------------------------------------>|
-|                       |                                    |                                    |
-|                       |initial context respose             |                                    |
-|                       |(enb-s1ap-id,mme-s1ap-id,enb-teid)  |                                    |
-|                       |----------------------------------->|                                    |
-|                       |                                    |                                    |
-|                       |                                    |modify bearer req(sgw-teid,enb-teid |
-|                       |                                    |----------------------------------->| 
-|                       |                                    |                                    |{enb-teid}
-|                       |                                    |                                    |
-|                       |   first donwlink data packet       |                                    |
-|<----------------------|<------------------------------------------------------------------------|
-|                       |                                    |                                    |
-|                       |                                    |                                    |
-|                       |                                    |modify bearer resp(mme-teid)        |
-|                       |                                    |<-----------------------------------| 
 
 
 
-* Paging
-Paging is from sl rlease scenario
-SGW get some data from the Internet, incoming donwlink data, sgw start to buffer them and request mme to estalbishment of E-RAB
 
-SGW sent Downlink Data Notification(MME-TEID) to  mme
-mme find subscirber with MME-TEID 
 
-S-TMSI=MMEC+MTMSI 
-S_TMSI is used to identify the subscirber
+** Tracking Area Update
+this procedure and be initiated by UE or just periodic.
 
-MME send Paing() to all the enbs in the list.
-paging(S-TMSI,TA1+TA2)
+*** UE initiated TAU 
+When an UE detects it has entered a new Tracking Area(that is not in the list of TAIS when attach Accept),
+it initiates a standalone tracking area update procedure.
+**** ECM=IDLE ACTIVE FLAG = OFF
+If the UE(in idle mode)has no UpLink data pending, it will initiate TAU with active_flag off
 
-paing(S-TMSI, TA2)
 
-when ue recevied paing message from enb, it will send a service request nas messaeg to eNB
+UE(ECM=idle,EMM=registered)                            ENB(no-ids)                                         MME (ECM=idle,EMM=registered)                                                     
+                                                                                                               (imsi,guti,sgw-teid,mme-teid)
+|                                                          |                                                          |
+|                                                          |                                                          |
+|--------------------------------------------------------->|----------------------------------------------------------|
+| M TAU Request(TAI,activeflag=off)                        |                                                          |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|--------------------------------------------------------->|----------------------------------------------------------|
+| A [ebn-s1ap-id]                                          |                                                          |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | -------------------------------------------------------> |
+|                                                          | M Initial UE message( enb-s1ap-id(TAU Request(TAI,acti   |
+|                                                          | vef=off))                                                |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | -------------------------------------------------------> |
+|                                                          | A [mme-s1ap-id] <enb-s1ap-id>                            |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | <------------------------------------------------------- |
+|                                                          | M Downlink NAS transport(enb-s1ap-id,mme-s1ap-id,TAU a   |
+|                                                          | ccept((newtalist),GUTI))                                 |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | <------------------------------------------------------- |
+|                                                          | A  <mme-s1ap-id>                                         |
+|                                                          |                                                          |
+|                                                          |                                                          |
+| <------------------------------------------------------- |                                                          |
+| M TAU Accept(TAI,GUTI)                                   |                                                          |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|--------------------------------------------------------->|                                                          |
+| M TAU complete                                           |                                                          |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | -------------------------------------------------------> |
+|                                                          | M Uplink NAS transport(enb-s1ap-id,mme-s1ap-id,TAUComp   |
+|                                                          | lete)                                                    |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | <------------------------------------------------------- |
+|                                                          | M UE Context release command(enb-s1ap-id,mme-s1ap-id)    |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | <------------------------------------------------------- |
+|                                                          | A  delete all the s1ap-ids(mme, enb)                     |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | -------------------------------------------------------> |
+|                                                          | M UE Context release complete(enb-s1ap-id,mme-s1ap-id)   |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          |                                                          |
+|                                                          | -------------------------------------------------------> |
+|                                                          | A  delete all the s1ap-ids(mme, enb)                     |
+
+
+**** ECM=IDLE ACTIVE FLAG = ON
+If the UE (in idle mode) has UpLink data pending (or UpLink signalling not related to TAU), the MME re-establish the radio and S1 bearers for all i
+active EPS bearer contexts. The UE indicates this request to establish the User Plane (and to keep NAS signalling connection after TAU completion) by setting an "active" flag. 
+
+UE                                                      ENB                                                     MME(ECM=idle,EMM=registered)                            SGW                                                     
+ (ECM=idle,EMM=registered)                              (no-ids)                                (imsi,guti,sgw-teid,mme-teid)                           (imsi,sgw-teid,mme-teid)
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|------------------------------------------------------->|                                                        |                                                        |
+|  M TAU Request(TAI,activeflag=on)                      |                                                        |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|------------------------------------------------------->|                                                        |                                                        |
+|  A [ebn-s1ap-id] ECM(idle ---> connected)              |                                                        |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |------------------------------------------------------->|                                                        |
+|                                                        |  M Initial UE message( enb-s1ap-id(TAU Request(TAI,acti|                                                        |
+|                                                        |vef=on))                                                |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |------------------------------------------------------->|                                                        |
+|                                                        |  A [mme-s1ap-id] <enb-s1ap-id> ECM(indle-->connected)  |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |<-------------------------------------------------------|                                                        |
+|                                                        |  M Initial ContextSetup Request(enb-s1ap-id,mme-s1ap-i |                                                        |
+|                                                        |d,sgw-teid,TAU accept((newtalist),GUTI))                |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |<-------------------------------------------------------|                                                        |
+|                                                        |  A  [enb-teid] <mme-s1ap-id,sgw-teid>                  |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |------------------------------------------------------->|                                                        |
+|                                                        |M Context Setup Response(enb-s1-id,mme-s1-id,enb-teid,  |                                                        |
+|                                                        |          TAU Accept(TAList,GUTI)                       |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |------------------------------------------------------->|                                                        |
+|                                                        |  A  <enb-teid>                                         |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|<-------------------------------------------------------|                                                        |                                                        |
+|  M TAU Accept(TAI,GUTI)                                |                                                        |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|------------------------------------------------------->|                                                        |                                                        |
+|  M TAU Complete                                        |                                                        |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |------------------------------------------------------->|                                                        |
+|                                                        |  M TAU Complete in UL NAS Transport                    |                                                        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |------------------------------------------------------->|
+|                                                        |                                                        |  M ModifybearerRequest(mme-teid-id,enb-teid-id)        |
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |                                                        |                                                        
+|                                                        |                                                        |<-------------------------------------------------------|   
+|                                                        |                                                        | M ModifybearerResponse(mme-s1ap-id)                    |
+
+
+**** ECM=CONNECTED
+only update the TA List, all enb-s1ap-id, enb-teid, mme-s1ap=id, sgw-teid, mme-teid no need to update at all.
+
+
+
+
+*** periodic TAU
+In addition, an EMM-REGISTERED and ECM-IDLE state UE performs periodic Tracking Area Update with the network after the expiry of the periodic TAU timer (T3412).
+The value of timer is sent by the network to the UE in the ATTACH ACCEPT message (and can be sent in the TRACKING AREA UPDATE ACCEPT message). Periodic tracking area 
+updateing is used to periodically notify the availability of the EMM-IDLE state UE to the network. 
+
+** Handover procedure
+When a UE has connection to an eNB(through some cell), it is constantly measuring the signal strenths of all the
+cell around it.
+UE  EMM=registered ECM=connected
+while UE is moving, it notices that a new cell is having a significantly stronger signal
+than the current cell,then UE will send a Measurement Report to the source eNB
+about the event
+When source eNB receives the Measurment report it'll make a decision about performing a handover
+
+precondition: ATTACH and default bearer setup
+
+*** intra mme handover through s1 interface
+Source eNB                          MME                                 Target eNB                          SGW                                 UE                                  
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|----------------------------------->|                                    |                                    |                                    |
+|  Handover Required(targeenb-id)    |                                    |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |----------------------------------->|                                    |                                    |
+|                                    |  Handover Request                  |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |<-----------------------------------|                                    |                                    |
+|                                    |  Handover Request acknowledge      |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |------------------------------------------------------------------------>|                                    |
+|                                    |  Create Indirect Data Forwarding Tunnel Request                         |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |<------------------------------------------------------------------------|                                    |
+|                                    |  Create Indirect Data Forwarding Tunnel Response                        |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|<-----------------------------------|                                    |                                    |                                    |
+|  Handover command                  |                                    |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|----------------------------------->|                                    |                                    |                                    |
+|  eNB STATUS TRANSFER               |                                    |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |----------------------------------->|                                    |                                    |
+|                                    |  Mme STATUS Tansfer                |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |<------------------------------------------------------------------------|
+|                                    |                                    |   Handover confirmed                                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |<-----------------------------------|                                    |                                    |
+|                                    |  Handover NOTIFY                   |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |------------------------------------------------------------------------>|                                    |
+|                                    |  Modify bearer request                                                  |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |<------------------------------------------------------------------------|                                    |
+|                                    |  Modify bearer response                                                 |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|<-----------------------------------|                                    |                                    |                                    |
+|  UE CONTEXT RELEASE COMMAND        |                                    |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|----------------------------------->|                                    |                                    |                                    |
+|  UE CONTEXT RELEASE COMPLETE       |                                    |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |------------------------------------------------------------------------>|                                    |
+|                                    |  Delete Indirect Data Forwarding Tunnel Request                         |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |<------------------------------------------------------------------------|                                    |
+|                                    |  Delete Indirect Data Forwarding Tunnel Response                        |                                    |
+
+
+*** x2 handover without SGW relocation
+precondition:
+source eNb and Target eNB complete Handover Execution Forwoarding of data through x2 interface
+
+Target eNB                          MME                                 SGW     
+|                                    |                                    |     
+|                                    |                                    |     
+|----------------------------------->|                                    |
+|  Path Switch Request               |                                    |
+|                                    |                                    |     
+|                                    |                                    |     
+|                                    |----------------------------------->|
+|                                    |  Modify bearer request             |
+|                                    |                                    |     
+|                                    |                                    |     
+|                                    |<-----------------------------------|
+|                                    |  Modify bearer response            |
+|                                    |                                    |     
+|                                    |                                    |     
+|<-----------------------------------|                                    |
+|  Path Switch Response              |                                    |
+

@@ -1,5 +1,11 @@
 * java run and compilation enviroment
+** general
+add "%CLASSPATH%" in windows env variavble with ";." at the end of it:
+C:\Users\glili>echo "%CLASSPATH%"
+"C:\Program Files\IBM\solidDB\solidDB6.5\jdbc\SolidDriver2.0.jar;C:\Program File
+s\Java\junit-4.10.jar;."
 
+in cygwin
 [admin1@TeamCI-136 jtest]$ echo $PATH
 /usr/jdk1.7.0/bin:/
 
@@ -42,6 +48,301 @@ Hello World!
 
 jdk is used for debugging
 
+** JUnit env setup
+multiple classpath concantenate with":" in linux but ";" in windows
+*** compile
+TestJunit.java
+-----------------
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+public class TestJunit{
+  @Test
+  public void testAdd(){
+    String str="OK";
+    assertEquals("OK",str);
+  }
+  @Test
+  public void testSub(){
+    String str="KO";
+    assertEquals("OK",str);
+  }
+
+}
+-----------------
+$ javac JunitTest.java
+
+*** run
+**** run a test class 
+$ java  org.junit.runner.JUnitCore  JunitTest
+**** run a method in a specific class
+$ java org.junit.runner.JUnitCore TestJunit.testAdd
+JUnit version 4.10
+Could not find class: TestJunit.testAdd
+
+Time: 0.002
+
+OK (0 tests)
+
+** Jar files
+Jar Files
+
+A Jar file is essentially a collection of files (mostly archives of java classes) in one file, similar to a ZIP file. A Jar file facilitates the packaging of applications into one file. In addition to the Java class files and resources, a Jar file can contain a META-INF directory. The most important file in this directory is manifest.mf. It is used to define extension and package related data. The Main-Class: classname in the manifest file specifies the class that gets executed first.
+To compile a Java file and include a Jar file, enter the following command line:
+
+   javac -classpath jar-file java-file
+
+For multiple JAR files, separate the jar-files with semicolons, as follows:
+
+   javac -classpath jar-file1;jar-file2;jar-file3 java-file
+
+Some rules to note:
+
+    On UNIX systems use a colon instead of a semicolon.
+    If jar-file is not in the current directory, remember to specify the path to the jar-file.
+
+To include a Jar file when running a compiled java file, enter the following command:
+
+   java -classpath jar-file class-file
+
+*** Creating Jar Files
+
+To create a Jar file, enter the following command:
+
+   jar cf jar-file input-files
+
+For example, if you want to make a C.jar with A.class and B.class, enter the following command:
+
+   jar cf C.jar A.class B.class
+
+*** Running A Jar File
+
+To run a Jar file at the command line, enter the following command:
+
+   java -jar jar-file 
+
+When using a GUI, you can also simply double click the Jar file icon.
+Compiling A Jar File
+
+
+* maven for java project managment
+** generate a mavaen project from scratch
+*** command to generate the whole direc structure and pom file
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+*** generated dir and pom
+cd my-app
+    my-app
+    |-- pom.xml
+    `-- src
+        |-- main
+        |   `-- java
+        |       `-- com
+        |           `-- mycompany
+        |               `-- app
+        |                   `-- App.java
+        `-- test
+            `-- java
+                `-- com
+                    `-- mycompany
+                        `-- app
+                            `-- AppTest.java
+
+pom
+-----
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>my-app</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+ 
+  <name>Maven Quick Start Archetype</name>
+  <url>http://maven.apache.org</url>
+ 
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+-------------
+
+*** build the project
+mvn package
+
+Unlike the first command executed (archetype:generate) you may notice the second is simply a single word - package. Rather than a goal, this is a phase. A phase is a step in the build lifecycle, which is an ordered sequence of phases. When a phase is given, Maven will execute every phase in the sequence up to and including the one defined. For example, if we execute the compile phase, the phases that actually get executed are:
+
+    validate
+    generate-sources
+    process-sources
+    generate-resources
+    process-resources
+    compile
+
+You may test the newly compiled and packaged JAR with the following command:
+
+    java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
+
+Which will print the quintessential:
+
+    Hello World!
+
+
+*** Running Maven Tools
+Maven Phases
+
+Although hardly a comprehensive list, these are the most common default lifecycle phases executed.
+
+    validate: validate the project is correct and all necessary information is available
+    compile: compile the source code of the project
+    test: test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed
+    package: take the compiled code and package it in its distributable format, such as a JAR.
+    integration-test: process and deploy the package if necessary into an environment where integration tests can be run
+    verify: run any checks to verify the package is valid and meets quality criteria
+    install: install the package into the local repository, for use as a dependency in other projects locally
+    deploy: done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.
+
+There are two other Maven lifecycles of note beyond the default list above. They are
+
+    clean: cleans up artifacts created by prior builds
+
+    site: generates site documentation for this project
+
+Phases are actually mapped to underlying goals. The specific goals executed per phase is dependant upon the packaging type of the project. For example, package executes jar:jar if the project type is a JAR, and war:war if the project type is - you guessed it - a WAR.
+
+An interesting thing to note is that phases and goals may be executed in sequence.
+
+    mvn clean dependency:copy-dependencies package
+
+This command will clean the project, copy dependencies, and package the project (executing all phases up to package, of course).
+Generating the Site
+
+    mvn site
+
+This phase generates a site based upon information on the project's pom. You can look at the documentation generated under target/site.
+
+** mvn  test
+*** Running a Single Test
+
+During development, you may run a single test class repeatedly. To run this through Maven, set the test property to a specific test case.
+
+mvn -Dtest=TestCircle test
+
+The value for the test parameter is the name of the test class (without the extension; we'll strip off the extension if you accidentally provide one).
+
+You may also use patterns to run a number of tests:
+
+mvn -Dtest=TestCi*le test
+
+And you may use multiple names/patterns, separated by commas:
+
+mvn -Dtest=TestSquare,TestCi*le test
+
+
+*** Running a Set of Methods in a Single Test Class
+
+As of Surefire 2.7.3, you can also run only a subset of the tests in a test class.
+
+NOTE : This feature is supported only for Junit 4.x and TestNG.
+
+You must use the following syntax:
+
+mvn -Dtest=TestCircle#mytest test
+
+You can use patterns too
+
+mvn -Dtest=TestCircle#test* test
+
+As of Surefire 2.12.1, you can select multiple methods (JUnit 4.x only at this time; patches welcome!):
+
+mvn -Dtest=TestCircle#testOne+testTwo test
+
+** mvn increamental comiplation
+Maven supports building subsets of multi module projects using the command line arguments -pl, -am and -amd to specify modules to build, also build dependencies and also build dependents, respectively. It will also only compile changed source files in any given module (not really a Maven feature so much as a javac feature).
+
+https://maven-incremental-build.java.net/site/usage.html
+
+* options 
+** javaagent option
+7/24/2006
+The -javaagent: Option
+The -javaagent: is introduced in JDK 5, and it may be late to talk about any new features in JDK 5, while JDK 6 is just around the corner. I started to use it recently but at first couldn't find any good documentation on this option.
+
+java -help shows a brief message:
+
+?
+1
+2
+-javaagent:<jarpath>[=<options>]
+load Java programming language agent, see java.lang.instrument
+JDK tools doc page doesn't give much more info. The official one is at the Javadoc page for java.lang.instrument, as suggested by java -help
+
+Here is my quick summary with comments:
+
+The name is misleading, since the word agent usually suggests something working remotely and separately from the primary entity. But it turns out the java agent as used in -javaagent: is much simpler than that.
+
+How to write a java agent? Just implement this method:
+?
+1
+public static void premain(String agentArgs, Instrumentation inst);
+2. Agent classes must be packaged in jar file format whose META-INF/MANIFEST.MF contains at least one additional attribute: Premain-Class. An example of MANIFEST.MF:
+?
+1
+2
+3
+Manifest-Version: 1.0
+Premain-Class: javahowto.JavaAgent
+Created-By: 1.6.0_06 (Sun Microsystems Inc.)
+Once you have the custom MANIFEST.MF file, run jar command with cvfm option to create the agent jar:
+?
+1
+2
+/projects/Hello/build/classes $
+jar cvfm ../../myagent.jar ../../mymanifest.mf javahowto/MyAgent.class
+3. All these agent jars are automatically appended to the classpath. So no need to add them to classpath, unless you want to reorder classpath elements.
+
+4. One java application may have any number of agents by using -javaagent: option any number of times. Agents are invoked in the same order as specified in options.
+
+5. Each agent may also take String-valued args. I guess that's the reason why we have to use this option multiple times for multiple agents. Otherwise, we could've just done something like: -javaagent agent1.jar:agent2.jar, which is incorrect.
+
+6. It's convenient for java application integration. Now I can enhance/modify the behavior of an application without changing its source code.
+
+7. JavaEE 5 has many similar construts, such as interceptors in EJB 3, and EntityListener in Java Persistence API. In JavaEE, they are managed by some sort of containers, so their semantics is much richer than javaagent.
+
+** -XX option
+-XX:MaxPermSize= size is used to specify the size of the permanent generation memory. See   3.1.2 Detail Message: PermGen space .
+-XX:MaxPermSize=1024m
+*** Detail Message: PermGen space
+The detail message PermGen space indicates that the permanent generation is full. The permanent generation is the area of the heap where class and method objects are stored. If an application loads a very large number of classes, then the size of the permanent generation might need to be increased using the -XX:MaxPermSize option.
+
+Interned java.lang.String objects are also stored in the permanent generation. The java.lang.String class maintains a pool of strings. When the intern method is invoked, the method checks the pool to see if an equal string is already in the pool. If there is, then the intern method returns it; otherwise it adds the string to the pool. In more precise terms, the java.lang.String.intern method is used to obtain the canonical representation of the string; the result is a reference to the same class instance that would be returned if that string appeared as a literal. If an application interns a huge number of strings, the permanent generation might need to be increased from its default setting.
+
+When this kind of error occurs, the text String.intern or ClassLoader.defineClass might appear near the top of the stack trace that is printed.
+
+The jmap -permgen command prints statistics for the objects in the permanent generation, including information about internalized String instances. See    2.7.4 Getting Information on the Permanent Generation.
+
+** -X option
+$ java -X
+    -Xmixed           mixed mode execution (default)
+    -Xint             interpreted mode execution only
+    -Xbootclasspath:<directories and zip/jar files separated by ;>
+                      set search path for bootstrap classes and resources
+    -Xbootclasspath/a:<directories and zip/jar files separated by ;>
+                      append to end of bootstrap class path
+    -Xbootclasspath/p:<directories and zip/jar files separated by ;>
+                      prepend in front of bootstrap class path
+    -Xdiag            show additional diagnostic messages
+    -Xnoclassgc       disable class garbage collection
+    -Xincgc           enable incremental garbage collection
+    -Xloggc:<file>    log GC status to a file with time stamps
+    -Xbatch           disable background compilation
+    -Xms<size>        set initial Java heap size
+    -Xmx<size>        set maximum Java heap size
+
 
 * java language itself
 ** java variavble initialization
@@ -58,7 +359,6 @@ primitive: int a = 1000;
 ** Arrays in Java
 A java array is guaranteed to be initialized and can't be acessed outside of its range. The range checking comes at the price of haveing a samll amount of memory
 overhead on each arrays as well as verifying the index at run time.
-
 ** garbage collector( You never need to destroy an object)
 there's no destruction function for java class, for java will recollet the memory automatically when the scope is not available for the object.
 but we still nedd to recollect other resources such as a handle of the file...etc.
@@ -650,4 +950,36 @@ public class EmployeeSortTest
 * java tools 
 java -cp . -agentlib:hprof=file=snapshot.hprof,format=b OL
 ** java visulvm
+** jar (list all the class files in jar file )
+jar tvf *.jar
 
+* eclipse settings 
+** debugging skill
+*** 'Null pointer exception' handling
+try{
+ code (nested to other code, and there's null pointer exception)
+
+}
+catch(Exception e)
+{
+//no code to print out this exception in the terminal
+//then you will miss it, even such error occured, you may unaware of it
+//but if this Exception not catched by your code,
+//there will be null pointer exception error printed out in terminal
+}
+
+when you get those code, how to debug?
+Use “Java Exception Breakpoint” feature to track your exceptions more easily. For example, your program might be throwing a NullPointerException or FileNotFoundException and you want to track it down. Rather than go to the line of code and set a breakpoint, you can specify that the debugger should always stop when the exception occurs.
+(when you found your result is not expected, try this one to narrow down if any null pointer exception )
+
+*** When stepping into class instantiation, eclipse debugger goes to native code
+perference->java->debug->step filtering
+java.lang.* 
+filter this package, debug will go straight forward to constructor.
+
+*** watch point for class fields
+you can toggle a wath point for class fields,
+when the field is read/write, it will stop 
+
+** watch point for only an instance
+http://stackoverflow.com/questions/7030616/how-do-you-set-instance-breakpoints-in-eclipse
