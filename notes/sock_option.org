@@ -77,7 +77,8 @@ MSL. This lets TCP resend the final ACK in case this ACK is lost (in which case 
 will time out and retransmit its final FIN).
 
 Any delayed segments that arrive for a connection while it is in the 2MSL wait are discareded. 
-Since the connection defined by the socket pair in the 2MSL wait cannot be reused during this time period, when we do establish a valid connection we know that delayed segments from an earlier incarnation of this connection cannot be misinterpreted as being part of the new connection.
+Since the connection defined by the socket pair in the 2MSL wait cannot be reused during this time period, when we do establish a valid connection 
+we know that delayed segments from an earlier incarnation of this connection cannot be misinterpreted as being part of the new connection.
 ====================================
 
 

@@ -1,4 +1,4 @@
-* identification of mme and mobile subscriber
+    * identification of mme and mobile subscriber
 ** mobile identification
 IMSI: unique international mobile sbuscriber identity
 
@@ -8,6 +8,12 @@ TMSI(Temporary Mobile subscriber indenties)
 
 An MS may be allocated three TMSIs, one for services provided through the MSC, one for services provided through the SGSN (P-TIMSI for short) and i
 one for the services provided via the MME (M-TIMSI which is part of GUTI).
+
+IMEI (International Mobile Equipment Identity) it is a unique number given to every single mobile phone.
+(When a phone is reported stolen or is not type approved, the number is marked invalid).
+
+The IMEI (International Mobile Station Equipment Identity) is a 15-digit number to uniquely identify a mobile phone device.i
+IMEISV (IMEI Software Version) is a 16-digit number with the IMEI and an additional software version number.
 
 
 *** composition of IMSI
@@ -43,7 +49,7 @@ MME Code shall be of 8 bits length.
 
 
 
-** Globally Unique Temporary UE Identity (GUTI )
+    ** Globally Unique Temporary UE Identity (GUTI )
 The purporse of the GUTI is to provife an unambiguous identification of the UE that does not reveal the UE or the user's permanent identity in the Evolved Packet System
 (EPS). It also allows the identification of the MME and network. It can be used by network and the UE to establish UE's identity during signaling between them in EPS.
 On GUTI consist two main components:
@@ -67,6 +73,12 @@ Fig. 2. GUTI structure
 -	Mapped GUMMEI=<MCC><MNC><MME group Id=LAC><MME Code=8 MSB of NRI>
 
 
+** MSISDN
+the real phone number, is is stored with other information in HLR indexed by imsi of each entry
+MSISDN = CC + NDC + SN
+CC = Country Code
+NDC = National Destination Code
+SN = Subscriber Number
 
 * PDN, bearer and APN
 ** PDN concept
@@ -319,13 +331,18 @@ ENB                                           MME                               
 | - Uplink NAS Transport (Detach Request)      |                                              |
 |                                              |                                              |                                              
 |                                              |                                              |                                              
-|                                              |--------------------------------------------->|delete all the teid(enb,sgw,mme),imsi
+|                                              |--------------------------------------------->|delete all the teid for this bearer (enb,sgw,mme),imsi
 |                                              | - Delete Session Request                     |
-|                                              |                                              |                                              
 |                                              |                                              |                                              
 |                                              |<---------------------------------------------|
 |                                              | - Delete Session Response                    |
 |                                              |                                              |                                              
+|                                              |--------------------------------------------->|delete all the teid(enb,sgw,mme),imsi
+|                                              | - Delete Session Request                     |
+|                                              |                                              |                                              
+|                                              |<---------------------------------------------|
+|                                              | - Delete Session Response                    |
+                                              |                                              |                                              
 |                                              |                                              |                                              
 |<---------------------------------------------|                                              |
 | - Downlink NAS Transport (Detach Accept)     |                                              |
@@ -429,7 +446,7 @@ UE                               ENB                              MME           
 |                                |                                |M: PGW IP                       |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |------------------------------------------------------------------------------------------------->|
-|                                |                                |M: create session request(MME-T |                                |                                |
+|                                |                                |M: create session request(MME-T |                                |                                |sgw restore imsi,mme-teid
 |                                |                                |EID,IMSI)                       |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |------------------------------------------------------------------------------------------------->|
@@ -437,8 +454,8 @@ UE                               ENB                              MME           
 |                                |                                |,sgw-teid-u] c:control, u:user  |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |<-------------------------------------------------------------------------------------------------|
-|                                |                                |M: create session response(     |                              |                                |
-|                                |                                | sgw-teid-c,sgw-teid-u)         |                                |                                |
+|                                |                                |M: create session response(     |                                |                                |sgw-teid-c:senderFTEIDforctrlplane    
+|                                |                                | sgw-teid-c,sgw-teid-u)         |                                |                                |sgw-teid-u:s1_U_SGW_FTEID in bearecontext
 |                                |                                |                                |                                |                                |
 |                                |                                |<-------------------------------------------------------------------------------------------------|
 |                                |                                |A: <SGW_TEID-u,SGW_TEID-c>      |                                |                                |
@@ -450,9 +467,9 @@ UE                               ENB                              MME           
 |                                |[{NAS_attach accept(GUTI,TALIST}|                                |                                |                                |
 |                                |]))                             |                                |                                |                                |
 |                                |                                |                                |                                |                                |
-|                                |<-------------------------------|                                |                                |                                |
+|                                |<-------------------------------|enb-TEID:transportLayerAddress  |                                |                                |
 |                                |A: <sgw_teid-u> [enb-TEID]      |                                |                                |                                |
-|                                |                                |                                |                                |                                |
+|                                |                                |                                |                               G |                                |
 |<-------------------------------|                                |                                |                                |                                |
 |M: [{attach accept(guti,talist) |                                |                                |                                |                                |
 |}]                              |                                |                                |                                |                                |
@@ -462,7 +479,7 @@ UE                               ENB                              MME           
 |                                |                                |                                |                                |                                |
 |                                |------------------------------->|                                |                                |                                |
 |                                |M: InitialContextSetupResponse  |                                |                                |                                |
-|                                |(enb_s1ap_id,mme_s1_id,         |                                |                                |                                |
+|                               G |(enb_s1ap_id,mme_s1_id,         |                                |                                |                                |
 |                                |enb-TEID-U))                    |                                |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |------------------------------->|                                |                                |                                |
@@ -476,12 +493,12 @@ UE                               ENB                              MME           
 |                                |                                |                                |                                |                                |
 |                                |------------------------------->|                                |                                |                                |
 |                                |M: S1AP.UplinkNASTransport(enb_ |                                |                                |                                |
-|                                |s1ap_id,mme_s1_id,SGW-TEID,[{at |                                |                                |                                |
+|                                |s1ap_id,mme_s1_id,[{at          |                                |                                |                                |
 |                                |tach complete}])                |                                |                                |                                |
 |                                |                                |                                |                                |                                |
-|                                |                                |------------------------------------------------------------------------------------------------->|
-|                                |                                |M: modify bearer request(sgw-te |                                |                                |
-|                                |                                |id,enb-teid(ipaddr-update))     |                                |                                |
+|                                |                                |------------------------------------------------------------------------------------------------->|bearer context
+|                                |                                |M: modify bearer request(mme-te |                                |                                |s1_eNodeB_FTEID
+|                                |                                |id-c,enb-teid(ipaddr-update))   |                                |                                |is enb-teid
 |                                |                                |                                |                                |                                |
 |                                |                                |------------------------------------------------------------------------------------------------->|
 |                                |                                |A: <enb-teid,ipaddr>            |                                |                                |
@@ -490,8 +507,7 @@ UE                               ENB                              MME           
 |M: first downlink data packet   |                                |                                |                                |                                |
 |                                |                                |                                |                                |                                |
 |                                |                                |<-------------------------------------------------------------------------------------------------|
-|                                |                                |M: ModifyBearerResponse(MME TEI |                                |                                |
-|                                |                                |D-C)                            |                                |                                |
+|                                |                                |M: ModifyBearerResponse(sgw-teid-c)                                                                |
 |                                |                                |                                |                                |                                |
 
 after attach the ids in enb,mme,sgw
@@ -510,7 +526,7 @@ sgw: imsi, mme-teid, sgw-teid, enb-teid
 mme: ismi,enb-s1-id,mme-s1-id, guti, mme-teid, sgw-teid
 
 
-note all the data packet won't pass mme, data only in sgw and enb(enb talk with  ue via radio network)
+note all the data packet won't pass mme, data only in sgw and enb(enb talk wih  ue via radio network)
 other components are connected via real nettwork(core net work?) 
 mme will only control the ue's guti and talist.
 talist is the tas which not needed to do TAU for ue, if ue entered another tas not in talist, ue will perform TAU to mme,
@@ -528,10 +544,11 @@ mme will get updated where ue is
 ** Tracking Area Update
 this procedure and be initiated by UE or just periodic.
 
-*** UE initiated TAU 
+*** intra mme TAU
+**** ue initiated TAU 
 When an UE detects it has entered a new Tracking Area(that is not in the list of TAIS when attach Accept),
 it initiates a standalone tracking area update procedure.
-**** ECM=IDLE ACTIVE FLAG = OFF
+***** ECM=IDLE ACTIVE FLAG = OFF
 If the UE(in idle mode)has no UpLink data pending, it will initiate TAU with active_flag off
 
 
@@ -539,11 +556,11 @@ UE(ECM=idle,EMM=registered)                            ENB(no-ids)              
                                                                                                                (imsi,guti,sgw-teid,mme-teid)
 |                                                          |                                                          |
 |                                                          |                                                          |
-|--------------------------------------------------------->|----------------------------------------------------------|
-| M TAU Request(TAI,activeflag=off)                        |                                                          |
+|--------------------------------------------------------->|--------------------------------------------------------->|
+| M TAU Request(TAI,guti,activeflag=off)                   |                                                          |
 |                                                          |                                                          |
 |                                                          |                                                          |
-|--------------------------------------------------------->|----------------------------------------------------------|
+|--------------------------------------------------------->|--------------------------------------------------------->|check if ths sub exists in cache/db using guti
 | A [ebn-s1ap-id]                                          |                                                          |
 |                                                          |                                                          |
 |                                                          |                                                          |
@@ -595,7 +612,7 @@ UE(ECM=idle,EMM=registered)                            ENB(no-ids)              
 |                                                          | A  delete all the s1ap-ids(mme, enb)                     |
 
 
-**** ECM=IDLE ACTIVE FLAG = ON
+***** ECM=IDLE ACTIVE FLAG = ON
 If the UE (in idle mode) has UpLink data pending (or UpLink signalling not related to TAU), the MME re-establish the radio and S1 bearers for all i
 active EPS bearer contexts. The UE indicates this request to establish the User Plane (and to keep NAS signalling connection after TAU completion) by setting an "active" flag. 
 
@@ -655,17 +672,59 @@ UE                                                      ENB                     
 |                                                        |                                                        | M ModifybearerResponse(mme-s1ap-id)                    |
 
 
-**** ECM=CONNECTED
+***** ECM=CONNECTED
 only update the TA List, all enb-s1ap-id, enb-teid, mme-s1ap=id, sgw-teid, mme-teid no need to update at all.
 
+***** intra MME TAU with SGW relocation ECM=CONNECTED
+case id:  NS_130_4_0001
 
+ENB                                             MME                                                tSGW                                             sSGW
+|                                                 |                                                 |                                                 |
+|                                                 |                                                 |                                                 |
+|------------------------------------------------>|                                                 |                                                 |
+| - Uplink NAS Transport (Tracking Area Update Req|                                                 |                                                 |
+|uest(GUTI,TAI,))                                 |                                                 |                                                 |
+|                                                 |DNSquery with tac to see if sgw need relocated   |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |------------------------------------------------>|                                                 |
+|                                                 | - Create Session Request                        |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |<------------------------------------------------|                                                 |
+|                                                 | - Create Session Response                       |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |-------------------------------------------------------------------------------------------------->|
+|                                                 | - Delete Session Request                                                                          |
+|                                                 |                                                 |                                                 |
+|                                                 |<--------------------------------------------------------------------------------------------------|
+|                                                 | - Delete Session Response                                                                         |
+|                                                 |                                                 |                                                 |
+|<------------------------------------------------|                                                 |                                                 |
+| - Initial Context Setup Request (Tracking Area U|                                                 |                                                 |
+|pdate Accept)                                    |                                                 |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |                                                 |                                                 |
+|------------------------------------------------>|                                                 |                                                 |
+| - Initial Context Setup Response                |                                                 |                                                 |
+|                                                 |                                                 |                                                 |
+|------------------------------------------------>|                                                 |                                                 |
+| - Uplink NAS Transport (Tracking Area Update Com|                                                 |                                                 |
+|plete)                                           |                                                 |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |------------------------------------------------>|                                                 |
+|                                                 | - Modify Bearer Request                         |                                                 |
+|                                                 |                                                 |                                                 |
+|                                                 |<------------------------------------------------|                                                 |
+|                                                 | - Modify Bearer Response                        |                                                 |
+|                                                 |                                                 |                                                 |
 
-
-*** periodic TAU
+**** periodic TAU
 In addition, an EMM-REGISTERED and ECM-IDLE state UE performs periodic Tracking Area Update with the network after the expiry of the periodic TAU timer (T3412).
-The value of timer is sent by the network to the UE in the ATTACH ACCEPT message (and can be sent in the TRACKING AREA UPDATE ACCEPT message). Periodic tracking area 
+The     value of timer is sent by the network to the UE in the ATTACH ACCEPT message (and can be sent in the TRACKING AREA UPDATE ACCEPT message). Periodic tracking area 
 updateing is used to periodically notify the availability of the EMM-IDLE state UE to the network. 
-
+    
+*** inter mme TAU with ACTIVE FLAG= OFF
+case id:NS_129_31_0001
 ** Handover procedure
 When a UE has connection to an eNB(through some cell), it is constantly measuring the signal strenths of all the
 cell around it.
@@ -677,33 +736,63 @@ When source eNB receives the Measurment report it'll make a decision about perfo
 
 precondition: ATTACH and default bearer setup
 
-*** intra mme handover through s1 interface
-Source eNB                          MME                                 Target eNB                          SGW                                 UE                                  
+*** intra mme handover through s1 interface without SGW relocation
+when ue handover from source enb to target enb, the downlink data will lost it destination for a short time.
+So in S1 handover, SGW will play as a route, it forward downlink data to target enb, when SGW send downlink
+data to source eNB, eNB will forward it to SGW, and SGW forward it to Target eNB, and target eNB will buffer
+these data till ue handover to target ENB complete.
+case id:NS_70_7_0001 without SGW relocation
+Source eNB                          MME                                 Target eNB                            SGW                                 UE                                  
+enb-teid                           mme-teid                                                               sgw-teid-c/u
+mme-s1ap-id                        sgw-teid-c/u                                                           mme-teid
+enb-s1ap-id                        mme/enb-s1ap-id                                                        enb-tid
+sgw-teid-u
+|                                    |                                    |                                    |                                    |                                    
+|<-----------------------------------------------------------------DL------------------------------------------|                                    |
+|                                    |                                    |                                    |                                    |                                    
+|------------------------------------------------------------------UL----------------------------------------->|                                    |
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |----------------------------------->|                                    |                                    |                                    |
-|  Handover Required(targeenb-id)    |                                    |                                    |                                    |
+|HandoverRequired(mme-s1apid,tenb-id)|                                    |                                    |                                    |
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |----------------------------------->|                                    |                                    |
-|                                    |  Handover Request                  |                                    |                                    |
+|                                    | Handover Request(mme-s1ap-id-tenb, |                                    |                                    |
+|                                    |sgw-teid-u,uecontext)               |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |----------------------------------->|                                    |                                    |
+|                                    |A:[tenb-s1id,tebTEID,tebDLTEID]     |                                    |                                    |
+|                                    | <sgw-teid-u,mme-s1ap-id>           |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |<-----------------------------------|                                    |                                    |
-|                                    |  Handover Request acknowledge      |                                    |                                    |
+|                                    |HandoverRequestAck(tenb-s1id,tenbDLTEID)|                                |                                    |
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |------------------------------------------------------------------------>|                                    |
-|                                    |  Create Indirect Data Forwarding Tunnel Request                         |                                    |
+|                                    |Create IndirectDataForwardingTunnel Request(tenbDLTEID)                  |                                    |
 |                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|                                    |------------------------------------------------------------------------>|                                    |
+|                                    |A:<tenbDLTEID>,[SGW-DL-TEID]        |                                    |
 |                                    |                                    |                                    |                                    |                                    
 |                                    |<------------------------------------------------------------------------|                                    |
-|                                    |  Create Indirect Data Forwarding Tunnel Response                        |                                    |
+|                                    |  Create Indirect Data Forwarding Tunnel Response(SGW-DL-TEID)           |                                    |
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |<-----------------------------------|                                    |                                    |                                    |
-|  Handover command                  |                                    |                                    |                                    |
+|  Handover command(SGW-DL-TEID)     |                                    |                                    |                                    |
 |                                    |                                    |                                    |                                    |                                    
+|<-----------------------------------|                                    |                                    |                                    |
+|  A:<SGW-DL-TEID>                   |                                    |                                    |                                    |
+|                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                                    |                                    |                                    
+|enb-TEID                            |                                    |                                    |                                    |                                    
+|<-----------------------------------------------------------------DL------------------------------------------|      now a dl data will from       |
+|                                    |                                    |                         sgw-dl-teid|    sgw---->senb---->sgw----->tenb  |                                    
+|-----------------------------------------------------------------DL----->|                                    |    enb-teid  sgw-dl-teid  tebDLTEID|
+|                                    |                                    |tebDLTEID                           |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |----------------------------------->|                                    |                                    |                                    |
 |  eNB STATUS TRANSFER               |                                    |                                    |                                    |
@@ -712,6 +801,8 @@ Source eNB                          MME                                 Target e
 |                                    |----------------------------------->|                                    |                                    |
 |                                    |  Mme STATUS Tansfer                |                                    |                                    |
 |                                    |                                    |                                    |                                    |                                    
+|                                    |                                    |                          sgw-teid  |                                    |                                    
+|                                    |                                    |-----------UL---------------------->|   now targe enb establish with ue  |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |<------------------------------------------------------------------------|
 |                                    |                                    |   Handover confirmed                                                    |
@@ -722,12 +813,14 @@ Source eNB                          MME                                 Target e
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |------------------------------------------------------------------------>|                                    |
-|                                    |  Modify bearer request                                                  |                                    |
+|                                    |  Modify bearer request(mme-teid,tenb-teid)                              |
 |                                    |                                    |                                    |                                    |                                    
 |                                    |                                    |                                    |                                    |                                    
 |                                    |<------------------------------------------------------------------------|                                    |
-|                                    |  Modify bearer response                                                 |                                    |
-|                                    |                                    |                                    |                                    |                                    
+|                                    |  Modify bearer response(sgw-teid-u)                                     |                                    |
+|                                    |                                    | teb-teid                           |                                    |                                    
+|                                    |                                    |<----------DL-----------------------|    now DL using tenb-teid instead  |                                    
+|                                    |                                    |                                    |    of  forward tunnel              |                                    
 |                                    |                                    |                                    |                                    |                                    
 |<-----------------------------------|                                    |                                    |                                    |
 |  UE CONTEXT RELEASE COMMAND        |                                    |                                    |                                    |
@@ -745,25 +838,451 @@ Source eNB                          MME                                 Target e
 |                                    |  Delete Indirect Data Forwarding Tunnel Response                        |                                    |
 
 
+*** intra mme s1 handover with SGW relocation
+The differce between with/without SGW relocation is that
+SGW relocation means that new sgw-teid-c/u are needed, so extra Create Session Req/Resp are needed for target SGW.
+and the IDFT is different
+DL data flow is :  sSGW-> sENB-> sSGW ->  (tSGW) -> tENB
+
+tSGW is an extra one compared to without SGW relocation
+
+So there are two IDFT, 
+one is 
+case id: NS_130_2_0001 without SGW relocation
+
+SENB                                     MME                                    tSGW                             targetENB                                    sSGW
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|-------------------------------------->|                                       |                                       |                                       |
+| - Handover Required                   |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | - Create Session Request              |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | A:[sgw-teid-c,sgw-teid-u]             |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       | Create Session Response(sgw-teid-c/u) |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |------------------------------------------------------------------------------>|                                       |
+|                                       | - Handover Request                                                            |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<------------------------------------------------------------------------------|                                       |
+|                                       | - Handover Request Acknowledge(tenb-teid,enb-dl-teid)                          |                                       |
+|                                       |<tenb-teid>                            |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | - Create Indirect Data Forwarding Tunn|                                       |                                       |
+|                                       |el Request(tenb-dl-teid)               |tenb-dl-teid                           |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       | - Create Indirect Data Forwarding Tunn|                                       |                                       |
+|                                       |el Response(tSGW-dlteid)               |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |---------------------------------------------------------------------------------------------------------------------->|
+|                                       | - Create Indirect Data Forwarding Tunnel Request(tSGW-dlteid)                                                         |<tSGW-dlteid>
+|                                       |                                       |                                       |                                       |
+|                                       |<----------------------------------------------------------------------------------------------------------------------|
+|                                       | - Create Indirect Data Forwarding Tunnel Response(sSGW-dlteid)                                                        |
+|                                       |                                       |                                       |                                       |
+|<--------------------------------------|                                       |                                       |                                       |
+| - Handover Command(sSGW-dlteid)       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|enb-teid                               |                                       |                                       |                                       |
+|<-------------------------------------------------------------------------DL-----------------------------------------------------------------------------------|
+|--------------------------------------------------------------------------DL---------------------------------------------------------------------------------->|sSGW-dl-teid
+|                                                                     tSGW-dltid|<---------------------DL-------------------------------------------------------|
+|                                       |                                       |----------------DL-------------------->|tenb-dl-teid                           |
+|                                       |                                       |                                       |                                       |
+|-------------------------------------->|                                       |                                       |                                       |
+| - ENB Status Transfer                 |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |------------------------------------------------------------------------------>|                                       |
+|                                       | - MME Status Transfer                                                         |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<------------------------------------------------------------------------------|                                       |
+|                                       | - Handover Notify                                                             |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | - Modify Bearer Request(tenb-teid)    |<tenb-teid>                            |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       | - Modify Bearer Response              |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |----------------DL-------------------->|tenb-teid                           |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|-----------------------------------------Resource release for whole handover.----------------------------------------------------------------------------------|                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|<--------------------------------------|                                       |                                       |                                       |
+| - UE Context Release Command          |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | - Delete Indirect Data Forwarding Tunn|                                       |                                       |
+|                                       |el Request                             |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |---------------------------------------------------------------------------------------------------------------------->|
+|                                       | - Delete Session Request                                                                                              |
+|                                       |                                       |                                       |                                       |
+|-------------------------------------->|                                       |                                       |                                       |
+| - UE Context Release Complete         |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       | - Delete Indirect Data Forwarding Tunn|                                       |                                       |
+|                                       |el Response                            |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<----------------------------------------------------------------------------------------------------------------------|
+|                                       | - Delete Session Response                                                                                             |
+|                                       |                                       |                                       |                                       |
+|                                       |---------------------------------------------------------------------------------------------------------------------->|
+|                                       | - Delete Indirect Data Forwarding Tunnel Request                                                                      |
+|                                       |                                       |                                       |                                       |
+|                                       |<----------------------------------------------------------------------------------------------------------------------|
+|                                       | - Delete Indirect Data Forwarding Tunnel Response                                                                     |
+|                                       |                                       |                                       |                                       |
+
 *** x2 handover without SGW relocation
 precondition:
 source eNb and Target eNB complete Handover Execution Forwoarding of data through x2 interface
 
-Target eNB                          MME                                 SGW     
-|                                    |                                    |     
-|                                    |                                    |     
-|----------------------------------->|                                    |
-|  Path Switch Request               |                                    |
-|                                    |                                    |     
-|                                    |                                    |     
-|                                    |----------------------------------->|
-|                                    |  Modify bearer request             |
-|                                    |                                    |     
-|                                    |                                    |     
-|                                    |<-----------------------------------|
-|                                    |  Modify bearer response            |
-|                                    |                                    |     
-|                                    |                                    |     
-|<-----------------------------------|                                    |
-|  Path Switch Response              |                                    |
+Before the message flow involved in MME, target eNB and source eNB exhange the info firstly.
+when ue establish with target eNB, target eNB will send message to MME about it's teb-teid.
+
+testcase id: NS_13_2_0002  
+Target eNB                              MME                                   SGW     
+|                                       |                                      |
+|                                       |                                      |
+|-------------------------------------->|                                      |
+| Path Switch Request(teb-s1id,teb-teid |                                      |
+|                                       |                                      |
+|-------------------------------------->|                                      |
+|A:<teb-s1id,teb-teid>                  |                                      |
+|                                       |                                      |
+|                                       | -----------------------------------> |
+|                                       | Modify bearer request(teb-teid)      |
+|                                       |                                      |
+|                                       |                                      |
+|                                       | <----------------------------------- |
+|                                       | Modify bearer response               |
+|                                       |                                      |
+|                                       |                                      |
+
+| <-----------------------------------  |                                      |
+| Path Switch Request Ack               |                                      |
+
+
+
+*** x2 handover with SGW relocation
+precondition:
+source eNb and Target eNB complete Handover Execution Forwoarding of data through x2 interface
+
+Before the message flow involved in MME, target eNB and source eNB exhange the info firstly.
+when ue establish with target eNB, target eNB will send message to MME about it's teb-teid.
+
+testcase id: NS_130_3_0001
+Target eNB                              MME                                   tSGW     
+|                                       |                                      |
+|                                       |                                      |
+|-------------------------------------->|                                      |
+| Path Switch Request(teb-s1id,teb-teid |                                      |
+|                                       |                                      |
+|-------------------------------------->|                                      |
+|A:<teb-s1id,teb-teid>                  |                                      |
+|                                       |                                      |
+|                                       | -----------------------------------> |
+|                                       | create session request(teb-teid)     |<teb-teid>[sgw-teid-c/u]
+|                                       |                                      |
+|                                       |                                      |
+|                                       | <----------------------------------- |
+|                                       | create session response(sgw-teid-c/u)|
+|                                       |                                      |
+|                                       |                                      |
+| <-----------------------------------  |                                      |
+| Path Switch Request Ack(sgw-teid-u)   |                                      |
+
+
+**** How MME know this handover need SGW relocation?
+when MME received target-enb tai is different with the source-enb ta list, it will trigger DNS check state, if sgw is as the same hostname and ip, then, no sgw relocation.
+
+
+
+*** inter mme s1 handover without SGW relocation 
+source mme sut case id:NS_129_11_0002
+target mme sut case id:  NS_129_22_0001
+
+sENB                                    sMME                                    tMME                                    tENB                                    SGW
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|-------------------------------------->|                                       |                                       |                                       |
+| - Handover Required(tenb-id)          |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       |Forward Relocation Request(sgw-teid-u, |<sgw-teid-u>[sgw-teid-c]               |                                       |
+|                                       |  imsi,tenbid)                         |                                       |                                       |
+|                                       |                                       |-------------------------------------->|                                       |
+|                                       |                                       |  -Handover Request(sgw-teid-u)        |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |<--------------------------------------|                                       |
+|                                       |                                       |HandoverRequestAck(enb-dl-teid,enb-teid)|                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       |Forward Relocation Response(enb-dl-teid)|                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |---------------------------------------------------------------------------------------------------------------------->|
+|                                       | - Create Indirect Data Forwarding Tunnel Request(enb-dl-teid)                                                         |
+|                                       |                                       |                                       |                                       |
+|                                       |<----------------------------------------------------------------------------------------------------------------------|
+|                                       | - Create Indirect Data Forwarding Tunnel Response(sgw-dl-teid)                                                        |
+|                                       |                                       |                                       |                                       |
+|<--------------------------------------|                                       |                                       |                                       |
+| - Handover Command(sgw-dl-teid)       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|-------------------------------------->|                                       |                                       |                                       |
+| - ENB Status Transfer                 |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | - Forward Access Context Notification |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       | - Forward Access Context Acknowledge  |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |-------------------------------------->|                                       |
+|                                       |                                       | - MME status transfer                 |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |<--------------------------------------|                                       |
+|                                       |                                       | - Handover Notify                     |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |<--------------------------------------|                                       |                                       |
+|                                       | - Forward Relocation Complete Notifica|                                       |                                       |
+|                                       |tion                                   |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |-------------------------------------->|                                       |                                       |
+|                                       | - Forward Relocation Complete Acknowle|                                       |                                       |
+|                                       |dge                                    |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |------------------------------------------------------------------------------>|
+|                                       |                                       |  - Modify Bearer Request (tenb-teid)                                          |
+|                                       |                                       |                                       |                                       |
+|                                       |                                       |<------------------------------------------------------------------------------|
+|                                       |                                       |  - Modify Bearer Response                                                     |
+|                                       |                                       |                                       |                                       |
+|<--------------------------------------|                                       |                                       |                                       |
+| - UE Context Release Command          |                                       |                                       |                                       |
+|                                       |                                       |                                       |                                       |
+|                                       |---------------------------------------------------------------------------------------------------------------------->|
+|                                       | - Delete Indirect Data Forwarding Tunnel Request                                                                      |
+|                                       |                                       |                                       |                                       |
+|-------------------------------------->|                                       |                                       |                                       |
+| - UE Context Release Complete         |                                       |                                       |                                       |
+
+* EPS session management related
+Default bearer:   with new PDN addr/ip, qci to create, with a ebi, using (create session req) to create
+dedicated bearer: without PDN addr/ip, but qci different from the linked bearer,tft, with a ebi, using (create bearer req) to create
+
+dedicated bearer  linked to the default bearer, on top of that default bearer, but with
+different qci, same PDN addr/ip, same pdn network.
+
+*** Default EPS bearer context activation procedure
+eg. ue want a voip call, it will initiate a IMS  default bearer 
+ENB:  ------>  SUT - Uplink NAS Transport (PDN Connectivity Request)
+SGW:  <------  SUT - Create Session Request
+SGW:  ------>  SUT - Create Session Response
+ENB:  <------  SUT - E-RAB Setup Request (Activate Default EPS Bearer Context Request)
+ENB:  ------>  SUT - E-RAB Setup Response
+ENB:  ------>  SUT - Uplink NAS Transport (Activate Default EPS Bearer Context Accept)
+SGW:  <------  SUT - Modify Bearer Request
+SGW:  ------>  SUT - Modify Bearer Response
+
+the difference between  initial context setup request and activate eps bearer context is the former is for establishing the first default bearer, and later for not first default bearer
+
+*** Dedicated EPS bearer context activation procedure
+then ue create the dedicated bearer on that default bearer with different qci
+ENB:  ------>  SUT - Uplink NAS Transport (Bearer Resource Allocation Request)
+SGW:  <------  SUT - Bearer Resource Command
+SGW:  ------>  SUT - Create Bearer Request
+ENB:  <------  SUT - E-RAB Setup Request (Activate Dedicated EPS Bearer Context Request)
+ENB:  ------>  SUT - E-RAB Setup Response
+ENB:  ------>  SUT - Uplink NAS Transport (Activate Dedicated EPS Bearer Context Accept)
+SGW:  <------  SUT - Create Bearer Response
+
+
+if a Default bearer is deleted with (delete session req), then the dedicated bearer linked to it also be removed.
+SGW:  <------  SUT - Delete Session Request
+SGW:  ------>  SUT - Delete Session Response
+ENB:  <------  SUT - E-RAB Release Command (Deactivate EPS Bearer Context Request)
+ENB:  ------>  SUT - E-RAB Release Response
+ENB:  ------>  SUT - Uplink NAS Transport (Deactivate EPS Bearer Context Accept)
+
+the difference between ue context release and E-RAB Release Command is the former ENB will remove all the bearers context and the s1ap-id, and later ENB only remove bearers context only.
+
+if a dedicated bearer is deleted with (delete bearer req), then the default bearer will still exist till using(delete session req) to it.
+ue stop the voip call:
+ENB:  ------>  SUT - Uplink NAS Transport (Bearer Resource Modification Request) 
+SGW:  <------  SUT - Bearer Resource Command
+SGW:  ------>  SUT - Delete Bearer Request
+ENB:  <------  SUT - E-RAB Release Command (Deactivate EPS Bearer Context Request)
+ENB:  ------>  SUT - E-RAB Release Response
+ENB:  ------>  SUT - Uplink NAS Transport (Deactivate EPS Bearer Context Accept)
+SGW:  <------  SUT - Delete Bearer Response
+
+** ESM procedures are:
+
+
+*** EPS bearer context modification procedure
+*** EPS bearer context deactivation procedure
+*** UE requested PDN connectivity procedure
+*** UE requested PDN disconnect procedure
+*** UE requested bearer resource modification procedure.
+
+
+* EPS SRVCC and CSFB
+4g-lte-world.blogspot.fi/2012/05/default-bearer-dedicated-bearer-what.html
+
+Long Term Evolution(LTE) is heralded as the next big thing for mobile networks
+One of the key issues of LTE is the delivery of voice services. Voice service continuity is not guaranteed when a Voice over IP(VoIP) subscriber roams between the LTE coverage area and other wireless
+network---it is a significatn challenge to deliver voice over LTE networks
+
+to overcome the LTE voice issues. During this evaluation process two options are gaining significant momentum: Circuit Switched Fall Back (CSFB) and LTE VoIP-based Single Radio Voice Call 
+Continuity (SRVCC). The latter is widely supported in the industry and has been recommended by the LTE OneVoice Initiative, which has the support of some of the world’s largest operators and network 
+equipment providers and has been endorsed by the GSM Association (GSMA)
+
+
+LTE voice issue:
+in overalll 2/3/4G network, voice call has two forms:
+call suppported by IMS Core
+  either use 3g radio  or 4g radio.
+tranditional circuit call
+
+in LTE env(EUTRAN), the voice call is from ENB--->SGW---->IMS Core
+in UTRAN, the voice call is from UTRAN----->MSC--------->IMS Core
+tranditoinal circuit call is from UTAN------>MSC (no IMS core)
+
+So when UE move between those 2/3/4g network, there are 2 different mechanism to support voice call.
+SRVCC is for handing over from SGW----->IMS  to MSC----->IMS
+CSFB  is for 
+
+** SRVCC (Single Radio Voice Call Coninuity)
+widely supported in the industry and has been recommended by the LTE OneVoice Initiative.
+if mobile only single Mode, SRVCC capable
+while it is able to transmit or receive on only one of these access networks at a given time.  
+
+    |----------------UTRAN---------------------MSC-------------
+    |                 |                         |             |
+    |                 |--------SGSN             |             |
+(Single Mode)                   |               |             |
+   UE                  --------MME--------------           IMS Core  
+    |                  |         |______________              |
+    |                  |                       |              |
+    |---------------EUTRAN---------------------SGW------------|
+
+voice bearer before handover
+UE----->EUTAN_------->SGW-------->IMS Core
+
+voice bearer after handover
+UE------>UTRAN---------->MSC------>IMS Core
+
+
+
+
+** CSFB  (Circuit Swithed Fall Back)
+The main idea behind CS fallback is to allow UEs to camp on LTE and utilize the LTE for data services
+but resuse the GSM,WCDMA,CDMA network for circuit-switched voice services.
+
+this required mobile support dual mode
+
+____________UTRAN_____________SGSN____________
+|              |               |             |        
+|              |               |             |
+(Dual Mode)    |_______________|_____________|
+UE                             |             MSC  
+|                              |             |
+|_________E-UTRAN____________MME_____________|
+
+ue combined attach with MME and MSC, The combined EPS attach procedure is used by a CSFB enabled UE to attach both EPS and non-EPS services and associate itself in SGs-Interface. 
+The pre-condition is that the UE should send Combined-IMSI AttachRequest to MME. And a physical connection between the MSC/VLR and MME should exist. 
+in CS domain,voice bearer path:
+ue---------UTRAN---------MSC
+and at the same time
+in PS domain, data bearer path:
+ue-------e_UTRAN--------SGSN
+
+*** combined attach procedure
+Normal attach procedure with AttachReq(Attach Type=Combined Attach), attatch to MSC also.
+After Create Session Req/Res,
+
+      SGsAP-update-Location-Req    
+MME   -------------------------------------->MSC
+         SGSAP-update-location-Accept
+So mme has a link with MSC
+
+*** MO CSFB call- UE idle
+----------------------------
+combined attach
+----------------------------
+S1 release
+------------------------
+| ENB:  ------>  SUT - Uplink NAS Transport (Extended Service Request)
+| ENB:  <------  SUT - Initial Context Setup Request(with CS fallback indicator,LAI)
+| ENB:  ------>  SUT - Initial Context Setup Response(ENB know ue will move to UTRAN)
+| ENB:  ------>  SUT - UE Context Release Request
+| SGW:  <------  SUT - Release Access Bearer Request
+| SGW:  ------>  SUT - Release Access Bearer Response
+| ENB:  <------  SUT - UE Context Release Command
+| ENB:  ------>  SUT - UE Context Release Complete
+-------------------------------------------------------
+ inter system RAU
+------------------------------------------------------
+UE to MSC with CS MO call
+------------------------------------------------------
+inter system TAU
+------------------------------------------------
+
+*** inter-system RAU procedure
+the Routing Area Update takes place when a UE that is registered with an MME selects a UTRAN cell.
+in this case, the US changes to a Routing Area that the UE has not yet registered with the network.
+
+UE will start a new register to UTRAN to SGSN, and SGSN will ask mme about the contexts
+
+      SGSN-Context-Request(RAI,P-TMSI,RAT Type)
+SGSN------------------------> MME                  
+
+    Context Response
+   <-------------------------
+
+    Context Acknowlege
+   -------------------------->
+
+
+
+*** inter-system TAU procedure involve SGSN
+ ENB:  ------>  SUT - Uplink NAS Transport (Tracking Area Update Request)
+| SGSN: <------  SUT - SGSN Context Request
+| SGSN: ------>  SUT - SGSN Context Response
+| HSS:  <------  SUT - Authentication Information Request
+| HSS:  ------>  SUT - Authentication Information Answer
+| ENB:  <------  SUT - Downlink NAS Transport (Authentication Request)
+| ENB:  ------>  SUT - Uplink NAS Transport (Authentication Response)
+| ENB:  <------  SUT - Downlink NAS Transport (Security Mode Command)
+| ENB:  ------>  SUT - Uplink NAS Transport (Security Mode Complete)
+| SGSN: <------  SUT - SGSN Context Acknowledge
+| SGW:  <------  SUT - Create Session Request
+| SGW:  ------>  SUT - Create Session Response
+| HSS:  <------  SUT - Update Location Request
+| HSS:  ------>  SUT - Update Location Answer
+| SGS:  <------  SUT - SGsAP Location Update Request
+| SGS:  ------>  SUT - SGsAP Location Update Accept
+| ENB:  <------  SUT - Initial Context Setup Request (Tracking Area Update Accept)
+| ENB:  ------>  SUT - Initial Context Setup Response
+| ENB:  ------>  SUT - Uplink NAS Transport (Tracking Area Update Complete)
+| SGW:  <------  SUT - Modify Bearer Request
+| SGW:  ------>  SUT - Modify Bearer Response
+
+
 

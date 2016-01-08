@@ -70,3 +70,6 @@ php-Structures_Graph
 　　Local 一栏选择 C （或者选 Default 的话系统也会自动默认为 C）， Character set 一栏选择 GBK。如图所示：
 
 
+cygwin bash prompt is wrapping lines on the same line:
+kill -WINCH $$
+will resolve this problem

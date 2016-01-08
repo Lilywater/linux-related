@@ -489,7 +489,8 @@ if matchObj:
 
 ** match vs search(Matching vs Searching):
 
-			Python offers two different primitive operations based on regular expressions: match checks for a match only at the beginning of the string, while search checks for a match anywhere in the string (this is what Perl does by default).
+Python offers two different primitive operations based on regular expressions: match checks for a match only at the beginning of the string, while 
+search checks for a match anywhere in the string (this is what Perl does by default).
 			Example:
 
 			#!/usr/bin/python

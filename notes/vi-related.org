@@ -475,6 +475,12 @@ filter
 to ignore bracket in C/C++ comment for match in vim
 using matchit.vim
 if ttcn file using :set filetype=c
+
+vimdiff open two files to compare
+fold/unfold same text command
+zo and zc to respectively open and close a section zM and zR to respectively expand and fold all the sections
+
+
 #############################
 vimdiff
 #######################
@@ -1711,3 +1717,4 @@ set ignorecase!     ## toggle this option to other value
 set ignorecase?    ## revert to its default value
 set noingorecase   ## will turn off ingorcase option
 >>>>>>> .r61
+

@@ -977,9 +977,17 @@ perference->java->debug->step filtering
 java.lang.* 
 filter this package, debug will go straight forward to constructor.
 
+*** setp into specific function
+ctrl + F5 when cursor is in the function name
+run menu--> step into selection menu
+
 *** watch point for class fields
 you can toggle a wath point for class fields,
 when the field is read/write, it will stop 
-
+***  break point (suspend thread/ suspend VM)
+if your thread is interruppting by other threads execution, using suspned VM
+in breakpoint view
+or Under Preferences->Java->Debug you can make "Suspend VM" the default option.
+   
 ** watch point for only an instance
 http://stackoverflow.com/questions/7030616/how-do-you-set-instance-breakpoints-in-eclipse
