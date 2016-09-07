@@ -48,6 +48,28 @@ this will only add "not staged for commit" files.
 **** git reset local "add/del" operation
 opposite operation of the git add.
 
+*** git show url and branches in remote (svn info)
+[admin1@TeamCI-136 MME_SGSN_tester]$ git remote  show origin
+* remote origin
+  Fetch URL: https://glili@deveo.ext.net.nokia.com/Nokia/projects/mme_sgsn_teste                                                                                                              r/repositories/git/MME_SGSN_tester
+  Push  URL: https://glili@deveo.ext.net.nokia.com/Nokia/projects/mme_sgsn_teste                                                                                                              r/repositories/git/MME_SGSN_tester
+  HEAD branch: master
+  Remote branches:
+    master tracked
+    ns17   tracked
+  Local branches configured for 'git pull':
+    master merges with remote master
+    ns17   merges with remote ns17
+  Local refs configured for 'git push':
+    master pushes to master (up to date)
+    ns17   pushes to ns17   (local out of date)
+* git branch -r -v 
+git branch -r
+  origin/HEAD -> origin/master
+  origin/master
+  origin/ns17
+
+
 *** git commit
 **** git commit ###will commit all the  "Changes to be committed" files
 [admin1@TeamCI-136 cleancodeContest]$ git status
@@ -135,6 +157,7 @@ git reset <option>  <ref>=default
 HEAD, ORIG_HEAD FETCH_HEAD
 **** undo commit
 git commit ...
+HEAD^ means reset to HEAD's 1st previous commit
 git reset --soft HEAD^   #### commit will make HEAD forward, so HEAD^ is the HEAD before commit
                          ### reset copies the old head to .git/ORIG_HEAD
 editing files
@@ -159,9 +182,11 @@ git checkout topic/wip    ## now master without those 3 times changes,but topic/
 
 *** git stash
 
-Often, when you??ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don??t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the git stash command.
+Often, when you've been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. 
+The problem is, you don't want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the git stash command.
 
-Stashing takes the dirty state of your working directory ?? that is, your modified tracked files and staged changes ?? and saves it on a stack of unfinished changes that you can reapply at any time.
+Stashing takes the dirty state of your working directory ?? that is, your modified tracked files and staged changes ?? and saves it on a stack of unfinished 
+changes that you can reapply at any time.
 Stashing Your Work
 
 **** stash your not add/commit changes (this will push your modification into a stash list)
@@ -179,8 +204,8 @@ $ git status
 #
 
 Now you want to switch branches, but you don??t want to commit what you??ve been working on yet; so you??ll stash the changes. To push a new stash onto your stack, run git stash:
-
-$ git stash
+ git stash save "the label which you want to put when stash list "
+$ git stash save "added the index file"
 Saved working directory and index state \
   "WIP on master: 049d078 added the index file"
   HEAD is now at 049d078 added the index file
@@ -293,8 +318,64 @@ Date:   Tue May 16 17:18:22 2006 -0700
 $ git log -p
 Often the overview of the change is useful to get a feel of each step
 
+**** graph option
+git push date is not clear, as we can see the Date is only the commit date instead of push date
+so graph option could help us to show the parenet-child relationship between different commits.
+for example, when Eve and Bob push/pull to/from the same respository origin/branch, then they modify files not conflict with each other.
+Eve commit its "eve add" at 13:58, but not push it yet.
+Bog commit its "bob comments" at 14:00 and push it. 
+Then Eve want to push the commit "eve add",it pull firstly, then commit 5be9e4f181a5b00be854b478e360131e470ddadf will be generated automatically at 14:01.
+Then Eve push both commits, "eve add" and "Merge" at the same time.
+Then when we use log --graph, it will show the parent-child relationship here.
+commit "eve add" won't contain comit "bob comment" and commit "bob comment" won't contain "eve add" also.
+only "Merge" have both commits.
+So it would be like this:
+                 eve add       
+               /             \
+"first edition"\               "Merge"
+                 bob comment /
 
-**** git show (detailed modification )
+$ git log --graph
+*   commit 5be9e4f181a5b00be854b478e360131e470ddadf
+|\  Merge: e7a2fa8 9df545c
+| | Author: Lilywater <glili@5CG4381FZ2.nsn-intra.net>
+| | Date:   Tue Aug 16 14:01:25 2016 +0800
+| |
+| |     Merge branch 'master' of /cygdrive/d/userdata/glili/Downloads/test_git/Eve/../remoterep/my_project
+| |
+| * commit 9df545c2c9daabdc460fa6cb5a32c1a61b9af307
+| | Author: Lilywater <glili@5CG4381FZ2.nsn-intra.net>
+| | Date:   Tue Aug 16 14:00:04 2016 +0800
+| |
+| |     bob comments
+| |
+* | commit e7a2fa88e871d55a34be69354e0643980880a233
+|/  Author: Lilywater <glili@5CG4381FZ2.nsn-intra.net>
+|   Date:   Tue Aug 16 13:58:58 2016 +0800
+|
+|       eve add
+|
+*   commit b8e0d87bbcd9ae8d20da6e9e57558ea8339eed8d
+  Author: Lilywater <glili@5CG4381FZ2.nsn-intra.net>
+  Date:   Tue Aug 16 13:32:46 2016 +0800
+
+      first editon
+
+//$ git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+=====================================================
+$ git log --graph  --format=format:'%h - %cD %s%Creset --%an'
+*   5be9e4f - Tue, 16 Aug 2016 14:01:25 +0800 --Merge branch 'master' of /cygdrive/d/userdata/glili/Downloads/test_git/Eve/../remoterep/my_project
+|\
+| * 9df545c - Tue, 16 Aug 2016 14:00:04 +0800 --biob comments
+* | e7a2fa8 - Tue, 16 Aug 2016 13:58:58 +0800 --even add
+|/
+* 04ea21a - Tue, 16 Aug 2016 13:32:46 +0800 --first editon
+
+%h is hash, %c is commit date, %s is comment(reset means oneline)
+
+
+
+**** git show (detailed modification )(diff thie revision with prvious commit which this revision based on )
 [admin1@TeamCI-136 cleancodeContest]$ git show 5dd7f629f21da3da4a17d616d06330d5129fcef8
 commit 5dd7f629f21da3da4a17d616d06330d5129fcef8
 Author: glili <you@ex>
@@ -326,8 +407,7 @@ $ git show HEAD		# the tip of the current branch
 $ git log v2.5..v2.6            # commits between v2.5 and v2.6
 $ git log v2.5..                # commits since v2.5
 $ git log --since="2 weeks ago" # commits from the last 2 weeks
-$ git log v2.5.. Makefile       # commits since v2.5 which modify
-				# Makefile
+$ git log v2.5.. Makefile       # commits since v2.5 which modify # Makefile
 
 $ git show experimental	# the tip of the "experimental" branch
 Every commit usually has one "parent" commit which points to the previous state of the project:
@@ -585,12 +665,77 @@ alice adding something
 git reset --hard HEAD
 
 
-
-
 --------------------------------
-**** 
+****  git config for all the git repository in local
 $ git config --global user.name "Your Name Comes Here"
 $ git config --global user.email you@yourdomain.example.com
 
+****  git config for the specific  git repository in local
+in the git root diretory
+$ git config  user.name "Your Name Comes Here"
+$ git config  user.email you@yourdomain.example.com
 
+
+
+**** git ignore
+ untrack a single file that has already been added/initialized to your repository, i.e., stop tracking the file but not delete it from your system use: git rm --cached filename
+it will work on the 'Changes not staged for commit' files
+To untrack every file that is now in your .gitignore:*, it will on the Untracked files: 
+
+**** git diff with remote rep
+ git cherry -v
+
+****  git show-ref 
+$ git show-ref master
+3b5e94a6670c4bf9f3a5dac39ab3f0aff3fefe73 refs/heads/master
+5be9e4f181a5b00be854b478e360131e470ddadf refs/remotes/origin/master
+
+glili@5CG4381FZ2 /cygdrive/d/userdata/glili/Downloads/test_git/Eve/my_project
+$ git show-ref HEAD
+5be9e4f181a5b00be854b478e360131e470ddadf refs/remotes/origin/HEAD
+
+**** unpushed commit check
+[admin1@TeamCI-136 MME_SGSN_tester]$ git status
+On branch ns17
+Your branch is  advanced  with 'origin/ns17' 2 commits
+$ git pull
+ Already up-to-date.
+
+$ git log origin/master..master
+ commit 3b5e94a6670c4bf9f3a5dac39ab3f0aff3fefe73
+ Author: Lilywater <glili@5CG4381FZ2.nsn-intra.net>
+ Date:   Wed Aug 17 15:17:42 2016 +0800
+
+     for stash comments,zzzz
+
+     commit e10e01d5f12454a066f9521c802533c0a5dcf37c
+     Author: Lilywater <glili@5CG4381FZ2.nsn-intra.net>
+     Date:   Wed Aug 17 15:17:12 2016 +0800
+
+         for stash comments,ddd
+
+**** git rev-parse
+[admin1@TeamCI-136 MME_SGSN_tester]$ git rev-parse HEAD
+68911f5d27ae48cf670e3d54590ec91694f0f70f
+[admin1@TeamCI-136 MME_SGSN_tester]$ git rev-parse FETCH_HEAD
+d75b6641422ce9be0e0c392270154092bf80571f
+[admin1@TeamCI-136 MME_SGSN_tester]$ git rev-parse ORIG_HEAD
+
+**** check your unpushed things
+
+[admin1@TeamCI-136 MME_SGSN_tester]$ git fetch // not change the HEAD
+...
+[admin1@TeamCI-136 MME_SGSN_tester]$ git status
+On branch ns17
+Your branch is behind 'origin/ns17' by 2 commits, and can be fast-forwarded. //since git fetch get 2 commits update from remote
+  (use "git pull" to update your local branch)
+
+[admin1@TeamCI-136 MME_SGSN_tester]$ git commit ...  //change to HEAD
+[admin1@TeamCI-136 MME_SGSN_tester]$ git status
+On branch ns17
+Your branch is forward 'origin/ns17' by 2 commits //since git local 2 commits before remote
+  (use "git pull" to update your local branch)
+
+in  forward scenarios, you can git reset to which you want to.
+git reset HEAD~2 to back to discard your local commit
 

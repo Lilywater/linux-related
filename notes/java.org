@@ -969,7 +969,8 @@ catch(Exception e)
 }
 
 when you get those code, how to debug?
-Use “Java Exception Breakpoint” feature to track your exceptions more easily. For example, your program might be throwing a NullPointerException or FileNotFoundException and you want to track it down. Rather than go to the line of code and set a breakpoint, you can specify that the debugger should always stop when the exception occurs.
+Use “Java Exception Breakpoint” feature to track your exceptions more easily. For example, your program might be throwing a NullPointerException or FileNotFoundException andi
+you want to track it down.  Rather than go to the line of code and set a breakpoint, you can specify that the debugger should always stop when the exception occurs.
 (when you found your result is not expected, try this one to narrow down if any null pointer exception )
 
 *** When stepping into class instantiation, eclipse debugger goes to native code
@@ -989,5 +990,20 @@ if your thread is interruppting by other threads execution, using suspned VM
 in breakpoint view
 or Under Preferences->Java->Debug you can make "Suspend VM" the default option.
    
-** watch point for only an instance
+*** watch point for only an instance
 http://stackoverflow.com/questions/7030616/how-do-you-set-instance-breakpoints-in-eclipse
+
+watchpoint breakpoint setting will be listed in the BreakPoints view
+right clicked the breakpoint, properties to set filtering: instance watch
+
+*** show java command when eclipse run the case
+in Debug view, when it ended,
+<terminated> org.eclipse.jdt.internal.junit.runner.RemoteTestRunner at localhost
+:1016
+right cliked this entry, then properties popped:
+whole commandLine and Enviroment showing.
+
+
+
+
+*** 

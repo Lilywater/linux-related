@@ -1,4 +1,4 @@
-svn命令帮助手册
+vn命令帮助手册
 1,453 views, Linux, Windows, by 木木.
 svn命令 通常都有帮助,可通过如下方式查询：
 
@@ -139,6 +139,12 @@ $ svn diff
 $ svn diff –revision 3 rules.txt
 $ svn diff –revision 2:3 rules.txt
 $ svn diff –revision 4:5 http://svn.red-bean.com/repos/example/trunk/text/rules.txt
+
+
+svn diff files option:
+-x means extension option for diff, --ignore-eof-style means ignore \r\n and \n difference
+-w  --ignore-whitespace , ignore whitespace
+ svn diff -x "-w --ignore-eol-style"
 
 $ svn cat –revision 2 rules.txt
 $ svn cat –revision 2 rules.txt > rules.txt.v2
@@ -434,4 +440,4 @@ WCPATH 是接受改变的工作拷贝路径。如果省略 WCPATH 的话，默�
 –non-interactive : 不要交互提示
 –config-dir arg : 从目录 ARG 读取用户配置文件
 
-
+sn

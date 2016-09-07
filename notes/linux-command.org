@@ -446,6 +446,38 @@ UNIX -> DOS：在这种情况下，需要用awk，因为tr不能插入两个字�
 tr -d '\001'-'\011''\013''\014''\016'-'\037''\200'-'\377'
 '\011'  ^I
 
+Sets are specified as strings of characters. Most represent themselves. Interpreted sequences are:
+
+        \nnn -- character with octal value nnn
+        \xnn -- character with hexadecimal value nn
+        \\ -- backslash
+        \a -- alert
+        \b -- backpace
+        \f -- form feed
+        \r -- return
+        \t -- horizontal tab
+        \v -- vertical tab
+        \E -- escape
+        c1-c2 -- all characters from c1 to c2 in ascending order. The character specified by c1 must collate before the character specified by c2.
+        [c1-c2] -- same as c1-c2 if both sets use this form
+        [c*] -- set2 extended to the length of set1 with the symbol c. In other words fills out the set2 with the character specified by c. This option can be used only at the end of the set2. Any characters specified after the * (asterisk) are ignored.
+        [c*N] -- N copies of symbol c. N is considered a decimal integer unless the first digit is a 0; then it is considered an octal integer.
+        [:alnum:] -- all letters and digits
+        [:alpha:] -- all letters
+        [:blank:] -- all horizontal whitespace
+        [:cntrl:] -- all control characters
+        [:digit:] -- all digits
+        [:graph:] -- all printable characters, not including space
+        [:lower:] -- all lower case letters
+        [:print:] -- all printable characters, including space and line reteurn
+        [:punct:] -- all punctuation characters
+        [:space:] -- all horizontal or vertical whitespace
+        [:upper:] -- all upper case letters
+        [:xdigit:] -- all hexadecimal digits
+        [=c=] -- Specifies all of the characters with the same equivalence class as the character specified by C.
+
+Remove all the non-printable characters in the file except for line return:
+$ tr -dc "[:alnum:][:space:][:punct:]" </tmp/009
 
 
 * crontab at 计划任务

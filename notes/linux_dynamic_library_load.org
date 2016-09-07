@@ -60,6 +60,71 @@ bfc08000    132K rw---    [ stack ]
 -------------------------------------------------
 这里不会显示静态链接库libmyhello.a，因为这个库已经在应用程序里了，不需要再在内存里load了。
 
+** lsof
+[admin1@TeamCI-136 MME_SGSN_tester]$ /usr/sbin/lsof| pmap `/sbin/pidof lsof`
+28880:   /usr/sbin/lsof
+00397000      4K r-x--    [ anon ]
+00898000    108K r-x--  /lib/ld-2.5.so
+008b3000      4K r----  /lib/ld-2.5.so
+008b4000      4K rw---  /lib/ld-2.5.so
+008b7000   1360K r-x--  /lib/libc-2.5.so
+00a0b000      4K -----  /lib/libc-2.5.so
+00a0c000      8K r----  /lib/libc-2.5.so
+00a0e000      4K rw---  /lib/libc-2.5.so
+00a0f000     12K rw---    [ anon ]
+00a14000     12K r-x--  /lib/libdl-2.5.so
+00a17000      4K r----  /lib/libdl-2.5.so
+00a18000      4K rw---  /lib/libdl-2.5.so
+00cf4000    236K r-x--  /lib/libsepol.so.1
+00d2f000      4K rw---  /lib/libsepol.so.1
+00d30000     40K rw---    [ anon ]
+00d3c000     88K r-x--  /lib/libselinux.so.1
+00d52000      8K rw---  /lib/libselinux.so.1
+08048000    120K r-x--  /usr/sbin/lsof
+08066000      4K rw---  /usr/sbin/lsof
+08c51000    396K rw---    [ anon ]
+b7d8b000   2048K r----  /usr/lib/locale/locale-archive
+b7f8b000      8K rw---    [ anon ]
+b7f9f000      4K rw---    [ anon ]
+bfc9c000     84K rw---    [ stack ]
+ total     4568K
+[admin1@TeamCI-136 MME_SGSN_tester]$ ldd /usr/sbin/lsof
+        linux-gate.so.1 =>  (0x00a8f000)
+        libselinux.so.1 => /lib/libselinux.so.1 (0x00d3c000)
+        libc.so.6 => /lib/libc.so.6 (0x008b7000)
+        libdl.so.2 => /lib/libdl.so.2 (0x00a14000)
+        libsepol.so.1 => /lib/libsepol.so.1 (0x00cf4000)
+        /lib/ld-linux.so.2 (0x00898000)
+[admin1@TeamCI-136 MME_SGSN_tester]$ /usr/sbin/lsof| grep "^lsof"
+lsof      29152    admin1  cwd       DIR      104,3     4096   43616483 /home/admin1/TestToolInstallations/ttcn3/glili/MME_SGSN_tester
+lsof      29152    admin1  rtd       DIR      104,3     4096          2 /
+lsof      29152    admin1  txt       REG      104,3   129820   23175345 /usr/sbin/lsof
+lsof      29152    admin1  mem       REG      104,3   130860   15696373 /lib/ld-2.5.so
+lsof      29152    admin1  mem       REG      104,3  1697920   15696374 /lib/libc-2.5.so
+lsof      29152    admin1  mem       REG      104,3    20668   15696425 /lib/libdl-2.5.so
+lsof      29152    admin1  mem       REG      104,3   245376   48927360 /lib/libsepol.so.1
+lsof      29152    admin1  mem       REG      104,3    93508   48927361 /lib/libselinux.so.1
+lsof      29152    admin1  mem       REG      104,3 56427040   23182775 /usr/lib/locale/locale-archive
+lsof      29152    admin1  mem       REG      104,3    25462   23267767 /usr/lib/gconv/gconv-modules.cache
+lsof      29152    admin1    0u      CHR      136,1      0t0          3 /dev/pts/1
+lsof      29152    admin1    1w     FIFO        0,6      0t0   96072747 pipe
+lsof      29152    admin1    2u      CHR      136,1      0t0          3 /dev/pts/1
+lsof      29152    admin1    3r      DIR        0,3        0          1 /proc
+lsof      29152    admin1    4r      DIR        0,3        0 191lsof      29152    admin1    5w     FIFO        0,6      0t0   96072755 pipe
+lsof      29152    admin1    6r     FIFO        0,6      0t0   96072756 pipe
+lsof      29154    admin1  cwd       DIR      104,3     4096   43616483 /home/admin1/TestToolInstallations/ttcn3/glili/MME_SGSN_tester
+lsof      29154    admin1  rtd       DIR      104,3     4096          2 /
+lsof      29154    admin1  txt       REG      104,3   129820   23175345 /usr/sbin/lsof
+lsof      29154    admin1  mem       REG      104,3   130860   15696373 /lib/ld-2.5.so
+lsof      29154    admin1  mem       REG      104,3  1697920   15696374 /lib/libc-2.5.so
+lsof      29154    admin1  mem       REG      104,3    20668   15696425 /lib/libdl-2.5.so
+lsof      29154    admin1  mem       REG      104,3   245376   48927360 /lib/libsepol.so.1
+lsof      29154    admin1  mem       REG      104,3    93508   48927361 /lib/libselinux.so.1
+lsof      29154    admin1  mem       REG      104,3 56427040   23182775 /usr/lib/locale/locale-archive
+lsof      29154    admin1    4r     FIFO        0,6      0t0   96072755 pipe
+lsof      29154    admin1    7w     FIFO        0,6      0t0   96072756 pipe
+
+
 * create staic and dynamic library 
 ** 生成并使用静态库
 *** 先编译出.o 文件。
@@ -255,14 +320,16 @@ There are a few downsides to rpath, however. First, it requires that shared libr
 
 Using ldconfig to modify ld.so
 
-What if we want to install our library so everybody on the system can use it? For that, you will need admin privileges. You will need this for two reasons: first, to put the library in a standard location, probably /usr/lib or /usr/local/lib, which normal users don’t have write access to. Second, you will need to modify the ld.so config file and cache. As root, do the following:
+What if we want to install our library so everybody on the system can use it? For that, you will need admin privileges. You will need this for two reasons: first, to put the library in a standard location, probably /usr/lib or /usr/local/lib, which normal users don’t have write access to. Second, you will need to modify 
+the ld.so config file and cache. As root, do the following:
 
 $ cp /home/username/foo/libfoo.so /usr/lib
 $ chmod 0755 /usr/lib/libfoo.so
-Now the file is in a standard location, with correct permissions, readable by everybody. We need to tell the loader it’s available for use, so let’s update the cache:
+Now the file is in a standard location, with correct permissions, readable by everybody. We need to tell the loader it’s available for use, so let’s update the cache using "ldconfig":
+
 
 *** default using ldconfig(the cache generated by ldconfig, not by LD_LIBRARY_PATH,)
-ldconfig will generate a cache to describe which library used in which path
+ldconfig will generate a cache to describe which library used in which path(both in link stage and load stage)
 
 $ ldconfig
 That should create a link to our shared library and update the cache so it’s available for immediate use. Let’s double check:
@@ -1234,7 +1301,7 @@ libmyhello.so: Success.
 
 
 
-** Is there a way to make a library always prefer its own implementat   ion above any other library?
+** Is there a way to make a library always prefer its own implementation above any other library?
 c unix gcc shared-libraries dynamic-linking
 There are several ways to solve this:
     Pass -Bsymbolic or -Bsymbolic-functions to the linker. This has a global effect: every reference to a global symbol (of function type for -Bsymbolic-functions) that can be 

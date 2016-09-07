@@ -310,7 +310,6 @@ $fg             in file replace with - in shell command
 You can use one of the following Vim shortcut keys to choose the existing words on the file.
 § CTRL-x CTRL-n : Word completion – forward
 § CTRL-x CTRL-p : Word completion – backward
-
 Fig: Keyword completion in Vi / Vim using Ctrl-x Ctrl-n
 Typical usage for programmers and administrators:
 § Complete an existing word in the file, without retyping it.
@@ -771,6 +770,11 @@ bufdo e!
 :set spell   :set nospell
 make cursor to the misspelling words, z=  will display many options for words
 To move to a misspelled word, use ]s and [s. The ]s command will move the cursor to the next misspelled word, the [s command will move the cursor back through the buffer to previous misspelled words.
+
+*** autocomplete in a text for word
+:set complete+=kspell
+CTRL+N or CTRL-P in insert-mode will autocomplete the word for you
+
 
 ** autocomplete words in the c code
 vim t.c
@@ -1717,4 +1721,73 @@ set ignorecase!     ## toggle this option to other value
 set ignorecase?    ## revert to its default value
 set noingorecase   ## will turn off ingorcase option
 >>>>>>> .r61
+
+* vim starup too slow
+** diagnose the startup time
+$ vim --startuptime vim.log
+vim.log content would be like this:
+==============================
+times in msec
+ clock   self+sourced   self:  sourced script
+  clock   elapsed:              other lines
+
+  000.006  000.006: --- VIM STARTING ---
+  000.082  000.076: Allocated generic buffers
+  000.299  000.217: locale set
+  000.303  000.004: clipboard setup
+  000.308  000.005: window checked
+  000.787  000.479: inits 1
+  000.793  000.006: parsing arguments
+=============================
+the second colum is the time consuming in that entry, you can tell which take
+too much time.
+
+
+** clipboard startup 
+setup clipboard
+
+First, try running Vim with the following command:
+
+$ vim -X
+
+You can try using the -X --startuptime <file> options together to see if the "setup clipboard" component is still slow.
+
+If -X helps, you can get the same effect by adding the following line to your vimrc file:
+
+set clipboard=exclude:.*
+
+Explanation
+
+If this helps what is happening is that on startup Vim is trying to connect to an X server to allow it to use the clipboard. The -X option tells Vim to not try connecting to the X server. From :help -X
+
+-X          Do not try connecting to the X server to get the current
+            window title and copy/paste using the X clipboard.  This
+            avoids a long startup time when running Vim in a terminal
+            emulator and the connection to the X server is slow.
+            See --startuptime to find out if affects you.
+            Only makes a difference on Unix or VMS, when compiled with the
+            +X11 feature.  Otherwise it's ignored.
+            To disable the connection only for specific terminals, see the
+            'clipboard' option.
+            When the X11 Session Management Protocol (XSMP) handler has
+            been built in, the -X option also disables that connection as
+            it, too, may have undesirable delays.
+
+The clipboard option can be used to achieve the same thing more permanently via your vimrc file. From :help 'clipboard'
+
+
+** another one might take much startup time
+inits 3
+
+You seem to have already eliminated your plugins/customisations as a possible cause by trying vim -u NONE (and you said your vimrc was empty).
+
+I am not familiar with this issue, but as suggested above, it might be to do with your viminfo file.
+
+You can determine whether this is the case by starting Vim with the following command:
+
+$ vim -i NONE
+
+According to :help slow-start:
+
+    If you have "viminfo" enabled, the loading of the viminfo file may take a while. You can find out if this is the problem by disabling viminfo for a moment (use the Vim argument "-i NONE"). Try reducing the number of lines stored in a register with ":set viminfo='20,<50,s10".
 

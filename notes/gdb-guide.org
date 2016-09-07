@@ -1,4 +1,4 @@
-*GNU GDB guide
+* GNU GDB guide
 
 By default, gdb captures SIGPIPE of a process and pauses it. However, some program ignores SIGPIPE. So, the default behavour of gdb is not desired when debugging those program. To avoid gdb stopping in SIGPIPE, use the folloing command in gdb:
 (gdb)handle SIGPIPE nostop noprint pass
@@ -640,4 +640,120 @@ you get during debugging:
      (gdb) print $_
      $2 = (void *) 0x8049560
 
+
+
+
+* GNU Profiling Tool ---  GPROF
+Flat profile
+Profiling is an important aspect of software programming. Through profiling one can determine the parts in program code that are time consuming and need to be rewritten.
+
+
+** how to profile your program(list the execution time of every function)
+=================================================
+//test_gprof.c
+#include<stdio.h>
+
+void new_func1(void);
+
+void func1(void)
+{
+    printf("\n Inside func1 \n");
+    int i = 0;
+
+    for(;i<0xffffffff;i++);
+    new_func1();
+
+    return;
+}
+    int i = 0;
+
+    for(;i<0xffffffaa;i++);
+    return;
+}
+
+int main(void)
+{
+    printf("\n Inside main()\n");
+    int i = 0;
+
+    for(;i<0xffffff;i++);
+    func1();
+    func2();
+
+    return 0;
+}
+====================================
+//test_gprof_new.c
+#include<stdio.h>
+
+void new_func1(void)
+{
+    printf("\n Inside new_func1()\n");
+    int i = 0;
+
+    for(;i<0xffffffee;i++);
+
+    return;
+}
+
+*** compile/link the prg with gcc option "-pg"
+-pg : Generate extra code to write profile information suitable for the analysis program gprof. You must use this option when compiling the source files you want data about, and you must also use it when linking.
+$ gcc -Wall -pg test_gprof.c test_gprof_new.c -o test_gprof
+
+*** execute the program normally
+$./test_prof
+$ ls
+gmon.out  test_gprof  test_gprof.c  test_gprof_new.
+gmon.out is the generated profiling file
+
+*** run the gprof tool
+$  gprof test_gprof gmon.out > analysis.txt
+
+Note that one can explicitly specify the output file (like in example above) or the information is produced on stdout.
+
+$ ls
+analysis.txt  gmon.out  test_gprof  test_gprof.c  test_gprof_new.c
+
+** how to read the analyze report
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+%    |   cumulative |  self     |        |  self  |  total    | 
+time |    seconds   |  seconds  | calls  |  s/call|  s/call   | name
+--------------------| ----------|--------| -------|-- --------|---------
+33.86|    15.52     |  15.52    |  1     |  15.52 |  15.52    | func2
+33.82|    31.02     |  15.50    |  1     |  15.50 |  15.50    | new_func1
+33.29|    46.27     |  15.26    |  1     |  15.26 |  30.75    | func1
+0.07 |    46.30     |  0.03     |        |        |           | main
+
+
+%33.86 means it's percentage value of the whole prg exectution time.
+=================================================================
+Call graph (explanation follows)
+
+granularity: each sample hit covers 2 byte(s) for 0.02% of 46.30 seconds
+
+index | % time  | self   |children | called  | name
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[1]   | 100.0   | 0.03   | 46.27   |         | main [1]
+      |         | 15.26  | 15.50   |  1/1    |    func1 [2]
+      |         | 15.52  | 0.00    |  1/1    |    func2 [3]
+----- |-------  |------  |-------- |-------  |--------------
+      |         | 15.26  | 15.50   |  1/1    |    main [1]
+[2]   | 66.4    | 15.26  | 15.50   |  1      | func1 [2]
+      |         | 15.50  | 0.00    |  1/1    |    new_func1 [4]
+----- |-------  |------  |-------- |-------  |--------------
+      |         | 15.52  | 0.00    |  1/1    |    main [1]
+[3]   | 33.5    | 15.52  | 0.00    |  1      | func2 [3]
+----- |-------  |------  |-------- |-------  |--------------
+      |         | 15.50  | 0.00    |  1/1    |    func1 [2]
+[4]   |33.5     | 15.50  | 0.00    |  1      | new_func1 [4]
+----- |-------  |------  |-------- |-------  |--------------
+
+
+* static code analysis tool ----splint
+http://www.splint.org/manual/html/sec2.html
+
+
+* dynamic code analysis tool ----valgrind
 

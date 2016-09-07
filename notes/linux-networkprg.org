@@ -909,6 +909,7 @@ source for server
  Bind(listenfd, (SA *) &servaddr, sizeof(servaddr));
 
         Listen(listenfd, LISTENQ);
+        fd_set allset, rset;
 
         maxfd = listenfd;                       /* initialize */
         maxi = -1;                                      /* index into client[] array */

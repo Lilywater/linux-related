@@ -1207,7 +1207,37 @@ The script will create new workspace directory and copy the relevant settings fr
 
 If it doesn't work for you, drop me a comment. Feel free to improve it.
 
+2.解决CPPU和MMDU里跑Junit不兼容错误org.objectweb.asm.ClassVisitor as super class
+1.
+关于Subshandler跑JUnit时报“objectweb.asm.ClassVisitor as super class"”的问题解决方法
+修改..\SS_LNXmmeComJavaLib\mmeKafkaProducerClientLib\pom.xml 文件，在easymock部分增加黄色部分
+Index: mmeKafkaProducerClientLib/pom.xml
+===================================================================
+--- mmeKafkaProducerClientLib/pom.xml   (版本 10075)
++++ mmeKafkaProducerClientLib/pom.xml   (工作副本)
+@@ -202,6 +202,16 @@
+             <artifactId>easymock</artifactId>
+             <version>3.3.1</version>
+             <scope>test</scope>
++            <exclusions>
++                <exclusion>
++                 <artifactId>cglib</artifactId>
++                 <groupId>cglib</groupId>
++                </exclusion>
++                <exclusion>
++                 <artifactId>asm</artifactId>
++                 <groupId>org.ow2.asm</groupId>
++                </exclusion>
++            </exclusions>
+         </dependency>
+         <dependency>
+             <groupId>com.esotericsoftware.yamlbeans</groupId>
 
+修改pom 文件之后，执行mvn eclipse:eclipse 命令重新生成conJavaLib的工程文件。
+然后重新刷新eclipse ，问题应该就搞定了。
+
+JRE:
+-javaagent:D:\userdata\glili\workspace\fns\NS17\SS_LNXmmeComJavaLib\mmeComJavaLib\target\lib\mmeTestLib-1.0-SNAPSHOT.jar
 
 **  start a new fns code for 40, but we have a working one for exam 15:
 
@@ -1230,7 +1260,6 @@ ${jutlib}  -Dutt_loglevel=6 -noverify
 ProceudreHandler.getProcedureForMessage()
 
 ***  two procedure collision 
-CollisionHandler.resolveCollisionForOngoingProcedure
 CollisionHandler.resolveCollisionForOngoingProcedure(incoming, proc, collrs)
    {resolver.resolveCollisionForOngoing()// this resolver is(ongoingproc)'s resolver
      AttachCollisionREsolver.resolveCollisionForOngoing
@@ -1259,3 +1288,664 @@ which is type of CollisionResolutionArgument
 SGW relocation DNS checking:
 eps_subs_info_res_s.subs_info.sgw_hostname.name: this is the previous hostname
 and DNS check tac's corresponding SGW hostname, ip. and compare it with previous hostname and ip(this ip got by DNS also)
+
+
+
+
+
+*** subscriber read/write in CPPU procedure.
+Firstly, a subsriber will be created if no sub find in cache, it will be stored to TrCache using function  ifnotpresent.
+and in theory, every new procedure will create a new sub in cache and delete it after the procedure ended.
+but if there's other active procedure, the sub not be deleted.
+then, getSubscriber function in TrHandlerDmxMessageProcessor will get the sub, and it will be passed to procedure.
+sometimes, subscriber will be retrieved from cache using TEID when received some special message.
+
+And in the same time, two procedure maybe triggered, and they share the same sub from func getSubsriber(), For example,
+TauProcedure will begin, not to endstate, then extendedservicerequestprocedure triggered, in this procedure, subscriber changed, 
+so when TauProcedure end after extendedservicerequestprocedure end, subscriber also changed for TauProcedure.
+in ProcedureEndState of extendedservierequestProcedure TranscationCache::notifyComplete: 
++++++++++++++++++++++++++++++++++++++
+Subscriber is NOT removed from cache since procedure was not empty.Procedure is: [TauProcedure]
++++++++++++++++++++++++++++++++++++++
+since there still TauProcedure active, so not removed sub in cache.
++++++++++++++++++++++++++++++++++++++++++++++
+ TITLE : Creating a new Subscriber as Subscriber not in the cache 
++++++++++++++++++++++++++++++++++++++++++++++
+
+start a new proc
+-------------------------------
+getConsumableProcedure(msg,sub)
+getProcedureForMessage(msg,sub)
+private void processMessageEvent(Object msg) { // in Subscriber.java file
+		// get the active procedure for the message & run it
+		Procedure proc = null;
+		try {
+			proc = ProcedureHandler.instance()
+					.getProcedureForMessage(msg, this);.// this is subscriber
+---
+   private class MessageProcessingTransaction
+    implements ITransaction
+    {
+        Subscriber subscriber = null; 
+
+        public MessageProcessingTransaction(Subscriber subscriber)
+        {
+            this.subscriber = subscriber;
+        }
+    
+        @Override
+        public Void call()
+        {
+            try
+            {
+                subscriber.processEvent();
+            }
+-------------
+ public void onEvent( TrHCommunicatorDataEvent event ) throws Exception
+    {
+        Subscriber subscriber = null; 
+        try
+        {
+			if( Logger.isTraceEnabled() )
+            {
+                Logger.logTrace( "SubscriberMessageWorkHandler sequence "+event.getSequence() );
+            }
+            if( null != event.getMessage() && null != event.getSubscriber() )
+            {
+                ProcedureEvent procedureEvent = new ProcedureEvent( event.getMessage() );
+                subscriber = event.getSubscriber();
+                subscriber.addEvent( procedureEvent );
+                MessageProcessingTransaction itransaction = new MessageProcessingTransaction(subscriber);    
+-------------------------------------
+event.getSubscriber is dmxmsg get subscriber function:
+        event.setSubscriber( sub );
+in file TrHandlerDmxMessageProcessor.java
++++++++++++++++++
+Subscriber sub = getSubscriber(
+s1apMessage.getMessageHeader(), enbS1apId,
+				mmeS1apId);
+			if (MMEParameters.getInstance().getDisruptorEnabled() == 1) {
+				if (event != null) {
+				event.setSubscriber(sub); //this is s1apmessage
+							}
+
+
+
+
+*** subscriber cleanup when one cppu procedure end
+when in  ProcedureEndState, cleanup and complete function will be called if they are overrided by the procedure.
+
+in complete function:
+
+first Remove the procedure:
+=========================================================================
+Trying to remove: TauProcedure
+========================================================================
+then reset the subs 
+===========================
+Restting subscriber parameters
++++++++++++++++++++++++++++
+then remove subscriber from cache
+=================================
+TranscationCache::notifyComplete: Subscriber is removed from cache
++++++++++++++++++++++++++++++++++++
+
+
+/* code          */
+    public void notifyComplete( Procedure proc, Subscriber sub, boolean removeSubscriber,
+        boolean checkForOtherActiveProcs )
+    {
+        if( Logger.isTraceEnabled() )
+        {
+            Logger.logTrace( "Active procedures before removal: " + sub.getProceduresNameAsList() );
+            Logger.logTrace( "Trying to remove: " + proc );
+        }
+
+        MmduOverloadProtector.getInstance().releaseTicket( proc, false );
+
+        sub.removeProcedure( proc );
+        removeSequenceNumberEntryFromTable( sub, proc );
+
+       if( removeSubscriber )
+        {
+            sub.resetParameters( true );
+        }
+
+        if( Logger.isTraceEnabled() )
+        {
+            Logger.logTrace( "Active procedures after removal: " + sub.getProceduresNameAsList() );
+        }
+
+        Procedure parent = proc.getParent();
+
+        if( checkForOtherActiveProcs )
+        {
+            synchronized( sub )
+            {
+                if( !sub.hasActiveProcedures() )
+                {
+                    if( removeSubscriber )
+                    {
+                        removeAttachedSubscribersFromCache( sub, proc );
+
+                        if( Logger.isTraceEnabled() )
+                        {
+                            Logger.logTrace( "TranscationCache::notifyComplete: Subscriber is removed from cache." );
+                        }
+                    }
+
+
+Reset the subscriber:
+	public void resetParameters(boolean checkForProcedureCount) {
+		if (checkForProcedureCount) {
+			// linked subscriber are not checked when calculating active
+			// procedure count.
+			int activeProcedureCount = activeProcedures.size();
+			if (activeProcedureCount > 0) {
+				return;
+			}
+		}
+		if (Logger.isTraceEnabled()) {
+			TrHandlerLogMessage log = new TrHandlerLogMessage();
+			log.setSubscriberData(this);
+			log.setModule(this.getClass().getSimpleName());
+			log.setCategory(MessageCategory.PROCEDURE);
+			log.setUserText("Restting subscriber parameters.");
+			Logger.logTrace(log);
+		}
+
+
+** MMDU
+*** the entry of received a dmxmsg:
+received eps_attach_request dmxmsg:
+in file MMHandlerDmxMessageProcessor.java:
+++++++++++++++++++++++++++++++++++++++++++
+processSubscriber(DmxMsg dmxMsg, SubsTransaction txn, SubsCommunicatorDataEvent event) throws PersistenceException
+{
+   SubscriberIdentity id = getSubscriberIdentityFromMessage(dmxMsg);  //get subids from dmx message
+
+}
+++++++++++++++++++++++++++++++++++++++++++++++
+Thread [ThThreadPool-0] (Suspended (breakpoint at line 1917 in MMHandlerDmxMessageProcessor$DedicatedMessageProcessor))	
+	MMHandlerDmxMessageProcessor$DedicatedMessageProcessor.<init>(MMHandlerDmxMessageProcessor, DmxMsg, SubsTransaction, SubscriberIdentity) line: 1917	
+	MMHandlerDmxMessageProcessor.processSubscriber(DmxMsg, SubsTransaction, SubsCommunicatorDataEvent) line: 1832	
+	MMHandlerDmxMessageProcessor.processMessage(DmxMsg, SubsTransaction, SubsCommunicatorDataEvent) line: 1587	
+	MMHandlerDmxCommunicator$MessageProcessingTransaction.call() line: 658 //pass this as txn(MMHandlerDmxCommunicator$MessagProce
+ssingTransaction	
+	MMHandlerDmxCommunicator$MessageProcessingTransaction.call() line: 1	
+	Job.call() line: 44	
+	Job.call() line: 25	
+	ThreadPoolFutureTask(FutureTask<V>).run() line: 262	
+	ThThreadPool$ThreadPoolThread.run() line: 247	
+	ThThreadPool(ThreadPoolExecutor).runWorker(ThreadPoolExecutor$Worker) line: 1145	
+	ThreadPoolExecutor$Worker.run() line: 615	
+	ThThreadPoolThreadFactory$1(Thread).run() line: 745	
+	ThThreadPoolThreadFactory$1.run() line: 29	
+
+
+
+in file MMHandlerDmxMessageProcessor.java:
+call()
+{
+  try{
+   Subscriber sub = processSubscriber(dmxMsg,txn,id);
+private Subscriber processSubscriber(DmxMsg dmxMsg, SubsTransaction txn,
+			SubscriberIdentity id) throws PersistenceException {
+		Subscriber sub = getSubscriber(dmxMsg, txn, id);
+private Subscriber getSubscriber(DmxMsg msg, SubsTransaction txn,
+			SubscriberIdentity id) throws PersistenceException {
+		Subscriber sub = null;
+			log.setUserText("DMX message " + msg.getMessageName() + " received");
+  ...// if eps_attach_req
+    	MMHandler.instance().transactionProcessor().getPersistence().tcAddIfNotPresentAndRetrieveCached(sub);
+}
+
+*** transactionCache and  db in MMDU
+firstly cache.getsubscriberById(subid)
+if no then fetch subid in db : ISubscriber dbSub = dbManager.getDb().fetchSubscriber( subscriberId );
+if no then create a new subscbriber using:             ISubscriber newSub = SubscriberFactory.getSubscriber();
+then add this newSub to cache.
+
+if (fetchSubscriber) {
+				sub = MMHandler.instance().transactionProcessor()
+						.getPersistence().fetchSubscriber(id);}
+
+------------------------------
+  /**
+     * Fetch subscriber from database or cache. If subscriber is not in cache, fetch from database.
+     * If subscriber is not in database, creates new Subscriber instance with given identity.
+     * 
+     * @param subscriberId
+     *            identity of the subscriber to fetch
+     * @return fetched Subscriber object
+     * @throws PersistenceException
+     *             in case of DB problems or bad key
+     */
+    public Subscriber fetchSubscriber( SubscriberIdentity subscriberId ) throws PersistenceException
+    {
+        byte[] originalGuti = subscriberId.getGuti();
+        Subscriber s = convertToSubscriber( comJavaLibPersistence.fetchSubscriber( subscriberId ) );
+        if( Logger.isTraceEnabled() )
+        {
+            Logger.logTrace( "originalGuti From Msg :" + Converter.toHexString( originalGuti ) );
+            Logger.logTrace( "Guti From Fetched subscriber from DB :"
+                + Converter.toHexString( s.getIdentity().getGuti() ) );
+        }
+        //For the pronto PRPR061745: setting the GUTI value from DB for Forwarded
+        //message for future use
+        s.getIdentity().setOldGutiFromDb( s.getIdentity().getGuti() );
+        s.getIdentity().setNewGutiInUse( originalGuti );
+
+        return s;
+    }
+---------------------------------
+
+*** start a new procedure:
+com.nsn.mme.mmhandler.procedures.locationservices.LocationServicesMessageHandler.detectCollisionForLcsProcedure(Procedure)
+com.nsn.mme.mmhandler.processor.ProcedureHandler.getProcedureForMessage(DmxMsg, MessageQueue, Map<PdnConnection, Integer>, DmxMsg)
+com.nsn.mme.mmhandler.processor.ProcedureHandler.getProcedureForMessage(DmxMsg, MessageQueue, Map<Integer, Integer>)
+com.nsn.mme.mmhandler.processor.ProcedureHandler.getProcedureForMessage(DmxMsg, MessageQueue)
+com.nsn.mme.mmhandler.processor.ProcedureHandler.startProcedure(DmxMsg, MessageQueue)
+
+
+in ProcedureHandler.java:
+start collision for lcs procedure(Location service procedure)
+      boolean lcsOngoing = SlsLocationServiceCache.INSTANCE.isLcsProcedureOngoing( imsi );
+
+"Detect Collision For Lcs Procedure"
+detectCollision() 
+{
+   if no activeprocedure return;
+   if active procedure more than 1 then collision detected;
+}
+"collision detected between two procedures"
+   boolean collisionResolved = collisionHandler.resolveCollisionForOngoingProcedure();
+   {
+       Procedure ongoingProcedure = getOngoingProcedure();
+            CollisionResolver resolver = CollisionResolverFactory.getCollisionResolver( ongoingProcedure );//ongoingProc resolver
+           rcvdStatus = CollisionMatrix.resolveCollisionThroughMatrixForOngoing( ongoingProcedure,
+      /* Matrix first to check,no, then specific resolver of ongoingProcedure*/
+          return resolveCollisionForOngoingProcedure( ongoingProcedure, incomingProcedure, resolver );
+   }
+CollisionHandler.resolveCollisionForOngoingProcedure(incoming, proc, collrs)
+   {resolver.resolveCollisionForOngoing()// this resolver is(ongoingproc)'s resolver, TauCollisionResolver
+     TauColisinResolver.resolveCollisionForOngoing // n
+         resolveCollisionForOngoingNonSupported  //  no specific found, then default resolver called, 
+         ""Default collision for ongoing invoked""
+   }
+ .//ProcedureResultStatus.RESULT_SUCCESS
+                    .getStatus() == rcvdStatus.getOngoingProcedureResult().status()*/
+/* This method is used to resolve collision for incoming procedure. It is called when resolution
+     * for ongoing procedure is done. It will be called from last state of ongoing procedure if
+     * ongoing procedure needs to be terminated. If the ongoing procedure needs to continue then
+     * Collision Resolver gives the control back to CollisionHandler which in turn calls this method
+     * to start collision resolution for incoming procedure.*/
+   {CollisionHandler.resolveIncoming()
+   S1HoCollisionResolver.resolveCollisionForIncoming
+   S1HoCollisionResolver.resolveCollisionWithAttachProcedureForIncoming
+   S1HoCollisionResolver.rasiseTerminateEventForIncoming}
+
+**** collision resolve
+the order is as this: if no result
+First, check resolveCiollisionThroughMatrixForOngoing.
+then,  check the ongoing procedure's specific resolver,if no, then  default collision called
+--------------------- 
+then, check resolveCollisionThroughMatrixForIncoming
+then, check the incoming procedure's specific resolver, if no, then deault collision called.
+
+
+***** Matrix resolver:
+in file CollisionMatrix.java:
+    case DICO:
+      //Since the resolution is to drop incoming, raise collision argument to incoming procedure.
+    case COCI:
+      //Since the resolution is to continue ongoing followed by incoming procedure, ongoing procedure
+      //might have finished. Raise event to start incoming procedure with incoming message as argument.
+   case DOCI:
+      //Since the resolution is to terminate ongoing and continue incoming, ongoing procedure
+      //might have terminated. Raise event to start incoming procedure with incoming message as argument.
+    case DODI:
+      //Since the resolution is to drop ongoing and drop incoming, ongoing procedure
+      //might have terminated. Raise collision argument to incoming procedure.
+   case CB:
+        //Since the resolution is to continue both, Raise event to start incoming procedure with incoming message as
+        //argument.
+
+
+srvcc from EUTRAN to UTRAN Without PSHO
+Srvcc_3G_release Enable, UE release command is needed
+
+
+*** NSmml command to control every unit( using HIT to telnet into ATCA)
+firstly, telnet to OMU using SYSTEM SYSTEM
+then enter into other units such as IPDU, CPPU, MMDU
+
+10.102.43.200	IPC-ATCA-136	Linux virtual_host
+10.102.43.201	OMU	virtual_ATCA OMU IP
+10.102.43.202	IPDU-0	virtual_ATCA IPDU IP for SSH etc.
+10.102.43.203	TeamCI-136	Linux Jenkins + TTCN
+
+
+ZUSI:IPDU:;
+WORKING STATE OF UNITS
+ UNIT       PHYS STATE LOCATION              INFO
+ IPDU-0     0040 WO-EX                        -                            
+ IPDU-1     0041 SP-EX                       IDLE                          
+
+TOTAL OF 2     UNITS
+
+COMMAND EXECUTED
+ZDDS:IPDU,0;
+cli 
+MME CLI>    // shell command  like tcpdump to capture wireshark log
+clearsgwtable -gtplbs
+quit    //quit will quit the IPDU unit client
+
+
+ZWQO:CR;  // check the software version in ATCA, with Y in def colum, that is the current software version.
+
+
+*** state name is not complied with definition in fsmtransition
+when log show:
+ TITLE : InterNodeTauTargetUpdateLocationState state started
+this state name may not comply with the one in procedure file fsmtransition definition.
+the procedure's StateFactory.java file's function getStateById function will match this gap, for example:
+==================================================
+    public State getStateById( int stateId )
+    {
+        ProcedureState interNodeTauTargetProcedureState = ProcedureCommonState.getStateById( stateId,
+            interNodeTauProcedure );
+...
+       else if( stateId == InterNodeTauTargetState.InterNodeTauUpdateLocation.getId() )
+        {
+            interNodeTauTargetProcedureState = new InterNodeTauTargetUpdateLocationState( interNodeTauProcedure );
+        }
+===========================
+here log show 1588  TITLE : InterNodeTauTargetUpdateLocationState state started
+but the stateid is          InterNodeTauUpdateLocation
+---------------------
+In procedure transition definition:
+fsmTransition.defineTransition( InterNodeTauTargetState.InterNodeTauUpdateLocation.getId(), TrEvent.SubProcedureCompleted.id(), InterNodeTauTargetState.                             InterNodeTauTargetRejectState.getId(), TransitionCondition.and( isUpdateLocationFailed(), TransitionCondition.not( isEmergencyCase() ) ) );
+
+
+* apn configuration and real pdn connection table
+** in ula
+s6a_update_location_ans_s.s6a_ula.subscrb_data.apn_subs_data.apn_cnfg_prof.apn_conf .get( apnIndex ).service_selection
+//service_selection is the apn name
+ subscriber.getData().getHssSubscriptionData().getApnConfiguration().set( confIndex, apnCnfg );
+
+
+
+** ub forwardrelocationreq
+ byte[] apn = epsForwardRelocationReq
+                .getDmxField( Offsets2.eps_s10_fwd_relocation_req_s.subs_info.pdn_tbl.pdn_conn.get( index ).apn );
+//apn is the apn name
+subscriber.getData().getHssSubscriptionData().setApnConfiguration( apnConfigurationList );
+
+
+** get subscriber's HssSubscriptionData's apn configuration function:
+ : HssSubscriptionDataAvailability, isHssSubscriptionDataUnavailable(): HSS Subscription data available = false, size of APN configuration list = 1, context ID = 0, is non MME subscriber = false, is APN Configuration available = false
+
+
+* MMDU Procedure starting
+There are two ways to start a new procedure: 
+one is in ProcedureHandler.java canstart() condition.
+the other is in run as subprocedure in a procedure's state
+
+** started a new procedure in procedurehandler:
+if a dmx message and its subscriber is submitted to a queue, no active procedure consume it, then procedurehandler will deal it:
+****************
+    else if( S1HandoverProcedure.canStart( msg ) )
+            {
+                if( Logger.isTraceEnabled() )
+                {
+                    Logger.logTrace( "S1HO", "ProcedureHandler", "",
+                        "inside getConsumableProcedure for S1Handover Procedure", "", "" );
+                }
+                proc = S1HandoverProcedure.getS1HandoverProcedure( (Subscriber) procObject );
+                proc.setUniqueProcedureId( CollisionHandlerUtils.generateUniqueProcIdForS1HOProcedure( msg ) );
+                proc.setTransactionId( Converter.toLong( S1HandoverProcedureUtil.extractTransactionIdFromDmxMsg( msg ) ) );
+                proc.storeMessage( S1HandoverMessages.eps_s1_ho_required_s.id(), msg );
+            }
+***************
+
+============================================================================
+TITLE : Procedure Handler : Started new procedure (AttachProcedure)
+  DATA : ProcCode = MME_PROC_T_ATTACH_C
+         Message  = DmxMsg(eps_attach_req_s, proc : MME_PROC_T_ATTACH_C(1))
+============================================================================
+
+** started a new procedure in some state:
+***************
+public class S6AUpdateLocationSubProcedureStart
+    extends AttachProcedureState
+{
+   public void run()
+    {
+        Subscriber subscriber = getSubscriber();
+        attachProcedure().setIsUpdateLocationSent( true );
+        Procedure subProc = UpdateLocationProcedure.getNewUpdateLocationProcedure( subscriber );
+        subscriber.addProcedure( subProc );
+        ProcedureHandler.instance().startChildProcedure( subProc, null, attachProcedure() );
+    }
+*******************	
+no "Started new procedure" log out, but "TITLE : ProcedureStartState state started" this is called in the construction function of a procedure class.
+
+
+* DNS related in LTE
+get dns server ip from keyword "NsMml.Change Ipdu Dns Settings Cli"
+PRIMARY EXTERNAL DNS IP ADDRESS.......(PRIP)  10.91.204.250
+SECONDARY EXTERNAL DNS IP ADDRESS.....(SEIP)  10.91.204.250
+
+ssh into dns server from keyword:
+/var/named/chroot/vcs/<dnsServer10.102.191.4>/name.conf
+  
+from keyword "Change Cppu Sgw And Dns Settings "
+SEND* setparameter -tr DNSHomeDomainName frma302.3gppnetwork.org. 
+02:09:00.089 INFO setparameter -tr DNSHomeDomainName frma302.3gppnetwork.org.
+DNSHomeDomainName Parameter updated.
+
+in file name.conf match from the very end:
+zone "common.3gppnetwork.org" {
+        type master;
+        file "3gppnetwork.org.zone.common";
+};
+get file name from file field and this is 
+/var/named/chroot/vcs/<dnsServer10.102.191.4>/zone/g3ppnetwork.org.zone.common
+
+
+* IPDU select CPPU, CPPU select MMDU
+** IPDU select CPPU using mme-s1ap-id from s1ap message
+** CPPU select MMDU using TEID from GTP message
+
+
+* S1 message flow in between IPDU and CPPU
+
+             s1msg(req)                      decode asn message
+IPDU(S1LBS) ------------> CPPU(mmeS1Handler)--------------------> CPPU(Trhandler)
+                               
+             s1msg(resp)                     encode asn message  
+            <-----------                    <--------------------
+
+
+
+sharenet logs address:
+Server Ip:10.135.72.13
+Username:micts
+Pw:micts123
+10:59
+
+* bearer table and PDN table implemented in mme
+in mmdu: subscriber worked in an unit, it has:
+subscriber.getData().getActivePdnConnection()  // this is for all pdn connections
+ pdnConnection = subscriber.getData().getActivePdnConnection().get( index );
+activeBearerCount = (byte) pdnConnection.getEpsBearers().size();
+if( activeBearerCount > 0 )
+{
+    // Loop through all available bearers and add them to the epsBearerTbl byte[]
+    iter = pdnConnection.getEpsBearers().iterator();
+    int activeCount = 0;
+    while( iter.hasNext() )
+    {
+        EpsBearer bearer = iter.next();
+-----------------------------------------------------------------------
+Here bearer has all the info needed in  bearer_tbl in subs_info of dmx message
+
+
+
+
+* MML command instruction.
+m103691053:
+** check that all unit states are either WO-EX or SP-EX
+ZUSI;
+** enter into the units command
+REMOTE DEBUGGER SESSION COMMAND <DD_>
+ZDDS:IPDU,0;
+0040-$ neststat -a
+** exit the up level Z; or ctrl+D
+** cli cmmand  to check MMEParameter
+*** in commandline
+001A-$ cli getparameter -subs NAS_COUNT_THRESHOLD
+Result : ParameterName (NAS_COUNT_THRESHOLD) Value (100000
+
+*** in source code:
+*.ini file: NAS_COUNT_THRESHOLD = 16777116
+
+*** name convention in robot case and mme code
+**** robot case
+
+            cmd = 'cli setparameter -subs NAS_COUNT_THRESHOLD %s' % (nas_count_threshold)
+
+**** mme code
+==================================
+else if( IniParameterNames.NAS_COUNT_THRESHOLD.getId() == paramCode )
+            {
+                intParam.setValue( mmeParametersInstance.getNasCountThreshold() );
+            }
+---------------------------------------------------------
+ public int getNasCountThreshold()
+    {
+        return nasCountThreshold;
+    }
+
+**** this is a dealing with pdf to text containing extra bytes
+tr -dc "[:alnum:][:space:][:punct:]"
+
+
+**** s3 interface configured or not
+if s3 interface was configured, then gtpv2 message "echo request" will be sent in protocol layer automatically, not related to the cppu/mmdu logic
+So if SGSN received gtpv2 message which tester won't recognized, for SGSN is gn interfaced in tester side which receive gtpv1 message.
+ 
+
+
+solid db expired:  delete "*.db" and "*.log" files
+
+
+**** eclipse 
+1. Add M2_REPO Manually
+
+Define and add M2_REPO classpath variable manually into Eclipse IDE. Follow below steps :
+
+    Eclipse IDE, menu bar
+    Select Window > Preferences
+    Select Java > Build Path > Classpath Variables
+    Click on the new button > defined a new M2_REPO variable and point it to your local Maven repository
+    Done.
+
+2. Add M2_REPO Automatically – eclipse:configure-workspace
+
+Alternatively, you can define and add M2_REPO via Maven command “eclipse:configure-workspace“.
+Bash
+
+mvn -Declipse.workspace="your Eclipse Workspace" eclipse:configure-workspace
+
+See an example :
+Bash
+
+C:\>mvn -Declipse.workspace="C:\Users\mkyong\workspace" eclipse:configure-workspace
+[INFO] Scanning for projects...
+[INFO] Searching repository for plugin with prefix: 'eclipse'.
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Maven Default Project
+[INFO]    task-segment: [eclipse:configure-workspace] (aggregator-style)
+[INFO] ------------------------------------------------------------------------
+[INFO] [eclipse:configure-workspace {execution: default-cli}]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1 second
+[INFO] Finished at: Thu Apr 14 20:45:17 SGT 2011
+[INFO] Final Memory: 9M/112M
+[INFO] ------------------------------------------------------------------------
+
+Done.
+
+Verify M2_REPO is Added
+Review classpath variable to verify that the M2_REPOis added into Eclipse IDE.
+
+*** loglevel in utt case running
+./pom.xml:554:                <additional.args>-Dutt_loglevel=6</additional.args>
+./src/test/java/com/nsn/mme/persistence/UTTBaseTest.java:89:        String logLevelStr = System.getProperty( "utt_loglevel" );
+./src/test/java/com/nsn/mme/utt/UttBaseSetup.java:119:        String logLevelStr = System.getProperty( "utt_loglevel" );
+
+** utt
+./UltimateTestingTool/ext/xml_files/utilities.xml 
+mmeparameter and  prfile setting in the xml files. 
+
+
+svn patch --dry-run TrH.path ./
+
+
+** mml command collection
+
+*** restarts a unit
+**** telnet into OMU using SYSTEM SYSTEM (HIT)
+KEYWORD: NsMml.Restart Unit ${unit}, C=DSK
+Start / End / Elapsed:	20160613 13:40:32.170 / 20160613 13:40:33.634 / 00:00:01.464
+13:40:33.633	INFO	*SEND* ZUSU:MCHU,0:C=DSK;	
+13:40:33.633	INFO	ZUSU:MCHU,0:C=DSK;
+
+**** check unit status
+ZUSI:MCHU,0:;
+
+****  check all the interface ip
+ZKAI:;
+ipdu 's s10 and s3 interface the same ip addr.
+
+**** create s3 interface
+ZKAC:;
+
+**** restart whole ATCA
+telnet will be done;
+USS:SYM:C=TOT,;
+
+
+**** only run a few testcases
+$ svn diff mmeTrHandler/pom.xml
+Index: mmeTrHandler/pom.xml
+===================================================================
+--- mmeTrHandler/pom.xml        (版本 25003)
++++ mmeTrHandler/pom.xml        (工作副本)
+@@ -293,7 +293,8 @@
+                                 <argument>-jar</argument>
+                                 <argument>${uttTrh.jar}</argument>
+                                 <argument>-convUTT2JUNIT</argument>
+-                                <argument>-s=${utt.source}</argument>
++                             <!--    <argument>-s=${utt.source}</argument>  -->
++                                <argument>-s=D:\userdata\glili\workspace\fns\NS17\SS_LNXmmeTrHandler\mmeTrHandler\src\test\resources\UTTWorkspace\TrHandler\TestCases\S1HO\Templates</argument>
+                                 <argument>-d=${utt.destination}</argument>
+                                 <argument>-t=${utt.datatype}</argument>
+                             </arguments>
+
+**** utt suite running
+$ mvn -Dtest=com.nsn.mme.utt.TestSuiteForUtt test
+
+**** skip running testing in mvn install
+mvn clean install -Dmaven.test.skip=true
+
+
+**** switch to other version
+ZWSD:STAT=BU;
+13:21
+
+BU就是ns17的

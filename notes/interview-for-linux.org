@@ -65,15 +65,15 @@ In UNIX System terminology, a process that has terminated,but whose parent has n
 。正是这个 wait() 动作来让子进程的残留物消失。 
 
  
-time    child pro         par pro
- |        end 
+time    child pro         parent pro
+ |        end             not end 
  |        if parenet not handle SIGCHILD or wait/waitpid, then child pro will be a Zombie process                  
  |                          end
  \/ 
 
-time    child pro         par pro
- |                          end         
- |       init will adopt child pro if par end before child pro, damon process                   
+time    child pro         parent pro
+ |       not end              end         
+ |       init will adopt child pro if parent end before child pro, damon process                   
  |        end                  
  \/       init will wait any of its child, so child pro be adopted by init won't come to zombie
 
@@ -226,7 +226,7 @@ vfork 和 fork的不同在于vfork出的子进程在exit和调用exec之前不�
 
 The intent of vfork was to eliminate the overhead of copying the whole process image if you only want to do an exec* in the child. Because exec* replaces the whole image of the child process, there is no point in copying the image of the parent.
 
-Normally, a fork will produce a child who just copies its parent's space. But many times, the child will share little memory with parent, so to copy the whole space everytime forking is a waste. To solve the problem, people think out Copt-On-Write(COW), which only copies the space that's written and when it's written. But this still helps little when the Child excutes "exec", "exit" who gets rid of the original space completely. So people invent vfork, the process of vfork is: the child and parent uses same space after vfork, and parent suspends waiting a signal from child(it's implemented in Linux as a semphore "struct semaphore *vfork_sem"); then the child will excute exec or exit to release its space shared with parent, at this time kernel will wakeup parent by up()(in Linux, which is implemented in kernel/fork.c: mm_release()). This can be observed in linux/fs/exec.c, which calls mm_release to release mm structure. Remember, in vfork, no COW is needed.
+Normally, a fork will produce a child who just copies its parent's space. But many times, the child will share little memory with parent, so to copy the whole space everytime forking is a waste. To solve the problem, people think out Copy-On-Write(COW), which only copies the space that's written and when it's written. But this still helps little when the Child excutes "exec", "exit" who gets rid of the original space completely. So people invent vfork, the process of vfork is: the child and parent uses same space after vfork, and parent suspends waiting a signal from child(it's implemented in Linux as a semphore "struct semaphore *vfork_sem"); then the child will excute exec or exit to release its space shared with parent, at this time kernel will wakeup parent by up()(in Linux, which is implemented in kernel/fork.c: mm_release()). This can be observed in linux/fs/exec.c, which calls mm_release to release mm structure. Remember, in vfork, no COW is needed.
 So for your question, when it's fork, child and parent use different space, and have different values; but when it's vfork, the child will assign flag to 1, which modifys parent's space, because no COW. Then you got what you saw.
 -------------
 #include
@@ -323,11 +323,6 @@ return(0); }
 部分显示内容：
 
 PPID PID PGID SID TTY TPGID STAT UID TIME COMMAND 
-
-
-
-
-
 
 
 * file type and bits
@@ -476,9 +471,9 @@ _ ________________________________________________
 |bg pg         |bkground  pg |foregroud pg        |
 ---------------------------------------------------
             /\                     /\
-            |hang up              |all the input output and signal 
-            |sig to shell         |to  fg pg
-               controlling terminal 
+            |hang up               |all the input output and signal 
+            |sig to shell          |to  fg pg
+               controlling termina l 
 
 
 
@@ -488,14 +483,10 @@ function call:
 close(socket_fd)
 shutdown(socket_fd)
 
-if a program which has a socket fd opend, in server it's the return value
-of "accept", in client it's the connect(socket_fd,...)
-if the program terminated without calling close or shutdown, the system
-will help to do that.
+if a program which has a socket fd opend, in server it's the return value of "accept", in client it's the connect(socket_fd,...)
+if the program terminated without calling close or shutdown, the system will help to do that.
 
-when grab a tcp packet named FIN, it's no necessarily that the program
-call close or shutdown, in fact, even if the programe run into segmentation
-fault, the system will help to close the connection.
+when grab a tcp packet named FIN, it's no necessarily that the program call close or shutdown, in fact, even if the program run into segmentation fault, the system will help to close the connection.
 
 
 tcpdump -port <portnum> -i lo
@@ -543,6 +534,7 @@ renice <等级> <PID>
 renice <等级> <用户名1> <用户名2> ... 
 调整指定组的所有用户的所有进程的等级
 renice <等级> -g <组名1> 
+
 4.如何让history命令显示具体时间
 HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 expect HISTTIMEFORMAT
@@ -563,7 +555,8 @@ AA02508 3 1005 Dec 17 10:01 root
 (User unknown)
 bad_user
 6.查看Linux系统当前加载的库文件
-lsof
+lsof/pmap 
+ldd is for static query
 7.Ext3文件系统如何恢复RM命令删除文件
 (1).Ext3文件系统结构的简单介绍
 在Linux所用的Ext3文件系统中，文件是以块为单位存储的，默认情况下每个块的大小是1K，不同的块以块号区分。每个文件还有一个节点，节点中包含有文件所有者，读写权限，文件类型等信息。对于一个小于12个块的文件，在节点中直接存储文件数据块的块号。如果文件大于12个块，那么节点在12个块号之后存储一个间接块的块号，在这个间接块号所对应的块中，存储有256个文件数据块的块号（Ext2fs中每个块号占用4字节，这样一个块中所能存储的块号就是1024/4=256）。如果有更大的文件，那么还会在节点中出现二级间接块和三级间接块。 
@@ -659,14 +652,103 @@ sed ‘23s/test/tset/g ’ test.txt
 free the memroy which been allocated in sender, 零拷贝
 ** when your source code not match the gdb debbuging image, using -O option
 ** two same function in the load library, how you are going to find out
-* rentry function
+nm the lib*.so to grep the function name
+*** solution of this
+**** objcopy --redefine-sym old=new file
+rename the sym name in one library to avoid the conflict
+
+**** using statially linkage library
+
+**** using dlopen/dlsym function
+
+
+Assuming that you use linux you first need to add
+
+#include <dlfcn.h>
+
+Declare function pointer variable in proper context, for example,
+
+int (*alternative_server_init)(int, char **, char **);
+
+Like Ferruccio stated in http://stackoverflow.com/a/678453/1635364 , load explicitly the library you want to use by executing (pick your favourite flags)
+
+void* dlhandle;
+void* sym;
+
+dlhandle = dlopen("/home/jdoe/src/libwhatnot.so.10", RTLD_NOW|RTLD_LOCAL);
+
+Read the address of the function you want to call later
+
+sym = dlsym(dlhandle, "conflicting_server_init");
+
+assign and cast as follows
+
+alternative_server_init = (int (*)(int, char**, char**))sym;
+
+Call in a similar way than the original. Finally, unload by executing
+
+dlclose(dlhandle);
+
+
+* inter Process/Thread communication
+** PIPE or FIFO(named pipe)
+** message queue
+** shared memory for different process
+** RPC(remote procedure call) two entity connected with network
+
+* thread-safe programming
+
+** rentry function
 reentry function means multithread safe function:
 if one function is interrupted by another multithred which executed the same function, there wouldn't be any error.
 Generally, if this function not using global variable or static local variable, it is not a problem. It means it will only limited on the stack memory space.
 For stack memory space is different but for the heap/global memory space, threads share them. So will make confusion.
 So if manipulate global variable in function and make sure this function be reentriable, then add some synchronization on it, mutex, condition variables,
+and seamphore.
 
-* Mutex-lock
+*** mutex and semphore
+semphore will be created with a initialized value, then sem_post will increase
+the value while sem_wait if value is greater than zero, then will decrease value
+and return function.
+
+*** productor and consumer problem
+assume there's a limited buffer, producer will write to those buffer while 
+consumer will read from the buffer.
+producer will wait for at least one empty slot(in case of buffer is full) to write while consumer will
+wait for at least one slot to consumer(in case of buffer is empty)
+all consumers and producers need to wait to write or read buffer to guranteen only one
+thread is operate the buffer.
+
+
+produce()
+{
+  for (int i=0; i<nitems; i++)
+  {
+     sem_wait(shared.nempty); // wait space to produce,nempty is initilized to NBUFF
+     sem_wait(shared.mutex);  //this is for mutex
+     shared.buff[i%NBUFF]=i;
+     sem_post(shared.mutex);  //this is for mutex
+     sem_post(shared.nstored);// increase the stored one.
+  }
+}
+
+consumer()
+{
+  for (int i=0; i<nitems; i++)
+  {
+     sem_wait(shared.nstored); // wait there's something to read, nstored is initialized to 0
+     sem_wait(shared.mutex);  //this is for mutex
+     shared.buff[i%NBUFF]=i;
+     sem_post(shared.mutex);  //this is for mutex
+     sem_post(shared.nempty);// increase the consumed one.
+  }
+}
+
+*** dead lock
+if thread A occupy resource 1, and wait for ressource 2 while thread B occupy resource 2 and wait for resource 1, then its a dead lock.
+So in above all mutex should in the inner while seamphore should outside to avoid deadlock.
+
+** Mutex-lock
 In computer science, a readers-writer (RW) or shared-exclusive lock (also known as a multiple readers/single-writer lock[1] or multi-reader lock[2]) is a synchronization primitive that solves one of the readers-writers problems. A RW lock allows concurrent access for read-only operations, while write operations require exclusive access. This means that multiple threads can read the data in parallel but an exclusive lock is needed for writing or modifying data. When a writer is writing the data, readers will be blocked until the writer is finished writing. A common use might be to control access to a data structure in memory that can't be updated atomically and isn't valid (and shouldn't be read by another thread) until the update is complete.
 
 Readers–writer locks are usually constructed on top of mutexes and condition variables, or on top of semaphores.

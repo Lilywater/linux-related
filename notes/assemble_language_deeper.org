@@ -164,7 +164,7 @@ high adress
 
 
 ** gdb a c file
-(gdb) disasseble main
+(gdb) disassemble main
 
 
 * 用gdb和objdump反汇编可执行程序
@@ -436,10 +436,9 @@ $1 = 0x601040 <globinit> "abcdefg"
 0x400678:       121 'y' 111 'o' 117 'u' 32 ' '  97 'a'  32 ' '  103 'g' 111 'o'
 0x400680:       111 'o' 100 'd' 32 ' '  104 'h'
 ========================
-a elf file including 
+an elf file including 
 .text .data .bss .rodata 
 and their address, as we saw the address is the same in gdb and objdump of these sections.
-
 
 
 
@@ -536,6 +535,145 @@ so the result of suc resev for heap is
 2410MB reserv suc
 
 
+** heap maximum
+ 0810c000=======================================
+                 /|\
+                  |   
+ b7f0c000 ------------------------------------ 
+          |heap    | 
+          |       \|/
+          |                            
+ b7f12000====================  126M total from heap to stack originally
+          |                   
+ bfe89000 -------------------------------------
+
+
+[admin1@TeamCI-136 MME_SGSN_tester]$ pmap -x 18406
+18406:   ./testmem
+Address   Kbytes     RSS   Dirty Mode   Mapping
+008b4000       4       4       4 rw---  ld-2.5.so
+008b7000    1360     164       0 r-x--  libc-2.5.so
+00a0b000       4       0       0 -----  libc-2.5.so
+00a0c000       8       8       8 r----  libc-2.5.so
+00a0e000       4       4       4 rw---  libc-2.5.so
+00a0f000      12       8       8 rw---    [ anon ]
+08048000       4       4       0 r-x--  testmem
+08049000       4       4       4 rw---  testmem
+b7eff000       8       8       8 rw---    [ anon ]
+b7f13000       4       0       0 rw---    [ anon ]
+bfe89000      84      12      12 rw---    [ stack ]
+-------- ------- ------- ------- -------
+total kB    1612       -       -       -
+[admin1@TeamCI-136 MME_SGSN_tester]$ pmap -x 18406
+18406:   ./testmem
+Address   Kbytes     RSS   Dirty Mode   Mapping
+00033000    8224      32      32 rw---    [ anon ]
+0083b000       4       4       0 r-x--    [ anon ]
+00898000     108      88       0 r-x--  ld-2.5.so
+008b3000       4       4       4 r----  ld-2.5.so
+008b4000       4       4       4 rw---  ld-2.5.so
+008b7000    1360     260       0 r-x--  libc-2.5.so
+00a0b000       4       0       0 -----  libc-2.5.so
+00a0c000       8       8       8 r----  libc-2.5.so
+00a0e000       4       4       4 rw---  libc-2.5.so
+00a0f000      12      12      12 rw---    [ anon ]
+00ad3000  120276     468     468 rw---    [ anon ]
+08048000       4       4       0 r-x--  testmem
+08049000       4       4       4 rw---  testmem
+0810c000 2881492   11220   11220 rw---    [ anon ]
+b7f12000  129536     512     512 rw---    [ anon ]
+bfe89000      84      12      12 rw---    [ stack ]
+bfe9e000    1028       4       4 rw---    [ anon ]
+-------- ------- ------- ------- -------
+total kB 3142156       -       -       -
+
+
+
+** stack overflow issue
+stack minimum size is 84k.
+stack maximum limit is configured using "ulimit -s"
+[admin1@TeamCI-136 newenv]$ ulimit -s
+10240
+
+====================
+#include <stdio.h>
+int main()
+{
+  int j=0,k;
+  char *p =0;
+  scanf("put to begin %d\n",k);
+  constack();
+}
+void constack()
+{
+  char cc[1024*1024];
+  static int d =0;
+   int k=0;
+    printf("%d MB resev suc \n",d++);
+   sleep(5);
+   constack();
+}
+--------------
+output:
+[admin1@TeamCI-136 newenv]$ ./teststk
+0 MB resev suc
+1 MB resev suc
+2 MB resev suc
+3 MB resev suc
+4 MB resev suc
+5 MB resev suc
+6 MB resev suc
+7 MB resev suc
+8 MB resev suc
+9 MB resev suc
+10 MB resev suc
+Segmentation fault   // this means stack overflow
+
+===================
+ b7f0c000  |--------------------------------- 
+          |heap    | 
+          |       \|/
+          |                            
+ bf15b000==============================  124M total from heap to stack originally
+          |       /|\
+          |stack   |  10M 
+ bfb48000 ------------------------------------
+
+
+[admin1@TeamCI-136 MME_SGSN_tester]$ pmap 17923
+00898000    108K r-x--  /lib/ld-2.5.so
+008b3000      4K r----  /lib/ld-2.5.so
+008b4000      4K rw---  /lib/ld-2.5.so
+008b7000   1360K r-x--  /lib/libc-2.5.so
+00a0b000      4K -----  /lib/libc-2.5.so
+00a0c000      8K r----  /lib/libc-2.5.so
+00a0e000      4K rw---  /lib/libc-2.5.so
+00a0f000     12K rw---    [ anon ]
+08048000      4K r-x--  /home/admin1/TestToolInstallations/ttcn3/glili/newenv/teststk
+08049000      4K rw---  /home/admin1/TestToolInstallations/ttcn3/glili/newenv/teststk
+b7f0c000      8K rw---    [ anon ]
+b7f20000      4K rw---    [ anon ]
+bfb48000     84K rw---    [ stack ]
+ total     1612K
+ =================================================
+ [admin1@TeamCI-136 MME_SGSN_tester]$ pmap 17923
+ 17923:   ./teststk
+ 00749000      4K r-x--    [ anon ]
+ 00898000    108K r-x--  /lib/ld-2.5.so
+ 008b3000      4K r----  /lib/ld-2.5.so
+ 008b4000      4K rw---  /lib/ld-2.5.so
+ 008b7000   1360K r-x--  /lib/libc-2.5.so
+ 00a0b000      4K -----  /lib/libc-2.5.so
+ 00a0c000      8K r----  /lib/libc-2.5.so
+ 00a0e000      4K rw---  /lib/libc-2.5.so
+ 00a0f000     12K rw---    [ anon ]
+ 08048000      4K r-x--  /home/admin1/TestToolInstallations/ttcn3/glili/newenv/teststk
+ 08049000      4K rw---  /home/admin1/TestToolInstallations/ttcn3/glili/newenv/teststk
+ b7f0c000      8K rw---    [ anon ]
+ b7f1f000      8K rw---    [ anon ]
+ bf15b000  10248K rw---    [ stack ]     10m
+
+
 ** kenerl sapce check
 dmesg  >log 
 vim log /.init
@@ -561,21 +699,12 @@ In fact, there are three :
 -----------------------
 core file size (bloks,-c) 0
 data seg size  (Kb, -d)  unlimited
-max locked memory  (Kb, -l) unlimited
-max memory size   (Kb, -m)  unlimited
-stack size (Kb, -s)    8192
-virtual memory   (kb,-v) unlimited
-------------------------
-virtual memory is the overal memory a process can use.And for a program, the stack size
-is allocated statically when process is loading, and the heap size is the dynamically.
-
-*** heap management
-Heap and memory management is a facility provided by your C library (likely glibc). It maintains the heap and returns chunks of memory to you every time you do a malloc(). It doesn't know heap size limit: every time you request more memory than what is available on the heap, it just goes and asks the kernel for more (either using sbrk() or mmap()).
-
-By default, kernel will almost always give you more memory when asked. This means that malloc() will always return a valid address. It's only when you refer to an allocated page for the first time that the kernel will actually bother to find a page for you. If it finds that it cannot hand you one it runs an OOM killer which according to certain measure called badness (which includes your process's and its children's virtual memory sizes, nice level, overall running time etc) selects a victim and sends it a SIGTERM. This memory management technique is called overcommit and is used by the kernel when /proc/sys/vm/overcommit_memory is 0 or 1. See overcommit-accounting in kernel documentation for details.
+By default, kernel will almost always give you more memory when asked. This means that malloc() will always return a valid address. It's only when you refer to an allocated page for the first time that the kernel will actually bother to find a page for you. If it finds that it cannot hand you one it runs an OOM killer which according to certain measure called badness (which includes your process's and its children's virtual memory sizes, nice level, overalw running time etc) selects a victim and sends it a SIGTERM. This memory management technique is called overcommit and is used by the kernel when /proc/sys/vm/overcommit_memory is 0 or 1. See overcommit-accounting in kernel documentation for details.
 
 By writing 2 into /proc/sys/vm/overcommit_memory you can disable the overcommit. If you do that the kernel will actually check whether it has memory before promising it. This will result in malloc() returning NULL if no more memory is available.
 
+ulimit -v
+Virtual Memory  (kbytes, -v)
 You can also set a limit on the virtual memory a process can allocate with setrlimit() and RLIMIT_AS or with the ulimit -v command. Regardless of the overcommit setting described above, if the process tries to allocate more memory than the limit, kernel will refuse it and malloc() will return NULL. Note than in modern Linux kernel (including entire 2.6.x series) the limit on the resident size (setrlimit() with RLIMIT_RSS or ulimit -m command) is ineffective.
 
 *** testcase

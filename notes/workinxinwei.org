@@ -222,6 +222,8 @@ XPUBLIC XS32   QUE_MsgQCreate(t_XOSMSGQ *pMsgQ,XU32 maxMsgs)
 
 ** 消息内存空间的释放
 消息空间的分配由send函数负责，回收则由receive函数负责，这种模式称为零拷贝
+
+
 * Timer
 ** 设计思想
 定时器会启动一个任务，作为整个时钟的驱动源，这个任务会在固定时刻向注册了定时器的fid发送时钟消息
@@ -1239,7 +1241,7 @@ int sum(int num_args, ...)
    va_start(ap, num_args);
    for(i = 0; i < num_args; i++)
    {
-      val += va_arg(ap, int);
+      val += va_arg(ap, i);
    }
    va_end(ap);
  

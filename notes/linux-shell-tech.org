@@ -1691,7 +1691,7 @@ hexdump -- another tool to dump charstring to hex
 ** convert ascii to hexstring
 xxd : 
 
-[root@TTCN9 test]# echo "AB"|xxd -g 1 |tee file
+oot@TTCN9 test]# echo "AB"|xxd -g 1 |tee file
 0000000: 41 42 0a                                         AB.
 
 [root@a]# xxd -r file

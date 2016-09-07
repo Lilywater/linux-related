@@ -1,211 +1,97 @@
-
-
-The four steps for tcp connection closed.
-Why ack and FIN not in one message, for after the first two steps, the connection will be half-closed.
-It means the one who was closed passively may have more data to send to the peer, so it will delay to 
-send FIN M, before that it may send some datat to the peer.
-FIN means no more data to be sent in this side, but it can accept data from the peer.
-       
-  ESTABLISHED                                  ESTABLISHED     
-        |                                            |
-        |     FIN  N                                 |
-        |    -------------------------------->       |                
-   FIN_Wait_1(Active close)		        Close_wait(closed passively)	 
-        |       ack  N+1                             |  
-        |     <-----------------------------         |  
-   FIN_Wait_2                                        |
-        |                                            |
-        |       maybe some data to be sent......     |
-        |     <----------------------------          | 
-        |     maybe some ack,but no data             | 
-        |     -------------------------->	     | 
-        |            FIN M                           |
-        |      <------------------------------       |   
-	|		                         LAST_ACK  
-	|		  ACK M+1                    | 
-	|	  -------------------------->        |
-	Time_Wait(2MSL)                          CLOSED 
-        |
-        |after time period 2MSL
-       CLOSED
-
-
-a server port 1234, if server actively close the connection,
-----------------------------------------------
-[liguo@localhost sock]$ netstat |grep 1234
-tcp        0      0 localhost.localdomain:32831 localhost.localdomain:1234  ESTABLISHED
-tcp        0      0 localhost.localdomain:1234  localhost.localdomain:32831 ESTABLISHED
-[liguo@localhost sock]$ netstat |grep 1234
-tcp        0      0 localhost.localdomain:1234  localhost.localdomain:32831 TIME_WAIT
----------------------------------------------
-Actually, localhost:1234 is in TIME_WAIT state, the port 32831 isn't used anymore.
-it means that
---------------------
-[liguo@localhost sock]$ netstat |grep 1234
-tcp        0      0 localhost.localdomain:32831  localhost.localdomain:1234 CLOSED
-tcp        0      0 localhost.localdomain:1234  localhost.localdomain:32831 TIME_WAIT
-----------------------------
-
-But in some case may like this:
---------------------
-[liguo@localhost sock]$ netstat |grep 1234
-tcp        0      0 localhost.localdomain:32831  localhost.localdomain:1234 LAST_ACK
-tcp        0      0 localhost.localdomain:1234  localhost.localdomain:32831 TIME_WAIT
-----------------------------
-ack M+1 for FIN sent from 1234 was not acked by 32831, So maybe it lost, so 1234 enter
-into state TIME_WAIT, but 32831 not receive the ack M+1, so it is still in LAST_ACK,
-when time pass, 32831 not receiving the ack M+1, so it assume 1234 not receive te FIN M,
-So it will resent FIN M, if no 2MSL waiting, the server restart with 1234, and another
-client connect it with the same 32831 port, And now, FIN M arrived, this will be misinterpreted.
-
-===========================================
-2MSL Wait State
-The TIME_WAIT state is also called the 2MSL wait state. Every implementation must choose
-a value for the maximum segment lifetime (MSL). It is the maximum amount of time any
-segment can exist in the network before being discarded. We know this time limit is bounded,
-since TCP segments are transmitted as IP datagrams, and the IP datagram has the TTL field that
-limits its lifetime.
-RFC 793 [Postel 1981c] specifies the MSL as 2 minutes. Common implementation values, however, are 30
-seconds, 1 minute, or 2 minutes.
-real-world limit on the lifetime of the IP datagram is based on
-the number of hops, not a timer.
-
-1. for resending the final Ack
-Given the MSL value for an implementation, the rule is: when TCP performs an active close,
-and sends the final ACK, that connection must stay in the TIME_WAIT state for twice the
-MSL. This lets TCP resend the final ACK in case this ACK is lost (in which case the other end
-will time out and retransmit its final FIN).
-
-Any delayed segments that arrive for a connection while it is in the 2MSL wait are discareded. 
-Since the connection defined by the socket pair in the 2MSL wait cannot be reused during this time period, when we do establish a valid connection 
-we know that delayed segments from an earlier incarnation of this connection cannot be misinterpreted as being part of the new connection.
-====================================
-
-
-1. Address already in use
-1).  a server program restart by itself
-sun % sock -v -s 6666
-connection on 140.255.12.22.6666 from 140.252.13.35.1098
-^?
-sun % sock -v -s 6666
-can't bind local address: Address already in use
----------------------------------------------------
-if a server started twicely with a very short time gap, 
-we use ctrl + c to end the server means that it will in TIME_WAIT status, so the port is not available yet
-n
-
-   
-2)	a server program closed by the peer, then it restart
-sun % sock -v -s 6666
-connection on 140.255.12.22.6666 from 140.252.13.35.1098
-some echo message
-connection closed by peer.
-
-sun % sock -v -s 6666
-this time, it will restart successfully even a short time gap between run times.
-because, server is colosed by peer, so it won't be in TIME_WAIT status.
-
-3). a client run twice in a very short time gap
-./sock -v -s 6666
-./sock 127.0.0.1 6666
-connection on 127.0.0.1.6666 from 127.0.0.1.45198
-some echo message
-
-ctrl+c to end ./sock 127.0.0.1 6666,
-then restart server, and restart client 
-./sock -b45198 127.0.0.1 6666
-bind() error: Address already in use
-
-in this case, the client will be in CLOSE_WAIT for client end the connection firsly, by using ctrl+c.
-So if you start the client using the same port which it used before, there will be error.
-
-
-SO_REUSEADDR opiton can make the address available
-in previous case 1),
-if start the server using the 
-sun % sock -v -s  -A 6666
-there will be no "can't bind local address: Address already in use", and the server work well
-using the same port number to connect to a server as a client
+* Sock Option in TCP/UDP packet
+sock program usage in unpv12e source code folder 
+[admin1@TeamCI-136 sock]$ ./sock
+usage: sock [ options ] <host> <port>              (for client; default)
+       sock [ options ] -s [ <IPaddr> ] <port>     (for server)
+       sock [ options ] -i <host> <port>           (for "source" client)
+       sock [ options ] -i -s [ <IPaddr> ] <port>  (for "sink" server)
+       sink, source means no input need to transmit
+options: -b n  bind n as client's local port number
+         -c    convert newline to CR/LF & vice versa
+         -f a.b.c.d.p  foreign IP address = a.b.c.d, foreign port # = p
+         -g a.b.c.d  loose source route
+         -h    issue TCP half close on standard input EOF
+         -i    "source" data to socket, "sink" data from socket (w/-s)
+         -j a.b.c.d  join multicast group
+         -k    write or writev in chunks
+         -l a.b.c.d.p  client's local IP address = a.b.c.d, local port # = p
+         -n n  # buffers to write for "source" client (default 1024)
+         -o    do NOT connect UDP client
+         -p n  # ms to pause before each read or write (source/sink)
+         -q n  size of listen queue for TCP server (default 5)
+         -r n  # bytes per read() for "sink" server (default 1024)
+         -s    operate as server instead of client
+         -t n  set multicast ttl
+         -u    use UDP instead of TCP
+         -v    verbose
+         -w n  # bytes per write() for "source" client (default 1024)
+         -x n  # ms for SO_RCVTIMEO (receive timeout)
+         -y n  # ms for SO_SNDTIMEO (send timeout)
+         -A    SO_REUSEADDR option
+         -B    SO_BROADCAST option
+         -C    set terminal to cbreak mode
+         -D    SO_DEBUG option
+         -E    IP_RECVDSTADDR option
+         -F    fork after connection accepted (TCP concurrent server)
+         -G a.b.c.d  strict source route
+         -H n  IP_TOS option (16=min del, 8=max thru, 4=max rel, 2=min$)
+         -I    SIGIO signal
+         -J n  IP_TTL option
+         -K    SO_KEEPALIVE option
+         -L n  SO_LINGER option, n = linger time
+         -N    TCP_NODELAY option
+         -O n  # ms to pause after listen, but before first accept
+         -P n  # ms to pause before first read or write (source/sink)
+         -Q n  # ms to pause after receiving FIN, but before close
+         -R n  SO_RCVBUF option
+         -S n  SO_SNDBUF option
+         -U n  enter urgent mode before write number n (source only)
+         -V    use writev() instead of write(); enables -k too
+         -W    ignore write errors for sink client
+         -X n  TCP_MAXSEG option (set MSS)
+         -Y    SO_DONTROUTE option
+         -Z    MSG_PEEK
 
 
 
+** sock options could be set  
 
-=============================
-There are some options for the socket to set
-function
-* setsockopt
-* getsockopt
-1. if (setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling)) < 0)
+/*    When  manipulating  socket options the level at which the option resides and the name of the option must be specified.  To manipulate options at the socket level, level is
+      specified  as SOL_SOCKET.  To manipulate options at any other level the protocol number of the appropriate protocol controlling the option is supplied.  For example,  to
+       indicate that an option is to be interpreted by the TCP protocol, level should be set to the protocol number of TCP; see getprotoent(3).*/
 
-/*    When  manipulating  socket options the level at which the option resides and the name
-       of the option must be specified.  To manipulate options at the socket level, level is
-      specified  as SOL_SOCKET.  To manipulate options at any other level the protocol num-
-ber of the appropriate protocol controlling the option is supplied.  For example,  to
-       indicate that an option is to be interpreted by the TCP protocol, level should be set
-       to the protocol number of TCP; see getprotoent(3).*/
-
-*** The third parameter is option value, 
-(1) SO_LINGER
- "linger on close" socket option, when set it to 0, this cause the abort/RST(RESET) to be sent when connection closed 
-not sending FIN as normal.
+***  SO_LINGER (-L)
+ "linger on close" socket option, when set it to 0, this cause the abort/RST(RESET) to be sent when connection closed not sending FIN as normal.
  -L n  SO_LINGER option, n = linger time
 
-(2) SO_REUSEADDR
-./sock -b45198 127.0.0.1 6666
+*** SO_REUSEADDR (-A)
+./sock -b45198 127.0.0.1 6666  //client tcp port binding  to 45198 connected ot server port 6666
 bind() error: Address already in use
+in this case, the client will be in CLOSE_WAIT for client end the connection firsly, by using ctrl+c.  So if you start the client using the same port which it used before, there will be error.
 
-in this case, the client will be in CLOSE_WAIT for client end the connection firsly, by using ctrl+c.
-So if you start the client using the same port which it used before, there will be error.
-
-
-SO_REUSEADDR opiton can make the address available
-in previous case 1),
-if start the server using the 
+SO_REUSEADDR opiton can make the address available if start the server using the 
 sun % sock -v -s  -A 6666
 there will be no "can't bind local address: Address already in use", and the server work well
 
-(3)SO_REUSEPORT
+**** SO_REUSEPORT for UDP packet
 sun % sock -u-s-A 9999 so we try -A flag this time
 can't bind local address: Address already in use
-On systems that support multicasting (Chapter 12), this changes. Multiple end points can use
-the same local IP address and UDP port number, although the application normally must tell the
-API that this is OK (i.e., our -A flag to specify the SO_REUSEADDR socket option).
-4.4BSD, which supports multicasting, requires the application to set a different socket option
-(SO_REUSEPORT) to allow multiple end points to share the same port. Furthermore each end
-point must specify this option, including the first one to use the port.
-When a UDP datagram arrives whose destination IP address is a broadcast or multicast address,
-and there are multiple end points at the destination IP address and port number, one copy of the
-incoming datagram is passed to each end point. (The end point's local IP address can be the
-wildcard, which matches any destination IP address.) But if a UDP datagram arrives whose
+On systems that support multicasting (Chapter 12), this changes. Multiple end points can use the same local IP address and UDP port number, although the application normally must tell the
+API that this is OK (i.e., our -A flag to specify the SO_REUSEADDR socket option).  4.4BSD, which supports multicasting, requires the application to set a different socket option
+(SO_REUSEPORT) to allow multiple end points to share the same port. Furthermore each end point must specify this option, including the first one to use the port.
+When a UDP datagram arrives whose destination IP address is a broadcast or multicast address, and there are multiple end points at the destination IP address and port number, one copy of the
+incoming datagram is passed to each end point. (The end point's local IP address can be the wildcard, which matches any destination IP address.) But if a UDP datagram arrives whose
 destination IP address is a unicast address, only a single copy of the datagram is delivered toone of the end points. Which end point gets the unicast datagram is implementation dependent.
 
-
-(4) SO_SNDBUF, SO_REVBUF 
-every tcp has a receive buffer in kernel, it won't overflow.
-For tcp will inform peer the size of it's receive buffer, if the peer ignore this,  a packet containing more than that, this packet will be discard. 
-If you want to specify the  tcp's receive buffer size, SO_REVBUF is that. 
-
-[liguo@localhost sock]$ ./sock -s 5555 -S 8192
-sndbuflen = 8192, SO_SNDBUF = 16384
-[liguo@localhost sock]$ ./sock -s 5555 -R 1024
-rcvbuflen = 1024, SO_RCVBUF = 2048
-SO_SNDBUF is the send buffer of the socket in bytes,
-SO_RCVBUF is the receive buffer of the socket in bytes.
----------------------------------------------------
-Here it is the bug that the result is 2* parameter set. 
-
-(5) SO_KEEPALIVE
-we can start a client process that establishes a TCP connection with a server, and walk
-away for hours, days, weeks or months, and the connection remains up. Intermediate
-routers can crash and reboot, phone lines may go down and back up, but as long as
-neither host at the ends of the connection reboots, the connection remains established.
+***  SO_KEEPALIVE
+we can start a client process that establishes a TCP connection with a server, and walk away for hours, days, weeks or months, and the connection remains up. Intermediate
+routers can crash and reboot, phone lines may go down and back up, but as long as neither host at the ends of the connection reboots, the connection remains established.
 
 The keepalive option is a timer to probe the peer of the connection is available when no data whantsoever transmitted in a tcp connection.
 Many versions of the Telnet server and Rlogin server enable the keepalive option by default. This is why when you ssh a server, and no input for 2 hours, the connections will be shutdown.
 
 In case of the intermediate router has crashed and is rebooting, TCP will think that the client's host has crashed, which is not what was happened, if the keepalvie probe.
 
-5.1 example 
 client % sock -K 10.121.122.36 7788
 -K for keepalive option
 hello
@@ -245,15 +131,23 @@ then the server will send a probe message firstly, if no echo, then the server w
 
 
 
-* SO_RCVBUF and SO_SNDBUF
-these two buffers means the buffer which is for receiving data and sending data
-why?
-** SO_SNDBUF
-When prgm using wirte() function to send data, tcp in kernel will copy the data from prg buffer to its
-buffer which is SO_SNDBUF, and if the data is bigger than SO_SNDBUF, the prg will goto sleep until all data
-be copied form pfg buffer to this buffer.
-So write() function return means the data has been copied into tcp's kernel buffer, not have been sent
-to the peer successfully.
+
+*** SO_SNDBUF
+these two buffers means the buffer which is for receiving data and sending data, why?
+every tcp has a receive buffer in kernel, it won't overflow.
+For tcp will inform peer the size of it's receive buffer, if the peer ignore this,  a packet containing more than that, this packet will be discard. 
+If you want to specify the  tcp's receive buffer size, SO_REVBUF is that. 
+
+---------------------------------------------------
+Here it is the bug that the result is 2* parameter set. 
+
+
+[liguo@localhost sock]$ ./sock -s 5555 -S 8192
+sndbuflen = 8192, SO_SNDBUF = 16384
+function   ssize_t send(int s, const void *buf, size_t len, int flags);
+When prgm using send function to send data, tcp in kernel will copy the data from prg buffer to its
+buffer which is SO_SNDBUF, and if the data is bigger than SO_SNDBUF, the prg will goto sleep until all data be copied form pfg buffer to this buffer.
+So send() function return means the data has been copied into tcp's kernel buffer, not have been sent to the peer successfully.
 
 they will be stored in this buffer?
 When will these data be sent? 
@@ -294,10 +188,8 @@ send_buf in application layer should be less than the SO_SNDBUF in tcp layer
 
 So what is the maximum size of a tcp packet depends on three:
 1. SO_SNDBUF  the buffer size, the whole space to hold the data in tcp layer
-2. MSS, the connection of two end points, the maximum value of the interface's MTU(
-MTU limits the ethernet packet length, so ip packect will be fragmented to adapt this MUT size)
-3. the SO_RCVBUF of the received data peer, it will affect the r_wnd feild in tcp packet
-header, and when send data, the send data peer won't send more than r_wnd it get from the
+2. MSS, the connection of two end points, the maximum value of the interface's MTU( MTU limits the ethernet packet length, so ip packect will be fragmented to adapt this MUT size)
+3. the SO_RCVBUF of the received data peer, it will affect the r_wnd feild in tcp packet header, and when send data, the send data peer won't send more than r_wnd it get from the
 received dtat peer.
 
 so a tcp packet has two limits: 
@@ -307,32 +199,37 @@ In wiresharklog, you will get the whole ip packet which has been reassembled by 
 
 3. a tcp packet contain one application message
 
-** SO_RCVBUF
+*** SO_RCVBUF
+
+[liguo@localhost sock]$ ./sock -s 5555 -R 1024
+rcvbuflen = 1024, SO_RCVBUF = 2048
+SO_SNDBUF is the send buffer of the socket in bytes,
+SO_RCVBUF is the receive buffer of the socket in bytes.
 the receivd buffer in tcp layer is for storing the data from ip layer.
-when retval=revfrom(socket_id,buf,buf_len,0)
-retrun?
+There are two parameters: size of the "buf",  and buf_len means when receive buf_len bytes, recvfrom function will return. 0 is flag.
+option SO_RCVBUF is the size value of buf(-R parameter for sock prg), buf_len is another thing, in this case -r parameter for sock prg.
+/*The receive buffer size is tied to TCP''s advertised window in SYN message*/
+
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+when retval=recvfrom(socket_id,buf,buf_len,0) retrun?
 1. when received some data, the buffer space is engough but tiemout 
 2. when rev buffer is almost full
 
 
 what data will a revfrom get?
 1.data is two sperated upper layer message
-So upper layer invoing retval=revfrom(socket_id, buf, buf_len,0 )
-buf_len is the size of buf, means the maximum data get from tcp layer to upper layer
+So upper layer invoing retval=revfrom(socket_id, buf, buf_len,0 ) buf_len is the size of buf, means the maximum data get from tcp layer to upper layer
 one time from revfrom may get two upper layer mesage
 2. data is part of a uppper layer message 
 
-
-so application layer have it's own protocl, it can send length of a message, so revfrom
-could piece the framented data together. Though tcp layer could reassemble a upper layer
-data, but it wont' guarantee one revfrom is one peer upper layer message, it will guaranteen
-the stream order. So if you received it for many times, you can piece them together by 
+so application layer have it's own protocl, it can send length of a message, so revfrom could piece the framented data together. Though tcp layer could reassemble a upper layer
+data, but it wont' guarantee one revfrom is one peer upper layer message, it will guaranteen the stream order. So if you received it for many times, you can piece them together by 
 the header of the upper layer. usually the length.
 Firsly received a data, get header to get length, then count the bytes received until it is 
 equal to the length of the header, means a whole packet. 
 because the revfrom function  will be effected by many factors, by the rev buffer and data arrive timing.
 
-** So tcp layer is ensuring the order of the received bytes, but not form once revfrom.
+**** So tcp layer is ensuring the order of the received bytes, but not form once revfrom.
 So when using tcp for transportation layer, the upper layer protocol is needed, at least
 the lenghh field should be pre to the real data.
 
@@ -351,20 +248,20 @@ Cause tcp is continuous stream, though in ip layer, the packet may not in order,
 routes, but when ip layer delivered to tcp layer, they are continuous stream in order.
 How?  tcp has the sequence nunber for them.
 
-** tpkt header format
- +--------+--------+----------------+-----------....---------------+
-   |version |reserved| packet length  |             TPDU             |
-   +----------------------------------------------....---------------+
-   <8 bits> <8 bits> <   16 bits    > <       variable length       >
+***** tpkt header format
+   |---------+----------+---------------+------|
+   | version | reserved | packet length | TPDU |
+   |---------+----------+---------------+------|
+   <8 bits>   <8 bits>   <  16 bits    > < variable length >
 but there is a limitation, length is 16 bits, maximum is 65535, what if one upper layer message
 if large than that?
 So for tcp it is not the best protocol for messages(which has a bundaries) transport, sctp is a better choice.
 
-** sctp support for the message transfer
+***** sctp support for the message transfer
 sctp support two bunddled messages, but each one has their individual chunk headers
 
 
-tcp offload engine
+** tcp offload engine
 TCP offload engine or TOE is a technology used in network interface cards (NIC) to offload processing of the entire TCP/IP stack to the network controller. 
 ==============
 > # ethtool -k eth0
@@ -380,10 +277,10 @@ TCP offload engine or TOE is a technology used in network interface cards (NIC) 
 > No packets over size of mtu anymore, either.
 > 
 > State       Recv-Q Send-Q               Local Address:Port                 Peer Address:Port
-> ESTAB      0      122334        80.223.84.180:57694        74.54.226.166:80     timer:(on,4.475ms,0) uid:518 ino:4546485 sk:2ea3ac80ffff8800
+> ESTAB      0       122334               80.223.84.180:57694                74.54.226.166:80     timer:(on,4.475ms,0) uid:518 ino:4546485 sk:2ea3ac80ffff8800
 
 
-set MUT size with ifconfig command
+set MTU size with ifconfig command
 ifconfig eth0 mtu 1024 up
 in redhat
 vim /etc/sysconfig/network-scripts/ifcfg-eth0
@@ -391,7 +288,8 @@ MTU-="9000"
 # service network restart
 
 why tcp pakcet length captured in wireshark is larger than MTU
-Ths MSS is what the TCP stack will use to segment data before it is being send out the network interface. However, libpcap captures the packets between the TCP stack and the NIC driver. In modern NICs, some functions of the TCP/IP stack can be offloaded to the NIC, saving CPU cycles on the system. One of the offloaded features is TCP segmentation.
+The MSS is what the TCP stack will use to segment data before it is being send out the network interface. However, libpcap captures the packets between the TCP stack and the
+NIC driver. In modern NICs, some functions of the TCP/IP stack can be offloaded to the NIC, saving CPU cycles on the system. One of the offloaded features is TCP segmentation.
 
 So you see the large segment being sent to the NIC and the NIC will segment it into packets that will fit the MTU of the network.
 
@@ -412,7 +310,7 @@ scatter-gather: on
 tcp segmentation offload: off
 ---------------------
 ===================
-tcp parameter
+*** tcp parameter
 $ /proc/sys/net/core/netdev_max_backlog
 进入包的最大设备队列.默认是300,对重负载服务器而言,该值太低,可调整到1000.
 $ /proc/sys/net/core/somaxconn
@@ -458,7 +356,7 @@ net.ipv4.tcp_max_tw_buckets = 5000
 
 =======================
 -------------------------
-tcp buffer
+*** tcp buffer
 Optimizing Linux network TCP/IP kernel parameters
 
 $ /proc/sys/net/ipv4/tcp_wmem   min    default    max
@@ -595,9 +493,7 @@ so there are 1481 bytes, it be devided into two fragments
 
 
 
-
-
-tcp packet reassemble
+*** tcp packet reassemble
 (1).tcp protocol itself will devide the messages in send buffer
 for example
 [guolili@cougar test]$ nc  10.121.122.12 4444 <out.dat
@@ -619,11 +515,55 @@ field to reassemble tcp streams into a complete packet.
 ip packet will be reassembled by ip header lenghth field(16bit)
 In wiresharklog, you will get the whole ip packet which has been reassembled by wireshark
 
-udp packet reassemble
+*** udp packet reassemble
 udp won't be fragmented in udp layer, but udp will reassemlbe the ip fragment into one udp packet by the 
 length fields in udp layer
 it will be framgmented in ip layer for MTU limits
 
 
 
+
+** example of tcp transmission
+[root@TeamCI-136 glili]# /usr/sbin/tcpdump -i lo |tee p.cap
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on lo, link-type EN10MB (Ethernet), capture size 96 bytes
+11:45:08.912572 IP localhost.localdomain.53623 > localhost.localdomain.7788: S 3524904661:3524904661(0) win 32792 <mss 16396,sackOK,timestamp 1202389692 0,nop,wscale 7>
+//SYN, sequencenumber:sequencenumber, jwscale 7 means window scale will multiple 2**7=128 in the Pack packet, mss is MTU vaule
+// win is advertised window
+11:45:08.912801 IP localhost.localdomain.7788 > localhost.localdomain.53623: S 945307363:945307363(0) ack 3524904662 win 32768 <mss 16396,sackOK,timestamp 1202389692 1202389692,nop,wscale 7>
+11:45:08.912824 IP localhost.localdomain.53623 > localhost.localdomain.7788: . ack 1 win 257 <nop,nop,timestamp 1202389692 1202389692>
+//win 257 means 257*128=32896, this is similar to 32792 first win size. this win is th current receive window of host
+
+
+11:45:08.912744 IP localhost.localdomain.53623 > localhost.localdomain.7788: P 1:8193(8192) ack 1 win 257 <nop,nop,timestamp 1202389692 1202389692>
+11:45:08.912755 IP localhost.localdomain.7788 > localhost.localdomain.53623: . ack 8193 win 386 <nop,nop,timestamp 1202389692 1202389692>
+//ack number of received sequence number, and current window size, if there are two same ack number message with different win number
+//that's a window size update message(Tcp window update) message,
+11:45:08.912765 IP localhost.localdomain.53623 > localhost.localdomain.7788: P 8193:16385(8192) ack 1 win 257 <nop,nop,timestamp 1202389692 1202389692>
+11:45:08.912771 IP localhost.localdomain.7788 > localhost.localdomain.53623: . ack 16385 win 386 <nop,nop,timestamp 1202389692 1202389692>
+11:45:08.912786 IP localhost.localdomain.53623 > localhost.localdomain.7788: P 16385:24577(8192) ack 1 win 257 <nop,nop,timestamp 1202389693 1202389692>
+11:45:08.912791 IP localhost.localdomain.7788 > localhost.localdomain.53623: . ack 24577 win 363 <nop,nop,timestamp 1202389693 1202389693>
+11:45:08.912800 IP localhost.localdomain.53623 > localhost.localdomain.7788: P 24577:32769(8192) ack 1 win 257 <nop,nop,timestamp 1202389693 1202389693>
+11:45:08.912822 IP localhost.localdomain.53623 > localhost.localdomain.7788: P 32769:49153(16384) ack 1 win 257 <nop,nop,timestamp 1202389693 1202389693>
+//two write() message in one tcp segment since the send window is serverport 7788's receive window when SYN which is 32768, so 16384 is OK here
+11:45:08.912827 IP localhost.localdomain.7788 > localhost.localdomain.53623: . ack 49153 win 264 <nop,nop,timestamp 1202389693 1202389693>
+11:45:08.912836 IP localhost.localdomain.53623 > localhost.localdomain.7788: P 49153:57345(8192) ack 1 win 257 <nop,nop,timestamp 1202389693 1202389693>
+
+==================================
+[admin1@TeamCI-136 sock]$ ./sock -s -i  -v 7788 >/tmp/rere     // -i  "source" data to socket, "sink" data from socket (w/-s)
+//in default, read() 1024 bytes 
+received 1024 bytes
+received 1024 bytes
+received 1024 bytes
+received 1024 bytes
+......
+====================================
+[root@TeamCI-136 sock]# ./sock -v -i -w 8192 127.0.0.1 7788 <file.txt    // -i  "source" data to socket, "sink" data from socket (w/-s)
+// indefault , write() 1024, b ut -w option specify 8192 bytes
+wrote 8192 bytes
+wrote 8192 bytes
+wrote 8192 bytes
+........
+=============================
+From above, we can see tcp packet is very different when in real NIC transmission(in tcpdump) and read, write function not always get teh same boundary but get same order stream.
 

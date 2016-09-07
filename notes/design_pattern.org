@@ -1,3 +1,97 @@
+* UML elaborate
+http://justsee.iteye.com/blog/808799
+
+** 设计模式中继承(Inheritance)和组合（Composition）
+
+Make sure inheritance models the is-a relationship  that inheritance should be used only when a subclass is-a superclass.
+an Apple likely is-a Fruit, so I would be inclined to use inheritance.
+
+An important question to ask yourself when you think you have an is-a relationship is whether that is-a relationship will be constant throughout the lifetime of the application 
+and, with luck, the lifecycle of the code. For example, you might think that an Employee is-a Person, when really Employee represents a role that a Person plays part of the time.
+What if the person becomes unemployed? What if the person is both an Employee and a Supervisor? Such impermanent is-a relationships should usually be modelled with composition.
+
+*** Inheritance diagram
+|--------|                     |----------|
+|child   | generalization    |\|super     |
+|        |-------------------|/|          |
+---------|                     ------------
+
+
+*** Inheritance VS. Composition  Usage
+Don't use inheritance just to get code reuse
+If all you really want is to reuse code and there is no is-a relationship in sight, use composition.
+Don't use inheritance just to get at polymorphism 
+If all you really want is polymorphism, but there is no natural is-a relationship, use composition with interfaces. 
+
+In the composition approach, the subclass becomes the "front-end class," and the superclass becomes the "back-end class." With inheritance, a subclass automatically 
+inherits an implemenation of any non-private superclass method that it doesn't override. With composition, by contrast, the front-end class must explicitly invoke a 
+corresponding method in the back-end class from its own implementation of the method. This explicit call is sometimes called "forwarding" or "delegating" the method 
+invocation to the back-end object.
+
+** 设计模式中关联，聚合
+关联、聚合(Aggregation)以及组合(Composition)的区别？ 
+
+涉及到UML中的一些概念：关联是表示两个类的一般性联系，比如“学生”和“老师”就是一种关联关系；聚合表示has-a的关系，是一种相对松散的关系，
+聚合类不需要对被聚合类负责，
+*** Aggregation
+如下图所示，用空的菱形表示聚合关系： 
+|--------|           |----------|
+|Battery |/ has    /\|SmartPhone|
+|        |---------\/|          |
+---------|\          ------------
+
+when smartPhone disappear, the Battery is still a Battery
+
+从实现的角度讲，聚合可以表示为: 
+class Battery {...} class SmartPhone { Battery* a; .....} 
+
+*** Composition
+而组合表示contains-a的关系，关联性强于聚合：组合类与被组合类有相同的生命周期，组合类要对被组合类负责，采用实心的菱形表示组合关系： 
+实现的形式是: 
+
+|--------|                |----------|
+|Camera  |/play as  a   /\|SmartPhone|
+|        |-------- -----\/|          |
+---------|\                ------------
+
+class Camera{...} class SmartPhone{ Camera ca; ...} 
+
+** A real example of UML diagram
+                          _____________
+__________                | Room      |
+|Drawable |               |+++++++++++|
+|++++++++++               |-x:int     |
+|+redraw()|/|_____________|-y:int     |
+|+hide()  |\|             |+++++++++++|
+-----------               |+remove()  | 
+                          |
+          ____________1/\ |___________|
+         |             \/           /\
+         |                          \/
+         |                           |1 
+         |                           |
+         |                           |0..*
+     0..*|                          _|_______________
+     _______________                | Structure     |
+     |Furniture     |               |+++++++++++++++|
+     |+++++++++++++++               |-load():boolean|
+     |-height:double|               |               |
+     |-width: double|               |+++++++++++++++|
+     ----------------               |+Load()        | 
+        /\                          -----------------
+       /__\                               /\ 
+        |                                /__\
+        |                                 |
+        |                                 |
+     |----------------|             |-----------------|     
+     |  Couch         |             |      Window     |   
+     |+++++++++++++++ |             +++++++++++++++++++       
+     |-type:String    |             |-opacity:double  |       
+     |-material:String|             |_________________|        
+     |++++++++++++++++|                      
+     |+numSeats():int |                       
+     ------------------                           
+
 * 设计模式之-----状态机
 http://www.codeproject.com/Articles/38962/State-Design-Pattern
 在一个事物对于不同的输入（触发条件）会达到不同的输出（状态）。
@@ -643,7 +737,7 @@ this source code is from java.util.concurrent.ThreadPoolExecutor package
 
 Basic framework is that ThreadPollExecutor manage all the threads in the threadpool, and the thread is started dynamically when a task is add to the workQueue,
 when a task is add to the workQueue, there're less than corePoolSize threads, always start a thread and execute the task in that thread,
-if more that corePollSize threads already exists in the pool, just add the task to the workQueue and waiting for existing threads to execute it when they are available
+if more than corePollSize threads already exists in the pool, just add the task to the workQueue and waiting for existing threads to execute it when they are available
 (thread run function will loop to get Task from the taskQueue when on task is finished) 
 the work thread could exit when too much time left since it didn't get any task.(set a timer ,when timeout, exit the thread execution funtion)
 
