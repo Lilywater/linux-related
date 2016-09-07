@@ -13,6 +13,7 @@ file:cplusplus.org
 file:algrithom.org
 file:assemble_language_deeper.org
 file:linuxnetworkrelated.org
+file:sock_option.org
 file:interview-for-linux.org
 file:linux_dynamic_library_load.org
 file:design_pattern.org
