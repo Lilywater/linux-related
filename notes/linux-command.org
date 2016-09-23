@@ -1312,3 +1312,38 @@ Description :
 　　d和make-directory相同，表示根据包中文件原来的路径建立目录
 
 　　m表示保持文件的更新时间。</note-content></text>
+
+
+* screen
+screen comand will lead you a screen session
+ctrl a d will exit the session in the original shell(detach)
+
+** windows commands:
+ctrl a c will create a new window in this session
+ctrl a n will jump between windows
+ctrl a ctrl w will show the windows list
+ctrl a k will kill the current window
+
+
+*** Put the following lines in your .screenrc:
+-------------------------
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%w"
+--------------------------
+//  %w will show the window list in the status line.
+
+*** regions commands:
+ctrl a S or | will split the region horizontally or vertically
+ctrl a X  will exit the regison
+ctrl a tab will jump between regsions
+
+
+
+** back to original bash
+screen -ls   // check all the sessions in host, for different screen command
+screen -r tty // will resume the detached session
+kill -9 process // will kill the session
+
+
+

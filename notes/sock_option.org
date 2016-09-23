@@ -67,7 +67,7 @@ options: -b n  bind n as client's local port number
 *** SO_REUSEADDR (-A)
 ./sock -b45198 127.0.0.1 6666  //client tcp port binding  to 45198 connected ot server port 6666
 bind() error: Address already in use
-in this case, the client will be in CLOSE_WAIT for client end the connection firsly, by using ctrl+c.  So if you start the client using the same port which it used before, there will be error.
+in this case, the client will be in TIME_WAIT for client end the connection firsly, by using ctrl+c.  So if you start the client using the same port which it used before, there will be error.
 
 SO_REUSEADDR opiton can make the address available if start the server using the 
 sun % sock -v -s  -A 6666

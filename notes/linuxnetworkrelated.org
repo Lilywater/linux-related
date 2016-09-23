@@ -743,7 +743,7 @@ TCP v1.2.11 options:
 
 ------
 iptables will block some request from the client, and the client will prompt
-"No route to host", this is not true, we can use tcpdump to get all the packets in both side,
+
 and we can get a icmp from server to client say: host 10.121.122.79 unreachable - admin prohibited
 That's because in server side: 
 iptables --list
@@ -1475,6 +1475,10 @@ ssh -R 23333:10.121.122.99:3333  svrusr@10.121.122.99  |
 =================================================================================
 in this case, the deligated port and actual port are in the same host, but it routed around the client host
 
+* ssh tunnel worked as a sock5 proxy
+[user@ubuntu:~$ ssh -D 7788 user@vps
+[user@ubuntu:~$ curl --socks5 127.0.0.1:7788 216.58.196.68  //client application "curl" should use socks5 format to send
+                                                            //not regular http_proxy
 
 
 * nc(NetCat) : an advanced command 
@@ -1688,3 +1692,168 @@ Rarely used because of its outdated nature, window scanning is fairly untrustwor
 Since SYN scans are not surreptitious enough, firewalls are, in general, scanning for and blocking packets in the form of SYN packets.[3] FIN packets can bypass firewalls without modification. Closed ports reply to a FIN packet with the appropriate RST packet, whereas open ports ignore the packet on hand. This is typical behavior due to the nature of TCP, and is in some ways an inescapable downfall.[7]
 
 
+* IPv6 related issue.
+** IPv6 address
+An IPv6 address consists of 128 bits.[1] Addresses are classified into various types for applications in the major addressing and routing methodologies:
+unicast, multicast, and anycast networking. In each of these, various address formats are recognized by logically dividing the 128 address bits into bit
+groups and establishing rules for associating the values of these bit groups with special addressing features.
+
+16bits:16bits:16bits:.....        7 semicolumn  16bits *8=128 bits
+2001:0D88:AC10:FE01:0000:0000:0000:0000
+zero could be omit using :: to replace them as  2001:0D88:AC10:FE01::
+
+
+*** General unicast address format (routing prefix size varies) 
+bits    48 (or more)    16 (or fewer)   64
+field   routing prefix  subnet id   interface identifier
+
+*** Link-local address format 
+bits       10         54      64
+field   prefix        zeroes  interface-identifier
+value   1111111010 
+hexval    fe80:0000:0000:0000:0000
+The 54 zeroes that follow make the total network prefix the same for all link-local addresses (fe80::/64 link-local address prefix), rendering them non-routable.
+multiple interface can have the same Link-local address in the same host, so when ping link-local address, need to speicify which interface you want to ping
+
+[admin1@TeamCI-136 MME_SGSN_tester]$ /sbin/ifconfig
+eth0      Link encap:Ethernet  HWaddr 44:1E:A1:D3:51:30
+          inet addr:10.255.34.251  Bcast:10.255.35.255  Mask:255.255.254.0
+          inet6 addr: fec0:6174:652d:3132::177/64 Scope:Site
+          inet6 addr: fe80::461e:a1ff:fed3:5130/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:714427574 errors:0 dropped:0 overruns:0 frame:15977
+          TX packets:409978595 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:2621380323 (2.4 GiB)  TX bytes:2684161763 (2.4 GiB)
+          Interrupt:177 Memory:fabf0000-fac00000
+
+eth0.549  Link encap:Ethernet  HWaddr 44:1E:A1:D3:51:30
+          inet addr:10.102.43.203  Bcast:10.102.43.255  Mask:255.255.255.128
+          inet6 addr: fe80::461e:a1ff:fed3:5130/64 Scope:Link
+
+
+
+ping6 -I eth0 fe80::461e:a1ff:fed3:5130
+
+
+*** Multicast address format
+
+        bits    8       4       4   112
+        field   prefix  flg     sc  group ID
+                ff
+        The prefix holds the binary value 11111111 for any multicast address
+
+** configure ip address
+# /sbin/ip -6 route show [dev <device>]
+
+# /sbin/ip -6 route show dev eth0
+2001:0db8:0:f101::/64 proto kernel metric 256 mtu 1500 advmss 1440
+fe80::/10             proto kernel metric 256 mtu 1500 advmss 1440
+ff00::/8              proto kernel metric 256 mtu 1500 advmss 1440
+default               proto kernel metric 256 mtu 1500 advmss 1440
+
+
+# /sbin/route -A inet6 |grep -w "eth0"
+2001:0db8:0:f101 ::/64 :: UA  256 0 0 eth0 <- Interface route for global
+Â¬ address
+fe80::/10        ::       UA  256 0 0 eth0 <- Interface route for link-local
+Â¬ address
+ff00::/8         ::       UA  256 0 0 eth0 <- Interface route for all multicast
+Â¬ addresses
+::/0             ::       UDA 256 0 0 eth0 <- Automatic default route
+
+
+#ip6tables -L
+
+
+* using proxy
+there are two kinds of proxy socks4/5 http/https
+socks transparent deliver all tcp data in between client and the real server, while http proxy will handle http layer also.
+for example, if use http_proxy, the browser will add a host:webserverip field in the http message for http_proxy server to use.
+but both proxy servers need the client suppport this kind of proxy service, since the client need to send socks5 format packet to socks proxy server
+or send proxy suppported http packet to http proxy server.
+this means we need a proxy server, and the client which support the proxy also
+
+** socks5 proxy server
+scenario:
+in hostC, there's an nc server running  nc -l 6754  
+hostA want to connect to hostC 's 6754 port service, using nc hostC 6754 command in hostA 
+but A can't route to C while A can route to B using "ssh to hostB", and B can route to C using "nc hostC 6754".
+
+
+*** sshd worked as a socks5 server
+ -D [bind_address:]port
+             Specifies a local “dynamic” application-level port forwarding. sshd application prog worked to parse socks4/5 packet.
+             This works by allocating a socket to listen to port on the local side, optionally bound to the specified bind_address.  Whenever a
+             connection is made to this port, the connection is forwarded over the secure channel, and in proxy server  
+
+hostB has a sshd service running
+user in hostA can ssh to hostB using hostBuser  ssh hostBuser@hostB
+
+user@hostA$ ssh -D 7777 ssh hostBuser@hostB   // hostA listning on port 7777, once there's a packet coming to 7777, it will be forwarded
+                                             //(without any modification only transparent pass) to hostB through this ssh channel
+hostA$ nc -X 5 -x 127.0.0.1:7777 hostC 6754  // in tcp initilization, nc will add hostC and 6754 in the socks5 packet
+              
+in hostB, when hostB receive this packet, it will parse the socks5 packet and send the packet to the real destination hostC:6754 
+hostB$nc  hostC 6754 
+----------------------------------------------------------------------------------------------------------------------
+hostA                                              hostB                                                   hostC
+                                                                                                          nc -l 6754
+ssh -D 7777 ssh hostBuser@hostB
+listen port 7777                <---------------->  ssh tunnel to port 22           
+nc -X 5 -x 127.0.0.1:7777 hostC 6754  
+socks5 on tcp paket to local:7777 port then ------> ssh tunnel to 22
+                                                    decode socks5 packet and connect to hostC:6754
+                                                    send real data packet to hostC:6754     
+===================================================================================================================
+
+this is very similar to ssh tunnel as below:
+in hostC, there's an nc server running  nc -l 6754  
+hostA want to connect to hostC 's 6754 port service, using nc hostC 6754 command in hostA 
+but A can't route to C while B can route to C using "ssh to hostC", A can nc hostB's port,
+if nc packet not encrypted itself, it's risky from hostA to hostB  
+pure port-forwarding not doctor any packets in proxy-server or client side
+----------------------------------------------------------------------------------------------------------------------
+hostA                                              hostB                                                   hostC
+                                                                                                          nc -l 6754
+                                                  ssh -L hostB:7778:hostC:6754 hostCuser@hostC
+                                                    listen port 7778                      <----------->  ssh tunnel to port 22           
+nc  hostB:7778   
+nc's own packet trasparent pass to  ------------>  hostB:7778                         then ------------>   ssh tunnel to 22
+                                                                                                           pass the packet to port 6754
+===================================================================================================================
+
+
+** client  support proxy
+all the client packets(has been formatted as socks5 or http[host field]) will pass through that proxy 
+*** curl
+curl --proxy proxyserverip:proxyserverport websiteurl  // this is using http proxy send http proxy supported packet generated by curl
+curl --socks5 proxyserverip:proxyserverport websiteurl  // this is using socks5 proxy send socks5 packet generated by curl
+
+*** netcat
+netcat tool also use -X to specify using which kind of proxyserver like
+nc -X 5 -x localhost:1080 %host %port    // in host there's a command like $nc -l %port
+                                         // all packets from client nc to host:port will pass through localhost:1080(which is also a forwarding port for the real proxy server)
+
+*** ssh client using proxy
+when ssh to a host the route is not working, using a proxy to relay it:
+**** configuration file
+So now that you have a SOCKS proxy running on localhost:1080, you can tell OpenSSH to use that tunnel for all SSH requests destined for a specific hostname. We will do this using netcat (nc).
+Add this to your ~/.ssh/config:
+Host git.corp.example.com
+  ProxyCommand=nc -X 5 -x localhost:1080 %h %p
+As you can see here, when we do ssh git.corp.example.com, OpenSSH will actually proxy the network stream through localhost:1080 using netcat.
+
+**** command of ssh using porxycommand option 
+ 7777 is a socks5 proxy server port in localhost
+user@ubuntu:~$ ssh -o ProxyCommand='nc -X 5 -x 127.0.0.1:7777 216.158.239.69 22'  root@216.158.239.69
+ssh has no function of generated socks5 packet, it is using nc's -X 5 function to do that, all ssh stream will be forwarded by netcat command
+
+scenario: if there's a client don't have any proxy client function, we could forward it to a socks5 proxy(not http proxy),
+using curl without any proxy option to simulate this situation, curl want to access a ssh server addr 216.158.239.69:22 
+using nc pipe to get all client's stream like this:
+user@ubuntu:~$ nc -l 5555 <myp | nc -X 5 -x 127.0.0.1:7777 216.158.239.69 22 > myp   // anything to 5555 will be forward to 216.158.239.69 22
+ user@ubuntu:~$ ssh root@127.0.0.1 -p 5555            // root is a user of 216.158.239.69  
+
+another scenario is ssh port forwarding, through 203 via ssh
+ ssh -NL 1234:216.158.239.69:8388 -o ProxyCommand='ssh admin1@10.102.43.203 -W 216.158.239.69:22'   root@216.158.239.69

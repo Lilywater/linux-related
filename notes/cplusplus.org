@@ -70,6 +70,7 @@ optimize for size.
 堆栈处理是函数调用的基本过程，实际上，函数里的所有变量（除去静态变量）都是在堆栈上分配的，
 包括临时的参数和返回值。
 堆内存是malloc，new，delet，free操作的相应内存。
+
 *** c/c++  program layout when executing in memory
 high address    - ---------------------------
                 | command-line arguments   |
