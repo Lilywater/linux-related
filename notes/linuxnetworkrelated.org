@@ -517,11 +517,142 @@ smbd       7271    root   23u  IPv4 172556       TCP 10.121.122.178:microsoft-ds
 sshd       7311    root    3r  IPv4 173006       TCP 10.121.122.178:ssh->10.121.122.44:2412 (ESTABLISHED)
 
 ** iptables
+On a high-level iptables might contain multiple tables. Tables might contain multiple chains. Chains can be built-in or user-defined. Chains might contain multiple rules. 
+Rules are defined for the packets.
+So, the structure is: iptables -> Tables -> Chains -> Rules. This is defined in the following diagram.
+TABLE1
+Chain1
+   rule 1
+   rule 2
+Chain2
+   rule 1
+   rule 2
+Fig: IPTables Table, Chain, and Rule Structure
+Just to re-iterate, tables are bunch of chains, and chains are bunch of firewall rules.
+
+*** IPTables Tables
+iptables -L -v -n will list the filter table indefault, in you want to list nat table
+using iptables -L -t nat -v -n 
+IPTables has the following 4 built-in tables.
+**** 1. Filter Table
+Filter is default table for iptables. So, if you don’t define you own table, you’ll be using filter table. Iptables’s filter table has the following built-in chains.
+    INPUT chain – Incoming to firewall. For packets coming to the local server.
+    OUTPUT chain – Outgoing from firewall. For packets generated locally and going out of the local server.
+    FORWARD chain – Packet for another NIC on the local server. For packets routed through the local server.
+
+**** 2. NAT table
+Iptable’s NAT table has the following built-in chains.
+
+    PREROUTING chain – Alters packets before routing. i.e Packet translation happens immediately after the packet comes to the system (and before routing). This helps to translate the destination ip address of the packets to something that matches the routing on the local server. This is used for DNAT (destination NAT).
+    POSTROUTING chain – Alters packets after routing. i.e Packet translation happens when the packets are leaving the system. This helps to translate the source ip address of the packets to something that might match the routing on the desintation server. This is used for SNAT (source NAT).
+    OUTPUT chain – NAT for locally generated packets on the firewall.
+
+**** 3. Mangle table
+Iptables’s Mangle table is for specialized packet alteration. This alters QOS bits in the TCP header. Mangle table has the following built-in chains.
+    PREROUTING chain
+    OUTPUT chain
+    FORWARD chain
+    INPUT chain
+    POSTROUTING chain
+
+**** 4. Raw table
+Iptable’s Raw table is for configuration excemptions. Raw table has the following built-in chains.
+
+    PREROUTING chain
+    OUTPUT chain
+
+*** IPTABLES CHAINS
+one table contain multiple chains.
+you can create/delete your own chians 
+iptables -t nat -N REDSOCKS //create a new chain "REDSOCKS"  in table nat
+iptables -t nat -F REDSOCKS //flush all the rules in chain  "REDSOCKS"  in table nat
+iptables -t nat -X REDSOCKS //delete  chain  "REDSOCKS"  in table nat
+
+
+*** IPTABLES RULES
+Following are the key points to remember for the iptables rules.
+    Rules contain a criteria and a target.
+    If the criteria is matched, it goes to the rules specified in the target (or) executes the special values mentioned in the target.
+    If the criteria is not matched, it moves on to the next rule.// the order of rules is important here
+
+**** adding rules to a chain in a table
+iptables -t nat -A REDSOCKS -p tcp -d <dstipaddr> -s <srcipaddr> --dstport <dstp> --srcport <srcp>
+
+**** deleting rules to a chain in a table
+iptables -t nat -D REDSOCKS -p tcp -d <dstipaddr> -s <srcipaddr> --dstport <dstp> --srcport <srcp>
+
+iptables -t nat -D REDSOCKS <rule num in the list> 
+
+**** listing rules in a table 
+# iptables -t filter/mangle/nat/raw --list (no -t option, means filter table)
+
+The following iptable example shows that there are some rules defined in the input, forward, and output chain of the filter table.
+# iptables -t filter --list (or) # iptables --list
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination
+1    RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination
+1    RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination
+
+Chain RH-Firewall-1-INPUT (2 references)
+num  target     prot opt source               destination
+1    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0
+2    ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           icmp type 255
+5    ACCEPT     udp  --  0.0.0.0/0            224.0.0.251         udp dpt:5353
+6    ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0           udp dpt:631
+7    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:631
+8    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED
+9    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22
+10   REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited
+
+The rules in the iptables –list command output contains the following fields:
+
+    num – Rule number within the particular chain
+    target – Special target variable that we discussed abelow
+    prot – Protocols. tcp, udp, icmp, etc.,
+    opt – Special options for that specific rule.
+    source – Source ip-address of the packet
+    destination – Destination ip-address for the packet
+
+***** Target Values
+Following are the possible special values that you can specify in the target.
+    ACCEPT – Firewall will accept the packet.
+    DROP – Firewall will drop the packet.
+    QUEUE – Firewall will pass the packet to the userspace.
+    RETURN – Firewall will stop executing the next set of rules in the current chain for this packet. The control will be returned to the calling chain.
+    REDIRECT - redirect all the packets to a specified port
+eg. iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 31338 //redirect all tcp packets to port 31338
+    <ChainName>  - the target could be a chain name also, all the packets will run through the rules in that chain
+eg. iptables -t nat -A OUTPUT -p tcp -m owner --uid-owner linuxaria -j REDSOCKS //tcp packet owner is linuxaria will be chekced by rules in Chain "REDSOCKS"
+
+***** rules in order
+    If the criteria is matched, it goes to the rules specified in the target (or) executes the special values mentioned in the target.
+    If the criteria is not matched, it moves on to the next rule.// the order of rules is important here
+
+# Redirect only specified addresses and do not try redirect other traffic. (whitelist option)
+$IPTABLES -t nat -A REDSOCKS_FILTER -m iprange --dst-range 192.168.0.10-192.168.0.30 -j REDSOCKS
+$IPTABLES -t nat -A REDSOCKS_FILTER -d 126.0.0.0/8 -j REDSOCKS
+$IPTABLES -t nat -A REDSOCKS_FILTER -j RETURN
+//this run first rule, then second rule(if criteria meet, go to rules(ordered) in REDSOCKS, then last rule will be ignored
+//if creiteria not meeting for the first two rules, then run last rule, will return, do nothing specail for whitelist
+
+## Do not redirect LAN traffic and some other reserved addresses. (blacklist option)
+#$IPTABLES -t nat -A REDSOCKS_FILTER -d 240.0.0.0/4 -j RETURN
+#$IPTABLES -t nat -A REDSOCKS_FILTER -j REDSOCKS
+
+### Above whitelist and blacklist cannot operate together.
+
+*** actual operation
 /etc/init.d/iptables status
 when some network problem, check if the firewall block the packet
 =============
-iptables --flush  //flush iptable, it will be empty 
-iptables --list   //list ip table
+iptables --flush -F //flush iptable, it will be empty 
+iptables --list  -L  //list ip table
 
 
 Block Incoming Request From IP 1.2.3.4
@@ -751,9 +882,11 @@ REJECT     all  --  anywhere             anywhere            reject-with icmp-ho
 So we need to do other investigate when in the same host, server is ready, but other host not.
 that's not the server service configuration issue.
 That's a firewall issue
-
 -----------
-*How to kill a tcp connection
+
+
+
+* How to kill a tcp connection
 netstat -pa|grep 60401
 ----------
 tcp 0 0  10.121.122.152:60401      *:*                    LISTEN        25282/MMETesterFlex
@@ -1857,3 +1990,309 @@ user@ubuntu:~$ nc -l 5555 <myp | nc -X 5 -x 127.0.0.1:7777 216.158.239.69 22 > m
 
 another scenario is ssh port forwarding, through 203 via ssh
  ssh -NL 1234:216.158.239.69:8388 -o ProxyCommand='ssh admin1@10.102.43.203 -W 216.158.239.69:22'   root@216.158.239.69
+
+*** tsocks for client not support any proxy 
+if you have application which not support any kind of proxy, you can use tsocks for it.
+tsocks will convert you application packet into a socks5 packet then forward it to the socks5 proxy server
+**** Usage of tsocks
+***** configuration tsocks
+user@ubuntu:$ cat /etc/tsocks.conf
+server = 127.0.0.1    // proxy server
+server_port = 1234    // proxy server port 
+
+***** tsocks <application>  
+this mean that your application's all packet will be forwarded to socks5 proxy server
+
+
+***** LD_PRELOAD
+setting this env variable will make all application using tsocks to convert the packet and forward to socks5 proxy server
+user@ubuntu:~$ export LD_PRELOAD=/usr/lib/libtsocks.so
+
+*** redsocks for client not support any proxy
+redsocks worked  as a transparently proxy(suppport socks4/5, http(s)) the packet in your computer.
+the basic principle is that all packet in iptables chain rule will be forwarded to the redsocks's local port. So redsock will convert
+those packets into socks/http(s) packet and send to the real proxy server without the client knowing it's using proxy.
+
+**** Usage of redsocks
+***** redsocks configuration as follow:
+redsocks.conf
+==========================
+base {
+        log_debug = on;
+        log_info = on;
+        log = "file:/home/user/redsocks/runconf/redsocks.log";
+        daemon = on;
+        redirector = iptables;
+}
+redsocks {
+        local_ip = 127.0.0.1;
+        local_port = 13344;
+        ip = 10.102.1.10; // socks5 proxy server ip and port
+        port = 1080;
+        type = socks5;
+}
+
+redsocks {
+ local_ip = 127.0.0.1;
+ local_port = 5124;  // listening port for raw packet 
+ ip = 10.144.1.10;   // real https proxy server ip and port
+ port = 1080;
+ login = "user";      // real https porxy server's login user and password
+ password = "password";
+ type = http-connect; // known types: socks4, socks5, http-connect(https), http-relay(http)
+}
+
+
+redsocks {
+        local_ip = 127.0.0.1;
+        local_port = 5123;
+        ip = 10.144.1.10;     //real http proxy server
+        port = 1080;
+        type = http-relay;  // http proxy
+}
+=====================================
+//as you can see http and https proxy is the same ip and port, but for redsocks listening port, it should be different so that redsocks only convert that kind of 
+//protocol packet
+
+***** iptables configuration
+iptables -t nat -A OUTPUT  -p tcp -m tcp --dport 80 -j DNAT --to-destination 127.0.0.1:5123 // for http://www.
+iptables -t nat -A OUTPUT  -p tcp -m tcp --dport 443 -j DNAT --to-destination 127.0.0.1:5124 // for https://www.
+iptables -t nat -A REDSOCKS -p tcp -d ipaddr  -j REDIRECT  --to-ports 13344 //redirect all destinated to <ipaddr> tcp packets to port 13344, then covert to socks5 packet
+
+***** start/stop red socks
+redsocks -c redsocks.conf
+
+killall redsocks 
+rstore iptables configuration
+
+**** packets analysis for redsocks
+***** socks5 protocol singnalling procedure
+
+socks5cli                                                                       socks5server
+                                         | VER | NMETHODS | METHODS  |
+                                         |-----+----------+----------|
+                                         | 1   | 1        | 1 to 255 |
+               --------------------- -------------+----------+----------------->
+                The VER field is set to X'05' for this version of the protocol.  The
+                NMETHODS field contains the number of method identifier octets that
+                appear in the METHODS field.
+                       o  X'00' NO AUTHENTICATION REQUIRED
+                       o  X'01' GSSAPI
+                       o  X'02' USERNAME/PASSWORD
+                       o  X'03' to X'7F' IANA ASSIGNED
+                       o  X'80' to X'FE' RESERVED FOR PRIVATE METHODS
+                       o  X'FF' NO ACCEPTABLE METHODS
+              
+             
+                                      +----+--------+
+                                      |VER | METHOD |
+                                      +----+--------+
+                                      | 1  |   1    |
+                                      +----+--------+
+             
+               <--------------------- -------------+----------+-----------------
+                The server selects from one of the methods given in METHODS, and
+                sends a METHOD selection message:
+             
+            
+                The SOCKS request is formed as follows:
+                
+                        +----+-----+-------+------+----------+----------+
+                        |VER | CMD |  RSV  | ATYP | DST.ADDR | DST.PORT |
+                        +----+-----+-------+------+----------+----------+
+                        | 1  |  1  | X'00' |  1   | Variable |    2     |
+               --------------------- -------------+----------+----------------->
+                          o  CMD
+                             o  CONNECT X'01'
+                             o  BIND X'02'
+                             o  UDP ASSOCIATE X'03'
+                          o  ATYP   address type of following address
+                             o  IP V4 address: X'01'
+                          o  DST.ADDR       desired destination address
+                          o  DST.PORT desired destination port in network octet order
+
+
+                                 | VER | REP | RSV   | ATYP | BND.ADDR | BND.PORT |
+                                 |-----+-----+-------+------+----------+----------|
+                                 | 1   | 1   | X'00' | 1    | Variable | 2        |
+                    <----+-----+----------------------+------+----------+----------+
+                                                              server binding addr:port 
+                        o  REP    Reply field:
+                           o  X'00' succeeded
+                           o  X'01' general SOCKS server failure
+             
+***** socks5 tcp association proxy singalling
+when proxy client get a raw tcp packet, it will start a tcp connection using port <cliport> to slocal:13344
+
+proxy cli                                sslocal                         ssserver                               required tcpip/port
+          050100 [socks5, no authentication required]
+ <cliport>------------------------------>13344
+          0500  [socks5, no authentication required]
+ <cliport><------------------------------13344
+          050100... [socks5,connect,requiredtcpip,port]            
+ <cliport>------------------------------>13344   
+                         try to estalblish tcp connection to requiredtcpip/port from sserver
+                                                  ---------------------------->
+                                                                                                   SYN, SYN/ACK,ACK            
+                                                                          <tmpport2> <------------------------------------>
+                                                         succ
+                                                  <----------------------------
+                                          if this tcp connection successful, then send to socks5 cli
+                                           
+          0500... [socks5,successful, ]
+ <cliport><------------------------------13344
+all same requiredtcpip/port raw tcp packet will be relayed in this tcp connection to ssserver then to required tcpip/port
+           all encrypted data in the tcp connection
+<cliport> <------------------------------>13344
+           only real tcp content was in tcpdata, since it will filter the source addr to the real required tcpip/port
+
+***** socks5 udp association proxy singalling
+when proxy client get a raw udp packet with real udpcontent, it will start a tcp connection using port <cliport> to slocal:13344
+proxy cli                                 sslocal                                       sserver                    udpserver                                           
+          050100 [socks5, no authentication required]
+ <cliport>------------------------------>13344<tcp port>
+          0500  [socks5, no authentication required]
+ <cliport><------------------------------13344<tcp port>
+          050300... [socks5,udpassociate]            
+ <cliport>------------------------------>13344<tcp port>   
+          0500... [socks5,successful,bindudpip,port] 127.0.0.1:13344
+ <cliport><------------------------------13344<tcp port>
+
+proxy cli relay raw udp packet to udp addr
+                                           
+        udpdata: ipaddr,port,udprealcontent 
+ <cliport><------------------------------13344<udp port> [127.0.0.1:13344]
+                                                      encrypted udpdata in udp packet to sserver             
+                                         <tmpudpport> -----------------------------------> 
+                                                                                        when decrypte udpdata get real ip/port and real conetent
+                                                                                          real udp content to actual addr
+                                                                                         ----------------------------->udpport 
+***** packets through socks5 proxy
+ curl http://www.163.com // without any curl proxy env configuration
+this 80 destination port packet will be forwarded to port 13344344344,
+  curl            SYN                   redsocks
+ <cliport>------------------------------>13344
+           tcp connection established               
+ <cliport>------------------------------>13344
+           a http request<cliport,80> 
+ <cliport>------------------------------>13344
+                                          start another tcp connection
+                                         <tmpport>-------------------------->10.144.1.10:1080
+                                          convert httpreq<cliport,80> to socket5 packet<tmpport,80>
+                                          tmpport <-------------------------------
+                                          convert socket5 packet<1080,tmport> to raw httpresp<80,cliport>
+                                         <tmpport><-------------------------------
+               httpresp<1080,tmport>
+ <cliport> <----------------------------
+ 
+
+
+***** packets through http proxy
+ curl http://www.163.com // without any curl proxy env configuration
+this 80 destination port packet will be forwarded to port 5123,
+  curl            SYN                   redsocks
+ <cliport>------------------------------>5123
+           tcp connection established               
+ <cliport>------------------------------>5123
+           a http request<cliport,80> 
+ <cliport>------------------------------>5123
+                                          start another tcp connection
+                                         <tmpport>-------------------------->10.144.1.10:1080
+                                          convert httpreq<cliport,80> to httpreq<tmpport,80>
+                                          tmpport <-------------------------------
+                                          convert httpresp<1080,tmport> to raw httpresp<80,cliport>
+                                         <tmpport><-------------------------------
+               httpresp<1080,tmport>
+ <cliport> <----------------------------
+ 
+***** packets through https proxy
+ curl http://www.163.com // without any curl proxy env configuration
+this 80 destination port packet will be forwarded to port 5123,
+  curl            SYN                   redsocks
+ <cliport>------------------------------>5123
+           tcp connection established               
+ <cliport>------------------------------>5123
+           a http request<cliport,80> 
+ <cliport>------------------------------>5123
+                                                   start another tcp connection
+                                         <tmpport>-------------------------->10.144.1.10:1080
+                                                   http connect to https server to authenticate process.....
+                                          tmpport <--------------------------------------------------------
+                                                   unecypted the https packets
+                                         <tmpport><------------------------------->
+               httpresp<1080,tmport>
+ <cliport> <----------------------------
+ 
+                                           
+**** udp proxy of redsocks client and shadowsocks server
+***** socks5 proxy server support udp package
+only shadow socks support udp and tcp proxy through socks protocol, ssh -D only suppport tcp package on socks protocol.
+
+if there's a shadowsocks server ssserver running at vps
+root      4561  0.0  0.5  51848  5804 pts/2    S+   Sep22   1:25 /usr/bin/python /usr/bin/ssserver -k password -v
+
+root@vps104045:~# netstat -anp |grep python
+tcp        0      0 0.0.0.0:8388            0.0.0.0:*               LISTEN      4561/python
+udp        0      0 0.0.0.0:8388            0.0.0.0:*                           4561/python
+open both tcp and udp ports for socks5 proxy.
+
+
+
+***** shadowsocks client configuration
+connect to shadowsocks server using sslocal
+sslocal -s 10.102.43.203 -l 3344 -k password
+root@vps104045:~# netstat -anp |grep python
+tcp        0      0 0.0.0.0:3344            0.0.0.0:*               LISTEN      python
+udp        0      0 0.0.0.0:3344            0.0.0.0:*                           python
+
+
+[admin1@TeamCI-136 linux-gcc]$ nc -l 9999 </tmp/fifo |nc -u 127.0.0.1 3344 >/tmp/fifo
+//first start the server on 9999
+user@ubuntu:~$ nc -u  -l 1555 </tmp/fifo |  nc  10.102.43.203 9999 >/tmp/fifo
+
+
+*****  redsocks configuration
+redudp {
+        local_ip = 127.0.0.1;
+        local_port = 13346;
+
+        ip = 127.0.0.1;
+        port = 3344;
+        dest_ip = 216.158.239.69;
+        dest_port = 1234;
+
+        udp_timeout = 30;
+        udp_timeout_stream = 180;
+}
+
+***** iptabls configuration
+iptables -t nat -A OUTPUT -p udp --dport 1234  -j REDIRECT  --to-ports 13346 //redirect all destinated to <udpport> udp packets to port 13346
+
+
+***** udp packets through socks5 proxy
+user@ubuntu:~/redsocks/runconf$ nc -u 216.158.239.69 1234
+this 80 destination port packet will be forwarded to port 13344344344,
+  nc -u           udpackets            redsocks
+ <cliport>------------------------------>13344  { by iptables configuration}
+                                                pack raw udp into socks5  to sslocal port
+                                         <tmpport>-------------------------->127.0.0.1:3344
+                                                                      convert socket5 packet<1080,tmport> to raw httpresp<80,cliport>
+                                                                              <tmpport><-------------------------------
+               httpresp<1080,tmport>
+ <cliport> <----------------------------
+ 
+* DNS configuration related
+** dnsmasq
+When it receives a SIGUSR1, dnsmasq writes statistics to the system log. It writes the cache size, the number of names which have had to removed from the cache before they expired in order to make room for new names and the total number of names that have been inserted into the cache. For each upstream server it gives the number of queries sent, and the number which resulted in an error. In --no-daemon mode or when full logging is enabled (-q), a complete dump of the contents of the cache is made.
+
+To test, I sent a kill -s USR1 to the process:
+Jan 21 13:37:57 dnsmasq[29469]: time 1232566677
+Jan 21 13:37:57 dnsmasq[29469]: cache size 150, 0/475 cache insertions re-used unexpired cache entries.
+Jan 21 13:37:57 dnsmasq[29469]: queries forwarded 392, queries answered locally 16
+Jan 21 13:37:57 dnsmasq[29469]: server 208.67.222.222#53: queries sent 206, retried or failed 12
+Jan 21 13:37:57 dnsmasq[29469]: server 208.67.220.220#53: queries sent 210, retried or failed 6
+
+So, it appears -q would have to be passed to the dnsmasq startup to get a cache dump.
+
+logs in file /var/log/syslog
+

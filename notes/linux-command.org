@@ -1342,8 +1342,9 @@ ctrl a tab will jump between regsions
 
 ** back to original bash
 screen -ls   // check all the sessions in host, for different screen command
+screen -wipe // flush dead screen
 screen -r tty // will resume the detached session
 kill -9 process // will kill the session
 
 
-
+e
