@@ -64,10 +64,22 @@ opposite operation of the git add.
     master pushes to master (up to date)
     ns17   pushes to ns17   (local out of date)
 * git branch -r -v 
+this command show the remote origin branch
 git branch -r
+-------------------
   origin/HEAD -> origin/master
   origin/master
   origin/ns17
+------------------
+
+this command show the local branch
+git branch 
+[admin1@TeamCI-136 MME_SGSN_tester]$ git branch
+  master
+  * ns17
+ [admin1@TeamCI-136 MME_SGSN_tester]$ git branch -v
+    master 2d9d43d add support for teid as optional field in  errencoding message.
+    * ns17   a1dbbbe Add support for teid as optinal field in message "EncdingErr" of Gtpv2
 
 
 *** git commit

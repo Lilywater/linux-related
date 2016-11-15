@@ -534,6 +534,7 @@ Just to re-iterate, tables are bunch of chains, and chains are bunch of firewall
 iptables -L -v -n will list the filter table indefault, in you want to list nat table
 using iptables -L -t nat -v -n 
 IPTables has the following 4 built-in tables.
+filter, nat, mangle, raw or security
 **** 1. Filter Table
 Filter is default table for iptables. So, if you don’t define you own table, you’ll be using filter table. Iptables’s filter table has the following built-in chains.
     INPUT chain – Incoming to firewall. For packets coming to the local server.
@@ -646,6 +647,23 @@ $IPTABLES -t nat -A REDSOCKS_FILTER -j RETURN
 #$IPTABLES -t nat -A REDSOCKS_FILTER -j REDSOCKS
 
 ### Above whitelist and blacklist cannot operate together.
+
+*** ipset
+ipset is a "match extension" for iptables. To use it, you create and populate uniquely named "sets", and add the sets in the 
+match specification to iptabels rules.
+
+ Take the following normal iptables commands that would block inbound traffic from 1.1.1.1 and 2.2.2.2:
+ iptables -A INPUT -s 1.1.1.1 -j DROP
+ iptables -A INPUT -s 2.2.2.2 -j DROP
+
+
+ Alternatively, the following ipset/iptables commands achieve the same result:
+ ipset -N myset iphash  // create a "myset"
+ ipset -A myset 1.1.1.1  //add ip in myset
+ ipset -A myset 2.2.2.2
+ iptables -A INPUT -m set --set myset src -j DROP
+
+ The ipset commands above create a new set (myset of type iphash) with two addresses (1.1.1.1 and 2.2.2.2). 
 
 *** actual operation
 /etc/init.d/iptables status
@@ -1245,6 +1263,11 @@ filter host <host>      |port <port>     |  net <net>  [mask <netmask>]
        dst host <host>  |dst port <port> |  dst net <net> 
         src host <host> |src port <port> |  src net <net>
 ....
+
+output to a file and standard output
+tcpdump ... -w - |tee <filename> |tcpdump -r -
+
+
 tcpdump host sun and \(hot or ace \)
 #traffic between sun and hot or ace
 tcpdump ip hist ace and not hellios
@@ -1691,7 +1714,7 @@ shell:
 
 if [ $# != 3 ]
 then
-    echo "usage: $0 <src-port> <dst-host> <dst-port>"
+    echo "usage: $1 <src-port> <dst-host> <dst-port>"
     exit 0
 fi
 
@@ -2295,4 +2318,65 @@ Jan 21 13:37:57 dnsmasq[29469]: server 208.67.220.220#53: queries sent 210, retr
 So, it appears -q would have to be passed to the dnsmasq startup to get a cache dump.
 
 logs in file /var/log/syslog
+
+
+* route table and find out the interface and src adress of a specific ip addr
+** interface configuration
+root@ubuntu:/home/willow/static_web# ifconfig
+docker0   Link encap:Ethernet  HWaddr 02:42:f6:c9:19:2f
+          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:f6ff:fec9:192f/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:30906 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:47787 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1265589 (1.2 MB)  TX bytes:103371346 (103.3 MB)
+
+ens33     Link encap:Ethernet  HWaddr 00:0c:29:b3:3b:06
+          inet addr:192.168.18.140  Bcast:192.168.18.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:feb3:3b06/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:240962 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:123026 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:293309102 (293.3 MB)  TX bytes:41594954 (41.5 MB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:180 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:180 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:14788 (14.7 KB)  TX bytes:14788 (14.7 KB)
+
+** route table configuration 
+root@ubuntu:/home/willow/static_web# route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         192.168.18.2    0.0.0.0         UG    0      0        0 ens33
+172.17.0.0      *               255.255.0.0     U     0      0        0 docker0
+192.168.18.0    *               255.255.255.0   U     0      0        0 ens33
+-----------------------------------------------
+flag G means this will via a Gateway
+
+
+** ip route  get <dstip> 
+find out the interface and src addr for this dstip
+root@ubuntu:/home/willow/static_web# ip route get 213.3.3.54
+213.3.3.54 via 192.168.18.2 dev ens33  src 192.168.18.140
+    cache
+root@ubuntu:/home/willow/static_web# ip route get 192.168.18.3
+192.168.18.3 dev ens33  src 192.168.18.140
+    cache
+root@ubuntu:/home/willow/static_web# ip route get 172.17.0.3
+172.17.0.3 dev docker0  src 172.17.0.1
+    cache
+root@ubuntu:/home/willow/static_web# ip route get 127.0.0.1
+local 127.0.0.1 dev lo  src 127.0.0.1
+    cache <local>
+root@ubuntu:/home/willow/static_web# ip route get 192.168.18.140
+local 192.168.18.140 dev lo  src 192.168.18.140
+    cache <local>
+
 
