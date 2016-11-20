@@ -209,7 +209,7 @@ DESCRIPTION
 
 strlen 和sizeof返回不同，sizeof包括('\0'），但strlen不包括
 
-*** memory
+*** memory/memmove
        void *memcpy(void *dest, const void *src, size_t n);
 
 DESCRIPTION
@@ -218,6 +218,11 @@ DESCRIPTION
 
 RETURN VALUE
        The memcpy() function returns a pointer to dest.
+
+memmove function is similar to memcpy, but memove will allow the src and dst area overlap, and the ]
+copying takes place as though the bytes in src are first copied into a  temporary  array  that
+       does not overlap src or dest, and the bytes are then copied from the temporary array to dest.
+
 
 *** strlen and sizeof
 char cstr[]={'h','e','l','l','o'};
@@ -268,7 +273,6 @@ main()
 *** 字符串拷贝
 已知strcpy的函数原型：char *strcpy(char *strDest, const char *strSrc)其中strDest 是目的字符串，strSrc 是源字符串。不调用C++/C 的字符串库函数，请编写函数 strcpy。 
 
-答案： 
 
 char *strcpy(char *strDest, const char *strSrc) 
 
@@ -339,14 +343,9 @@ if(remain)
   
 ##########内存拷贝的优化版
 *** memcpy是如何优化拷贝的
-2009-06-19 17:57
 本文主要介绍下memcpy()的工作原理，其中采用的优化方法以及思路值得学习。
-
-
 以下为glibc2.5中的memcpy的源码：
-
-void *
-memcpy (dstpp, srcpp, len)
+void * memcpy (dstpp, srcpp, len)
      void *dstpp;
      const void *srcpp;
      size_t len;
@@ -1035,6 +1034,8 @@ int main()
 
 *** extern "C" usage
 **** c call a function from a c++ library
+in c++ file, declare the c function wrapped with extern "C"{}
+
 t.c
 -------------------
 #include "t.h"
@@ -1068,41 +1069,57 @@ int main()
 $gcc -o a.out test.c -L.  -lmyt 
 
 
-**** c++ call a c function from a c library
-t.cpp
+**** c call a c++ function from a c library
+in cpp file, function need to be defined wrapped in extern "C" {},
+in declaration header file, _cplusplus used to use extern "C"{} or not.
+in c file, call the function as normal
+
+t.cpp  // extern C for function definition in c++ file
 --------------------
 #include "t.h"
+extern "C"
+{
 int foo(int a, int b)
 {
    return a+b;
 }
+}
 ---------------
-t.h
+t.h //this is common head for both c and c++ file, when in c++, __cplusplus 
+//macro was defined. while in c, __cplusplus macro not defined
 -----------------
 #ifndef T
 #define T
+
+#ifdef __cplusplus
 extern "C"
 {
-   int foo(int a, int b);
-}
 #endif
----------------------
-$ g++ -o t.o -c t.cpp
-$ nm t.o|grep foo    // when extern "C" used, the function will comipled as c function way not a c++ function way
-00000000 T _foo
-$ ar cr libmyt.o t.o //libmyt.o generated.
+   int foo(int a, int b);
+   #ifdef __cplusplus
+   }
+   #endif
 
-test.c
+   #endif
+
+
+---------------------
+$g++ -fpic -shared foo.cpp -o libfoo.so
+$ nm libfoo.so|grep foo    // when extern "C" used, the function will comipled as c function way not a c++ function way
+00000000 T _foo
+//$ ar cr libmyt.o t.o //libmyt.o generated.
+
+m.c
 ---------------------------
-//#include "t.h"
+#include "t.h"
 #include <stdio.h>
-extern int foo(int a, int b);
+//extern int foo(int a, int b);
 int main()
 {
    printf( "the result is %d\n", foo(5,7)) ;
 }
 ---------------------------------
-$gcc -o a.out test.c -L. -lmyt 
+$gcc m.c -L. -lfoo -o m.out
 
 
 
