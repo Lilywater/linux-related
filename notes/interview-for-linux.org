@@ -501,6 +501,7 @@ http://www.itwis.com/html/os/linux/20090912/6201.html
 
 linux系统工程师面试题:
 1.查看Linux系统当前单个共享内存段的最大值（命令）
+The ipcs command can be used to obtain the status of all System V IPC objects
 ipcs -m 
 ipcs -a 
 2.用什么命令查询指定IP地址的服务器端口
@@ -648,8 +649,7 @@ sed ‘23s/test/tset/g ’ test.txt
 ** what 's the difference between c++ and c what is the advantace and disav
 ** when cup 100% loaded, how you can get which part in prog take more time
 ** so libary similar but with different version name
-** get data from src to dst without copy, using pointer. who receive it will
-free the memroy which been allocated in sender, 零拷贝
+** get data from src to dst without copy, using pointer. who receive it will free the memroy which been allocated in sender, 零拷贝
 ** when your source code not match the gdb debbuging image, using -O option
 ** two same function in the load library, how you are going to find out
 nm the lib*.so to grep the function name
@@ -685,9 +685,7 @@ assign and cast as follows
 
 alternative_server_init = (int (*)(int, char**, char**))sym;
 
-Call in a similar way than the original. Finally, unload by executing
-
-dlclose(dlhandle);
+Call in a similar way than the original. Finally, unload by executing dlclose(dlhandle);
 
 
 * inter Process/Thread communication

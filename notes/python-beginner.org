@@ -6,7 +6,7 @@ useful handy functions, and it's kind of like C++ has class,
 >>>2+2
 4
 
->>>8//5
+>>>8/5
 1
 >>>hello="this is \n not your fault"
 >>>print(hello)
@@ -55,7 +55,11 @@ this is \n not your fault
 >>> squares+ [36,49]
 [1,4,9,16,25,36,49]
 
-*** chage value of lists
+
+*** Membership
+1 in [1,2,3,4]
+
+*** change value of lists
 >>> letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 >>> letters
 ['a', 'b', 'c', 'd', 'e', 'f', 'g']
@@ -87,8 +91,11 @@ Consider the following example of a 3x4 matrix implemented as a list of 3 lists 
 ... ]
 The following list comprehension will transpose rows and columns:
 
->>>
->>> [[row[i] for row in matrix] for i in range(4)]
+>>>for row in maxtrix:
+    print row;
+
+
+>>> print [[row[i] for row in matrix] for i in range(4)]
 [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
 
 
@@ -260,8 +267,15 @@ When the keys are simple strings, it is sometimes easier to specify pairs using 
 >>> dict(sape=4139, guido=4127, jack=4098)
 {'sape': 4139, 'jack': 4098, 'guido': 4127}
 
+** zip two lists into a list with element of tuple
+>>> b=['a','b','c']
+>>> ziped=zip(a,b)
+>>> print ziped
+[(1, 'a'), (2, 'b'), (3, 'c')]
 
-** looping techni
+
+
+** looping technics
 When looping through a sequence, the position index and corresponding value can be retrieved at the same time using the enumerate() function.
 
 >>>
@@ -501,22 +515,18 @@ search checks for a match anywhere in the string (this is what Perl does by defa
 			matchObj = re.match( r'dogs', line, re.M|re.I)
 			if matchObj:
 			   print "match --> matchObj.group() : ", matchObj.group()
-			   else:
-			      print "No match!!"
+		    else:
+		      print "No match!!"
 
-			      searchObj = re.search( r'dogs', line, re.M|re.I)
-			      if searchObj:
-			         print "search --> searchObj.group() : ", searchObj.group()
-				 else:
-				    print "Nothing found!!"
+      searchObj = re.search( r'dogs', line, re.M|re.I)
+      if searchObj:
+         print "search --> searchObj.group() : ", searchObj.group()
+      else:
+	    print "Nothing found!!"
 
-				    When the above code is executed, it produces the following result:
-
-				    No match!!
-				    search --> matchObj.group() :  dogs
-
-
-
+	  When the above code is executed, it produces the following result:
+	    No match!!
+	    search --> matchObj.group() :  dogs
 
 
 * python unusual usage
@@ -836,3 +846,19 @@ if __name__ == '__main__':
 #################################################
 
 python tes.py -v
+
+
+** compile python code
+*** in the command line
+#python -m py_compile <pfile>.py
+//this command will generate a <pfile>.pyc file , and still ptyong <pfile>.pyc to execute it
+
+*** in the source code
+import py_compile
+py_compile.compile("file.py")
+
+
+** join
+>>> sentence = ['this','is','a','sentence']
+>>> '-'.join(sentence)
+'this-is-a-sentence'

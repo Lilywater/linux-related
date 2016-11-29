@@ -84,13 +84,13 @@ high address    - ---------------------------
                 | _/\ _ |
                 |  |    |
                 | heap  |
-               ___________
-                | .bss(uninitialized data) |to zero by exec 
-                --------------------------
-                |.rdata      initialized   | read from 
-                ----------                 |
-                |.data         data        | prg file
-low address     ---------------------------| 
+               _________________________________________________________
+                | .bss(uninitialized data)      |to zero by exec  | all 
+                --------------------------                        | globally 
+                |.rdata  readonly initialized   | read from       | allocated
+                ----------                      |                 | variables
+                |.data   writablely  data       | prg file        |
+low address     ------------------------------------------------------------ 
                 |.txt       assemble code  | by exec
                  ---------------------------
 
@@ -599,6 +599,7 @@ short      | 2       |   2    |
 
 
 自身对齐值是sizeof和word length（4）中取最小值。比如char：sizeof 为1，wl为4，则char对齐为1.
+in other words, maximum self-alignment value is the cpu word length(4 in 32 bit system).
 int：sizeof为4，wl为4， 则int对齐为4.
 double：sizeof为8，wl为4，则double对齐为4.
 
@@ -813,7 +814,7 @@ struct taglist * netx;
 int AddNode(int value, List * pHead)
 {
 # pHead 为空的情况
-#   如果value小于或等于pHead->value, 则插入一个新值为value的头
+   如果value小于或等于pHead->value, 则插入一个新值为value的头
 #  List *pl = pHead;
    do
   {
@@ -1035,8 +1036,7 @@ int main()
 *** extern "C" usage
 **** c call a function from a c++ library
 in c++ file, declare the c function wrapped with extern "C"{}
-
-t.c
+.c
 -------------------
 #include "t.h"
 int foo(int a, int b)
@@ -1144,10 +1144,10 @@ http://blog.csdn.net/wfwd/archive/2006/05/30/763760.aspx
 
 
 17.面向对象的三个基本特征，并简单叙述之？ 
-1. 封装：将客观事物抽象成类，每个类对自身的数据和方法实行protection(private, protected,public) 
-2. 继承：广义的继承有三种实现形式：实现继承（指使用基类的属性和方法而无需额外编码的能力）、可视继承（子窗体使用父窗体的外观和实现代 码）
+1. 封装(encapsulation)：将客观事物抽象成类，每个类对自身的数据和方法实行protection(private, protected,public) 
+2. 继承(inherance)：广义的继承有三种实现形式：实现继承（指使用基类的属性和方法而无需额外编码的能力）、可视继承（子窗体使用父窗体的外观和实现代 码）
 接口继承（仅使用属性和方法，实现滞后到子类实现）。前两种（类继承）和后一种（对象组合=>接口继承以及纯虚函数）构成了功能复用的两种方式。 
-3. 多态：是将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说，
+3. 多态(polymorphism)：是将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说，
 就是一句话：允许将子类类型的指针赋值给父类类型的指针。 
 
 
@@ -1924,4 +1924,25 @@ public inheritance is a kind of is-a relationhsip.
 the derived class get all the interfaces of the base classes and its implementaion.
 But for private inheritance no such logical is-a relationship, just all the 
 bas class's implementation.
+
+
+** C++ unit test
+test main function:
+TEST(libcache_unit_test)
+ {
+     void * libcache;
+     int retval;
+     GET_COST_USEC(test_preperation_create_cache(&libcache, MAX_CACHE_ENTRY));
+     GET_COST_USEC(retval = libcache_test_basic(libcache, TEST_ROUND));
+     GET_COST_USEC(libcache_clean(libcache));
+     CHECK(retval == TEST_SUCCESS);
+     CHECK(libcache_get_entry_number(libcache) == 0);
+     libcache_test_destroy(libcache);
+  }
+
+ int main()
+ {
+     UnitTest::RunAllTests();
+     return 0;
+ }
 

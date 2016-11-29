@@ -3444,3 +3444,16 @@ The window manager will place a WM_STATE property (of type WM_STATE) on each top
 Some clients (such as xprop) will ask the user to click over a window on which the program is to operate. Typically, the intent is for this to be a top-level window. To find a top-level window, clients should search the window hierarchy beneath the selected location for a window with the WM_STATE property. This search must be recursive in order to cover all window manager reparenting possibilities. If no window with a WM_STATE property is found, it is recommended that programs use a mapped child-of-root window if one is present beneath the selected location. 
 
 
+
+* redirect tricks of dash/hyphen "-"
+some shell command will accept "-" as a parameter, and "-" means stdandard
+out or standard in 
+** standard in
+gzip -dc /cdrom/cdrom0/file.tar.gz | tar xvf –
+// here - means the stardard in that means standard output of gzip command
+
+** standard out
+tcpdump ... -w - |tee <filename> |tcpdump -r -
+this command will make tcpdump output both to standard output and a file.
+the first hypen after -w means the standard output, and it will be as a input of tee command, Normally it's enough, but when tcpdmp -w 's output format
+need to be interpretted by tcpdump -r command 

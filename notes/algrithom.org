@@ -221,11 +221,11 @@ Thus express value could be generated.
 例如：求下面树的三种遍历
  
         a
-      /    \
-     b      c
-    /    \
-   d      f
-    \    /
+      /  \
+     b    c
+    / \
+   d    f
+    \   /
      e  g
  
 
@@ -552,7 +552,7 @@ void level_tree(bintree t){
 08.        if(!search_tree(t->lchild,x)){  
 09.            return search_tree(t->rchild,x);  
 10.        }  
-11.        return t;  
+11.        return t->lchild;  
 12.    }  
 13.}  
  

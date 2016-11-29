@@ -1,6 +1,15 @@
 
 
 * 消息队列的设计与实现(multiple producer, a single consumer)
+it's a prototype of multiple producer and single consumer,
+every task has a message queue, and other tasks could send the messge to the message queue,
+write message invoked by other threads/tasks,
+read message invlode by the owner task of the message queue
+
+a multiple thread prototype muliple producer(need mutex) and synchronization needed between producer and consumer(to ensure producer has some space left or 
+consumer has some message to consume).
+but synchronization must before the mutex lock step.
+
 消息驱动机制是 GUI 系统的基础，消息驱动的底层基础设施之一是消息队列，它是整个 GUI 系统运转中枢，
 环形队列
 环行队列是一种首尾相连的队列数据结构，遵循先进先出原则 
