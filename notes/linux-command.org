@@ -488,38 +488,40 @@ $ tr -dc "[:alnum:][:space:][:punct:]" </tmp/009
 
 # m h dom mon dowcommand
 
-#分 时 日 月 周 执行命令
-
+#分         时     日       月       周  执行命令
+*           *       *       *        *
+[0,59]   [0,23]   [1,31]   [1,12]   [0,6]
 分钟[0,59]，小时[0,23]，日期[1,31] ，月[1,12]，周[0,6]，可以使用的参数有“*”，“/”，“-”和“，”。
-
-* 表示任意取值范围内数字 在分钟里*表示0到59的任意数字
-
-- 表示选择区域范围内的数字 3-10表示3-10的任意数字，包含3和10
-
-, 选择数字 2,4,5 选择2，4，5
-
-/ 每多少数字 在分钟里 */2表示每二分钟
-
-例子：
-
-每1分钟执行一次command
 
 * * * * * command
 
-每小时的第3和第15分钟执行
+* 表示任意取值范围内数字 在分钟里*表示0到59的任意数字
+- 表示选择区域范围内的数字 3-10表示3-10的任意数字，包含3和10 , 选择数字 2,4,5 选择2，4，5
+/ 每多少数字 在分钟里 */2表示每二分钟
 
+每1分钟执行一次command
+*/1   *   *   *   *   ls          每1分钟执行一次ls命令
+its equal to this:
+0,59/1   0,23   1,31   1,12   0,6
+
+每1小时执行一次command
+0    */1  *   *   *   ls          每1小时执行一次ls命令
+its equal to this:
+0  [0,23/1   1,31   1,12   0,6 //every 1 hour's number 0 min
+or equal to 
+30  [0,23/1   1,31   1,12   0,6 //every 1 hour's number 30 min
+
+
+每小时的第3和第15分钟执行
 3,15 * * * *command
 
 在上午8点到11点的第3和第15分钟执行
-
 3,15 8-11 * * *command
 
 每隔两天的上午8点到11点的第3和第15分钟执行
-
 3,15 8-11 */2 * *command
 
 每个星期一的上午8点到11点的第3和第15分钟执行
-
 3,15 8-11 * * 1command
 
 crontab可以定时执行任务，在Ubuntu下输入crontab帮助如下
@@ -541,6 +543,15 @@ crontab [-u user]{ -e | -l | -r }
 ----------------------------------------------------------------------
 简单的任务
 at -f [shellfile] -t  MMDDhhmm
+
+crontab -e  // add a new crontab task
+crontab -l  // list the crontab task
+crontab -r  // remove task 
+crontab -u 
+sudo /etc/init.d/cron start
+
+check the logs of cron
+grep -i cron  /var/log/syslog 
 
 * windows net 
 用IP地址反查主机名
@@ -1333,12 +1344,20 @@ hardstatus string "%w"
 --------------------------
 //  %w will show the window list in the status line.
 
+*** name a screen session 
+screen -S foo
+
+*** name a window in a screen session
+ctrl a A  :will name the window with your input name
+ctrl a "  : will let you choose the screen window
+
 *** regions commands:
 ctrl a S or | will split the region horizontally or vertically
 ctrl a X  will exit the regison
 ctrl a tab will jump between regsions
 
-
+*** send command to the nested screen
+ctrl+a a d will do ctrl+a d in the sub-screen (detaching it)
 
 ** back to original bash
 screen -ls   // check all the sessions in host, for different screen command
@@ -1347,4 +1366,39 @@ screen -r tty // will resume the detached session
 kill -9 process // will kill the session
 
 
-e
+* ssh into remote host without a password
+*** Create public and private keys using ssh-key-gen on local-host
+
+jsmith@local-host$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/jsmith/.ssh/id_rsa):[Enter key]
+Enter passphrase (empty for no passphrase): [Press enter key]
+Enter same passphrase again: [Pess enter key]
+Your identification has been saved in /home/jsmith/.ssh/id_rsa.
+Your public key has been saved in /home/jsmith/.ssh/id_rsa.pub.
+The key fingerprint is:
+33:b3:fe:af:95:95:18:11:31:d5:de:96:2f:f2:35:f9 jsmith@local-host
+
+*** Copy the public key to remote-host using ssh-copy-id
+
+jsmith@local-host$ ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
+jsmith@remote-host's password:
+
+Now try logging into the machine, with "ssh 'remote-host'", and check in:
+.ssh/authorized_keys
+to make sure we haven't added extra keys that you weren't expecting.
+Note: ssh-copy-id appends the keys to the remote-host’s .ssh/authorized_key.
+
+*** Login to remote-host without entering the password
+jsmith@local-host$ ssh remote-host
+Last login: Sun Nov 16 17:22:33 2008 from 192.168.1.2
+
+* raspberry
+** deluge in raspberry
+sudo apt-get install deluge
+sudo service deluged start
+sudo service deluge-web start
+
+https://localhost:8112
+
+

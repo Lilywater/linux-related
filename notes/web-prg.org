@@ -82,6 +82,12 @@ mysql> SELECT * FROM pet;
 | Puffball | Diane  | hamster | f    | 1999-03-30 | NULL       |
 |----------+--------+---------+------+------------+------------|
 ** server
+** backup database and restore them
+*** backup
+/mnt/hdisk/database_bak $ mysqldump -u root -p123 mysql | gzip > 03_27_17.gz
+*** restore
+gzip -d 03_27_17.gzip
+mysql -u root --password=password mysql <03_27_17
 
 * php language
 ** report error option

@@ -88,6 +88,11 @@ So a whole upper layer packet should with a length field of the upper layer to r
 
 
 * TCP/UDP SOCKET OPTION
+** setting option in file
+/etc/sysctl.conf:
+net.ipv4.ip_default_ttl =
+
+** socks program
 the sock program to test the sock option feature
 sock program usage in unpv12e source code folder 
 [admin1@TeamCI-136 sock]$ ./sock
@@ -142,6 +147,7 @@ options: -b n  bind n as client's local port number
          -Y    SO_DONTROUTE option
          -Z    MSG_PEEK
 
+ 
 
 
 ** sock options could be set  

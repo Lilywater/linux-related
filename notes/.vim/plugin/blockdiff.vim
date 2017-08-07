@@ -59,7 +59,6 @@ set cpo&vim
     command! -range Bk1 :<line1>,<line2>call BlockDiff_GetBlock1() 
     command! -range Bk2 :<line1>,<line2>call BlockDiff_GetBlock2()
 
-
 " ---------- Code -------------------------------------------------------------
 fun! BlockDiff_GetBlock1() range
   let s:regd = @@

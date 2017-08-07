@@ -25,6 +25,7 @@ TESTER_DIR=`echo "$PWD"|sed 's/\(.*MME_SGSN_tester\).*/\1/'`
 FUN_TAG=tags_ttcn
 TEMP_TAG=tags_ttcn_temp 
 TYPE_TAG=tags_ttcn_type 
+ASN_TAG=tags_asn_type
 
 ctags -R --extra=f  --exclude=generated 
 ctags -a --exclude=generated --extra=f -R ~/ttcn/ttcn3libs
@@ -34,6 +35,7 @@ ctags -a --exclude=generated --extra=f -R ~/ttcn/TBPT
 grep -nH -r  -e  "^[[:space:]]*function[[:space:]]*[^[:space:]]\+[[:space:]]*("   --include=*.ttcn $TESTER_DIR  >$TESTER_DIR/$FUN_TAG
 # grep -r -nH -e  "^[[:space:]]*template[[:space:]]\+[^[:space:]]\+[[:space:]]\+[^[:space:]]\+"  --include=*.ttcn  $TESTER_DIR |grep -v -e ',' -e ')' -e '=' >$TESTER_DIR/$TEMP_TAG
 grep -r -nH -e  "^[[:space:]]*template[[:space:]]\+[^[:space:]]\+[[:space:]]\+[^[:space:]]\+"  --include=*.ttcn  $TESTER_DIR  >$TESTER_DIR/$TEMP_TAG
+grep -r -nH     '\w\+[[:space:]]*\+::='  --include=*.asn  $TESTER_DIR/ttcn3libs/asn  > $TESTER_DIR/$ASN_TAG
 #
 #grep -r -nH -e "^[[:space:]]*type[[:space:]]\+[^[:space:]]\+[[:space:]]\+[^[:space:]]\+" --include=*.ttcn  $TESTER_DIR >$TESTER_DIR/$TYPE_TAG
 
@@ -41,6 +43,10 @@ grep -r -nH -e  "^[[:space:]]*type[[:space:]]\+\w\+[[:space:]]\+\w\+"  --include
 #
 sed 's/\(.*\):\([[:digit:]]\+\):[[:space:]]*function[[:space:]]\+\(\w\+\).*/\3\t\1\t\2;"\tf/' $TESTER_DIR/$FUN_TAG >>tags
 # 
+
+awk -F "::" '{print $1}' $TESTER_DIR/$ASN_TAG  |sed 's/\(.*\):\([[:digit:]]\+\):[[:space:]]*\([a-zA-Z0-9-]\+\)[[:space:]]*.*$/\3\t\1\t\2;"\tf/'|sed 's/-/_/g'  >>tags
+
+
 #
 sed 's/\(.*\):\([[:digit:]]\+\):[[:space:]]*template[[:space:]]\+[^[:space:]]\+[[:space:]]\+\(\w\+\).*/\3\t\1\t\2;"\tf/' $TESTER_DIR/$TEMP_TAG >>tags
 #

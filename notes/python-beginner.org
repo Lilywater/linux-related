@@ -862,3 +862,9 @@ py_compile.compile("file.py")
 >>> sentence = ['this','is','a','sentence']
 >>> '-'.join(sentence)
 'this-is-a-sentence'
+
+* python install --upgrade setuptools
+pip install --upgrade setuptools
+pip install 'Someproject==1.4'
+
+

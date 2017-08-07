@@ -381,16 +381,13 @@ samba-3.0.10-1.4E.6
 
 如果需要可写，那么文件夹应该对应有所有用户的写权限
 chmod 777 folder
-[sharefolder]
-path = /home/zxx/folder
-readonly = no
-writable = yes
 
 最简单配置，如果要复杂配置，比如要输入用户名和密码的可以如下配置
 
 [sharefolder]
 path = /home/zxx/folder
 readonly = no
+writable = yes
 valid users = username
 
 先增加用户
@@ -1296,6 +1293,7 @@ if ip packets, num1 and num2 will be captured in the same interface lo
 2. 13:40:42.157614 IP 10.121.122.152.9877 > 10.121.122.152.44129: P 1:3(2) ack 3 win 512 <nop,nop,timestamp 819728104 819728103>
    
 
+** 
 ** sendip //it can send ippacket -d append the hexstring after ip package
 *** get the sctp support sendip
 http://snad.ncsl.nist.gov/ipv6/sendip.html
@@ -1997,7 +1995,12 @@ when ssh to a host the route is not working, using a proxy to relay it:
 So now that you have a SOCKS proxy running on localhost:1080, you can tell OpenSSH to use that tunnel for all SSH requests destined for a specific hostname. We will do this using netcat (nc).
 Add this to your ~/.ssh/config:
 Host git.corp.example.com
-  ProxyCommand=nc -X 5 -x localhost:1080 %h %p
+  ProxyCommand=nc -X 5 -x localhost:1080 %h %p   //through a socks5 proxy server port 1080
+  ProxyCommand=nc -X connect  -x localhost:1080 %h %p   //through a socks5 proxy server port 1080
+  ProxyCommand=corkscrew <httpproxyserver> <httpproxyport> %h %p   //through a socks5 proxy server port 1080
+  
+
+
 As you can see here, when we do ssh git.corp.example.com, OpenSSH will actually proxy the network stream through localhost:1080 using netcat.
 
 **** command of ssh using porxycommand option 
@@ -2043,15 +2046,15 @@ redsocks.conf
 base {
         log_debug = on;
         log_info = on;
-        log = "file:/home/user/redsocks/runconf/redsocks.log";
+        log = "file:/home/pi/ruijian_cocimg/redsocks.log";
         daemon = on;
         redirector = iptables;
 }
 redsocks {
         local_ip = 127.0.0.1;
         local_port = 13344;
-        ip = 10.102.1.10; // socks5 proxy server ip and port
-        port = 1080;
+        ip = 127.0.0.1; // socks5 proxy server ip and port
+        port = 1053;
         type = socks5;
 }
 
@@ -2320,6 +2323,20 @@ So, it appears -q would have to be passed to the dnsmasq startup to get a cache 
 logs in file /var/log/syslog
 
 
+
+* trace all the file/socket handls opened  by a prog
+
+
+To start and monitor an new process:
+
+strace -f -e trace=network -s 10000 PROCESS ARGUMENTS
+
+To monitor an existing process with a known PID:
+
+strace -p $PID -f -e trace=network -s 10000
+
+
+
 * route table and find out the interface and src adress of a specific ip addr
 ** interface configuration
 root@ubuntu:/home/willow/static_web# ifconfig
@@ -2380,3 +2397,88 @@ local 192.168.18.140 dev lo  src 192.168.18.140
     cache <local>
 
 
+
+* transparent configure router
+https://story.tonylee.name/2016/03/31/yong-shu-mei-pai-da-zao-wu-xian-zhong-ji-ke-xue-shang-wang-lu-you-qi/
+** DNS pollution
+*** name server hasn't been polluted 
+no-resolv
+server=202.38.93.153
+server=202.141.162.123
+
+*** ChinaDNS
+curl 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | grep ipv4 | grep CN | awk -F\| '{ printf("%s/%d\n", $4, 32-log($5)/log(2)) }' > chnroute.txt
+sudo chinadns -m -c chnroute.txt
+
+
+** tcp packet forward
+*** sslocal start a local sock5 proxy server
+/usr/bin/sslocal -s j0.0bad.com -p 31856 -l 1053 -k Willow_123 -m aes-128-cfb -v
+
+
+树莓派源中的shadowsocks的版本很低，连rc4-md5都不支持。因此，我们使用pip安装，键入sudo pip install shadowsocks即可安装，之后新建配置文件/etc/shadowsocks.conf如下
+
+｛
+    "server":"xxx.xxx.xxx.xxx",
+    "server_port":8964,
+    "local_address":"0.0.0.0",
+    "local_port":1080,
+    "password":"password",
+    "timeout":600,
+    "method":"rc4-md5"
+}
+
+然后用命令sudo sslocal -c /etc/shadowsocks.conf -d start来启动
+
+没有问题，就将sslocal -c /etc/shadowsocks.conf -d start加入/etc/rc.local来让其开机启动
+
+*** redsocks configuratin to wrap all client's tcp packet into a sock5 request and send to sock5 server
+redsocks {
+local_ip = 0.0.0.0;
+local_port = 13344;  // redsocks server host port
+ip = 127.0.0.1;       // sock5 server ip and hsot
+port = 1053; }
+
+redsocks -c red.conf
+
+*** ipset 
+
+
+    curl 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' |
+    grep ipv4 | grep CN | awk -F| '{ printf("%s/%d\n", $4,
+    32-log($5)/log(2)) }' > chnroute.txt
+
+    ipset create chnroute hash:net
+
+    cat chnroute.txt xargs -I ip ipset add chnroute ip
+
+    ipset save chnroute > /etc/chnroute.ipset #保存ipset
+    ipset restore < /etc/chnroute.ipset #导入ipset
+
+以上可以设置一个定时任务每周刷新一次chnroutes
+
+
+pi@raspberrypi:~/ruijian_cocimg $ sudo ipset create chnroute hash:net
+pi@raspberrypi:~/ruijian_cocimg $ cat chnroute.txt | sudo xargs -I ip ipset add chnroute ip
+pi@raspberrypi:~/ruijian_cocimg $ sudo ipset save chnroute > chnroute.ipset
+pset restore < /etc/chnroute.ipset  
+
+*** iptables
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -N SHADOWSOCKS
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 106.185.52.15 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 0.0.0.0/8 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 10.0.0.0/8 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 127.0.0.0/8 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 169.254.0.0/16 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 172.16.0.0/12 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 192.168.0.0/16 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 224.0.0.0/4 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -d 240.0.0.0/4 -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -m set --match-set chnroute dst -j RETURN
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A SHADOWSOCKS -p tcp -j REDIRECT --to-ports 13344
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A OUTPUT -p tcp -j SHADOWSOCKS
+pi@raspberrypi:~/ruijian_cocimg $ sudo iptables -t nat -A PREROUTING -p tcp -j SHADOWSOCKS
+
+
+sudo service netfilter-persistent save // restart the setting will be there
+iptables-save > iptables，然后编辑iptables，再iptables-restore < iptables

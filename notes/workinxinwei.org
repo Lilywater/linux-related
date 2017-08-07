@@ -1,4 +1,19 @@
 
+* multiple thread/process prgramming
+** deadlock
+*** priority reverse
+There are A, B, C process(priority from high to low)
+if C took a resource which A is requiring, and due to priority, C can't take cpu,
+and A is waiting for resourse, so B is scheduled to cpu resource instead.
+so it's a deadlock, A is waiting, C couldn't release the resource since its lowest prio
+B is always get executed,  in real OS, the prg will crash, since A should be executed 
+priority to B.
+
+
+** deadlock solution
+let process got all the resoures it needed when startup, if can't get all the resource, then resart
+numbered the resource, process must apply the res by the number order
+a process will restart when it waiting for a resource for a rrandom time
 
 * 消息队列的设计与实现(multiple producer, a single consumer)
 it's a prototype of multiple producer and single consumer,

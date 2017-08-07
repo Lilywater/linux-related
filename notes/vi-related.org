@@ -1791,3 +1791,17 @@ According to :help slow-start:
 
     If you have "viminfo" enabled, the loading of the viminfo file may take a while. You can find out if this is the problem by disabling viminfo for a moment (use the Vim argument "-i NONE"). Try reducing the number of lines stored in a register with ":set viminfo='20,<50,s10".
 
+
+
+
+    
+
+    That's actually a builtin. (here's the help link)
+
+    :set autochdir
+
+    Stick that in your .vimrc or whatnot (:e $MYVIMRC). As mentioned here, sometimes plugins will have issues with that and you need to use something more complicated like
+
+    autocmd BufEnter * lcd %:p:h
+
+    or cd %:h

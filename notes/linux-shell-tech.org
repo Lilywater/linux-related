@@ -3457,3 +3457,15 @@ tcpdump ... -w - |tee <filename> |tcpdump -r -
 this command will make tcpdump output both to standard output and a file.
 the first hypen after -w means the standard output, and it will be as a input of tee command, Normally it's enough, but when tcpdmp -w 's output format
 need to be interpretted by tcpdump -r command 
+
+** start a shell script in daemon way
+say if you have a server prgram, but its not a daemon program, you start it in shell background,
+like "cow -rc ~/.cow/rc &", but when the ssh terminal disconnect, it will be killed also.
+===============================================
+setsid myscript.sh >/dev/null 2>&1 < /dev/null &
+==============================================
+start a new session to run the script and redirect stdin/error/out to /dev/null and in background
+if you want to run when computer startup, put in /etc/rc.lcoal file.
+
+
+
